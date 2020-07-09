@@ -1,29 +1,59 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Router from 'vue-router'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
-  const routes = [
+export const constantRouter = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/login',
+    name: 'login',
+    component: () => import (/* webpackChunkName: "login" */ '@/views/login/login'),
+    meta: {
+      hidden: true,
+    }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/register',
+    name: 'register',
+    component: () => import (/* webpackChunkName: "login" */ '@/views/register/register'),
+    meta: {
+      hidden: true,
     }
+  },
+  {
+    path: '/home',
+    component: () => import ('@/views/index/index'),
+    meta: {
+      icon: 'iconfont icon-liebiao',
+    },
+    children: [
+      {
+        path: '/home',
+        name: '统计',
+        component: () => import (/* webpackChunkName: "home" */ '@/views/home/home'),
+      },
+    ]
   }
 ]
 
-const router = new VueRouter({
-  routes
-})
+export default new Router({
+  routes: constantRouter,
+});
 
-export default router
+export const asyncRouter = [
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    meta: {
+      roleSet: ['admin','superAdmin'],
+      icon: 'iconfont icon-guanliyuan',
+    },
+    children: [
+      {
+        path: '/test',
+        name: '权限',
+        component: () => import (/* webpackChunkName: "test" */ '@/views/test/test'),
+      },
+    ]
+  },
+]
