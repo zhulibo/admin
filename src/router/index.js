@@ -5,6 +5,22 @@ Vue.use(Router)
 
 export const constantRouter = [
   {
+    path: '/',
+    hidden: true,
+    redirect: {path: '/home'},
+    meta: {
+      hidden: true,
+    }
+  },
+  {
+    path: '/',
+    name: 'index',
+    component: () => import (/* webpackChunkName: "index" */ '@/views/index/index'),
+    meta: {
+      hidden: true,
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import (/* webpackChunkName: "login" */ '@/views/login/login'),
@@ -15,13 +31,13 @@ export const constantRouter = [
   {
     path: '/register',
     name: 'register',
-    component: () => import (/* webpackChunkName: "login" */ '@/views/register/register'),
+    component: () => import (/* webpackChunkName: "register" */ '@/views/register/register'),
     meta: {
       hidden: true,
     }
   },
   {
-    path: '/home',
+    path: '/',
     component: () => import ('@/views/index/index'),
     meta: {
       icon: 'iconfont icon-liebiao',

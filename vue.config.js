@@ -26,7 +26,7 @@ module.exports = {
       .set('views', path.join(__dirname,'src/views'))
   },
   css: {
-    sourceMap: true,
+    sourceMap: process.env.NODE_ENV == 'development' ? true : false,
     loaderOptions: {
       stylus: {
         import: '~@/assets/css/variables.styl'

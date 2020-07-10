@@ -26,4 +26,7 @@
 </script>
 
 <style lang="stylus" scoped>
+  div{
+    line1()
+  }
 </style>

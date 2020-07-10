@@ -26,4 +26,7 @@
 </script>
 
 <style lang="stylus" scoped>
+  p{
+    color: #f50
+  }
 </style>
