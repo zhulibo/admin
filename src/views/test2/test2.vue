@@ -1,12 +1,12 @@
 <template>
-  <div>test</div>
+  <div>test2</div>
 </template>
 
 <script>
   import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
-    name: 'test',
+    name: 'test2',
     data() {
       return {
       }
@@ -26,7 +26,4 @@
 </script>
 
 <style lang="stylus" scoped>
-  p{
-    color: #f50
-  }
 </style>

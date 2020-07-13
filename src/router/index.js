@@ -6,48 +6,39 @@ Vue.use(Router)
 export const constantRouter = [
   {
     path: '/',
-    hidden: true,
     redirect: {path: '/home'},
-    meta: {
-      hidden: true,
-    }
+    hidden: true,
   },
   {
     path: '/',
     name: 'index',
     component: () => import (/* webpackChunkName: "index" */ '@/views/index/index'),
-    meta: {
-      hidden: true,
-    }
+    hidden: true,
   },
   {
     path: '/login',
     name: 'login',
     component: () => import (/* webpackChunkName: "login" */ '@/views/login/login'),
-    meta: {
-      hidden: true,
-    }
+    hidden: true,
   },
   {
     path: '/register',
     name: 'register',
     component: () => import (/* webpackChunkName: "register" */ '@/views/register/register'),
-    meta: {
-      hidden: true,
-    }
+    hidden: true,
   },
   {
     path: '/',
     component: () => import ('@/views/index/index'),
-    meta: {
-      icon: 'iconfont icon-liebiao',
-    },
     children: [
       {
         path: '/home',
         name: '统计',
         component: () => import (/* webpackChunkName: "home" */ '@/views/home/home'),
-      },
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
     ]
   }
 ]
@@ -59,16 +50,30 @@ export default new Router({
 export const asyncRouter = [
   {
     path: '/',
-    component: () => import ('@/views/index/index'),
+    name: '权限',
     meta: {
       roleSet: ['admin','superAdmin'],
       icon: 'iconfont icon-guanliyuan',
     },
+    component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/test',
-        name: '权限',
-        component: () => import (/* webpackChunkName: "test" */ '@/views/test/test'),
+        path: '/test1',
+        name: '权限1',
+        component: () => import (/* webpackChunkName: "test1" */ '@/views/test1/test1'),
+        meta: {
+          roleSet: ['admin','superAdmin'],
+          icon: 'iconfont icon-guanliyuan',
+        },
+      },
+      {
+        path: '/test2',
+        name: '权限2',
+        component: () => import (/* webpackChunkName: "test2" */ '@/views/test2/test2'),
+        meta: {
+          roleSet: [],
+          icon: 'iconfont icon-guanliyuan',
+        },
       },
     ]
   },
