@@ -40,6 +40,20 @@ export const constantRouter = [
         },
       }
     ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/richText',
+        name: '富文本',
+        component: () => import (/* webpackChunkName: "richText" */ '@/views/richText/richText'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
   }
 ]
 
@@ -52,7 +66,7 @@ export const asyncRouter = [
     path: '/',
     name: '权限',
     meta: {
-      roleSet: ['admin','superAdmin'],
+      roleSet: ['admin', 'superAdmin'],
       icon: 'iconfont icon-guanliyuan',
     },
     component: () => import ('@/views/index/index'),
@@ -62,7 +76,7 @@ export const asyncRouter = [
         name: '权限1',
         component: () => import (/* webpackChunkName: "test1" */ '@/views/test1/test1'),
         meta: {
-          roleSet: ['admin','superAdmin'],
+          roleSet: ['admin', 'superAdmin'],
           icon: 'iconfont icon-guanliyuan',
         },
       },

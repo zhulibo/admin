@@ -1,11 +1,9 @@
 <template>
   <div class="app-wrapper">
     <side-nav></side-nav>
-    <div class="main-container">
-      <head-bar></head-bar>
-      <div class="main-body">
-        <router-view></router-view>
-      </div>
+    <head-bar></head-bar>
+    <div class="main-content">
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -41,16 +39,13 @@
 </script>
 
 <style lang="stylus" scoped>
-  .app-wrapper {
-    position: relative;
-    height: 100%;
-  }
-  .main-container{
-    overflow-x: hidden;
-    margin-left: 220px;
-    min-height: 100%;
-  }
-  .main-body {
-    padding: 0 20px;
+  .main-content {
+    overflow-x auto
+    position: absolute
+    top: 70px
+    left: 220px
+    right: 0
+    bottom: 0
+    padding: 10px;
   }
 </style>

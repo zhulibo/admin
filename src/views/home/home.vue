@@ -28,5 +28,7 @@
 <style lang="stylus" scoped>
   div{
     line1()
+    width: 1000px
+    background-color: #ccc
   }
 </style>

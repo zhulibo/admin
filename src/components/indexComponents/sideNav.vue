@@ -15,7 +15,7 @@
             <span>{{item2.name}}</span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item :index="item.path" v-if="item.children.length == 1">
+        <el-menu-item :index="item.children[0].path" v-if="item.children.length == 1">
           <i :class="item.children[0].meta.icon"></i>
           <span>{{item.children[0].name}}</span>
         </el-menu-item>
@@ -50,16 +50,9 @@
 </script>
 
 <style lang="stylus" scoped>
-  .logo{
-    margin-bottom: 20px
-    padding: 10px
-    img{
-      height: 3em
-    }
-  }
   .side-nav{
     overflow-y: auto;
-    position: fixed;
+    position: absolute;
     z-index: 100;
     top: 0;
     left: 0;
@@ -67,6 +60,13 @@
     box-sizing: border-box;
     width: 220px;
     background-color: #333;
+  }
+  .logo{
+    margin-bottom: 20px
+    padding: 10px
+    img{
+      height: 3em
+    }
   }
   .iconfont{
     padding-right: 10px

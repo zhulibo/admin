@@ -12,6 +12,25 @@
       }
     },
     created() {
+
+      // var _this = this
+      // async function fn() {
+      //   await _this.$http({
+      //     url: 'https://back.goku.vip/backSoftware/backAppList',
+      //     method: 'GET',
+      //   })
+      //     .then((res) => {
+      //     })
+      //   console.log(4)
+      // }
+      // fn()
+
+      // let promise = new Promise((resolve, reject) => {
+      //   resolve(res)
+      // })
+      // promise.then(function (res) {
+      // })
+
     },
     mounted() {
     },

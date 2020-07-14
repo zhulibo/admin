@@ -53,6 +53,11 @@
 
 <style lang="stylus" scoped>
   .head-bar {
+    position: absolute
+    z-index 100
+    top: 0
+    left: 220px
+    right: 0
     height: 70px;
     background-color: #fff;
     box-shadow 0 0 3px rgba(0,0,0,.1)
