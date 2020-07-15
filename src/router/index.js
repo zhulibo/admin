@@ -54,6 +54,20 @@ export const constantRouter = [
         },
       }
     ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/vueEcharts',
+        name: 'Echarts',
+        component: () => import (/* webpackChunkName: "vueEcharts" */ '@/views/vueEcharts/vueEcharts'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
   }
 ]
 
