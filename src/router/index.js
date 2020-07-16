@@ -61,14 +61,28 @@ export const constantRouter = [
     children: [
       {
         path: '/vueEcharts',
-        name: 'Echarts',
+        name: '图表',
         component: () => import (/* webpackChunkName: "vueEcharts" */ '@/views/vueEcharts/vueEcharts'),
         meta: {
           icon: 'iconfont icon-liebiao',
         },
       }
     ]
-  }
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/chatCt',
+        name: '客服聊天',
+        component: () => import (/* webpackChunkName: "chatCt" */ '@/views/chatCt/chatCt'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
+  },
 ]
 
 export default new Router({

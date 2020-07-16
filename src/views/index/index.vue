@@ -10,8 +10,8 @@
 
 <script>
   import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-  import sideNav from '../../components/indexComponents/sideNav'
-  import headBar from '../../components/indexComponents/headBar'
+  import sideNav from '../../components/sideNav/sideNav'
+  import headBar from '../../components/headBar/headBar'
 
   export default {
     name: 'index',

@@ -17,6 +17,12 @@ module.exports = {
       }
     }
   },
+  configureWebpack: {
+    output: {
+      filename: 'js/[name].[chunkhash:8].js',
+      chunkFilename: 'js/[name].[chunkhash:8].js'
+    },
+  },
   chainWebpack: (config)=>{
     config.resolve.alias
       .set('img', path.join(__dirname,'src/assets/img'))
