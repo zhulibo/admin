@@ -1,8 +1,8 @@
 <template>
   <div class="chat">
-    <div class="chat-title clearfix">
+    <div class="chat-title clearfix" v-drag>
       <div class="chat-host-name"><i class="el-icon-service"></i> 客服A</div>
-      <div class="chat-close" @click="closeChat"><i class="el-icon-close"></i></div>
+      <div class="chat-close" @click="closeChat" v-stopdrag><i class="el-icon-close"></i></div>
     </div>
     <div class="chat-body clearfix">
       <div class="side-nav">
@@ -49,16 +49,19 @@
         <div class="chat-header">
           <span>小明</span>
         </div>
-        <div class="chat-list">
+        <div class="chat-ct" ref="chatct">
           <ul>
-            <li v-for="item in msgList">
-              {{item.msg}}<br>
-              {{item.time}}
+            <li v-for="item in msgList" :class="item.type == 1? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
+              <div class="li-time"><span>{{item.time}}</span></div>
+              <div class="li-ct clearfix">
+                <el-avatar shape="square" :size="38" :src='item.avatarUrl'></el-avatar>
+                <pre v-html="item.msg"></pre>
+              </div>
             </li>
           </ul>
         </div>
         <div class="chat-enter">
-          <pre contenteditable="plaintext-only" ref="msgPre" @keyup.enter.native="sendMsg"></pre>
+          <pre contenteditable="true" ref="msgPre" @keydown.enter.exact="sendMsg($event)"></pre>
           <el-popover
             placement="top"
             trigger="manual"
@@ -66,7 +69,6 @@
             v-model="sendMsgTipVisible">
             <el-button slot="reference" class="send-msg" type="primary" size="small" @click="sendMsg">发送</el-button>
           </el-popover>
-          <el-button class="send-msg" type="primary" size="small" @click="sendMsg">发送</el-button>
         </div>
       </div>
     </div>
@@ -80,6 +82,8 @@
     name: 'chat',
     data() {
       return {
+        webSocket: null,
+        webSocketUrl: '',
         chatCurrentList: [
           {
             name: '用户名字',
@@ -154,22 +158,83 @@
             lastWold: '拜拜'
           },
         ],
-        msgList: [],
+        msgList: [
+          {
+            type: 1,
+            time: '2019/12/12',
+            name: '小明',
+            avatarUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+            msg: '歪，在家吗',
+          },
+          {
+            type: 2,
+            time: '2019/12/12',
+            name: '小明',
+            avatarUrl: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            msg: '法国恢复的规划法规和顾客家航空法国恢复的规划法规和顾客家航空法国恢复的规划法规和顾客家航空',
+          },
+          {
+            type: 1,
+            time: '2019/12/12',
+            name: '小明',
+            avatarUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+            msg: '国恢复的规划法规',
+          },
+          {
+            type: 2,
+            time: '2019/12/12',
+            name: '小明',
+            avatarUrl: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            msg: '233333333',
+          },
+        ],
         msg: '',
-        sendMsgTipVisible: false
+        sendMsgTipVisible: false // 发送空信息提示
       }
     },
     created() {
+      // this.webSocketInit()
     },
     mounted() {
+      this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight; // 对话滚动到最下边
     },
-    computed: {
+    updated() {
+      this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight; // 对话滚动到最下边
     },
     methods: {
-      sendMsg() {
+      webSocketInit: function () {
+        this.webSocket = new WebSocket(this.WebSocketUrl)
+        this.webSocket.onopen = this.onopen
+        this.webSocket.onmessage = this.onmessage
+        this.webSocket.onerror = this.onerror
+        this.webSocket.onclose = this.onclose
+      },
+      onopen: function () {
+        console.log('onopen')
+      },
+      onmessage: function (res) {
+        console.log(res)
+      },
+      onerror: function () {
+        console.log('onopen')
+      },
+      onclose: function () {
+        console.log('onclose')
+      },
+      send: function () {
+        this.webSocket.send(params)
+      },
+      close: function () {
+        this.webSocket.close()
+      },
+      sendMsg(event) {
+        console.log('发送')
+        event.preventDefault(); // 阻止换行
+
         let _this = this
         this.msg = this.$refs.msgPre.innerHTML
         this.$refs.msgPre.innerHTML = ''
+        // 判断是否为空
         if(this.msg.replace(/\s/g,'').length < 1){
           this.sendMsgTipVisible = true
           setTimeout(function () {
@@ -177,28 +242,90 @@
           },2000)
           return false
         }
-
-        let nowTime = new Date();
+        // 发送信息
+        this.msg = this.msg.replace(/\r?\n/g,'<br>') // 回车转换成<br>
+        this.msg = this.msg.replace(/ /g,'&nbsp;') // 空格转换成&nbsp;
+        let nowTime = this.getTime()
         this.msgList.push({
+          type: 2,
+          time: nowTime,
+          name: '小明',
+          avatarUrl: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
           msg: this.msg,
-          time: nowTime
         })
+      },
+      getTime() {
+        let nowTime = new Date();
+        let year = nowTime.getFullYear();
+        let month = nowTime.getMonth() + 1;
+        let day = nowTime.getDate();
+        let hour = nowTime.getHours();
+        let minute = nowTime.getMinutes();
+        let second = nowTime.getSeconds();
+        function checkTime(i) {
+          if (i < 10) {
+            i = "0" + i;
+          }
+          return i;
+        }
+        minute = checkTime(minute);
+        second = checkTime(second);
+        return year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
       },
       closeChat(){
         this.$emit('closeChat')
+      },
+    },
+    directives: {
+      drag: function(el) {
+        el.onmousedown = e => {
+          let dragBox = document.querySelector(".chat")
+          // 点击处和div左上角的位差
+          let disX = e.clientX - dragBox.offsetLeft;
+          let disY = e.clientY - dragBox.offsetTop;
+          document.onmousemove = e => {
+            // 鼠标移动时计算出div左上角的坐标值
+            let left = e.clientX - disX;
+            let top = e.clientY - disY;
+            // 防止拖出可视区域
+            if (left < 0) {
+              left = 0;
+            } else if (left > document.documentElement.clientWidth - dragBox.offsetWidth + 600) {
+              left = document.documentElement.clientWidth - dragBox.offsetWidth + 600;
+            }
+            if (top < 0) {
+              top = 0;
+            } else if (top > document.documentElement.clientHeight - dragBox.offsetHeight + 500) {
+              top = document.documentElement.clientHeight - dragBox.offsetHeight + 500;
+            }
+            dragBox.style.right = "auto";
+            dragBox.style.bottom = "auto";
+            dragBox.style.left = left + "px";
+            dragBox.style.top = top + "px";
+          };
+          document.onmouseup = e => {
+            // 鼠标弹起来的时候不再移动
+            document.onmousemove = null;
+            // 退出onmouseup时间循环
+            document.onmouseup = null;
+          };
+        };
+      },
+      stopdrag: function(el) {
+        el.onmousedown = function(e) {
+          e.stopPropagation()
+        }
       }
-    }
+    },
   }
 </script>
 
 <style lang="stylus" scoped>
   .chat{
     position: fixed
-    top: 50%
-    left: 50%
+    right: 100px
+    bottom: 100px
     z-index 1000
-    margin-left: -300px
-    margin-top: -200px
     width: 700px
     background-color: #fff
     box-shadow 0 0 8px rgba(0,0,0,.2)
@@ -212,6 +339,8 @@
       float: left
       padding-top: 10px
       padding-left: 10px
+      user-select: none;
+      cursor: default
       i{
         font-size 16px
         vertical-align: text-bottom;
@@ -307,11 +436,21 @@
       border-bottom: 1px solid #e1e1e1
       background-color: #f7f7f7
     }
-    .chat-list{
+    .chat-ct{
+      overflow-y auto
       box-sizing border-box
       height: 310px
       border-bottom: 1px solid #e1e1e1
       background-color: #f7f7f7
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,.15)
+      }
+      &::-webkit-scrollbar-track {
+        background-color: transparent
+      }
     }
     .chat-enter{
       height: 150px
@@ -337,6 +476,82 @@
         position: absolute
         right: 20px
         bottom: 10px
+      }
+    }
+  }
+  .chat-ct{
+    padding: 10px
+    .chat-li{
+      margin-top: 10px
+      margin-bottom: 10px
+      .li-time{
+        margin-bottom: 10px
+        text-align: center
+        span{
+          display: inline-block
+          padding: 0 5px
+          color: #fff
+          background-color: rgba(0,0,0,.2)
+          border-radius: 3px;
+        }
+      }
+      .li-ct{
+        pre{
+          display: inline-block
+          padding: 5px 7px
+          max-width: 60%
+          border-radius: 3px;
+          white-space: normal;
+        }
+      }
+    }
+    .chat-li-costumer{
+      .li-ct{
+        pre{
+          position: relative
+          float: left
+          margin-left: 10px
+          background-color: #fff
+          &::before {
+            content ''
+            position: absolute
+            top: 8px
+            left: -6px;
+            width: 0
+            height: 0
+            border-top: 6px solid transparent
+            border-bottom: 6px solid transparent
+            border-right: 6px solid #fff
+          }
+        }
+        .el-avatar{
+          float: left
+        }
+      }
+    }
+    .chat-li-user{
+      .li-ct{
+        pre{
+          position: relative
+          float: right
+          margin-right: 10px
+          color: #000
+          background-color: #98e165
+          &::after {
+            content ''
+            position: absolute
+            top: 6px
+            right: -6px;
+            width: 0
+            height: 0
+            border-top: 6px solid transparent
+            border-bottom: 6px solid transparent
+            border-left: 6px solid #98e165
+          }
+        }
+        .el-avatar{
+          float: right
+        }
       }
     }
   }

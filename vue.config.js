@@ -19,8 +19,7 @@ module.exports = {
   },
   configureWebpack: {
     output: {
-      filename: 'js/[name].[chunkhash:8].js',
-      chunkFilename: 'js/[name].[chunkhash:8].js'
+      chunkFilename: 'js/[name].[chunkhash:8].js' // 不在output.entry中的文件，异步加载模块的文件名。
     },
   },
   chainWebpack: (config)=>{

@@ -49,3 +49,7 @@
 .ql-editor{
   min-height:360px;
 }
+/*ql-size宽度*/
+.ql-snow .ql-picker.ql-size {
+  width: 70px;
+}
