@@ -228,7 +228,6 @@
         this.webSocket.close()
       },
       sendMsg(event) {
-        console.log('发送')
         event.preventDefault(); // 阻止换行
 
         let _this = this
@@ -302,6 +301,7 @@
             dragBox.style.bottom = "auto";
             dragBox.style.left = left + "px";
             dragBox.style.top = top + "px";
+            window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
           };
           document.onmouseup = e => {
             // 鼠标弹起来的时候不再移动
@@ -339,7 +339,7 @@
       float: left
       padding-top: 10px
       padding-left: 10px
-      user-select: none;
+      user-select none
       cursor: default
       i{
         font-size 16px

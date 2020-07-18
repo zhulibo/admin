@@ -77,7 +77,7 @@
                   localStorage.setItem('userInfo', JSON.stringify(res.data.data))
                   _this.setUserInfo(res.data.data)
                   _this.updateRouter(res.data.data.roleSet)
-                  _this.$router.push({path: '/home'})
+                  _this.$router.push({path: '/table'})
                 }else {
                   _this.$message({
                     type: 'info',

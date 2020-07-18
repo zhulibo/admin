@@ -6,7 +6,7 @@ Vue.use(Router)
 export const constantRouter = [
   {
     path: '/',
-    redirect: {path: '/home'},
+    redirect: {path: '/table'},
     hidden: true,
   },
   {
@@ -26,6 +26,20 @@ export const constantRouter = [
     name: 'register',
     component: () => import (/* webpackChunkName: "register" */ '@/views/register/register'),
     hidden: true,
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/table',
+        name: '表格',
+        component: () => import (/* webpackChunkName: "table" */ '@/views/table/table'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
   },
   {
     path: '/',

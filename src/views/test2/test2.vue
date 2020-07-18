@@ -19,7 +19,7 @@
       //     url: 'https://back.goku.vip/backSoftware/backAppList',
       //     method: 'GET',
       //   })
-      //     .then((res) => {
+      //     .then(res => {
       //     })
       //   console.log(4)
       // }
