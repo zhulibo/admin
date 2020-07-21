@@ -7,12 +7,6 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
-//vue-material
-import { MdButton, MdSwitch} from 'vue-material/dist/components'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
-Vue.use(MdButton)
-Vue.use(MdSwitch)
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false

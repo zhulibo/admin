@@ -18,8 +18,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <md-button class="md-raised md-primary" @click="newApp">新建</md-button>
-<!--      <el-button type="primary" plain round size="medium" @click="newApp" icon="el-icon-plus">新建</el-button>-->
+      <el-button type="primary" plain round size="medium" @click="newApp" icon="el-icon-plus">新建</el-button>
     </div>
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
@@ -38,21 +37,18 @@
         </el-table-column>
         <el-table-column prop="isVip" label="开关" align="center" class-name="row-switch">
           <template slot-scope="scope">
-            <md-switch v-model="scope.row.isVip == 1" @change=setVip(scope.row) class="md-primary"></md-switch>
-<!--            <el-switch-->
-<!--              v-model="scope.row.isVip"-->
-<!--              :active-value="1"-->
-<!--              :inactive-value="0"-->
-<!--              @change=setVip(scope.row)>-->
-<!--            </el-switch>-->
+            <el-switch
+              v-model="scope.row.isVip"
+              :active-value="1"
+              :inactive-value="0"
+              @change=setVip(scope.row)>
+            </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="管理" fixed="right" width="250px" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <md-button class="md-primary" @click="editApp(scope.row)">编辑</md-button>
-            <md-button class="md-accent" @click="deleteApp(scope.row)">删除</md-button>
-<!--            <el-button type="text" @click="editApp(scope.row)">编辑</el-button>-->
-<!--            <el-button type="text" @click="deleteApp(scope.row)">删除</el-button>-->
+            <el-button type="text" @click="editApp(scope.row)">编辑</el-button>
+            <el-button type="text" @click="deleteApp(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -100,7 +96,7 @@
           params: {
             userId: this.userInfo.userId,
             softId: scope.softId,
-            set: scope.isVip == 1 ? 0 : 1
+            set: scope.isVip
           }
         }).then(res => {
           this.loading = false
