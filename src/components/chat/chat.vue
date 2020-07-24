@@ -333,6 +333,7 @@
   .chat-title{
     color: #fff
     background-color: #414345
+    cursor: move
     .chat-host-name{
       display: inline-block
       box-sizing border-box

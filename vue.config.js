@@ -8,9 +8,10 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'https://back.goku.vip/',
+        // target: 'http://192.168.0.145:8080',
         changeOrigin: true,
         ws: true,
-        secure: false,
+        secure: false, // 默认情况下，不接受运行在HTTPS上且使用了无效证书的后端服务器。
         pathRewrite: {
           '^/api': '/'
         }

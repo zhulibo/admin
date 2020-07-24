@@ -23,11 +23,11 @@
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column label="img" align="center" class-name="row-img">
-          <template slot-scope="scope">
-            <img :src="scope.row.iconUrl" alt="">
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="img" align="center" class-name="row-img">-->
+<!--          <template slot-scope="scope">-->
+<!--            <img :src="scope.row.iconUrl" alt="">-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column prop="createDate" label="时间" align="center"></el-table-column>
         <el-table-column prop="fitType" label="类型" align="center">
           <template slot-scope="scope">
@@ -131,7 +131,7 @@
         this.getList()
       },
       editApp(scope) {
-        this.$router.push({path: '/', query: {a: scope.a}})
+        this.$router.push({path: '/edit', query: {a: scope.a}})
       },
       deleteApp(scope) {
         this.$confirm('确定删除 ' + scope.softName, '提示', {
@@ -164,7 +164,7 @@
         }).catch(() => {});
       },
       newApp() {
-        this.$router.push({path: '/'})
+        this.$router.push({path: 'edit'})
       },
     }
   }

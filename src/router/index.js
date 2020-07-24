@@ -44,6 +44,21 @@ export const constantRouter = [
   {
     path: '/',
     component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/edit',
+        name: '编辑',
+        component: () => import (/* webpackChunkName: "edit" */ '@/views/edit/edit'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/home',
