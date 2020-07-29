@@ -41,9 +41,9 @@
               action: 'https://app.daonong.tech/index.php/Api/Brand/addV2',  // 服务器地址, 如果action为空，则采用base64插入图片
               // response 为一个函数用来获取服务器返回的具体图片地址
               // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
-              // 则 return res.data.url
+              // 则 return res.url
               response: (res) => {
-                // return res.data.url
+                // return res.url
                 return 'https://www.mxjclub.com/static/home/images/app_left.png'
               },
               headers: (xhr) => {

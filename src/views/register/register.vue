@@ -111,18 +111,18 @@
           }
         })
           .then(function (res) {
-            if (res.data.code == 200){
+            if (res.code == 200){
               _this.$message({
                 type: 'success',
                 message: '发送成功'
-                // message: res.data.msg
+                // message: res.msg
               });
               _this.countDown(60)
             }else{
               _this.$message({
                 type: 'warning',
                 message: '发送失败',
-                // message: res.data.msg
+                // message: res.msg
               });
             }
           })
@@ -171,13 +171,13 @@
                 if (res.data == 201){
                   _this.$message({
                     type: 'success',
-                    message: res.data.msg
+                    message: res.msg
                   });
                   _this.$router.push({path: '/login'})
                 }else{
                   _this.$message({
                     type: 'warning',
-                    message: res.data.msg
+                    message: res.msg
                   });
                 }
               })

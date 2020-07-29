@@ -108,7 +108,7 @@
         }
       })
         .then(res => {
-          this.appDetail = res.data.data
+          this.appDetail = res.data
         })
     },
     mounted() {
@@ -129,7 +129,7 @@
           }
         })
           .then(res => {
-            this.classifyList = res.data.data
+            this.classifyList = res.data
           })
       },
       handleAvatarSuccess(res, file, fileList) {
@@ -189,16 +189,16 @@
               },
             }).then(function (res) {
               console.log(res)
-              if (res.data.code = 201){
+              if (res.code = 201){
                 this.$message({
                   type: 'success',
-                  message: res.data.msg
+                  message: res.msg
                 });
                 this.$router.push({path: '/table'})
               } else {
                 this.$message({
                   type: 'info',
-                  message: res.data.msg
+                  message: res.msg
                 });
               }
             })

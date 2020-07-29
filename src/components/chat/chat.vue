@@ -2,7 +2,7 @@
   <div class="chat">
     <div class="chat-title clearfix" v-drag>
       <div class="chat-host-name"><i class="el-icon-service"></i> 客服A</div>
-      <div class="chat-close" @click="closeChat" v-stopdrag><i class="el-icon-close"></i></div>
+      <div class="chat-close" @click="closeChat" v-stopDrag><i class="el-icon-close"></i></div>
     </div>
     <div class="chat-body clearfix">
       <div class="side-nav">
@@ -311,7 +311,7 @@
           };
         };
       },
-      stopdrag: function(el) {
+      stopDrag: function(el) {
         el.onmousedown = function(e) {
           e.stopPropagation()
         }

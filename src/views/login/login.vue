@@ -73,15 +73,15 @@
               }
             })
               .then(function (res) {
-                if (res.data.code == 200) {
-                  localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-                  _this.setUserInfo(res.data.data)
-                  _this.updateRouter(res.data.data.roleSet)
+                if (res.code == 200) {
+                  localStorage.setItem('userInfo', JSON.stringify(res.data))
+                  _this.setUserInfo(res.data)
+                  _this.updateRouter(res.data.roleSet)
                   _this.$router.push({path: '/table'})
                 }else {
                   _this.$message({
                     type: 'info',
-                    message: res.data.msg,
+                    message: res.msg,
                   });
                 }
               })

@@ -25,13 +25,17 @@ axios.interceptors.request.use(
 
 // http response 拦截器
 axios.interceptors.response.use(
-  response => {
+  res => {
 
-    // if (response.data.code === 401) {
+    // if (res.code === 401) {
     //   router.replace('/login');
     // }
+    //
+    // if (res.code === 403) {
+    //   router.replace('/authority');
+    // }
 
-    return response;
+    return res.data;
   },
   error => {
     return Promise.reject(error);

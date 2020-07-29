@@ -102,7 +102,7 @@
           this.loading = false
           this.$message({
             type: 'info',
-            message: res.data.msg,
+            message: res.msg,
           });
           this.getList()
         })
@@ -121,9 +121,9 @@
           }
         })
           .then(res => {
-            this.tableList = res.data.data.list
-            this.totalPages = res.data.data.pages
-            this.currentPage = res.data.data.pageNum
+            this.tableList = res.data.list
+            this.totalPages = res.data.pages
+            this.currentPage = res.data.pageNum
           })
       },
       handleCurrentChange: function(val) { // 页码变更
@@ -148,7 +148,7 @@
             }
           })
             .then(res => {
-              if(res.data.code == 204) {
+              if(res.code == 204) {
                 this.$message({
                   type: 'success',
                   message: '已删除 ' + scope.softName,
@@ -157,7 +157,7 @@
               }else {
                 this.$message({
                   type: 'error',
-                  message: res.data.data.message
+                  message: res.data.message
                 })
               }
             })

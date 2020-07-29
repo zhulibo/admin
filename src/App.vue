@@ -34,7 +34,7 @@
 </script>
 
 <style lang="stylus">
+  @import '//at.alicdn.com/t/font_1787136_crav0nqm947.css';
   @import './assets/css/base.css';
   @import './assets/css/common.css';
-  @import 'https://at.alicdn.com/t/font_1787136_crav0nqm947.css';
 </style>
