@@ -6,7 +6,7 @@ Vue.use(Router)
 export const constantRouter = [
   {
     path: '/',
-    redirect: {path: '/table'},
+    redirect: {path: '/admin'},
     hidden: true,
   },
   {
@@ -32,9 +32,68 @@ export const constantRouter = [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/table',
-        name: '表格',
-        component: () => import (/* webpackChunkName: "table" */ '@/views/table/table'),
+        path: '/user',
+        name: '用户管理',
+        component: () => import (/* webpackChunkName: "user" */ '@/views/user/user'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/userEdit',
+        name: '编辑用户信息',
+        component: () => import (/* webpackChunkName: "userEdit" */ '@/views/userEdit/userEdit'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/admin',
+        name: '管理员管理',
+        component: () => import (/* webpackChunkName: "admin" */ 'views/admin/admin'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/adminEdit',
+        name: '编辑管理员信息',
+        component: () => import (/* webpackChunkName: "adminEdit" */ '@/views/adminEdit/adminEdit'),
+        meta: {
+          icon: 'iconfont icon-liebiao',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/adminNew',
+        name: '添加管理员',
+        component: () => import (/* webpackChunkName: "adminNew" */ '@/views/adminNew/adminNew'),
         meta: {
           icon: 'iconfont icon-liebiao',
         },

@@ -7,8 +7,9 @@ module.exports = {
   devServer:{
     proxy: {
       '/api': {
-        target: 'https://back.goku.vip/',
-        // target: 'http://192.168.0.145:8080',
+        // target: 'https://app.mxjclub.com',
+        // target: 'http://192.168.0.133:8080',
+        target: 'http://192.168.0.146:8080',
         changeOrigin: true,
         ws: true,
         secure: false, // 默认情况下，不接受运行在HTTPS上且使用了无效证书的后端服务器。

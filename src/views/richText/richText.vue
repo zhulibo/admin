@@ -19,7 +19,7 @@
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
   Quill.register('modules/ImageExtend', ImageExtend)
   // 添加title
-  import { addQuillTitle } from '../../utils/quill-title.js';
+  import { addQuillTitle } from '../../utils/quill/quill-title.js';
   // 设置字体
   let fontSizeStyle = Quill.import('attributors/style/size')
   fontSizeStyle.whitelist = ['12px', false, '16px','18px','20px', '22px','24px', '26px', '28px','30px','32px', '36px'];

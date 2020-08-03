@@ -36,9 +36,10 @@
       logOut: function () {
         var _this = this
         _this.$http({
-          url: '/login/logout',
-          method: 'GET',
-          params: {
+          url: '/userorg/login/back/out',
+          method: 'POST',
+          data: {
+            token: this.userInfo
           }
         })
           .then(function (res) {
@@ -60,7 +61,7 @@
     right: 0
     height: 70px;
     background-color: #fff;
-    box-shadow 0 0 3px rgba(0,0,0,.1)
+    box-shadow 0 0 5px rgba(0,0,0,.1)
   }
   .user {
     float: right;

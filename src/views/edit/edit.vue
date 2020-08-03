@@ -189,12 +189,12 @@
               },
             }).then(function (res) {
               console.log(res)
-              if (res.code = 201){
+              if (res.code == 201){
                 this.$message({
                   type: 'success',
                   message: res.msg
                 });
-                this.$router.push({path: '/table'})
+                this.$router.push({path: '/admin'})
               } else {
                 this.$message({
                   type: 'info',
