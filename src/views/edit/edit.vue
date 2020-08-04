@@ -195,11 +195,6 @@
                   message: res.msg
                 });
                 this.$router.push({path: '/admin'})
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res.msg
-                });
               }
             })
           } else {

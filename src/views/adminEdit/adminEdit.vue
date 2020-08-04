@@ -77,7 +77,7 @@
           if (valid) {
             this.$http({
               url: '/userorg/backadmin/user',
-              method: 'PUT',
+              method: this.userId ? 'PUT' : 'POST',
               data: {
                 id: this.userId,
                 phone: this.ruleForm.phone,
@@ -86,18 +86,11 @@
                 status: this.ruleForm.status,
               },
             }).then(res => {
-              if (res.code == 0){
-                this.$message({
-                  type: 'success',
-                  message: res.msg
-                });
-                this.$router.push({path: '/admin'})
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res.msg
-                });
-              }
+              this.$message({
+                type: 'success',
+                message: res.msg
+              });
+              this.$router.push({path: '/admin'})
             })
           } else {
             console.log('error submit!!');

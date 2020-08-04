@@ -22,21 +22,15 @@ export const constantRouter = [
     hidden: true,
   },
   {
-    path: '/register',
-    name: 'register',
-    component: () => import (/* webpackChunkName: "register" */ '@/views/register/register'),
-    hidden: true,
-  },
-  {
     path: '/',
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/user',
-        name: '用户管理',
+        name: '用户',
         component: () => import (/* webpackChunkName: "user" */ '@/views/user/user'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-yonghu',
         },
       }
     ]
@@ -48,24 +42,36 @@ export const constantRouter = [
     children: [
       {
         path: '/userEdit',
-        name: '编辑用户信息',
+        name: '用户编辑',
         component: () => import (/* webpackChunkName: "userEdit" */ '@/views/userEdit/userEdit'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-yonghu',
         },
       }
     ]
   },
   {
     path: '/',
+    name: '管理员',
+    meta: {
+      icon: 'iconfont icon-guanliyuan',
+    },
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/admin',
-        name: '管理员管理',
+        name: '管理员列表',
         component: () => import (/* webpackChunkName: "admin" */ 'views/admin/admin'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-guanliyuan',
+        },
+      },
+      {
+        path: '/role',
+        name: '角色列表',
+        component: () => import (/* webpackChunkName: "role" */ 'views/role/role'),
+        meta: {
+          icon: 'iconfont icon-jiaoseleixing',
         },
       }
     ]
@@ -77,10 +83,9 @@ export const constantRouter = [
     children: [
       {
         path: '/adminEdit',
-        name: '编辑管理员信息',
+        name: '管理员编辑',
         component: () => import (/* webpackChunkName: "adminEdit" */ '@/views/adminEdit/adminEdit'),
         meta: {
-          icon: 'iconfont icon-liebiao',
         },
       }
     ]
@@ -91,26 +96,10 @@ export const constantRouter = [
     hidden: true,
     children: [
       {
-        path: '/adminNew',
-        name: '添加管理员',
-        component: () => import (/* webpackChunkName: "adminNew" */ '@/views/adminNew/adminNew'),
+        path: '/roleEdit',
+        name: '角色编辑',
+        component: () => import (/* webpackChunkName: "roleEdit" */ 'views/roleEdit/roleEdit'),
         meta: {
-          icon: 'iconfont icon-liebiao',
-        },
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/edit',
-        name: '编辑',
-        component: () => import (/* webpackChunkName: "edit" */ '@/views/edit/edit'),
-        meta: {
-          icon: 'iconfont icon-liebiao',
         },
       }
     ]
@@ -120,11 +109,11 @@ export const constantRouter = [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/home',
-        name: '统计',
-        component: () => import (/* webpackChunkName: "home" */ '@/views/home/home'),
+        path: '/social',
+        name: '社交',
+        component: () => import (/* webpackChunkName: "social" */ '@/views/social/social'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-pengyouquan',
         },
       }
     ]
@@ -138,7 +127,7 @@ export const constantRouter = [
         name: '富文本',
         component: () => import (/* webpackChunkName: "richText" */ '@/views/richText/richText'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-bianji',
         },
       }
     ]
@@ -152,7 +141,7 @@ export const constantRouter = [
         name: '图表',
         component: () => import (/* webpackChunkName: "vueEcharts" */ '@/views/vueEcharts/vueEcharts'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-bianji',
         },
       }
     ]
@@ -166,7 +155,7 @@ export const constantRouter = [
         name: '客服聊天',
         component: () => import (/* webpackChunkName: "chatCt" */ '@/views/chatCt/chatCt'),
         meta: {
-          icon: 'iconfont icon-liebiao',
+          icon: 'iconfont icon-bianji',
         },
       }
     ]
@@ -183,7 +172,7 @@ export const asyncRouter = [
     name: '权限',
     meta: {
       roleSet: ['admin', 'superAdmin'],
-      icon: 'iconfont icon-guanliyuan',
+      icon: 'iconfont icon-bianji',
     },
     component: () => import ('@/views/index/index'),
     children: [
@@ -193,7 +182,7 @@ export const asyncRouter = [
         component: () => import (/* webpackChunkName: "test1" */ '@/views/test1/test1'),
         meta: {
           roleSet: ['admin', 'superAdmin'],
-          icon: 'iconfont icon-guanliyuan',
+          icon: 'iconfont icon-bianji',
         },
       },
       {
@@ -202,7 +191,7 @@ export const asyncRouter = [
         component: () => import (/* webpackChunkName: "test2" */ '@/views/test2/test2'),
         meta: {
           roleSet: [],
-          icon: 'iconfont icon-guanliyuan',
+          icon: 'iconfont icon-bianji',
         },
       },
     ]

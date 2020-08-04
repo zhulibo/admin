@@ -12,16 +12,13 @@
             </el-select>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList">
-            </el-input>
+            <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.homesickId" placeholder="请输入漫想家id" @keyup.enter.native="getList">
-            </el-input>
+            <el-input v-model="formInline.homesickId" placeholder="请输入漫想家id" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.nickName" placeholder="请输入昵称" @keyup.enter.native="getList">
-            </el-input>
+            <el-input v-model="formInline.nickName" placeholder="请输入昵称" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -145,17 +142,10 @@
           }
         }).then(res => {
           this.loading = false
-          if (res.code == 0){
-            this.$message({
-              type: 'success',
-              message: res.msg,
-            });
-          } else {
-            this.$message({
-              type: 'info',
-              message: res.msg,
-            });
-          }
+          this.$message({
+            type: 'success',
+            message: res.msg,
+          });
           this.getList()
         })
       },

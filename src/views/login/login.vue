@@ -1,8 +1,8 @@
 <template>
   <div class="bg">
-    <div class="ct wrap clearfix">
+    <div class="log-in wrap clearfix">
       <div class="l">
-        <img src="../../assets/img/logo.png" alt="">
+        <img src="../../assets/img/logIn2.png" alt="">
       </div>
       <div class="r">
         <div class="form-ct">
@@ -22,9 +22,6 @@
               <el-button class="log-button" type="primary" @click="submitForm('ruleForm')">登录</el-button>
             </el-form-item>
           </el-form>
-<!--          <div class="link clearfix">-->
-<!--            <router-link class="register" :to="{path: '/register'}">去注册</router-link>-->
-<!--          </div>-->
         </div>
       </div>
     </div>
@@ -72,6 +69,7 @@
     created() {
     },
     mounted() {
+      this.ruleForm.randomCode = this.randomCode
     },
     computed: {
       ...mapState({
@@ -92,17 +90,10 @@
               }
             })
               .then(res => {
-                if (res.code == 0) {
-                  localStorage.setItem('userInfo', JSON.stringify(res.data))
-                  this.setUserInfo(res.data)
-                  // this.updateRouter(res.data.roleSet)
-                  this.$router.push({path: '/user'})
-                }else {
-                  this.$message({
-                    type: 'info',
-                    message: res.msg,
-                  });
-                }
+                localStorage.setItem('userInfo', JSON.stringify(res.data))
+                this.setUserInfo(res.data)
+                // this.updateRouter(res.data.roleSet)
+                this.$router.push({path: '/user'})
               })
 
           } else {
@@ -119,10 +110,11 @@
 
 <style lang="stylus" scoped>
   .bg{
+    flexCenter()
     height: 100%
   }
   .bg:after{
-    filter: blur(10px)
+    filter: blur(2px)
     content ''
     position: absolute;
     z-index -1
@@ -130,46 +122,44 @@
     left: 0
     right: 0
     bottom: 0
-    background: url(../../assets/img/logo.png) center center/cover no-repeat
+    background: url(../../assets/img/logIn1.png) center center/100% auto no-repeat
   }
-  .ct{
-    padding-top: 10%
-  }
-  .l{
-    width: 50%
-    float: left
-    img{
-      width: 80%
+  .log-in{
+    display: flex
+    padding-bottom: 50px
+    .l{
+      flex: 1
+      flexCenter()
+      img{
+        padding-bottom: 5em
+        width: 20em
+        filter drop-shadow(0 0 5px rgba(255,255,255,.5))
+      }
     }
-  }
-  .r{
-    width: 50%
-    float: left
+    .r{
+      flex: 1
+    }
   }
   .form-ct{
     box-sizing border-box
-    width: 500px
-    padding: 30px
-    border-radius: 15px;
+    width: 400px
+    padding: 20px 30px
+    border-radius: 10px;
     background-color: rgba(255,255,255,.9);
   }
   .log-button{
     width: 100%
   }
   .form-title{
-    margin-bottom: 40px
+    margin-bottom: 30px
     text-align: center;
     font-size 24px
   }
   .el-form-item {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   .submit-item{
     margin-bottom: 10px
-  }
-  .register{
-    float: right;
-    color: #409EFF
   }
   >>> .code-item .el-form-item__content{
     display: flex;

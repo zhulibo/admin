@@ -1,5 +1,6 @@
 import router from '../router'
 import axios from 'axios'
+import { Message } from 'element-ui'
 
 axios.defaults.baseURL = process.env.VUE_APP_URL
 
@@ -24,9 +25,22 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   res => {
 
-    // if (res.data.code != 0) {
-    //   alert(res.data.msg)
-    // }
+    if (res.data.code == 802) {
+      Message({
+        message: res.data.msg + `(${res.data.code})`,
+        type: 'error',
+        duration: 3000
+      })
+      router.push({path: '/logIn'})
+    }
+
+    if (res.data.code != 0) {
+      Message({
+        message: res.data.msg + `(${res.data.code})`,
+        type: 'error',
+        duration: 3000
+      })
+    }
 
     return res.data;
   },
@@ -46,12 +60,18 @@ axios.interceptors.response.use(
         case 503: err.message = '服务不可用(503)'; break;
         case 504: err.message = '网络超时(504)'; break;
         case 505: err.message = 'HTTP版本不受支持(505)'; break;
-        default: err.message = `连接出错(${err.response.status})!`;
+        case 802: err.message = '请重新登录(802)'; break;
+        default: err.message = `连接出错(${err.response.status})！`;
       }
     } else {
-      err.message = '连接服务器失败!'
+      err.message = '连接服务器失败！'
     }
-    alert(err.message);
+
+    Message({
+      message: err.message,
+      type: 'error',
+      duration: 3000
+    })
 
     return Promise.reject(err);
   }

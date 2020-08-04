@@ -3,7 +3,7 @@
     <div class="logo">
       <img src="../../assets/img/left-logo.png" alt="">
     </div>
-    <el-menu router :default-active="$route.path" background-color="#414345" text-color="#ccc" active-text-color="#fff">
+    <el-menu router :default-active="$route.path" background-color="#252a2f" text-color="#ccc" active-text-color="#fff">
       <template v-for="(item,index) in routers" v-if="!item.hidden">
         <el-submenu :index="String(index)" v-if="item.children.length > 1">
           <template slot="title">
@@ -59,11 +59,11 @@
     bottom: 0;
     box-sizing: border-box;
     width: 220px;
-    background-color: #414345;
+    background-color: #252a2f;
   }
   .logo{
-    margin-bottom: 20px
     padding: 10px
+    padding-left: 20px
     img{
       height: 3em
     }

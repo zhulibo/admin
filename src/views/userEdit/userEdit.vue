@@ -88,18 +88,11 @@
                 del: this.ruleForm.del,
               },
             }).then(res => {
-              if (res.code == 0){
-                this.$message({
-                  type: 'success',
-                  message: res.msg
-                });
-                this.$router.push({path: '/user'})
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: res.msg
-                });
-              }
+              this.$message({
+                type: 'success',
+                message: res.msg
+              });
+              this.$router.push({path: '/user'})
             })
           } else {
             console.log('error submit!!');

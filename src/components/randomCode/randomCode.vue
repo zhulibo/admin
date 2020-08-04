@@ -1,5 +1,5 @@
 <template>
-  <div class="ValidCode disabled-select" :style="`width:${width}; height:${height}`" @click="refreshCode">
+  <div class="valid-code disabled-select" :style="`width:${width}; height:${height}`" @click="refreshCode">
     <span v-for="(item, index) in codeList" :key="index" :style="getStyle(item)">{{ item.code }}</span>
   </div>
 </template>
@@ -62,14 +62,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.ValidCode {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.valid-code {
+  flexCenter()
   cursor: pointer;
 }
-
-.ValidCode span {
+.valid-code span {
   display: inline-block;
 }
 </style>

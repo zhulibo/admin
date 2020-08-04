@@ -3,12 +3,9 @@
     <div class="table-head clearfix">
       <h2 class="head-title">{{this.$route.name}}</h2>
       <div class="sch">
-        <el-form :inline="true" :model="formInline" class="table-form-inline">
+        <el-form :inline="true" :model="formInline" class="table-form-inline" @submit.native.prevent>
           <el-form-item label="">
-            <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList"></el-input>
-          </el-form-item>
-          <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入昵称" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.roleName" placeholder="请输入昵称" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -20,14 +17,14 @@
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.phone | noneFilter }}</template>
+        <el-table-column prop="roleName" label="角色名" align="center">
+          <template slot-scope="scope">{{ scope.row.roleName | noneFilter }}</template>
         </el-table-column>
         <el-table-column prop="name" label="昵称" align="center">
           <template slot-scope="scope">{{ scope.row.name | noneFilter }}</template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | dateFormat }}</template>
+        <el-table-column prop="description" label="描述" align="center">
+          <template slot-scope="scope">{{ scope.row.description | noneFilter }}</template>
         </el-table-column>
         <el-table-column prop="status" label="账号状态" align="center" class-name="row-switch">
           <template slot-scope="scope">
@@ -56,12 +53,11 @@
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
 export default {
-  name: 'admin',
+  name: 'role',
   data() {
     return {
       formInline: {
-        phone: '',
-        name: '',
+        roleName: '',
       },
       tableList: [],
       pageSize: 10,
@@ -83,11 +79,10 @@ export default {
   methods: {
     getList: function() {
       this.$http({
-        url: '/userorg/backadmin/user',
+        url: '/userorg/backadmin/backrole',
         method: 'GET',
         params: {
-          phone: this.formInline.phone,
-          name: this.formInline.name,
+          roleName: this.formInline.roleName,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -121,10 +116,10 @@ export default {
       })
     },
     edit(scope) {
-      this.$router.push({path: '/adminEdit', query: {userId: scope.userId, phone: scope.phone, name: scope.name, passWord: scope.passWord, status: scope.status}})
+      this.$router.push({path: '/roleEdit', query: {id: scope.id}})
     },
     newItem() {
-      this.$router.push({path: '/adminEdit'})
+      this.$router.push({path: '/roleEdit'})
     },
   }
 }
