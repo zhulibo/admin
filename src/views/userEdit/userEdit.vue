@@ -27,81 +27,78 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'appEdit',
-    data() {
-      return {
-        userId: '',
-        detail: {},
-        ruleForm: {
-          payPwd: '',
-          passWord: '',
-          del: '',
-        },
-        rules: {
-          payPwd: [
-          ],
-          passWord: [
-          ],
-          del: [
-          ],
-        },
-      }
-    },
-    created() {
-      this.userId = this.$route.query.userId
-      this.getdetail()
-    },
-    mounted() {
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo
-      }),
-    },
-    methods: {
-      ...mapMutations(['setUserInfo']),
-      getdetail() {
-        this.$http({
-          url: '/userorg/backadmin/appuser/detail/' + this.userId,
-          method: 'GET',
+export default {
+  name: 'appEdit',
+  data() {
+    return {
+      userId: '',
+      detail: {},
+      ruleForm: {
+        payPwd: '',
+        passWord: '',
+        del: '',
+      },
+      rules: {
+        payPwd: [],
+        passWord: [],
+        del: [],
+      },
+    }
+  },
+  created() {
+    this.userId = this.$route.query.userId
+    this.getdetail()
+  },
+  mounted() {
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo
+    }),
+  },
+  methods: {
+    ...mapMutations(['setUserInfo']),
+    getdetail() {
+      this.$http({
+        url: '/userorg/backadmin/appuser/detail/' + this.userId,
+        method: 'GET',
+      })
+        .then(res => {
+          this.detail = res.data
+          this.ruleForm.payPwd = this.detail.payPwd
+          this.ruleForm.passWord = this.detail.passWord
+          this.ruleForm.del = this.detail.del
         })
-          .then(res => {
-            this.detail = res.data
-            this.ruleForm.payPwd = this.detail.payPwd
-            this.ruleForm.passWord = this.detail.passWord
-            this.ruleForm.del = this.detail.del
-          })
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: '/userorg/backadmin/appuser',
-              method: 'PUT',
-              data: {
-                userId: this.userId,
-                payPwd: this.ruleForm.payPwd,
-                passWord: this.ruleForm.passWord,
-                del: this.ruleForm.del,
-              },
-            }).then(res => {
-              this.$message({
-                type: 'success',
-                message: res.msg
-              });
-              this.$router.push({path: '/user'})
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
     },
-  }
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/userorg/backadmin/appuser',
+            method: 'PUT',
+            data: {
+              userId: this.userId,
+              payPwd: this.ruleForm.payPwd,
+              passWord: this.ruleForm.passWord,
+              del: this.ruleForm.del,
+            },
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: res.msg
+            });
+            this.$router.push({path: '/user'})
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

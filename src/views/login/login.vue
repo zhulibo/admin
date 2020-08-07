@@ -9,13 +9,16 @@
           <h2 class="form-title">漫想家管理后台</h2>
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="log-form">
             <el-form-item label="" prop="account">
-              <el-input v-model="ruleForm.account" placeholder="请输入手机号" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+              <el-input v-model="ruleForm.account" placeholder="请输入手机号"
+                        @keyup.enter.native="submitForm('ruleForm')"></el-input>
             </el-form-item>
             <el-form-item label="" prop="password">
-              <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+              <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码"
+                        @keyup.enter.native="submitForm('ruleForm')"></el-input>
             </el-form-item>
             <el-form-item label="" prop="randomCode" class="code-item">
-              <el-input v-model="ruleForm.randomCode" placeholder="请输入验证码" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+              <el-input v-model="ruleForm.randomCode" placeholder="请输入验证码"
+                        @keyup.enter.native="submitForm('ruleForm')"></el-input>
               <random-code :value.sync="randomCode"></random-code>
             </el-form-item>
             <el-form-item class="submit-item">
@@ -29,143 +32,143 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-  import randomCode from '../../components/randomCode/randomCode'
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import randomCode from '../../components/randomCode/randomCode'
 
-  export default {
-    name: 'login',
-    data() {
-      let validateRandomCode = (rule, value, callback) => {
-        if (this.ruleForm.randomCode.toLowerCase() != this.randomCode.toLowerCase()) {
-          callback(new Error('验证码有误(╯°□°)╯︵ ┻━┻'));
-        } else {
-          callback();
-        }
-      };
-      return {
-        type: null,
-        ruleForm: {
-          account: '',
-          password: '',
-          randomCode: '',
-        },
-        rules: {
-          account: [
-            { required: true, message: '请输入', trigger: 'change' },
-          ],
-          password: [
-            { required: true, message: '请输入', trigger: 'change' },
-          ],
-          randomCode: [
-            { validator: validateRandomCode, trigger: 'blur' }
-          ],
-        },
-        randomCode: null
+export default {
+  name: 'login',
+  data() {
+    let validateRandomCode = (rule, value, callback) => {
+      if (this.ruleForm.randomCode.toLowerCase() != this.randomCode.toLowerCase()) {
+        callback(new Error('验证码有误(╯°□°)╯︵ ┻━┻'));
+      } else {
+        callback();
       }
-    },
-    components: {
-      randomCode
-    },
-    created() {
-    },
-    mounted() {
-      this.ruleForm.randomCode = this.randomCode
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo
-      }),
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-
-            this.$http({
-              url: '/userorg/login/back',
-              method: 'POST',
-              data: {
-                phone: this.ruleForm.account,
-                passWord: this.ruleForm.password,
-              }
-            })
-              .then(res => {
-                localStorage.setItem('userInfo', JSON.stringify(res.data))
-                this.setUserInfo(res.data)
-                // this.updateRouter(res.data.roleSet)
-                this.$router.push({path: '/user'})
-              })
-
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+    };
+    return {
+      type: null,
+      ruleForm: {
+        account: '',
+        password: '',
+        randomCode: '',
       },
-      ...mapMutations(['setUserInfo']),
-      ...mapActions(['updateRouter']),
+      rules: {
+        account: [
+          {required: true, message: '请输入', trigger: 'change'},
+        ],
+        password: [
+          {required: true, message: '请输入', trigger: 'change'},
+        ],
+        randomCode: [
+          {validator: validateRandomCode, trigger: 'blur'}
+        ],
+      },
+      randomCode: null
     }
+  },
+  components: {
+    randomCode
+  },
+  created() {
+  },
+  mounted() {
+    this.ruleForm.randomCode = this.randomCode
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo
+    }),
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+
+          this.$http({
+            url: '/userorg/login/back',
+            method: 'POST',
+            data: {
+              phone: this.ruleForm.account,
+              passWord: this.ruleForm.password,
+            }
+          })
+            .then(res => {
+              localStorage.setItem('userInfo', JSON.stringify(res.data))
+              this.setUserInfo(res.data)
+              // this.updateRouter(res.data.roleSet)
+              this.$router.push({path: '/user'})
+            })
+
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    ...mapMutations(['setUserInfo']),
+    ...mapActions(['updateRouter']),
   }
+}
 </script>
 
 <style lang="stylus" scoped>
-  .bg{
+.bg {
+  flexCenter()
+  height: 100%
+}
+.bg:after {
+  filter: blur(2px)
+  content ''
+  position: absolute;
+  z-index -1
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: url(../../assets/img/logIn1.png) center center / 100% auto no-repeat
+}
+.log-in {
+  display: flex
+  padding-bottom: 50px
+  .l {
+    flex: 1
     flexCenter()
-    height: 100%
-  }
-  .bg:after{
-    filter: blur(2px)
-    content ''
-    position: absolute;
-    z-index -1
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    background: url(../../assets/img/logIn1.png) center center/100% auto no-repeat
-  }
-  .log-in{
-    display: flex
-    padding-bottom: 50px
-    .l{
-      flex: 1
-      flexCenter()
-      img{
-        padding-bottom: 5em
-        width: 20em
-        filter drop-shadow(0 0 5px rgba(255,255,255,.5))
-      }
-    }
-    .r{
-      flex: 1
+    img {
+      padding-bottom: 5em
+      width: 20em
+      filter drop-shadow(0 0 5px rgba(255, 255, 255, .5))
     }
   }
-  .form-ct{
-    box-sizing border-box
-    width: 400px
-    padding: 20px 30px
-    border-radius: 10px;
-    background-color: rgba(255,255,255,.9);
+  .r {
+    flex: 1
   }
-  .log-button{
-    width: 100%
-  }
-  .form-title{
-    margin-bottom: 30px
-    text-align: center;
-    font-size 24px
-  }
-  .el-form-item {
-    margin-bottom: 20px;
-  }
-  .submit-item{
-    margin-bottom: 10px
-  }
-  >>> .code-item .el-form-item__content{
-    display: flex;
-  }
-  >>> .code-item .el-form-item__content .el-input{
-    margin-right: 10px
-    flex 1
-  }
+}
+.form-ct {
+  box-sizing border-box
+  width: 400px
+  padding: 20px 30px
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, .9);
+}
+.log-button {
+  width: 100%
+}
+.form-title {
+  margin-bottom: 30px
+  text-align: center;
+  font-size 24px
+}
+.el-form-item {
+  margin-bottom: 20px;
+}
+.submit-item {
+  margin-bottom: 10px
+}
+>>> .code-item .el-form-item__content {
+  display: flex;
+}
+>>> .code-item .el-form-item__content .el-input {
+  margin-right: 10px
+  flex 1
+}
 </style>

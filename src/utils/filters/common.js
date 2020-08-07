@@ -1,4 +1,4 @@
-let dateFormat = value => {
+let timestampToDate = value => {
   let dt = new Date(value);
 
   let y = dt.getFullYear();
@@ -14,6 +14,7 @@ let dateFormat = value => {
     }
     return i;
   }
+
   hh = checkTime(hh);
   mm = checkTime(mm);
   ss = checkTime(ss);
@@ -21,11 +22,12 @@ let dateFormat = value => {
   return y + "-" + m + "-" + d + "  " + hh + ":" + mm + ":" + ss
 }
 
-let noneFilter = value => {
+let noneToLine = value => {
   if (!value) return '--'
   return value
 }
+
 export default {
-  dateFormat, // 时间戳转日期
-  noneFilter, // '' 转 '--'
+  timestampToDate, // 时间戳转日期
+  noneToLine, // '' 转 '--'
 }

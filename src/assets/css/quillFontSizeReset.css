@@ -1,4 +1,3 @@
-@charset "utf-8";
 /*字体大小选项*/
 .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='12px']::before, .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='12px']::before {
   content: '12px';
@@ -38,7 +37,7 @@
 }
 /*默认字体大小*/
 .ql-container {
-  font-size:14px;
+  font-size: 14px;
 }
 /*normal>>14px*/
 .ql-snow .ql-picker.ql-size .ql-picker-label::before,
@@ -46,8 +45,8 @@
   content: '14px';
 }
 /*编辑器最小高度*/
-.ql-editor{
-  min-height:360px;
+.ql-editor {
+  min-height: 360px;
 }
 /*ql-size宽度*/
 .ql-snow .ql-picker.ql-size {

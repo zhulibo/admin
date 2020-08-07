@@ -30,76 +30,72 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'appEdit',
-    data() {
-      return {
-        userId: '',
-        detail: {},
-        ruleForm: {
-          phone: '',
-          name: '',
-          passWord: '',
-          status: '',
-        },
-        rules: {
-          phone: [
-          ],
-          name: [
-          ],
-          passWord: [
-          ],
-          status: [
-          ],
-        },
-      }
-    },
-    created() {
-      this.userId = this.$route.query.userId
-      this.ruleForm.phone = this.$route.query.phone
-      this.ruleForm.name = this.$route.query.name
-      this.ruleForm.passWord = this.$route.query.passWord
-      this.ruleForm.status = this.$route.query.status
-    },
-    mounted() {
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo
-      }),
-    },
-    methods: {
-      ...mapMutations(['setUserInfo']),
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: '/userorg/backadmin/user',
-              method: this.userId ? 'PUT' : 'POST',
-              data: {
-                id: this.userId,
-                phone: this.ruleForm.phone,
-                name: this.ruleForm.name,
-                passWord: this.ruleForm.passWord,
-                status: this.ruleForm.status,
-              },
-            }).then(res => {
-              this.$message({
-                type: 'success',
-                message: res.msg
-              });
-              this.$router.push({path: '/admin'})
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+export default {
+  name: 'appEdit',
+  data() {
+    return {
+      userId: '',
+      detail: {},
+      ruleForm: {
+        phone: '',
+        name: '',
+        passWord: '',
+        status: '',
       },
+      rules: {
+        phone: [],
+        name: [],
+        passWord: [],
+        status: [],
+      },
+    }
+  },
+  created() {
+    this.userId = this.$route.query.userId
+    this.ruleForm.phone = this.$route.query.phone
+    this.ruleForm.name = this.$route.query.name
+    this.ruleForm.passWord = this.$route.query.passWord
+    this.ruleForm.status = this.$route.query.status
+  },
+  mounted() {
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo
+    }),
+  },
+  methods: {
+    ...mapMutations(['setUserInfo']),
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/userorg/backadmin/user',
+            method: this.userId ? 'PUT' : 'POST',
+            data: {
+              id: this.userId,
+              phone: this.ruleForm.phone,
+              name: this.ruleForm.name,
+              passWord: this.ruleForm.passWord,
+              status: this.ruleForm.status,
+            },
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: res.msg
+            });
+            this.$router.push({path: '/admin'})
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
-  }
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

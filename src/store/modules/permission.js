@@ -13,7 +13,7 @@ const permission = {
     }
   },
   actions: {
-    updateRouter({ commit }, roleSet) {
+    updateRouter({commit}, roleSet) {
       return new Promise(resolve => {
 
         const addRouter = asyncRouter.filter(v => {

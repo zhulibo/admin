@@ -2,17 +2,15 @@ const state = {
   userInfo: {},
 };
 
-const getters = {
-};
+const getters = {};
 
 const mutations = {
-  setUserInfo (state, userInfo) {
+  setUserInfo(state, userInfo) {
     state.userInfo = userInfo
   },
 };
 
-const actions = {
-};
+const actions = {};
 
 export default {
   state,

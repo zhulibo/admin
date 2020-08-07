@@ -15,19 +15,20 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.phone | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="name" label="昵称" align="center">
-          <template slot-scope="scope">{{ scope.row.name | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | dateFormat }}</template>
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="status" label="账号状态" align="center" class-name="row-switch">
           <template slot-scope="scope">
@@ -47,7 +48,8 @@
       </el-table>
     </div>
     <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages" @current-change="handleCurrentChange" background></el-pagination>
+      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                     @current-change="handleCurrentChange" background></el-pagination>
     </div>
   </div>
 </template>
@@ -81,7 +83,7 @@ export default {
     }),
   },
   methods: {
-    getList: function() {
+    getList: function () {
       this.$http({
         url: '/userorg/backadmin/user',
         method: 'GET',
@@ -98,11 +100,11 @@ export default {
           this.currentPage = res.data.pageNum
         })
     },
-    handleCurrentChange: function(val) { // 页码变更
+    handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
       this.getList()
     },
-    switchStatus(scope){
+    switchStatus(scope) {
       this.loading = true
       this.$http({
         url: '/userorg/backadmin/user',
@@ -121,7 +123,16 @@ export default {
       })
     },
     edit(scope) {
-      this.$router.push({path: '/adminEdit', query: {userId: scope.userId, phone: scope.phone, name: scope.name, passWord: scope.passWord, status: scope.status}})
+      this.$router.push({
+        path: '/adminEdit',
+        query: {
+          userId: scope.userId,
+          phone: scope.phone,
+          name: scope.name,
+          passWord: scope.passWord,
+          status: scope.status
+        }
+      })
     },
     newItem() {
       this.$router.push({path: '/adminEdit'})

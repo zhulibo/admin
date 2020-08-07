@@ -12,19 +12,20 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="roleName" label="角色名" align="center">
-          <template slot-scope="scope">{{ scope.row.roleName | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.roleName | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="name" label="昵称" align="center">
-          <template slot-scope="scope">{{ scope.row.name | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="description" label="描述" align="center">
-          <template slot-scope="scope">{{ scope.row.description | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.description | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="status" label="账号状态" align="center" class-name="row-switch">
           <template slot-scope="scope">
@@ -44,7 +45,8 @@
       </el-table>
     </div>
     <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages" @current-change="handleCurrentChange" background></el-pagination>
+      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                     @current-change="handleCurrentChange" background></el-pagination>
     </div>
   </div>
 </template>
@@ -77,7 +79,7 @@ export default {
     }),
   },
   methods: {
-    getList: function() {
+    getList: function () {
       this.$http({
         url: '/userorg/backadmin/backrole',
         method: 'GET',
@@ -93,11 +95,11 @@ export default {
           this.currentPage = res.data.pageNum
         })
     },
-    handleCurrentChange: function(val) { // 页码变更
+    handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
       this.getList()
     },
-    switchStatus(scope){
+    switchStatus(scope) {
       this.loading = true
       this.$http({
         url: '/userorg/backadmin/user',

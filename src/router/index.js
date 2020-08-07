@@ -85,8 +85,7 @@ export const constantRouter = [
         path: '/adminEdit',
         name: '管理员编辑',
         component: () => import (/* webpackChunkName: "adminEdit" */ '@/views/adminEdit/adminEdit'),
-        meta: {
-        },
+        meta: {},
       }
     ]
   },
@@ -99,8 +98,7 @@ export const constantRouter = [
         path: '/roleEdit',
         name: '角色编辑',
         component: () => import (/* webpackChunkName: "roleEdit" */ 'views/roleEdit/roleEdit'),
-        meta: {
-        },
+        meta: {},
       }
     ]
   },

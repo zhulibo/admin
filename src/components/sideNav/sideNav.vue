@@ -25,53 +25,52 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'sideNav',
-    data() {
-      return {
-      }
-    },
-    created() {
-    },
-    mounted() {
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo,
-        routers: state => state.permission.routers
-      }),
-    },
-    methods: {
-      ...mapMutations(['setUserInfo']),
-    }
+export default {
+  name: 'sideNav',
+  data() {
+    return {}
+  },
+  created() {
+  },
+  mounted() {
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo,
+      routers: state => state.permission.routers
+    }),
+  },
+  methods: {
+    ...mapMutations(['setUserInfo']),
   }
+}
 </script>
 
 <style lang="stylus" scoped>
-  .side-nav{
-    overflow-y: auto;
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    box-sizing: border-box;
-    width: 220px;
-    background-color: #252a2f;
+.side-nav {
+  overflow-y: auto;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 220px;
+  background-color: #252a2f;
+}
+.logo {
+  padding: 10px
+  padding-left: 20px
+  img {
+    height: 3em
   }
-  .logo{
-    padding: 10px
-    padding-left: 20px
-    img{
-      height: 3em
-    }
-  }
-  .iconfont{
-    padding-right: 10px
-  }
-  .el-menu {
-    border-right: none;
-  }
+}
+.iconfont {
+  padding-right: 10px
+}
+.el-menu {
+  border-right: none;
+}
 </style>

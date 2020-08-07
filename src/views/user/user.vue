@@ -25,33 +25,33 @@
           </el-form-item>
         </el-form>
       </div>
-<!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="new" icon="el-icon-plus">新建</el-button>-->
+      <!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="new" icon="el-icon-plus">新建</el-button>-->
     </div>
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.phone | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="nickName" label="昵称" align="center">
-          <template slot-scope="scope">{{ scope.row.nickName | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.nickName | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="sex" label="性别" align="center">
-          <template slot-scope="scope">{{ scope.row.sex | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.sex | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="homesickId" label="漫想家id" align="center">
-          <template slot-scope="scope">{{ scope.row.homesickId | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.homesickId | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="signature" label="签名" align="center">
-          <template slot-scope="scope">{{ scope.row.signature | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.signature | noneToLine}}</template>
         </el-table-column>
-<!--        <el-admin-column label="img" align="center" class-name="row-img">-->
-<!--          <template slot-scope="scope">-->
-<!--            <img :src="scope.row.iconUrl" alt="">-->
-<!--          </template>-->
-<!--        </el-admin-column>-->
+        <!--        <el-admin-column label="img" align="center" class-name="row-img">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <img :src="scope.row.iconUrl" alt="">-->
+        <!--          </template>-->
+        <!--        </el-admin-column>-->
         <el-table-column prop="createTime" label="创建时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | dateFormat }}</template>
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="del" label="账号状态" align="center" class-name="row-switch">
           <template slot-scope="scope">
@@ -66,127 +66,128 @@
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" @click="edit(scope.row)">编辑</el-button>
-<!--            <el-button type="text" @click="delete(scope.row)">删除</el-button>-->
+            <!--            <el-button type="text" @click="delete(scope.row)">删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages" @current-change="handleCurrentChange" background></el-pagination>
+      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                     @current-change="handleCurrentChange" background></el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'user',
-    data() {
-      return {
-        formInline: {
-          isAuthority: '',
-          phone: '',
-          homesickId: '',
-          nickName: '',
-        },
-        tableList: [],
-        pageSize: 10,
-        currentPage: 1,
-        totalPages: null,
-        loading: false, // 加载中
-      }
+export default {
+  name: 'user',
+  data() {
+    return {
+      formInline: {
+        isAuthority: '',
+        phone: '',
+        homesickId: '',
+        nickName: '',
+      },
+      tableList: [],
+      pageSize: 10,
+      currentPage: 1,
+      totalPages: null,
+      loading: false, // 加载中
+    }
+  },
+  created() {
+    this.getList()
+  },
+  mounted() {
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo
+    }),
+  },
+  methods: {
+    getList: function () {
+      this.$http({
+        url: '/userorg/backadmin/appuser',
+        method: 'GET',
+        params: {
+          isAuthority: this.formInline.isAuthority,
+          phone: this.formInline.phone,
+          homesickId: this.formInline.homesickId,
+          nickName: this.formInline.nickName,
+          pageSize: this.pageSize,
+          pageNumber: this.currentPage,
+        }
+      })
+        .then(res => {
+          this.tableList = res.data.list
+          this.totalPages = res.data.pages
+          this.currentPage = res.data.pageNum
+        })
     },
-    created() {
+    handleCurrentChange: function (val) { // 页码变更
+      this.currentPage = val;
       this.getList()
     },
-    mounted() {
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo
-      }),
-    },
-    methods: {
-      getList: function() {
-        this.$http({
-          url: '/userorg/backadmin/appuser',
-          method: 'GET',
-          params: {
-            isAuthority: this.formInline.isAuthority,
-            phone: this.formInline.phone,
-            homesickId: this.formInline.homesickId,
-            nickName: this.formInline.nickName,
-            pageSize: this.pageSize,
-            pageNumber: this.currentPage,
-          }
-        })
-          .then(res => {
-            this.tableList = res.data.list
-            this.totalPages = res.data.pages
-            this.currentPage = res.data.pageNum
-          })
-      },
-      handleCurrentChange: function(val) { // 页码变更
-        this.currentPage = val;
+    switchStatus(scope) {
+      this.loading = true
+      this.$http({
+        url: '/userorg/backadmin/appuser',
+        method: 'PUT',
+        data: {
+          userId: scope.userId,
+          del: scope.del
+        }
+      }).then(res => {
+        this.loading = false
+        this.$message({
+          type: 'success',
+          message: res.msg,
+        });
         this.getList()
-      },
-      switchStatus(scope){
-        this.loading = true
-        this.$http({
-          url: '/userorg/backadmin/appuser',
-          method: 'PUT',
-          data: {
-            userId: scope.userId,
-            del: scope.del
-          }
-        }).then(res => {
-          this.loading = false
-          this.$message({
-            type: 'success',
-            message: res.msg,
-          });
-          this.getList()
-        })
-      },
-      // delete(scope) {
-      //   this.$confirm('确定删除 ' + scope.softName, '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'info'
-      //   }).then(() => {
-      //     this.$http({
-      //       url: '/backSoftware/delSoftware',
-      //       method: 'DELETE',
-      //       params: {
-      //         userId: this.userInfo.userId,
-      //         softId: scope.softId,
-      //       }
-      //     })
-      //       .then(res => {
-      //         if(res.code == 204) {
-      //           this.$message({
-      //             type: 'success',
-      //             message: '已删除 ' + scope.softName,
-      //           });
-      //           this.getList()
-      //         }else {
-      //           this.$message({
-      //             type: 'error',
-      //             message: res.data.message
-      //           })
-      //         }
-      //       })
-      //   }).catch(() => {});
-      // },
-      edit(scope) {
-        this.$router.push({path: '/userEdit', query: {userId: scope.userId}})
-      },
-      // new() {
-      //   this.$router.push({path: '/userEdit'})
-      // },
-    }
+      })
+    },
+    // delete(scope) {
+    //   this.$confirm('确定删除 ' + scope.softName, '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'info'
+    //   }).then(() => {
+    //     this.$http({
+    //       url: '/backSoftware/delSoftware',
+    //       method: 'DELETE',
+    //       params: {
+    //         userId: this.userInfo.userId,
+    //         softId: scope.softId,
+    //       }
+    //     })
+    //       .then(res => {
+    //         if(res.code == 204) {
+    //           this.$message({
+    //             type: 'success',
+    //             message: '已删除 ' + scope.softName,
+    //           });
+    //           this.getList()
+    //         }else {
+    //           this.$message({
+    //             type: 'error',
+    //             message: res.data.message
+    //           })
+    //         }
+    //       })
+    //   }).catch(() => {});
+    // },
+    edit(scope) {
+      this.$router.push({path: '/userEdit', query: {userId: scope.userId}})
+    },
+    // new() {
+    //   this.$router.push({path: '/userEdit'})
+    // },
   }
+}
 </script>
 
 <style lang="stylus" scoped>

@@ -8,7 +8,6 @@ module.exports = {
     proxy: {
       '/api': {
         // target: 'https://app.mxjclub.com',
-        // target: 'http://192.168.0.133:8080',
         target: 'http://192.168.0.146:8080',
         changeOrigin: true,
         ws: true,

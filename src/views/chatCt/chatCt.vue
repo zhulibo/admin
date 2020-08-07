@@ -8,35 +8,34 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'chatCt',
-    components: {
-      'chat': () => import(/* webpackChunkName: "chat" */ '../../components/chat/chat')
-    },
-    data() {
-      return {
-        chatVisible: true
-      }
-    },
-    created() {
-    },
-    mounted() {
-    },
-    computed: {
-    },
-    methods: {
-      closeChat(){
-        this.chatVisible = false
-      }
+export default {
+  name: 'chatCt',
+  components: {
+    'chat': () => import(/* webpackChunkName: "chat" */ '../../components/chat/chat')
+  },
+  data() {
+    return {
+      chatVisible: true
+    }
+  },
+  created() {
+  },
+  mounted() {
+  },
+  computed: {},
+  methods: {
+    closeChat() {
+      this.chatVisible = false
     }
   }
+}
 </script>
 
 <style lang="stylus" scoped>
-  .chatCt{
-    padding: 20px;
-    background-color: #fff;
-  }
+.chatCt {
+  padding: 20px;
+  background-color: #fff;
+}
 </style>

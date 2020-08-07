@@ -6,6 +6,7 @@ import store from './store'
 // element
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+
 Vue.use(ElementUI);
 
 Vue.prototype.$http = axios
@@ -20,5 +21,7 @@ Object.keys(common).forEach(key => {
 new Vue({
   router,
   store,
-  render: function (h) { return h(App) }
+  render: function (h) {
+    return h(App)
+  }
 }).$mount('#app')

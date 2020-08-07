@@ -48,25 +48,25 @@
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="title" label="动态标题" align="center">
-          <template slot-scope="scope">{{ scope.row.title | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.title | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="content" label="内容" align="center">
-          <template slot-scope="scope">{{ scope.row.content | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.content | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="isUser" label="发布人" align="center">
-          <template slot-scope="scope">{{ scope.row.isUser | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.isUser | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="commentNum" label="评论数" align="center">
-          <template slot-scope="scope">{{ scope.row.commentNum | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.commentNum | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="supportNum" label="点赞数" align="center">
-          <template slot-scope="scope">{{ scope.row.supportNum | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.supportNum | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="shareNum" label="分享量" align="center">
-          <template slot-scope="scope">{{ scope.row.shareNum | noneFilter }}</template>
+          <template slot-scope="scope">{{scope.row.shareNum | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | dateFormat }}</template>
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="del" label="是否屏蔽" align="center" class-name="row-switch">
           <template slot-scope="scope">
@@ -81,144 +81,145 @@
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" @click="edit(scope.row)">编辑</el-button>
-<!--            <el-button type="text" @click="delete(scope.row)">删除</el-button>-->
+            <!--            <el-button type="text" @click="delete(scope.row)">删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages" @current-change="handleCurrentChange" background></el-pagination>
+      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                     @current-change="handleCurrentChange" background></el-pagination>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'social',
-    data() {
-      return {
-        formInline: {
-          type: null,
-          del: null,
-          goodId: '',
-          isUser: '',
-          time: '',
-        },
-        pickerOptions: {
-          shortcuts: [
-            {
-              text: '最近一天',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
-                picker.$emit('pick', [start, end]);
-              }
-            },
-            {
-              text: '最近二天',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-                picker.$emit('pick', [start, end]);
-              }
-            },
-            {
-              text: '最近三天',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 3);
-                picker.$emit('pick', [start, end]);
-              }
-            },
-            {
-              text: '最近一周',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                picker.$emit('pick', [start, end]);
-              }
-            },
-            {
-              text: '最近一个月',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                picker.$emit('pick', [start, end]);
-              }
+export default {
+  name: 'social',
+  data() {
+    return {
+      formInline: {
+        type: null,
+        del: null,
+        goodId: '',
+        isUser: '',
+        time: '',
+      },
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: '最近一天',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+              picker.$emit('pick', [start, end]);
             }
-          ]
-        },
-        tableList: [],
-        pageSize: 10,
-        currentPage: 1,
-        totalPages: null,
-        loading: false, // 加载中
-      }
+          },
+          {
+            text: '最近二天',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
+              picker.$emit('pick', [start, end]);
+            }
+          },
+          {
+            text: '最近三天',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 3);
+              picker.$emit('pick', [start, end]);
+            }
+          },
+          {
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          },
+          {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }
+        ]
+      },
+      tableList: [],
+      pageSize: 10,
+      currentPage: 1,
+      totalPages: null,
+      loading: false, // 加载中
+    }
+  },
+  created() {
+    this.getList()
+  },
+  mounted() {
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo
+    }),
+  },
+  methods: {
+    getList: function () {
+      this.$http({
+        url: '/userorg/backadmin/article',
+        method: 'GET',
+        params: {
+          type: this.formInline.type,
+          del: this.formInline.del,
+          goodId: this.formInline.goodId,
+          isUser: this.formInline.isUser,
+          pageSize: this.pageSize,
+          pageNumber: this.currentPage,
+        }
+      })
+        .then(res => {
+          this.tableList = res.data.list
+          this.totalPages = res.data.pages
+          this.currentPage = res.data.pageNum
+        })
     },
-    created() {
+    handleCurrentChange: function (val) { // 页码变更
+      this.currentPage = val;
       this.getList()
     },
-    mounted() {
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo
-      }),
-    },
-    methods: {
-      getList: function() {
-        this.$http({
-          url: '/userorg/backadmin/article',
-          method: 'GET',
-          params: {
-            type: this.formInline.type,
-            del: this.formInline.del,
-            goodId: this.formInline.goodId,
-            isUser: this.formInline.isUser,
-            pageSize: this.pageSize,
-            pageNumber: this.currentPage,
-          }
-        })
-          .then(res => {
-            this.tableList = res.data.list
-            this.totalPages = res.data.pages
-            this.currentPage = res.data.pageNum
-          })
-      },
-      handleCurrentChange: function(val) { // 页码变更
-        this.currentPage = val;
+    switchStatus(scope) {
+      this.loading = true
+      this.$http({
+        url: '/userorg/backadmin/appuser',
+        method: 'PUT',
+        data: {
+          userId: scope.userId,
+          del: scope.del
+        }
+      }).then(res => {
+        this.loading = false
+        this.$message({
+          type: 'success',
+          message: res.msg,
+        });
         this.getList()
-      },
-      switchStatus(scope){
-        this.loading = true
-        this.$http({
-          url: '/userorg/backadmin/appuser',
-          method: 'PUT',
-          data: {
-            userId: scope.userId,
-            del: scope.del
-          }
-        }).then(res => {
-          this.loading = false
-          this.$message({
-            type: 'success',
-            message: res.msg,
-          });
-          this.getList()
-        })
-      },
-      edit(scope) {
-        this.$router.push({path: '/socialEdit', query: {userId: scope.userId}})
-      },
-    }
+      })
+    },
+    edit(scope) {
+      this.$router.push({path: '/socialEdit', query: {userId: scope.userId}})
+    },
   }
+}
 </script>
 
 <style lang="stylus" scoped>

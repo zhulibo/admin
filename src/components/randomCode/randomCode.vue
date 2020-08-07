@@ -1,6 +1,6 @@
 <template>
   <div class="valid-code disabled-select" :style="`width:${width}; height:${height}`" @click="refreshCode">
-    <span v-for="(item, index) in codeList" :key="index" :style="getStyle(item)">{{ item.code }}</span>
+    <span v-for="(item, index) in codeList" :key="index" :style="getStyle(item)">{{item.code}}</span>
   </div>
 </template>
 

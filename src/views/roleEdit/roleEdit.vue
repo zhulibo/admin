@@ -32,97 +32,97 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
-  export default {
-    name: 'roleNew',
-    data() {
-      return {
-        id: '',
-        detail: {},
-        roleList: [],
-        checkedKeys: [],
-        ruleForm: {
-          roleName: '',
-          description: '',
-          privilegeIds: [],
-        },
-        rules: {
-          roleName: [
-            {required: true, message: '请输入', trigger: 'change'}
-          ],
-          description: [
-            {required: true, message: '请输入', trigger: 'change'}
-          ],
-          privilegeIds: [
-            {required: true, message: '请选择', trigger: 'change'}
-          ],
-        },
-      }
-    },
-    created() {
-      this.id = this.$route.query.id
-      if(this.id) this.getDetail();
-      this.getRoleList()
-    },
-    mounted() {
-    },
-    computed: {
-      ...mapState({
-        userInfo: state => state.login.userInfo
-      }),
-    },
-    methods: {
-      ...mapMutations(['setUserInfo']),
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: '/userorg/backadmin/backrole',
-              method: this.id ? 'PUT' : 'POST',
-              data: {
-                id: this.id,
-                roleName: this.ruleForm.roleName,
-                description: this.ruleForm.description,
-                privilegeIds: this.ruleForm.privilegeIds,
-              },
-            }).then(res => {
-              this.$message({
-                type: 'success',
-                message: res.msg
-              });
-              this.$router.push({path: '/role'})
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+export default {
+  name: 'roleNew',
+  data() {
+    return {
+      id: '',
+      detail: {},
+      roleList: [],
+      checkedKeys: [],
+      ruleForm: {
+        roleName: '',
+        description: '',
+        privilegeIds: [],
       },
-      getCheckedKeys() {
-        this.ruleForm.privilegeIds = this.$refs.tree.getCheckedKeys(true)
+      rules: {
+        roleName: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        description: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        privilegeIds: [
+          {required: true, message: '请选择', trigger: 'change'}
+        ],
       },
-      getDetail() {
-        this.$http({
-          url: '/userorg/backadmin/backrole/' + this.id,
-          method: 'GET',
-        }).then(res => {
-          this.detail = res.data
-          this.ruleForm.roleName = this.detail.roleName
-          this.ruleForm.description = this.detail.description
-          this.ruleForm.privilegeIds = this.detail.privilegeIds
-        })
-      },
-      getRoleList() {
-        this.$http({
-          url: '/userorg/backadmin/backprivilege/privilege',
-          method: 'GET',
-        }).then(res => {
-          this.roleList = res.data.child[0].child
-        })
-      }
+    }
+  },
+  created() {
+    this.id = this.$route.query.id
+    if (this.id) this.getDetail();
+    this.getRoleList()
+  },
+  mounted() {
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.login.userInfo
+    }),
+  },
+  methods: {
+    ...mapMutations(['setUserInfo']),
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/userorg/backadmin/backrole',
+            method: this.id ? 'PUT' : 'POST',
+            data: {
+              id: this.id,
+              roleName: this.ruleForm.roleName,
+              description: this.ruleForm.description,
+              privilegeIds: this.ruleForm.privilegeIds,
+            },
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: res.msg
+            });
+            this.$router.push({path: '/role'})
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
-  }
+    getCheckedKeys() {
+      this.ruleForm.privilegeIds = this.$refs.tree.getCheckedKeys(true)
+    },
+    getDetail() {
+      this.$http({
+        url: '/userorg/backadmin/backrole/' + this.id,
+        method: 'GET',
+      }).then(res => {
+        this.detail = res.data
+        this.ruleForm.roleName = this.detail.roleName
+        this.ruleForm.description = this.detail.description
+        this.ruleForm.privilegeIds = this.detail.privilegeIds
+      })
+    },
+    getRoleList() {
+      this.$http({
+        url: '/userorg/backadmin/backprivilege/privilege',
+        method: 'GET',
+      }).then(res => {
+        this.roleList = res.data.child[0].child
+      })
+    }
+  },
+}
 </script>
 
 <style lang="stylus" scoped>
