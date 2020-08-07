@@ -140,6 +140,7 @@ export const constantRouter = [
         component: () => import (/* webpackChunkName: "vueEcharts" */ '@/views/vueEcharts/vueEcharts'),
         meta: {
           icon: 'iconfont icon-bianji',
+          permissions: [1, 2, 3]
         },
       }
     ]
