@@ -203,9 +203,9 @@ export const constantRouter = [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/oss',
-        name: 'oss上传图片',
-        component: () => import (/* webpackChunkName: "oss" */ '@/views/oss/oss'),
+        path: '/imgUpload',
+        name: '上传图片',
+        component: () => import (/* webpackChunkName: "imgUpload" */ '@/views/imgUpload/imgUpload'),
         meta: {
           icon: 'iconfont icon-bianji',
         },

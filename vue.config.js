@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 
 module.exports = {
@@ -7,8 +8,7 @@ module.exports = {
   devServer:{
     proxy: {
       '/api': {
-        // target: 'https://app.mxjclub.com',
-        target: 'http://192.168.0.146:8080',
+        target: process.env.VUE_APP_REAL_URL,
         changeOrigin: true,
         ws: true,
         secure: false, // 默认情况下，不接受运行在HTTPS上且使用了无效证书的后端服务器。
@@ -22,6 +22,12 @@ module.exports = {
     output: {
       chunkFilename: 'js/[name].[chunkhash:8].js' // 不在output.entry中的文件，异步加载模块的文件名。
     },
+    plugins: [
+      new webpack.ProvidePlugin({ // quill-image-resize-module模块配置
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      })
+    ]
   },
   chainWebpack: config => {
     config.plugin('html')

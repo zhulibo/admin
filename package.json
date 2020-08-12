@@ -14,6 +14,7 @@
     "echarts": "^4.8.0",
     "element-ui": "^2.13.2",
     "material-components-web": "^7.0.0",
+    "quill-image-resize-module": "^3.0.0",
     "vue": "^2.6.11",
     "vue-echarts": "^5.0.0-beta.0",
     "vue-quill-editor": "^3.0.6",

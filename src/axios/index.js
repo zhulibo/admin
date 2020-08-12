@@ -2,7 +2,7 @@ import router from '../router'
 import axios from 'axios'
 import {Message} from 'element-ui'
 
-axios.defaults.baseURL = process.env.VUE_APP_URL
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 
 var userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
