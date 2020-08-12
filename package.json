@@ -9,12 +9,14 @@
     "a": "vue-cli-service build && vue-cli-service build --mode test"
   },
   "dependencies": {
+    "ali-oss": "^6.10.0",
     "axios": "^0.19.2",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.2",
     "material-components-web": "^7.0.0",
     "vue": "^2.6.11",
     "vue-echarts": "^5.0.0-beta.0",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },
@@ -22,10 +24,8 @@
     "@vue/cli-plugin-router": "~4.4.0",
     "@vue/cli-plugin-vuex": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
-    "quill-image-extend-module": "^1.1.2",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
-    "vue-quill-editor": "^3.0.6",
     "vue-template-compiler": "^2.6.11"
   }
 }

@@ -4,25 +4,14 @@
       <h2 class="head-title">{{this.$route.name}}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="动态类型">
-            <el-select v-model="formInline.type" placeholder="请选择" @change="getList">
-              <el-option label="全部" value=""></el-option>
-              <el-option label="图片" value="1"></el-option>
-              <el-option label="视频" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="是否屏蔽">
-            <el-select v-model="formInline.del" placeholder="请选择" @change="getList">
-              <el-option label="全部" value=""></el-option>
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="0"></el-option>
-            </el-select>
+          <el-form-item label="">
+            <el-input v-model="formInline.userId" placeholder="评论人id" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.goodId" placeholder="请输入商品id" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.replyUserId" placeholder="被评论人id" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.isUser" placeholder="请输入发布人id" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.content" placeholder="评论内容" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
             <el-date-picker
@@ -47,25 +36,10 @@
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="title" label="动态标题" align="center">
-          <template slot-scope="scope">{{scope.row.title | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="content" label="内容" align="center">
+        <el-table-column prop="content" label="评论内容" align="center">
           <template slot-scope="scope">{{scope.row.content | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="isUser" label="发布人id" align="center">
-          <template slot-scope="scope">{{scope.row.isUser | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="commentNum" label="评论数" align="center">
-          <template slot-scope="scope">{{scope.row.commentNum | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="supportNum" label="点赞数" align="center">
-          <template slot-scope="scope">{{scope.row.supportNum | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="shareNum" label="分享量" align="center">
-          <template slot-scope="scope">{{scope.row.shareNum | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center">
+        <el-table-column prop="content" label="时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="del" label="是否屏蔽" align="center">
@@ -77,7 +51,6 @@
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <el-button type="text" size="medium" class="detail" @click="goSocialCommentList(scope.row)">查看评论</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -96,11 +69,12 @@ export default {
   name: 'item',
   data() {
     return {
+      articleId: '',
       formInline: {
-        type: null,
-        del: null,
-        goodId: '',
-        isUser: '',
+        articleId: '',
+        userId: '',
+        replyUserId: '',
+        content: '',
         time: [],
       },
       pickerOptions: {
@@ -160,6 +134,7 @@ export default {
     }
   },
   created() {
+    this.articleId = this.$route.query.articleId
     this.getList()
   },
   mounted() {
@@ -172,20 +147,19 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/userorg/backadmin/article',
+        url: '/userorg/backadmin/articlecomment',
         method: 'GET',
         params: {
-          type: this.formInline.type,
-          del: this.formInline.del,
-          goodId: this.formInline.goodId,
-          isUser: this.formInline.isUser,
+          articleId: this.articleId,
+          userId: this.formInline.userId,
+          replyUserId: this.formInline.replyUserId,
+          content: this.formInline.content,
           startTime: this.formInline.time ? this.formInline.time[0] : '',
           endTime: this.formInline.time ? this.formInline.time[1] : '',
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
-      })
-        .then(res => {
+      }).then(res => {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
@@ -196,10 +170,7 @@ export default {
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/socialEdit', query: {id: scope.id}})
-    },
-    goSocialCommentList(scope) {
-      this.$router.push({path: '/socialComment', query: {articleId: scope.id}})
+      this.$router.push({path: '/socialCommentEdit', query: {articleId: scope.articleId, id: scope.id, content: scope.content, del: scope.del}})
     },
   }
 }

@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import randomCode from '../../components/randomCode/randomCode'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import randomCode from '@/components/randomCode/randomCode'
 
 export default {
   name: 'login',

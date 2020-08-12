@@ -65,23 +65,41 @@ axios.interceptors.response.use(
           err.message = '请求超时(408)';
           break;
         case 500:
-          err.message = '服务器错误(500)';
+          err.message = '服务器内部错误';
           break;
         case 501:
-          err.message = '服务未实现(501)';
+          err.message = '服务器内部错误';
           break;
         case 502:
-          err.message = '网络错误(502)';
+          err.message = '服务器内部错误';
           break;
         case 503:
-          err.message = '服务不可用(503)';
+          err.message = '服务器内部错误';
           break;
         case 504:
-          err.message = '网络超时(504)';
+          err.message = '服务器内部错误';
           break;
         case 505:
-          err.message = 'HTTP版本不受支持(505)';
+          err.message = '服务器内部错误';
           break;
+        // case 500:
+        //   err.message = '服务器错误(500)';
+        //   break;
+        // case 501:
+        //   err.message = '服务未实现(501)';
+        //   break;
+        // case 502:
+        //   err.message = '网络错误(502)';
+        //   break;
+        // case 503:
+        //   err.message = '服务不可用(503)';
+        //   break;
+        // case 504:
+        //   err.message = '网络超时(504)';
+        //   break;
+        // case 505:
+        //   err.message = 'HTTP版本不受支持(505)';
+        //   break;
         case 802:
           err.message = '请重新登录(802)';
           break;

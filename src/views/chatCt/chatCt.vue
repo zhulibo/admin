@@ -1,23 +1,20 @@
 <template>
   <div class="chatCt">
-    <p @click="chatVisible = !chatVisible">开关</p>
-    <div class="chatCt" v-if="chatVisible">
-      <chat @closeChat="closeChat"></chat>
-    </div>
+    <chat></chat>
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+const chat = () => import(/* webpackChunkName: "chat" */ '@/components/chat/chat')
 
 export default {
   name: 'chatCt',
   components: {
-    'chat': () => import(/* webpackChunkName: "chat" */ '../../components/chat/chat')
+    chat
   },
   data() {
     return {
-      chatVisible: true
     }
   },
   created() {
@@ -26,16 +23,9 @@ export default {
   },
   computed: {},
   methods: {
-    closeChat() {
-      this.chatVisible = false
-    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.chatCt {
-  padding: 20px;
-  background-color: #fff;
-}
 </style>

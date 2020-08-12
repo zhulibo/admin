@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-  name: 'roleNew',
+  name: 'itemEdit',
   data() {
     return {
       id: '',
@@ -87,10 +87,7 @@ export default {
               privilegeIds: this.ruleForm.privilegeIds,
             },
           }).then(res => {
-            this.$message({
-              type: 'success',
-              message: res.msg
-            });
+            this.$message.success(res.msg)
             this.$router.push({path: '/role'})
           })
         } else {

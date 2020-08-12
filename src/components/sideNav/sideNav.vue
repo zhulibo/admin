@@ -4,7 +4,7 @@
       <img src="../../assets/img/left-logo.png" alt="">
     </div>
     <el-menu router :default-active="$route.path" background-color="#252a2f" text-color="#ccc" active-text-color="#fff">
-      <template v-for="(item,index) in routers" v-if="!item.hidden">
+      <template v-if="!item.hidden" v-for="(item,index) in routers">
         <el-submenu :index="String(index)" v-if="item.children.length > 1">
           <template slot="title">
             <i :class="item.meta.icon"></i>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'sideNav',

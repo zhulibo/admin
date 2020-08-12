@@ -25,7 +25,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="new" icon="el-icon-plus">新建</el-button>-->
+      <!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>-->
     </div>
     <div class="table">
       <el-table :data="tableList" v-loading="loading">
@@ -53,20 +53,16 @@
         <el-table-column prop="createTime" label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="del" label="账号状态" align="center" class-name="row-switch">
+        <el-table-column prop="del" label="账号状态" align="center">
           <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.del"
-              :active-value="0"
-              :inactive-value="1"
-              @change=switchStatus(scope.row)>
-            </el-switch>
+            <span v-if="scope.row.del == 0">正常</span>
+            <span v-if="scope.row.del == 1">停用</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" @click="edit(scope.row)">编辑</el-button>
-            <!--            <el-button type="text" @click="delete(scope.row)">删除</el-button>-->
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -79,10 +75,10 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-  name: 'user',
+  name: 'item',
   data() {
     return {
       formInline: {
@@ -143,14 +139,11 @@ export default {
         }
       }).then(res => {
         this.loading = false
-        this.$message({
-          type: 'success',
-          message: res.msg,
-        });
+        this.$message.success(res.msg)
         this.getList()
       })
     },
-    // delete(scope) {
+    // deleteItem(scope) {
     //   this.$confirm('确定删除 ' + scope.softName, '提示', {
     //     confirmButtonText: '确定',
     //     cancelButtonText: '取消',
@@ -180,10 +173,10 @@ export default {
     //       })
     //   }).catch(() => {});
     // },
-    edit(scope) {
+    editItem(scope) {
       this.$router.push({path: '/userEdit', query: {userId: scope.userId}})
     },
-    // new() {
+    // newItem() {
     //   this.$router.push({path: '/userEdit'})
     // },
   }

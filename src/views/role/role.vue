@@ -21,25 +21,13 @@
         <el-table-column prop="roleName" label="角色名" align="center">
           <template slot-scope="scope">{{scope.row.roleName | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="name" label="昵称" align="center">
-          <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
-        </el-table-column>
         <el-table-column prop="description" label="描述" align="center">
           <template slot-scope="scope">{{scope.row.description | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="status" label="账号状态" align="center" class-name="row-switch">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.status"
-              :active-value="0"
-              :inactive-value="1"
-              @change=switchStatus(scope.row)>
-            </el-switch>
-          </template>
-        </el-table-column>
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" @click="edit(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,10 +40,10 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-  name: 'role',
+  name: 'item',
   data() {
     return {
       formInline: {
@@ -99,29 +87,30 @@ export default {
       this.currentPage = val;
       this.getList()
     },
-    switchStatus(scope) {
-      this.loading = true
-      this.$http({
-        url: '/userorg/backadmin/user',
-        method: 'PUT',
-        data: {
-          userId: scope.userId,
-          status: scope.status
-        }
-      }).then(res => {
-        this.loading = false
-        this.$message({
-          type: 'success',
-          message: res.msg,
-        });
-        this.getList()
-      })
-    },
-    edit(scope) {
+    editItem(scope) {
       this.$router.push({path: '/roleEdit', query: {id: scope.id}})
     },
     newItem() {
       this.$router.push({path: '/roleEdit'})
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.roleName, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/userorg/backadmin/backrole/' + scope.id,
+          method: 'DELETE',
+          params: {
+            id: scope.id,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.roleName)
+            this.getList()
+          })
+      }).catch(() => {});
     },
   }
 }

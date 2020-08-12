@@ -5,7 +5,7 @@
         <div class="pic">
           <img src="../../assets/img/logo.png" alt="">
         </div>
-        <span>{{userInfo.username}}</span>
+<!--        <span>{{userInfo.username}}</span>-->
         <i class="el-icon-caret-bottom"></i>
         <p @click="logOut">退出</p>
       </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'headBar',

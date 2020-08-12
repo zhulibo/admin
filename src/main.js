@@ -4,7 +4,7 @@ import router from './router'
 import axios from './axios'
 import store from './store'
 import common from './utils/filters/common' // 过滤器
-import permission from'./utils/btnPermissions'; // 按钮指令
+import btnPermissions from'./utils/btnPermissions/btnPermissions'; // 按钮指令
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 

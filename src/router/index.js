@@ -61,7 +61,7 @@ export const constantRouter = [
       {
         path: '/admin',
         name: '管理员列表',
-        component: () => import (/* webpackChunkName: "admin" */ 'views/admin/admin'),
+        component: () => import (/* webpackChunkName: "admin" */ '@/views/admin/admin'),
         meta: {
           icon: 'iconfont icon-guanliyuan',
         },
@@ -69,7 +69,7 @@ export const constantRouter = [
       {
         path: '/role',
         name: '角色列表',
-        component: () => import (/* webpackChunkName: "role" */ 'views/role/role'),
+        component: () => import (/* webpackChunkName: "role" */ '@/views/role/role'),
         meta: {
           icon: 'iconfont icon-jiaoseleixing',
         },
@@ -97,7 +97,7 @@ export const constantRouter = [
       {
         path: '/roleEdit',
         name: '角色编辑',
-        component: () => import (/* webpackChunkName: "roleEdit" */ 'views/roleEdit/roleEdit'),
+        component: () => import (/* webpackChunkName: "roleEdit" */ '@/views/roleEdit/roleEdit'),
         meta: {},
       }
     ]
@@ -108,11 +108,50 @@ export const constantRouter = [
     children: [
       {
         path: '/social',
-        name: '社交',
+        name: '社交动态',
         component: () => import (/* webpackChunkName: "social" */ '@/views/social/social'),
         meta: {
           icon: 'iconfont icon-pengyouquan',
         },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/socialEdit',
+        name: '社交动态编辑',
+        component: () => import (/* webpackChunkName: "socialEdit" */ '@/views/socialEdit/socialEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/socialComment',
+        name: '社交动态评论',
+        component: () => import (/* webpackChunkName: "socialComment" */ '@/views/socialComment/socialComment'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/socialCommentEdit',
+        name: '社交动态评论编辑',
+        component: () => import (/* webpackChunkName: "socialCommentEdit" */ '@/views/socialCommentEdit/socialCommentEdit'),
+        meta: {},
       }
     ]
   },
@@ -153,6 +192,20 @@ export const constantRouter = [
         path: '/chatCt',
         name: '客服聊天',
         component: () => import (/* webpackChunkName: "chatCt" */ '@/views/chatCt/chatCt'),
+        meta: {
+          icon: 'iconfont icon-bianji',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/oss',
+        name: 'oss上传图片',
+        component: () => import (/* webpackChunkName: "oss" */ '@/views/oss/oss'),
         meta: {
           icon: 'iconfont icon-bianji',
         },

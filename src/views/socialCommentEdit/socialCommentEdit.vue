@@ -5,17 +5,14 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="支付密码" prop="payPwd">
-          <el-input v-model="ruleForm.payPwd"></el-input>
+        <el-form-item label="评论内容" prop="content">
+          <el-input type="textarea" v-model="ruleForm.content" maxlength="200" rows="4"></el-input>
         </el-form-item>
-        <el-form-item label="用户充值密码" prop="passWord">
-          <el-input v-model="ruleForm.passWord"></el-input>
-        </el-form-item>
-        <el-form-item label="账户状态" prop="del">
+        <el-form-item label="是否屏蔽" prop="del">
           <el-switch
             v-model="ruleForm.del"
-            :active-value="0"
-            :inactive-value="1">
+            :active-value="1"
+            :inactive-value="0">
           </el-switch>
         </el-form-item>
         <el-form-item>
@@ -33,23 +30,22 @@ export default {
   name: 'itemEdit',
   data() {
     return {
-      userId: '',
+      articleId: '',
+      id: '',
       detail: {},
       ruleForm: {
-        payPwd: '',
-        passWord: '',
+        content: '',
         del: '',
       },
       rules: {
-        payPwd: [],
-        passWord: [],
-        del: [],
       },
     }
   },
   created() {
-    this.userId = this.$route.query.userId
-    if(this.userId) this.getdetail()
+    this.articleId = this.$route.query.articleId
+    this.id = this.$route.query.id
+    this.ruleForm.content = this.$route.query.content
+    this.ruleForm.del = this.$route.query.del
   },
   mounted() {
   },
@@ -60,33 +56,20 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getdetail() {
-      this.$http({
-        url: '/userorg/backadmin/appuser/detail/' + this.userId,
-        method: 'GET',
-      })
-        .then(res => {
-          this.detail = res.data
-          this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
-          this.ruleForm.passWord = this.detail.passWord
-          this.ruleForm.del = this.detail.del
-        })
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/userorg/backadmin/appuser',
+            url: '/userorg/backadmin/articlecomment',
             method: 'PUT',
             data: {
-              userId: this.userId,
-              payPwd: this.ruleForm.payPwd,
-              passWord: this.ruleForm.passWord,
+              id: this.id,
+              content: this.ruleForm.content,
               del: this.ruleForm.del,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/user'})
+            this.$router.push({path: '/socialComment', query: {articleId: this.articleId}})
           })
         } else {
           console.log('error submit!!');

@@ -14,7 +14,17 @@
         <el-form-item label="登录密码" prop="passWord">
           <el-input v-model="ruleForm.passWord"></el-input>
         </el-form-item>
-        <el-form-item label="账户状态" prop="status">
+        <el-form-item label="角色" prop="tbBackRoleList">
+          <el-select v-model="ruleForm.tbBackRoleList" multiple placeholder="请选择">
+            <el-option
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否启用" prop="status">
           <el-switch
             v-model="ruleForm.status"
             :active-value="0"
@@ -30,34 +40,35 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-  name: 'appEdit',
+  name: 'itemEdit',
   data() {
     return {
-      userId: '',
+      id: '',
+      roleList: [],
       detail: {},
       ruleForm: {
         phone: '',
         name: '',
         passWord: '',
-        status: '',
+        tbBackRoleList: [],
+        status: 0,
       },
       rules: {
         phone: [],
         name: [],
         passWord: [],
+        tbBackRoleList: [],
         status: [],
       },
     }
   },
   created() {
-    this.userId = this.$route.query.userId
-    this.ruleForm.phone = this.$route.query.phone
-    this.ruleForm.name = this.$route.query.name
-    this.ruleForm.passWord = this.$route.query.passWord
-    this.ruleForm.status = this.$route.query.status
+    this.id = this.$route.query.id
+    if (this.id) this.getDetail();
+    this.getRoleList()
   },
   mounted() {
   },
@@ -68,24 +79,50 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
+    getDetail() {
+      this.$http({
+        url: '/userorg/backadmin/user/' + this.id,
+        method: 'GET',
+      }).then(res => {
+        this.detail = res.data
+        this.ruleForm.phone = this.detail.phone
+        this.ruleForm.passWord = this.detail.passWord
+        this.ruleForm.name = this.detail.name
+        this.ruleForm.status = this.detail.status
+        for (let i = 0; i < this.detail.tbBackRoleList.length; i++){
+          this.ruleForm.tbBackRoleList.push(this.detail.tbBackRoleList[i].id)
+        }
+      })
+    },
+    getRoleList: function () {
+      this.$http({
+        url: '/userorg/backadmin/backrole',
+        method: 'GET',
+      })
+        .then(res => {
+          this.roleList = res.data.list
+        })
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
+        let tbBackRoleList = []
+        for (let i = 0; i < this.ruleForm.tbBackRoleList.length; i++){
+          tbBackRoleList.push({id: this.ruleForm.tbBackRoleList[i]})
+        }
         if (valid) {
           this.$http({
             url: '/userorg/backadmin/user',
-            method: this.userId ? 'PUT' : 'POST',
+            method: this.id ? 'PUT' : 'POST',
             data: {
-              id: this.userId,
+              id: this.id,
               phone: this.ruleForm.phone,
               name: this.ruleForm.name,
               passWord: this.ruleForm.passWord,
+              tbBackRoleList: tbBackRoleList,
               status: this.ruleForm.status,
             },
           }).then(res => {
-            this.$message({
-              type: 'success',
-              message: res.msg
-            });
+            this.$message.success(res.msg)
             this.$router.push({path: '/admin'})
           })
         } else {
