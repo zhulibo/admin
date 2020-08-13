@@ -6,7 +6,6 @@ let timestampToDate = value => {
   let d = dt.getDate();
   let hh = dt.getHours();
   let mm = dt.getMinutes();
-  let ss = dt.getSeconds();
 
   function checkTime(i) {
     if (i < 10) {
@@ -15,11 +14,12 @@ let timestampToDate = value => {
     return i;
   }
 
+  m = checkTime(m);
+  d = checkTime(d);
   hh = checkTime(hh);
   mm = checkTime(mm);
-  ss = checkTime(ss);
 
-  return y + "-" + m + "-" + d + "  " + hh + ":" + mm + ":" + ss
+  return y + "-" + m + "-" + d + "  " + hh + ":" + mm
 }
 
 let noneToLine = value => {

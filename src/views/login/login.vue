@@ -54,10 +54,10 @@ export default {
       },
       rules: {
         account: [
-          {required: true, message: '请输入', trigger: 'change'},
+          {required: true, message: '请输入', trigger: 'blur'},
         ],
         password: [
-          {required: true, message: '请输入', trigger: 'change'},
+          {required: true, message: '请输入', trigger: 'blur'},
         ],
         randomCode: [
           {validator: validateRandomCode, trigger: 'blur'}

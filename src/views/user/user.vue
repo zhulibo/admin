@@ -50,7 +50,7 @@
         <!--            <img :src="scope.row.iconUrl" alt="">-->
         <!--          </template>-->
         <!--        </el-admin-column>-->
-        <el-table-column prop="createTime" label="创建时间" align="center">
+        <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="del" label="账号状态" align="center">

@@ -27,7 +27,7 @@
         <el-table-column prop="name" label="昵称" align="center">
           <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center">
+        <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="tbBackRoleList" label="角色" align="center">
