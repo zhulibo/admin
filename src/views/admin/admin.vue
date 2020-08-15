@@ -19,16 +19,16 @@
       </el-button>
     </div>
     <div class="table">
-      <el-table :data="tableList" v-loading="loading">
+      <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="时间" align="center">
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+        </el-table-column>
         <el-table-column prop="phone" label="手机号" align="center">
           <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="name" label="昵称" align="center">
           <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="tbBackRoleList" label="角色" align="center">
           <template slot-scope="scope">
@@ -47,10 +47,10 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
-    <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
-                     @current-change="handleCurrentChange" background></el-pagination>
+      <div class="pagination-ct clearfix">
+        <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                       @current-change="handleCurrentChange" background></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -70,7 +70,6 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
-      loading: false, // 加载中
     }
   },
   created() {
@@ -99,7 +98,7 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        })
+        }).catch(res => {console.log(res)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;

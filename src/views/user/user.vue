@@ -28,8 +28,12 @@
       <!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>-->
     </div>
     <div class="table">
-      <el-table :data="tableList" v-loading="loading">
+      <el-table :data="tableList">
+<!--      <el-table :data="tableList" v-loading="loading">-->
         <el-table-column type="index" label="序号" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="时间" align="center">
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+        </el-table-column>
         <el-table-column prop="phone" label="手机号" align="center">
           <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
         </el-table-column>
@@ -50,9 +54,6 @@
         <!--            <img :src="scope.row.iconUrl" alt="">-->
         <!--          </template>-->
         <!--        </el-admin-column>-->
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
-        </el-table-column>
         <el-table-column prop="del" label="账号状态" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.del == 0">正常</span>
@@ -66,10 +67,10 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
-    <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
-                     @current-change="handleCurrentChange" background></el-pagination>
+      <div class="pagination-ct clearfix">
+        <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                       @current-change="handleCurrentChange" background></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -91,7 +92,7 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
-      loading: false, // 加载中
+      // loading: false, // 加载中
     }
   },
   created() {
@@ -122,27 +123,27 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        })
+        }).catch(res => {console.log(res)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
       this.getList()
     },
-    switchStatus(scope) {
-      this.loading = true
-      this.$http({
-        url: '/userorg/backadmin/appuser',
-        method: 'PUT',
-        data: {
-          userId: scope.userId,
-          del: scope.del
-        }
-      }).then(res => {
-        this.loading = false
-        this.$message.success(res.msg)
-        this.getList()
-      })
-    },
+    // switchStatus(scope) {
+    //   this.loading = true
+    //   this.$http({
+    //     url: '/userorg/backadmin/appuser',
+    //     method: 'PUT',
+    //     data: {
+    //       userId: scope.userId,
+    //       del: scope.del
+    //     }
+    //   }).then(res => {
+    //     this.loading = false
+    //     this.$message.success(res.msg)
+    //     this.getList()
+    //   }).catch(res => {console.log(res)})
+    // },
     // deleteItem(scope) {
     //   this.$confirm('确定删除 ' + scope.softName, '提示', {
     //     confirmButtonText: '确定',
@@ -170,8 +171,8 @@ export default {
     //             message: res.data.message
     //           })
     //         }
-    //       })
-    //   }).catch(() => {});
+    //       }).catch(res => {console.log(res)})
+    //   }).catch(res => {console.log(res)})
     // },
     editItem(scope) {
       this.$router.push({path: '/userEdit', query: {userId: scope.userId}})

@@ -45,12 +45,15 @@
       </div>
     </div>
     <div class="table">
-      <el-table :data="tableList" v-loading="loading">
+      <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="时间" align="center">
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+        </el-table-column>
         <el-table-column prop="title" label="动态标题" align="center">
           <template slot-scope="scope">{{scope.row.title | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="content" label="内容" align="center">
+        <el-table-column prop="content" label="内容" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{scope.row.content | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="isUser" label="发布人id" align="center">
@@ -65,9 +68,6 @@
         <el-table-column prop="shareNum" label="分享量" align="center">
           <template slot-scope="scope">{{scope.row.shareNum | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
-        </el-table-column>
         <el-table-column prop="del" label="是否屏蔽" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.del == 0">正常</span>
@@ -81,10 +81,10 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
-    <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
-                     @current-change="handleCurrentChange" background></el-pagination>
+      <div class="pagination-ct clearfix">
+        <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                       @current-change="handleCurrentChange" background></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -156,7 +156,6 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
-      loading: false, // 加载中
     }
   },
   created() {
@@ -189,7 +188,7 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        })
+        }).catch(res => {console.log(res)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;

@@ -34,19 +34,20 @@
       </div>
     </div>
     <div class="table">
-      <el-table :data="tableList" v-loading="loading">
+      <el-table :data="tableList" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="userId" label="漫想家id" align="center">
-          <template slot-scope="scope">{{scope.row.userId | noneToLine}}</template>
+        <el-table-column prop="createTime" label="时间" align="center">
+          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+        </el-table-column>
+        <el-table-column prop="userId" label="id" align="center">
+          <template slot-scope="scope">{{scope.row.id | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="remark" label="申请内容" align="center">
           <template slot-scope="scope">{{scope.row.remark | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="applyImage" label="申请图片" align="center" class-name="row-img">
           <template slot-scope="scope"><img :src="scope.row.applyImage" alt=""></template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
@@ -58,14 +59,31 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-dropdown @command="handleCommand" :show-timeout="50">
+              <span class="el-dropdown-link">操作<i class="el-icon-arrow-down el-icon--right"></i></span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">通过</el-dropdown-item>
+                <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">拒绝</el-dropdown-item>
+                <el-dropdown-item :command="beforeHandleCommand(scope.row,'4')">踢出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </template>
         </el-table-column>
       </el-table>
-    </div>
-    <div class="pagination-ct">
-      <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
-                     @current-change="handleCurrentChange" background></el-pagination>
+      <div class="pagination-ct clearfix">
+        <div class="manage-batch">
+          <el-dropdown @command="handleCommand" :show-timeout="50">
+            <el-button size="small" class="el-dropdown-link">批量操作</el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="3">通过</el-dropdown-item>
+              <el-dropdown-item command="2">拒绝</el-dropdown-item>
+              <el-dropdown-item command="4">踢出</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
+                       @current-change="handleCurrentChange" background></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -134,7 +152,7 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
-      loading: false, // 加载中
+      multipleSelection: []
     }
   },
   created() {
@@ -166,7 +184,7 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        })
+        }).catch(res => {console.log(res)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
@@ -175,6 +193,38 @@ export default {
     editItem(scope) {
       this.$router.push({path: '/tribeEdit', query: {id: scope.id}})
     },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    beforeHandleCommand(row, command){
+      return {
+        'row': row,
+        'command':command
+      }
+    },
+    handleCommand(command) {
+      let type = Object.prototype.toString.call(command)
+      let ids = []
+      let status = ''
+      if(type == '[object Object]') {
+        ids = command.row.id
+        status = command.command
+      }else{
+        ids = this.multipleSelection
+        status = command
+      }
+      this.$http({
+        url: '/userorg/backadmin/tribe/updatetribeuser',
+        method: 'PUT',
+        params: {
+          ids: ids,
+          status: status
+        }
+      })
+        .then(res => {
+          this.$message.success(res.msg)
+        }).catch(res => {console.log(res)})
+    }
   }
 }
 </script>

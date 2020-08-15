@@ -33,19 +33,17 @@ export default {
   methods: {
     ...mapMutations(['setUserInfo']),
     logOut: function () {
-      var _this = this
-      _this.$http({
+      this.$http({
         url: '/userorg/login/back/out',
         method: 'POST',
         data: {
           token: this.userInfo
         }
       })
-        .then(function (res) {
-          console.log(res)
+        .then(res => {
           localStorage.clear();
-          _this.$router.push({path: '/login'})
-        })
+          this.$router.push({path: '/login'})
+        }).catch(res => {console.log(res)})
     },
   }
 }

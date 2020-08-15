@@ -89,7 +89,7 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/role'})
-          })
+          }).catch(res => {console.log(res)})
         } else {
           console.log('error submit!!');
           return false;
@@ -108,7 +108,7 @@ export default {
         this.ruleForm.roleName = this.detail.roleName
         this.ruleForm.description = this.detail.description
         this.ruleForm.privilegeIds = this.detail.privilegeIds
-      })
+      }).catch(res => {console.log(res)})
     },
     getRoleList() {
       this.$http({
@@ -116,7 +116,7 @@ export default {
         method: 'GET',
       }).then(res => {
         this.roleList = res.data.child[0].child
-      })
+      }).catch(res => {console.log(res)})
     }
   },
 }

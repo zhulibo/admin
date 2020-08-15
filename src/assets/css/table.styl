@@ -22,7 +22,12 @@
 }
 .table {
   margin-top: 15px
+  padding: 10px 20px 15px
+  background-color: #fff
   box-shadow 0 0 3px rgba(0, 0, 0, .1)
+}
+.el-tooltip__popper{
+  max-width 800px
 }
 .row-img img {
   height: 3em
@@ -42,9 +47,16 @@
   color: red
 }
 .pagination-ct {
+  overflow: hidden
   margin-top: 20px
-  text-align: center
+  .manage-batch{
+    float: left
+    display: inline-block
+  }
+  .el-pagination{
+    float: right
+    display: inline-block
+  }
 }
 .pagination-ct .el-pagination.is-background .el-pager li {
-  background-color: #fefefe
 }

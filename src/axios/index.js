@@ -25,24 +25,29 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   res => {
 
-    if (res.data.code == 802) {
-      Message({
-        message: res.data.msg + `(${res.data.code})`,
-        type: 'error',
-        duration: 3000
-      })
-      router.push({path: '/logIn'})
+    switch (res.data.code) {
+
+      case 802:
+        Message({
+          message: res.data.msg + `(${res.data.code})`,
+          type: 'error',
+          duration: 3000
+        })
+        router.push({path: '/logIn'})
+        return Promise.reject(res); // 请求结果异常(code!=0)进入catch函数，避免报错
+
+      case 0:
+        return res.data;
+
+      default:
+        Message({
+          message: res.data.msg + `(${res.data.code})`,
+          type: 'error',
+          duration: 3000
+        })
+        return Promise.reject(res); // 请求结果异常(code!=0)进入catch函数，避免报错
     }
 
-    if (res.data.code != 0) {
-      Message({
-        message: res.data.msg + `(${res.data.code})`,
-        type: 'error',
-        duration: 3000
-      })
-    }
-
-    return res.data;
   },
   err => {
 

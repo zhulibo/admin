@@ -97,7 +97,7 @@ export default {
               this.setUserInfo(res.data)
               // this.updateRouter(res.data.roleSet)
               this.$router.push({path: '/user'})
-            })
+            }).catch(res => {console.log(res)})
 
         } else {
           console.log('error submit!!');

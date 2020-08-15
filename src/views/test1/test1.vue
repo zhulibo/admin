@@ -13,23 +13,11 @@ export default {
     return {}
   },
   created() {
-    // var _this = this
-    // async function fn() {
-    //   await _this.$http({
-    //     url: 'https://back.goku.vip/backSoftware/backAppList',
-    //     method: 'GET',
-    //   })
-    //     .then(res => {
-    //     })
-    //   console.log(4)
-    // }
+    let fn = async () => {
+      let res = await this.getList()
+      console.log(res)
+    }
     // fn()
-
-    // let promise = new Promise((resolve, reject) => {
-    //   resolve(res)
-    // })
-    // promise.then(function (res) {
-    // })
   },
   mounted() {
   },
@@ -38,7 +26,23 @@ export default {
       userInfo: state => state.login.userInfo
     }),
   },
-  methods: {}
+  methods: {
+    getList() {
+      return new Promise( (resolve, reject) => {
+        this.$http({
+          url: '/userorg/backadmin/appuser',
+          method: 'GET',
+          params: {
+            pageSize: 10,
+            pageNumber: 1,
+          }
+        })
+          .then(res => {
+            resolve(res);
+          }).catch(res => {console.log(res)})
+      })
+    }
+  }
 }
 </script>
 

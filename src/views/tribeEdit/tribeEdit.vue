@@ -8,33 +8,11 @@
         <el-form-item label="部落名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="部落logo" prop="logoImage" class="form-item-logoImage">
-          <el-upload
-            :headers="{Authorization: userInfo}"
-            :action="this.global.baseUrl + '/userorg/backadmin/uploading'"
-            list-type="picture-card"
-            accept='.jpg,.jpeg,.png,.gif'
-            :multiple="true"
-            :file-list="logoImageFileList"
-            :on-success="handleLogoImageSuccess"
-            :on-remove="handleLogoImageRemove"
-            :on-exceed="handleLogoImageexceed">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+        <el-form-item label="部落logo" prop="logoImage" class="form-item-img-logo">
+          <img-upload v-model="ruleForm.logoImage" :options="logoImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="部落背景图片" prop="topImage" class="form-item-topImage">
-          <el-upload
-            :headers="{Authorization: userInfo}"
-            :action="this.global.baseUrl + '/userorg/backadmin/uploading'"
-            list-type="picture-card"
-            accept='.jpg,.jpeg,.png,.gif'
-            :multiple="true"
-            :file-list="topImageFileList"
-            :on-success="handleTopImageSuccess"
-            :on-remove="handleTopImageRemove"
-            :on-exceed="handleTopImageexceed">
-            <i class="el-icon-plus"></i>
-          </el-upload>
+        <el-form-item label="部落背景图片" prop="topImage" class="form-item-img-top">
+          <img-upload v-model="ruleForm.topImage" :options="topImgOptions"></img-upload>
         </el-form-item>
         <el-form-item label="部落公告" prop="notice">
           <el-input v-model="ruleForm.notice"></el-input>
@@ -71,6 +49,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
 
 export default {
   name: 'itemEdit',
@@ -78,12 +57,20 @@ export default {
     return {
       id: '',
       detail: {},
-      logoImageFileList: [], // logoImage反显
-      topImageFileList: [], // topImage反显
+      logoImgOptions: {
+        fileList: [],
+        accept: '.jpg,.jpeg,.png,.gif',
+        limit: 1
+      },
+      topImgOptions: {
+        fileList: [],
+        accept: '.jpg,.jpeg,.png,.gif',
+        limit: 1
+      },
       ruleForm: {
         name: '',
-        logoImage: '',
-        topImage: '',
+        logoImage: [],
+        topImage: [],
         notice: '',
         noticeTitle: '',
         adminUser: '',
@@ -116,6 +103,9 @@ export default {
       },
     }
   },
+  components: {
+    imgUpload
+  },
   created() {
     this.id = this.$route.query.id
     if(this.id) this.getdetail()
@@ -137,48 +127,15 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
-          this.ruleForm.logoImage = this.detail.logoImage
-          this.ruleForm.topImage = this.detail.topImage
-          this.logoImageFileList.push({url: this.detail.logoImage})
-          this.topImageFileList.push({url: this.detail.topImage})
+          this.logoImgOptions.fileList.push({url: this.detail.logoImage})
+          this.topImgOptions.fileList.push({url: this.detail.topImage})
           this.ruleForm.notice = this.detail.notice
           this.ruleForm.noticeTitle = this.detail.noticeTitle
           this.ruleForm.adminUser = this.detail.adminUser
           this.ruleForm.type = String(this.detail.type) // el-select必须字符串
           this.ruleForm.isRecommend = this.detail.isRecommend
           this.ruleForm.del = this.detail.del
-        })
-    },
-    handleLogoImageSuccess(res, file, fileList) {
-      console.log('res', res)
-      console.log('file', file)
-      console.log('fileList', fileList)
-      this.ruleForm.logoImage = file.response.data
-    },
-    handleLogoImageRemove(file, fileList) {
-      console.log('file', file)
-      console.log('fileList', fileList)
-      this.ruleForm.logoImage = ''
-    },
-    handleLogoImageexceed(file, fileList) {
-      console.log('file', file)
-      console.log('fileList', fileList)
-    },
-    handleTopImageSuccess(res, file, fileList) {
-      console.log('res', res)
-      console.log('file', file)
-      console.log('fileList', fileList)
-      this.ruleForm.topImage = file.response.data
-    },
-    handleTopImageRemove(file, fileList) {
-      console.log('file', file)
-      console.log('fileList', fileList)
-      this.ruleForm.topImage = ''
-
-    },
-    handleTopImageexceed(file, fileList) {
-      console.log('file', file)
-      console.log('fileList', fileList)
+        }).catch(res => {console.log(res)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -189,8 +146,8 @@ export default {
             data: {
               id: this.id ? this.id : '',
               name: this.ruleForm.name,
-              logoImage: this.ruleForm.logoImage,
-              topImage: this.ruleForm.topImage,
+              logoImage: this.ruleForm.logoImage[0],
+              topImage: this.ruleForm.topImage[0],
               notice: this.ruleForm.notice,
               noticeTitle: this.ruleForm.noticeTitle,
               adminUser: this.ruleForm.adminUser,
@@ -201,7 +158,7 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/tribe'})
-          })
+          }).catch(res => {console.log(res)})
         } else {
           console.log('error submit!!');
           return false;
