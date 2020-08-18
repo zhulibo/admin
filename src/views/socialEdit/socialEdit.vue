@@ -102,7 +102,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    this.getdetail()
+    this.getDetail()
   },
   mounted() {
   },
@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getdetail() {
+    getDetail() {
       this.$http({
         url: '/userorg/backadmin/article/' + this.id,
         method: 'GET',
@@ -130,7 +130,7 @@ export default {
           this.ruleForm.isTop = this.detail.isTop
           this.logoImgOptions.type = this.detail.type == 1 ? '1' : '2'
           this.logoImgOptions.accept = this.detail.type == 1 ? '.jpg,.jpeg,.png,.gif' : '.mp4'
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     switchStatus(item) {
       this.$http({
@@ -143,7 +143,7 @@ export default {
         }
       }).then(res => {
         this.$message.success(res.msg)
-      }).catch(res => {console.log(res)})
+      }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -171,13 +171,13 @@ export default {
             }).then(res => {
               this.$message.success(res.msg)
               this.$router.push({path: '/social'})
-            }).catch(res => {console.log(res)})
+            }).catch(e => {console.log(e)})
 
           }
           submitForm()
 
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });

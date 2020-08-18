@@ -92,7 +92,7 @@ export default {
         for (let i = 0; i < this.detail.tbBackRoleList.length; i++){
           this.ruleForm.tbBackRoleList.push(this.detail.tbBackRoleList[i].id)
         }
-      }).catch(res => {console.log(res)})
+      }).catch(e => {console.log(e)})
     },
     getRoleList: function () {
       this.$http({
@@ -101,7 +101,7 @@ export default {
       })
         .then(res => {
           this.roleList = res.data.list
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -124,9 +124,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/admin'})
-          }).catch(res => {console.log(res)})
+          }).catch(e => {console.log(e)})
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });

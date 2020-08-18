@@ -18,7 +18,7 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
         </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{scope.row.name}}</template>
@@ -96,17 +96,17 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/userEdit', query: {id: scope.id}})
+      this.$router.push({path: '/classifyLevelOneEdit', query: {id: scope.id}})
     },
     newItem() {
-      this.$router.push({path: '/userEdit'})
+      this.$router.push({path: '/classifyLevelOneEdit'})
     },
   }
 }

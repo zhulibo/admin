@@ -35,18 +35,18 @@ export default {
     createdCode() {
       const len = this.length
       const codeList = []
-      const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz0123456789'
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
       const charsLen = chars.length
       // 生成
       for (let i = 0; i < len; i++) {
-        const rgb = [Math.round(Math.random() * 220), Math.round(Math.random() * 240), Math.round(Math.random() * 200)]
+        const rgb = [Math.round(Math.random() * 220), Math.round(Math.random() * 220), Math.round(Math.random() * 220)]
         codeList.push({
           code: chars.charAt(Math.floor(Math.random() * charsLen)),
           color: `rgb(${rgb})`,
-          fontSize: `18px`,
+          fontSize: `20px`,
           // fontSize: `1${[Math.floor(Math.random() * 10)]}px`,
           padding: `${[Math.floor(Math.random() * 10)]}px`,
-          transform: `rotate(${Math.floor(Math.random() * 90) - Math.floor(Math.random() * 90)}deg)`
+          transform: `rotate(${Math.floor(Math.random() * 45) - Math.floor(Math.random() * 45)}deg)`
         })
       }
       // 指向

@@ -123,7 +123,7 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
@@ -142,7 +142,7 @@ export default {
     //     this.loading = false
     //     this.$message.success(res.msg)
     //     this.getList()
-    //   }).catch(res => {console.log(res)})
+    //   }).catch(e => {console.log(e)})
     // },
     // deleteItem(scope) {
     //   this.$confirm('确定删除 ' + scope.softName, '提示', {
@@ -171,8 +171,8 @@ export default {
     //             message: res.data.message
     //           })
     //         }
-    //       }).catch(res => {console.log(res)})
-    //   }).catch(res => {console.log(res)})
+    //       }).catch(e => {console.log(e)})
+    //   }).catch(e => {console.log(e)})
     // },
     editItem(scope) {
       this.$router.push({path: '/userEdit', query: {userId: scope.userId}})

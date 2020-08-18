@@ -4,25 +4,21 @@
       <h2 class="head-title">{{this.$route.name}}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="动态类型">
-            <el-select v-model="formInline.type" placeholder="请选择" @change="getList">
-              <el-option label="全部" value=""></el-option>
-              <el-option label="图片" value="1"></el-option>
-              <el-option label="视频" value="2"></el-option>
-            </el-select>
+          <el-form-item label="">
+            <el-input v-model="formInline.title" placeholder="请输入商品名称" @keyup.enter.native="getList"></el-input>
           </el-form-item>
-          <el-form-item label="是否屏蔽">
-            <el-select v-model="formInline.del" placeholder="请选择" @change="getList">
+          <el-form-item label="上下架">
+            <el-select v-model="formInline.isUp" placeholder="请选择" @change="getList">
               <el-option label="全部" value=""></el-option>
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="0"></el-option>
+              <el-option label="上架" value="0"></el-option>
+              <el-option label="下架" value="1"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.goodId" placeholder="请输入商品id" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.minSort" placeholder="最小分值" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.isUser" placeholder="请输入发布人id" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.maxSort" placeholder="最大分值" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item label="">
             <el-date-picker
@@ -43,6 +39,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
@@ -50,34 +47,39 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="title" label="动态标题" align="center">
-          <template slot-scope="scope">{{scope.row.title | noneToLine}}</template>
+        <el-table-column prop="title" label="商品名称" align="center">
+          <template slot-scope="scope">{{scope.row.title}}</template>
         </el-table-column>
-        <el-table-column prop="content" label="内容" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{scope.row.content | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="isUser" label="发布人id" align="center">
-          <template slot-scope="scope">{{scope.row.isUser | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="commentNum" label="评论数" align="center">
-          <template slot-scope="scope">{{scope.row.commentNum | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="supportNum" label="点赞数" align="center">
-          <template slot-scope="scope">{{scope.row.supportNum | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="shareNum" label="分享量" align="center">
-          <template slot-scope="scope">{{scope.row.shareNum | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="del" label="是否屏蔽" align="center">
+        <el-table-column prop="listedImage" label="列表图片" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <span v-if="scope.row.del == 0">正常</span>
-            <span v-if="scope.row.del == 1">已屏蔽</span>
+            <img :src="scope.row.listedImage" alt="">
+          </template>
+        </el-table-column>
+        <el-table-column prop="sellPrice" label="销售价格" align="center">
+          <template slot-scope="scope">{{scope.row.sellPrice}}</template>
+        </el-table-column>
+        <el-table-column prop="realNumber" label="真实销量" align="center">
+          <template slot-scope="scope">{{scope.row.realNumber}}</template>
+        </el-table-column>
+        <el-table-column prop="sellNumber" label="维护销量" align="center">
+          <template slot-scope="scope">{{scope.row.sellNumber}}</template>
+        </el-table-column>
+        <el-table-column prop="sort" label="商品分数" align="center">
+          <template slot-scope="scope">{{scope.row.sort}}</template>
+        </el-table-column>
+        <el-table-column prop="isUp" label="商品状态" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.isUp"
+              :active-value="0"
+              :inactive-value="1"
+              @change=switchStatus(scope.row)>
+            </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <el-button type="text" size="medium" class="detail" @click="goSocialCommentList(scope.row)">查看评论</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -97,10 +99,10 @@ export default {
   data() {
     return {
       formInline: {
-        type: null,
-        del: null,
-        goodId: '',
-        isUser: '',
+        title: '',
+        isUp: '',
+        minSort: '',
+        maxSort: '',
         time: [],
       },
       pickerOptions: {
@@ -171,13 +173,13 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/userorg/backadmin/article',
+        url: '/goodsmanage/backadmin/goods',
         method: 'GET',
         params: {
-          type: this.formInline.type,
-          del: this.formInline.del,
-          goodId: this.formInline.goodId,
-          isUser: this.formInline.isUser,
+          title: this.formInline.title,
+          isUp: this.formInline.isUp,
+          minSort: this.formInline.minSort,
+          maxSort: this.formInline.maxSort,
           startTime: this.formInline.time ? this.formInline.time[0] : '',
           endTime: this.formInline.time ? this.formInline.time[1] : '',
           pageSize: this.pageSize,
@@ -194,11 +196,27 @@ export default {
       this.currentPage = val;
       this.getList()
     },
-    editItem(scope) {
-      this.$router.push({path: '/socialEdit', query: {id: scope.id}})
+    switchStatus(scope) {
+      this.$http({
+        url: '/goodsmanage/backadmin/goods/goodsisup',
+        method: 'PUT',
+        data: {
+          id: scope.id,
+          isUp: scope.isUp
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+        this.getList()
+      }).catch(e => {
+        this.$message.error(e)
+        this.getList()
+      })
     },
-    goSocialCommentList(scope) {
-      this.$router.push({path: '/socialComment', query: {articleId: scope.id}})
+    editItem(scope) {
+      this.$router.push({path: '/goodsEdit', query: {id: scope.id}})
+    },
+    newItem() {
+      this.$router.push({path: '/goodsEdit'})
     },
   }
 }

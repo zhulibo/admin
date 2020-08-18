@@ -49,7 +49,7 @@ export default {
   },
   created() {
     this.userId = this.$route.query.userId
-    if(this.userId) this.getdetail()
+    if(this.userId) this.getDetail()
   },
   mounted() {
   },
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getdetail() {
+    getDetail() {
       this.$http({
         url: '/userorg/backadmin/appuser/detail/' + this.userId,
         method: 'GET',
@@ -70,7 +70,7 @@ export default {
           this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
           this.ruleForm.passWord = this.detail.passWord
           this.ruleForm.del = this.detail.del
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -87,9 +87,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/user'})
-          }).catch(res => {console.log(res)})
+          }).catch(e => {console.log(e)})
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });

@@ -37,3 +37,6 @@ img {
   /*去掉ie8-10黑边*/
   border: none;
 }
+:root *{
+  /*cursor: url('../../assets/img/2.png') 0 0, auto!important;*/
+}

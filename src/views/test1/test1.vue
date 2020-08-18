@@ -39,7 +39,7 @@ export default {
         })
           .then(res => {
             resolve(res);
-          }).catch(res => {console.log(res)})
+          }).catch(e => {console.log(e)})
       })
     }
   }

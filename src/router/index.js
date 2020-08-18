@@ -23,12 +23,24 @@ export const constantRouter = [
   },
   {
     path: '/',
+    name: '用户',
+    meta: {
+      icon: 'iconfont icon-guanliyuan',
+    },
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/user',
         name: '用户',
         component: () => import (/* webpackChunkName: 'user' */ '@/views/user/user'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      },
+      {
+        path: '/businessMan',
+        name: '商家',
+        component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/businessMan/businessMan'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },
@@ -240,14 +252,70 @@ export const constantRouter = [
   {
     path: '/',
     component: () => import ('@/views/index/index'),
+    hidden: true,
     children: [
       {
-        path: '/richTextCt',
-        name: '富文本',
-        component: () => import (/* webpackChunkName: 'richTextCt' */ '@/views/richTextCt/richTextCt'),
+        path: '/classifyLevelOneEdit',
+        name: '一级分类编辑',
+        component: () => import (/* webpackChunkName: 'classifyLevelOneEdit' */ '@/views/classifyLevelOneEdit/classifyLevelOneEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyLevelTwoEdit',
+        name: '二级分类编辑',
+        component: () => import (/* webpackChunkName: 'classifyLevelTwoEdit' */ '@/views/classifyLevelTwoEdit/classifyLevelTwoEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyModuleEdit',
+        name: '模块编辑',
+        component: () => import (/* webpackChunkName: 'classifyModuleEdit' */ '@/views/classifyModuleEdit/classifyModuleEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: '商品',
+    meta: {
+      icon: 'iconfont icon-shangpin1',
+    },
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/goods',
+        name: '商品列表',
+        component: () => import (/* webpackChunkName: 'goods' */ '@/views/goods/goods'),
         meta: {
-          icon: 'iconfont icon-bianji',
+          icon: 'iconfont icon-shangpin',
         },
+      },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsEdit',
+        name: '商品编辑',
+        component: () => import (/* webpackChunkName: 'goodsEdit' */ '@/views/goodsEdit/goodsEdit'),
+        meta: {},
       }
     ]
   },

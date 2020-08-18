@@ -8,7 +8,7 @@
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="ruleForm.roleName"></el-input>
         </el-form-item>
-        <el-form-item label="描述（200字以内）" prop="description">
+        <el-form-item label="描述(200字以内)" prop="description">
           <el-input type="textarea" v-model="ruleForm.description" maxlength="200" rows="4"></el-input>
         </el-form-item>
         <el-form-item label="分配权限" prop="privilegeIds" class="form-item-tree">
@@ -89,9 +89,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/role'})
-          }).catch(res => {console.log(res)})
+          }).catch(e => {console.log(e)})
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });
@@ -108,7 +108,7 @@ export default {
         this.ruleForm.roleName = this.detail.roleName
         this.ruleForm.description = this.detail.description
         this.ruleForm.privilegeIds = this.detail.privilegeIds
-      }).catch(res => {console.log(res)})
+      }).catch(e => {console.log(e)})
     },
     getRoleList() {
       this.$http({
@@ -116,7 +116,7 @@ export default {
         method: 'GET',
       }).then(res => {
         this.roleList = res.data.child[0].child
-      }).catch(res => {console.log(res)})
+      }).catch(e => {console.log(e)})
     }
   },
 }

@@ -43,7 +43,7 @@ export default {
         .then(res => {
           localStorage.clear();
           this.$router.push({path: '/login'})
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
   }
 }

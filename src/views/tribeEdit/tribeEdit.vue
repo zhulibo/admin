@@ -108,7 +108,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    if(this.id) this.getdetail()
+    if(this.id) this.getDetail()
   },
   mounted() {
   },
@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getdetail() {
+    getDetail() {
       this.$http({
         url: '/userorg/backadmin/tribe/detail/' + this.id,
         method: 'GET',
@@ -127,15 +127,15 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
-          this.logoImgOptions.fileList.push({url: this.detail.logoImage})
-          this.topImgOptions.fileList.push({url: this.detail.topImage})
+          this.logoImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
+          this.topImgOptions.fileList.push({url: this.detail.topImage}) // 图片回显
           this.ruleForm.notice = this.detail.notice
           this.ruleForm.noticeTitle = this.detail.noticeTitle
           this.ruleForm.adminUser = this.detail.adminUser
           this.ruleForm.type = String(this.detail.type) // el-select必须字符串
           this.ruleForm.isRecommend = this.detail.isRecommend
           this.ruleForm.del = this.detail.del
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -158,9 +158,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/tribe'})
-          }).catch(res => {console.log(res)})
+          }).catch(e => {console.log(e)})
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });

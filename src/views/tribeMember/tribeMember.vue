@@ -184,7 +184,7 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val;
@@ -223,7 +223,7 @@ export default {
       })
         .then(res => {
           this.$message.success(res.msg)
-        }).catch(res => {console.log(res)})
+        }).catch(e => {console.log(e)})
     }
   }
 }

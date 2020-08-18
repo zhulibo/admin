@@ -3,6 +3,7 @@ import axios from 'axios'
 import {Message} from 'element-ui'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
+axios.defaults.timeout =  5000;
 
 var userInfo = JSON.parse(localStorage.getItem('userInfo'))
 

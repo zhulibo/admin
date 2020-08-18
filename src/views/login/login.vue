@@ -97,10 +97,10 @@ export default {
               this.setUserInfo(res.data)
               // this.updateRouter(res.data.roleSet)
               this.$router.push({path: '/user'})
-            }).catch(res => {console.log(res)})
+            }).catch(e => {console.log(e)})
 
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });
@@ -157,6 +157,8 @@ export default {
   margin-bottom: 30px
   text-align: center;
   font-size 24px
+  font-weight: bold
+  color: #555
 }
 .el-form-item {
   margin-bottom: 20px;

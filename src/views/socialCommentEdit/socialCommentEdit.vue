@@ -70,9 +70,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/socialComment', query: {articleId: this.articleId}})
-          }).catch(res => {console.log(res)})
+          }).catch(e => {console.log(e)})
         } else {
-          console.log('error submit!!');
+          console.log('error submit!!')
           return false;
         }
       });
