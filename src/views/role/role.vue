@@ -86,12 +86,6 @@ export default {
       this.currentPage = val;
       this.getList()
     },
-    editItem(scope) {
-      this.$router.push({path: '/roleEdit', query: {id: scope.id}})
-    },
-    newItem() {
-      this.$router.push({path: '/roleEdit'})
-    },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.roleName, '提示', {
         confirmButtonText: '确定',
@@ -101,15 +95,18 @@ export default {
         this.$http({
           url: '/userorg/backadmin/backrole/' + scope.id,
           method: 'DELETE',
-          params: {
-            id: scope.id,
-          }
         })
           .then(res => {
             this.$message.success('已删除 ' + scope.roleName)
             this.getList()
           })
       }).catch(e => {console.log(e)})
+    },
+    editItem(scope) {
+      this.$router.push({path: '/roleEdit', query: {id: scope.id}})
+    },
+    newItem() {
+      this.$router.push({path: '/roleEdit'})
     },
   }
 }

@@ -17,9 +17,6 @@
         <el-form-item label="详情图" prop="contentImage" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImage" :options="contentImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="官网维护销量" prop="sellNumber">
-          <el-input v-model="ruleForm.sellNumber"></el-input>
-        </el-form-item>
         <el-form-item label="排序分值" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
@@ -31,6 +28,18 @@
         </el-form-item>
         <el-form-item label="货号" prop="cargoNo">
           <el-input v-model="ruleForm.cargoNo"></el-input>
+        </el-form-item>
+      <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" :key="sku.key">
+        <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'" :rules="{required: true, message: '请输入sku信息', trigger: 'blur'}">
+          <el-input v-model="sku.name"></el-input>
+        </el-form-item>
+        <el-form-item :label="'sku' + (index+1) + '图片'" :prop="'skus.' + index + '.url'" :rules="{required: true, message: '请选择sku图片', trigger: 'blur'}">
+          <img-upload v-model="sku.url" :options="sku.skuImgOptions"></img-upload>
+        </el-form-item>
+        <el-button type="text" class="delete" @click="removeSku(sku)">删除sku{{index+1}}</el-button>
+      </div>
+        <el-form-item label="" class="form-item-add-sku">
+          <el-button plain type="primary" size="medium" @click="addSku">添加sku</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -69,12 +78,20 @@ export default {
         listedImage: [],
         bannerImage: [],
         contentImage: [],
-        sellNumber: '',
         sort: '',
         material: '',
         size: '',
         cargoNo: '',
-        isUp: 0,
+        skus: [{
+          name: '',
+          url: '',
+          skuImgOptions: {
+            fileList: [],
+            accept: '.jpg,.jpeg,.png,.gif',
+            limit: 1
+          },
+          key: Date.now(),
+        }],
       },
       rules: {
         title: [
@@ -88,9 +105,6 @@ export default {
         ],
         contentImage: [
           {required: true, message: '请输入', trigger: 'blur'}
-        ],
-        sellNumber: [
-          // {required: true, message: '请输入', trigger: 'blur'}
         ],
         sort: [
           {required: true, message: '请输入', trigger: 'blur'}
@@ -134,20 +148,32 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.title = this.detail.title
-          this.listedImgOptions.fileList.push({url: this.detail.listedImage}) // 图片回显
-          for (let i = 0; i < this.detail.images.length; i++) {
-            if(this.detail.images[i].type == 1) {
-              this.bannerImgOptions.fileList.push({url: this.detail.images[i].url})
-            }
-            if(this.detail.images[i].type == 2) {
-              this.contentImgOptions.fileList.push({url: this.detail.images[i].url})
-            }
-          }
+          this.listedImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
+          this.bannerImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
+          this.contentImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
           this.ruleForm.sort = this.detail.sort
-          this.ruleForm.material = this.detail.tbGoodsDetail.material
-          this.ruleForm.size = this.detail.tbGoodsDetail.size
-          this.ruleForm.cargoNo = this.detail.tbGoodsDetail.cargoNo
+          this.ruleForm.material = this.detail.material
+          this.ruleForm.size = this.detail.size
+          this.ruleForm.cargoNo = this.detail.cargoNo
         }).catch(e => {console.log(e)})
+    },
+    removeSku(item) {
+      var index = this.ruleForm.skus.indexOf(item)
+      if (index !== -1) {
+        this.ruleForm.skus.splice(index, 1)
+      }
+    },
+    addSku() {
+      this.ruleForm.skus.push({
+        name: '',
+        url: '',
+        skuImgOptions: {
+          fileList: [],
+          accept: '.jpg,.jpeg,.png,.gif',
+          limit: 1
+        },
+        key: Date.now(),
+      });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -166,6 +192,15 @@ export default {
             })
           }
 
+          let skus = []
+          for (let i = 0; i < this.ruleForm.skus.length; i++) {
+            skus.push({
+              skuImage: this.ruleForm.skus[i].url[0],
+              name: this.ruleForm.skus[i].name
+            })
+          }
+          if(skus.length < 1) this.$message.warning('至少一个sku')
+
           this.$http({
             url: '/goodsmanage/backadmin/goods',
             method: this.id ? 'PUT' : 'POST',
@@ -173,15 +208,14 @@ export default {
               id: this.id ? this.id : '',
               title: this.ruleForm.title,
               listedImage: this.ruleForm.listedImage[0],
-              sellNumber: this.ruleForm.sellNumber,
               sort: this.ruleForm.sort,
               tbGoodsDetail: {
-                id: this.detail.tbGoodsDetail.id,
                 material: this.ruleForm.material,
                 size: this.ruleForm.size,
                 cargoNo: this.ruleForm.cargoNo,
               },
               images: images,
+              skus: skus,
             },
           }).then(res => {
             this.$message.success(res.msg)

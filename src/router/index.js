@@ -31,7 +31,7 @@ export const constantRouter = [
     children: [
       {
         path: '/user',
-        name: '用户',
+        name: '用户列表',
         component: () => import (/* webpackChunkName: 'user' */ '@/views/user/user'),
         meta: {
           icon: 'iconfont icon-yonghu',
@@ -39,10 +39,10 @@ export const constantRouter = [
       },
       {
         path: '/businessMan',
-        name: '商家',
+        name: '商家列表',
         component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/businessMan/businessMan'),
         meta: {
-          icon: 'iconfont icon-yonghu',
+          icon: 'iconfont icon-shangjia',
         },
       }
     ]
@@ -304,6 +304,19 @@ export const constantRouter = [
           icon: 'iconfont icon-shangpin',
         },
       },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsNew',
+        name: '商品发布',
+        component: () => import (/* webpackChunkName: 'goodsNew' */ '@/views/goodsNew/goodsNew'),
+        meta: {},
+      }
     ]
   },
   {

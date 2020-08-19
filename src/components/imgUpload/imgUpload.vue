@@ -71,20 +71,20 @@ export default {
         let imgUrls = []
         for (let i = 0; i < fileList.length; i++) {
           // 上传过程中fileList.status会发生变化
-          if(fileList[i].status != 'success') { // 多图上传此判断有性能漏洞，待优化
+          // console.log(JSON.parse(JSON.stringify(fileList[i])))
+          if(fileList[i].status && fileList[i].status != 'success') { // 多图上传此判断有性能漏洞，待优化
             return
           }
-          // console.log('---')
-          // console.log(JSON.parse(JSON.stringify(fileList[i])))
           if (fileList[i].response) {
             imgUrls.push(fileList[i].response.data)
           }else{
             imgUrls.push(fileList[i].url)
           }
         }
+
         this.$emit('input', imgUrls)
       },
-      deep: true
+      deep: true,
     },
   }
 }

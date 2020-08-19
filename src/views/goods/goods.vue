@@ -43,6 +43,29 @@
     </div>
     <div class="table">
       <el-table :data="tableList">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <table class="table-sku">
+              <tr>
+                <th>creatTime</th>
+                <th>id</th>
+                <th>skuImage</th>
+                <th>name</th>
+                <th>操作</th>
+              </tr>
+              <tr v-for="item in props.row.skus">
+                <td>{{ item.creatTime | timestampToDate}}</td>
+                <td>{{ item.id }}</td>
+                <td><img :src="item.skuImage" alt=""></td>
+                <td>{{ item.name }}</td>
+                <td class="row-manage">
+                  <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+                  <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
+                </td>
+              </tr>
+            </table>
+          </template>
+        </el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
@@ -64,10 +87,10 @@
         <el-table-column prop="sellNumber" label="维护销量" align="center">
           <template slot-scope="scope">{{scope.row.sellNumber}}</template>
         </el-table-column>
-        <el-table-column prop="sort" label="商品分数" align="center">
+        <el-table-column prop="sort" label="排序分值" align="center">
           <template slot-scope="scope">{{scope.row.sort}}</template>
         </el-table-column>
-        <el-table-column prop="isUp" label="商品状态" align="center">
+        <el-table-column prop="isUp" label="是否上架" align="center">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.isUp"
@@ -80,6 +103,7 @@
         <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -188,6 +212,33 @@ export default {
       })
         .then(res => {
           this.tableList = res.data.list
+          let arr =  [{
+              "id": 15,
+              "mainId": 15,
+              "skuImage": "http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/png7041.png",
+              "name": "11",
+              "price": 0.00,
+              "del": 0,
+              "isUp": 0,
+              "creatTime": 1597827142000,
+              "store": 0,
+              "storeList": []
+            },
+              {
+                "id": 16,
+                "mainId": 15,
+                "skuImage": "http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/png8558.png",
+                "name": "12",
+                "price": 0.00,
+                "del": 0,
+                "isUp": 0,
+                "creatTime": 1597827142000,
+                "store": 0,
+                "storeList": []
+              }]
+          for (let i = 0; i < arr.length; i++) {
+            this.$set(this.tableList[i], 'skus', arr)
+          }
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {console.log(e)})
@@ -208,19 +259,58 @@ export default {
         this.$message.success(res.msg)
         this.getList()
       }).catch(e => {
-        this.$message.error(e)
         this.getList()
       })
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.title, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/goods',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            del: 1,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.title)
+            this.getList()
+          })
+      }).catch(e => {console.log(e)})
     },
     editItem(scope) {
       this.$router.push({path: '/goodsEdit', query: {id: scope.id}})
     },
+
     newItem() {
-      this.$router.push({path: '/goodsEdit'})
+      this.$router.push({path: '/goodsNew'})
     },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+.table-sku{
+  width: 100%
+  border-collapse: collapse;
+  th{
+    padding: 10px 0
+    text-align: center
+    border:1px solid #ddd;
+    background-color: #fafafa
+  }
+  td{
+    padding: 5px 0
+    text-align: center
+    border:1px solid #ddd;
+    background-color: #fafafa
+  }
+  img{
+    height: 3em
+  }
+}
 </style>
