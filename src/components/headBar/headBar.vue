@@ -1,11 +1,11 @@
 <template>
-  <div class="head-bar">
+  <div class="head-bar" :style="{ backgroundColor: theme.colorHead}">
     <div class="navbar clearfix">
       <div class="user clearfix">
         <div class="pic">
-          <img src="../../assets/img/logo.png" alt="">
+          <img src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png" alt="">
         </div>
-<!--        <span>{{userInfo.username}}</span>-->
+        <span>userInfo</span>
         <i class="el-icon-caret-bottom"></i>
         <p @click="logOut">退出</p>
       </div>
@@ -27,7 +27,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.login.userInfo
+      userInfo: state => state.login.userInfo,
+      theme: state => state.theme.theme,
     }),
   },
   methods: {
@@ -41,7 +42,7 @@ export default {
         }
       })
         .then(res => {
-          localStorage.clear();
+          localStorage.removeItem('userInfo');
           this.$router.push({path: '/login'})
         }).catch(e => {console.log(e)})
     },
@@ -54,9 +55,9 @@ export default {
   position: absolute
   z-index 100
   top: 0
-  left: 220px
+  left: 200px
   right: 0
-  height: 70px;
+  height: 60px;
   background-color: #fff;
   box-shadow 0 0 5px rgba(0, 0, 0, .1)
 }
@@ -66,8 +67,7 @@ export default {
   position: relative;
   box-sizing: border-box;
   height: 100%;
-  padding: 20px;
-  padding-bottom: 0
+  padding: 10px;
 }
 .user .pic {
   float: left;
@@ -76,6 +76,7 @@ export default {
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  box-shadow 0 2px 5px rgba(0,0,0,.2)
 }
 .user .pic img {
   width: 100%;

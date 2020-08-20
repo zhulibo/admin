@@ -49,18 +49,29 @@
               <tr>
                 <th>creatTime</th>
                 <th>id</th>
-                <th>skuImage</th>
                 <th>name</th>
+                <th>skuImage</th>
+                <th>价格</th>
+                <th>是否上架</th>
                 <th>操作</th>
               </tr>
               <tr v-for="item in props.row.skus">
                 <td>{{ item.creatTime | timestampToDate}}</td>
                 <td>{{ item.id }}</td>
-                <td><img :src="item.skuImage" alt=""></td>
                 <td>{{ item.name }}</td>
+                <td><img :src="item.skuImage" alt=""></td>
+                <td>{{ item.price }}</td>
+                <td>
+                  <el-switch
+                    v-model="item.isUp"
+                    :active-value="0"
+                    :inactive-value="1"
+                    @change=switchStatusSku(item)>
+                  </el-switch>
+                </td>
                 <td class="row-manage">
-                  <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-                  <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
+                  <el-button type="text" size="medium" class="edit" @click="editItemSku(item)">编辑</el-button>
+                  <el-button type="text" size="medium" class="delete" @click="deleteItemSku(item)">删除</el-button>
                 </td>
               </tr>
             </table>
@@ -100,7 +111,7 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
@@ -212,33 +223,6 @@ export default {
       })
         .then(res => {
           this.tableList = res.data.list
-          let arr =  [{
-              "id": 15,
-              "mainId": 15,
-              "skuImage": "http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/png7041.png",
-              "name": "11",
-              "price": 0.00,
-              "del": 0,
-              "isUp": 0,
-              "creatTime": 1597827142000,
-              "store": 0,
-              "storeList": []
-            },
-              {
-                "id": 16,
-                "mainId": 15,
-                "skuImage": "http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/png8558.png",
-                "name": "12",
-                "price": 0.00,
-                "del": 0,
-                "isUp": 0,
-                "creatTime": 1597827142000,
-                "store": 0,
-                "storeList": []
-              }]
-          for (let i = 0; i < arr.length; i++) {
-            this.$set(this.tableList[i], 'skus', arr)
-          }
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {console.log(e)})
@@ -257,9 +241,21 @@ export default {
         }
       }).then(res => {
         this.$message.success(res.msg)
-        this.getList()
       }).catch(e => {
-        this.getList()
+      })
+    },
+    switchStatusSku(scope) {
+      this.$http({
+        url: '/goodsmanage/backadmin/goods/skuisup',
+        method: 'PUT',
+        data: {
+          id: scope.id,
+          mainId: scope.mainId,
+          isUp: scope.isUp
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+      }).catch(e => {
       })
     },
     deleteItem(scope) {
@@ -282,10 +278,33 @@ export default {
           })
       }).catch(e => {console.log(e)})
     },
+    deleteItemSku(scope) {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/goods/sku',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            mainId: scope.mainId,
+            del: 1,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.name)
+            this.getList()
+          })
+      }).catch(e => {console.log(e)})
+    },
     editItem(scope) {
       this.$router.push({path: '/goodsEdit', query: {id: scope.id}})
     },
-
+    editItemSku(scope) {
+      this.$router.push({path: '/goodsSkuEdit', query: {id: scope.id}})
+    },
     newItem() {
       this.$router.push({path: '/goodsNew'})
     },
@@ -301,13 +320,11 @@ export default {
     padding: 10px 0
     text-align: center
     border:1px solid #ddd;
-    background-color: #fafafa
   }
   td{
     padding: 5px 0
     text-align: center
     border:1px solid #ddd;
-    background-color: #fafafa
   }
   img{
     height: 3em

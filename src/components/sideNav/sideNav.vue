@@ -1,9 +1,9 @@
 <template>
-  <div class="side-nav">
+  <div class="side-nav" :style="{ backgroundColor: theme.colorNav}">
     <div class="logo">
       <img src="../../assets/img/left-logo.png" alt="">
     </div>
-    <el-menu router :default-active="$route.path" background-color="#252a2f" text-color="#ccc" active-text-color="#fff">
+    <el-menu router :default-active="$route.path" :background-color="theme.colorNav" text-color="#ccc" active-text-color="#fff">
       <template v-if="!item.hidden" v-for="(item,index) in routers">
         <el-submenu :index="String(index)" v-if="item.children.length > 1">
           <template slot="title">
@@ -39,7 +39,8 @@ export default {
   computed: {
     ...mapState({
       userInfo: state => state.login.userInfo,
-      routers: state => state.permission.routers
+      routers: state => state.permission.routers,
+      theme: state => state.theme.theme,
     }),
   },
   methods: {
@@ -57,8 +58,7 @@ export default {
   left: 0;
   bottom: 0;
   box-sizing: border-box;
-  width: 220px;
-  background-color: #252a2f;
+  width: 200px;
 }
 .logo {
   padding: 10px

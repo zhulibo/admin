@@ -41,7 +41,7 @@
             <span v-if="scope.row.status == 1">停用</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
           </template>

@@ -57,7 +57,7 @@
 <!--            <span v-if="scope.row.status == 1">删除</span>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column label="操作" fixed="right" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="detail" @click="goTribeMemberList(scope.row)">管理成员</el-button>

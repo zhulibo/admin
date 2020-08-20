@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div v-html="css"></div>
     <router-view/>
   </div>
 </template>
@@ -11,31 +12,38 @@ export default {
   name: 'App',
   data() {
     return {
-      userInfo: {},
+      css: '',
     }
   },
   created() {
-    console.log("%c ", "background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596115439024&di=401b419bc24232fee0cedd222d75a68d&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%3D580%2Fsign%3D90499bbb692762d0803ea4b790ed0849%2Fd5be7b0928381f30d081a931a3014c086f06f024.jpg) no-repeat center;padding-left:640px;padding-bottom: 242px;")
+    console.log("%c ", "background: url('http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/logIn17419.gif') no-repeat center;padding-left:640px;padding-bottom: 242px;")
 
     // 读取localStorage用户信息
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    if (!this.userInfo && this.$route.path != '/register') {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    if (!userInfo && this.$route.path != '/register') {
       this.$router.push({path: '/login'})
     }
-    this.setUserInfo(this.userInfo)
-    if (this.userInfo) {
-      // this.updateRouter(this.userInfo.roleSet)
+    this.setUserInfo(userInfo)
+    if (userInfo) {
+      // this.updateRouter(userInfo.roleSet)
     }
+    // 主题信息
+    let theme = JSON.parse(localStorage.getItem('theme'))
+    if (theme){
+      this.setTheme(theme)
+    }
+
   },
   methods: {
     ...mapMutations(['setUserInfo']),
+    ...mapMutations(['setTheme']),
     ...mapActions(['updateRouter']),
   },
 }
 </script>
 
 <style lang="stylus">
-@import '//at.alicdn.com/t/font_1970537_qlgfnfyjxna.css'; // 阿里巴巴图标库
+@import '//at.alicdn.com/t/font_1970537_qwlmjmana6a.css'; // 阿里巴巴图标库
 @import './assets/css/base.css'; // 基础样式
 @import './assets/css/common.styl'; // 公共样式
 @import './assets/css/table.styl'; // 表格样式

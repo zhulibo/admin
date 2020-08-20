@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper" :style="{ background: 'url(' + theme.bg[0] + ') center center/cover no-repeat', cursor: 'url(' + theme.cursorImg + ') 0 0, auto!important'}">
     <side-nav></side-nav>
     <head-bar></head-bar>
     <div class="main-content">
@@ -28,21 +28,24 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: 'userInfo'
+      theme: state => state.theme.theme,
     }),
   },
   methods: {
-    ...mapMutations(['setUserInfo']),
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+.app-wrapper{
+  width: 100%
+  height: 100%
+}
 .main-content {
   overflow-x auto
   position: absolute
-  top: 70px
-  left: 220px
+  top: 60px
+  left: 200px
   right: 0
   bottom: 0
   padding: 10px;

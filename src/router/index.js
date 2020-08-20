@@ -335,6 +335,33 @@ export const constantRouter = [
   {
     path: '/',
     component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsSkuEdit',
+        name: '商品sku编辑',
+        component: () => import (/* webpackChunkName: 'goodsSkuEdit' */ '@/views/goodsSkuEdit/goodsSkuEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/theme',
+        name: '主题',
+        component: () => import (/* webpackChunkName: 'theme' */ '@/views/theme/theme'),
+        meta: {
+          icon: 'iconfont icon-yanse',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/vueEcharts',
