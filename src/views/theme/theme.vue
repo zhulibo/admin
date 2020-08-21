@@ -30,12 +30,16 @@
               <span>小埋</span>
             </li>
             <li>
-              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/35471.png" alt="">
-              <span>三三</span>
+              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/32926.png" alt="">
+              <span>我妻善逸</span>
             </li>
             <li>
               <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/45193.png" alt="">
               <span>书记</span>
+            </li>
+            <li>
+              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/57825.png" alt="">
+              <span>凶真</span>
             </li>
             <li>
               <el-button type="text" @click="changeCursorImg($event)">恢复默认</el-button>
@@ -88,7 +92,6 @@ export default {
     ...mapMutations(['setTheme']),
     changeCursorImg(event) {
       let src = event.currentTarget.getAttribute("src")
-      console.log(src)
       this.theme.cursorImg = src
     },
     resetTheme() {
@@ -103,7 +106,6 @@ export default {
         localStorage.setItem('theme', JSON.stringify(theme))
       },
       deep: true,
-      immediate: true,
     },
   }
 }

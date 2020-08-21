@@ -3,7 +3,7 @@
     <div class="classify">
       <div class="classify-ct">
         <div class="side-bar">
-          <dl class="classify-level-one">
+          <dl class="classify-level-one-list">
             <dd v-for="(item, index) in classifyLevelOneList" :class="{on:item.active}" :data-index="index" @click="clickClassifyLevelOneList($event)">{{item.name}}</dd>
           </dl>
         </div>

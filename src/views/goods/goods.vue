@@ -95,9 +95,6 @@
         <el-table-column prop="realNumber" label="真实销量" align="center">
           <template slot-scope="scope">{{scope.row.realNumber}}</template>
         </el-table-column>
-        <el-table-column prop="sellNumber" label="维护销量" align="center">
-          <template slot-scope="scope">{{scope.row.sellNumber}}</template>
-        </el-table-column>
         <el-table-column prop="sort" label="排序分值" align="center">
           <template slot-scope="scope">{{scope.row.sort}}</template>
         </el-table-column>
@@ -114,6 +111,14 @@
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-dropdown @command="handleCommand" :show-timeout="50">
+              <span class="el-dropdown-link">分类操作<i class="el-icon-arrow-down el-icon--right"></i></span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item :command="beforeHandleCommand(scope.row,'1')">查看分类</el-dropdown-item>
+                <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">查看ip</el-dropdown-item>
+                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空所有绑定的分类和ip</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -277,6 +282,31 @@ export default {
             this.getList()
           })
       }).catch(e => {console.log(e)})
+    },
+    beforeHandleCommand(row, command){
+      return {
+        'row': row,
+        'command':command
+      }
+    },
+    handleCommand(command) {
+      console.log(command)
+      if(command.command == 1) {
+        console.log()
+        this.$router.push({path: '/goodsBindClassify', query: {id: command.row.id}})
+      }
+      else if(command.command == 2) {
+        this.$router.push({path: '/goodsBindIp', query: {id: command.row.id}})
+      }
+      else if(command.command == 3) {
+        this.$http({
+          url: '/goodsmanage/backadmin/goods/all/' + command.row.id,
+          method: 'DELETE',
+        })
+          .then(res => {
+            this.$message.success(res.msg)
+          }).catch(e => {console.log(e)})
+      }
     },
     deleteItemSku(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {

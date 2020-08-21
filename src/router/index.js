@@ -216,14 +216,6 @@ export const constantRouter = [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/classify',
-        name: '管理分类',
-        component: () => import (/* webpackChunkName: 'classify' */ '@/views/classify/classify'),
-        meta: {
-          icon: 'iconfont icon-ziyuan',
-        },
-      },
-      {
         path: '/classifyLevelOne',
         name: '一级分类',
         component: () => import (/* webpackChunkName: 'classifyLevelOne' */ '@/views/classifyLevelOne/classifyLevelOne'),
@@ -245,6 +237,22 @@ export const constantRouter = [
         component: () => import (/* webpackChunkName: 'classifyModule' */ '@/views/classifyModule/classifyModule'),
         meta: {
           icon: 'iconfont icon-danmokuai',
+        },
+      },
+      {
+        path: '/classify',
+        name: '管理分类',
+        component: () => import (/* webpackChunkName: 'classify' */ '@/views/classify/classify'),
+        meta: {
+          icon: 'iconfont icon-ziyuan',
+        },
+      },
+      {
+        path: '/classifyIndex',
+        name: '首页分类',
+        component: () => import (/* webpackChunkName: 'classifyIndex' */ '@/views/classifyIndex/classifyIndex'),
+        meta: {
+          icon: 'iconfont icon-fenlei2',
         },
       }
     ]
@@ -284,6 +292,19 @@ export const constantRouter = [
         path: '/classifyModuleEdit',
         name: '模块编辑',
         component: () => import (/* webpackChunkName: 'classifyModuleEdit' */ '@/views/classifyModuleEdit/classifyModuleEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyIndexEdit',
+        name: '首页分类编辑',
+        component: () => import (/* webpackChunkName: 'classifyIndexEdit' */ '@/views/classifyIndexEdit/classifyIndexEdit'),
         meta: {},
       }
     ]
@@ -341,6 +362,58 @@ export const constantRouter = [
         path: '/goodsSkuEdit',
         name: '商品sku编辑',
         component: () => import (/* webpackChunkName: 'goodsSkuEdit' */ '@/views/goodsSkuEdit/goodsSkuEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsBindClassify',
+        name: '商品所绑分类',
+        component: () => import (/* webpackChunkName: 'goodsBindClassify' */ '@/views/goodsBindClassify/goodsBindClassify'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsBindClassifyEdit',
+        name: '商品所绑分类编辑',
+        component: () => import (/* webpackChunkName: 'goodsBindClassifyEdit' */ '@/views/goodsBindClassifyEdit/goodsBindClassifyEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsBindIp',
+        name: '商品所绑ip',
+        component: () => import (/* webpackChunkName: 'goodsBindIp' */ '@/views/goodsBindIp/goodsBindIp'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsBindIpEdit',
+        name: '商品所绑ip编辑',
+        component: () => import (/* webpackChunkName: 'goodsBindIpEdit' */ '@/views/goodsBindIpEdit/goodsBindIpEdit'),
         meta: {},
       }
     ]

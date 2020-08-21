@@ -5,14 +5,20 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="sku名称" prop="name">
+        <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="sku图片" prop="skuImage" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.skuImage" :options="skuImgOptions"></img-upload>
+        <el-form-item label="部落classify" prop="classifyImg" class="form-item-img-classify">
+          <img-upload v-model="ruleForm.classifyImg" :options="classifyImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="价格" prop="price">
-          <el-input v-model="ruleForm.price"></el-input>
+        <el-form-item label="网页地址" prop="url">
+          <el-input v-model="ruleForm.url"></el-input>
+        </el-form-item>
+        <el-form-item label="备注(200字以内)" prop="remark">
+          <el-input type="textarea" v-model="ruleForm.remark" maxlength="200" rows="4"></el-input>
+        </el-form-item>
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -30,35 +36,37 @@ export default {
   name: 'itemEdit',
   data() {
     return {
+      level: '',
       id: '',
       detail: {},
-      skuImgOptions: {
+      classifyImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
         limit: 1
       },
       ruleForm: {
         name: '',
-        skuImage: [],
-        price: '',
+        classifyImg: [],
+        url: '',
+        remark: '',
+        sort: '',
       },
       rules: {
         name: [
           {required: true, message: '请输入', trigger: 'blur'}
         ],
-        skuImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],
-        price: [
+        classifyImg: [
           {required: true, message: '请输入', trigger: 'blur'}
         ],
       },
     }
   },
   components: {
-    imgUpload,
+    imgUpload
   },
   created() {
+    this.level = this.$route.query.level
+    this.parentId = this.$route.query.parentId
     this.id = this.$route.query.id
     if(this.id) this.getDetail()
   },
@@ -73,36 +81,36 @@ export default {
     ...mapMutations(['setUserInfo']),
     getDetail() {
       this.$http({
-        url: '/goodsmanage/backadmin/goods/detail/sku',
+        url: '/userorg/backadmin/tribe/detail/' + this.id,
         method: 'GET',
-        params: {
-          id: this.id
-        }
       })
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
-          this.skuImgOptions.fileList.push({url: this.detail.skuImage}) // 图片回显
-          this.ruleForm.price = this.detail.price
+          this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
+          this.ruleForm.remark = this.detail.remark
+          this.ruleForm.sort = this.detail.sort
         }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
           this.$http({
-            url: '/goodsmanage/backadmin/goods/sku',
+            url: '/goodsmanage/backadmin/indexclassify/indexclassify',
             method: this.id ? 'PUT' : 'POST',
             data: {
+              level: this.level,
+              parentId: this.parentId ? this.parentId : '',
               id: this.id ? this.id : '',
-              mainId: this.detail.mainId,
-              name: this.detail.name,
-              skuImage: this.ruleForm.skuImage[0],
-              price: this.ruleForm.price,
+              name: this.ruleForm.name,
+              image: this.ruleForm.classifyImg[0],
+              url: this.ruleForm.url,
+              remark: this.ruleForm.remark,
+              sort: this.ruleForm.sort,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goods'})
+            this.$router.push({path: '/classifyIndex'})
           }).catch(e => {console.log(e)})
         } else {
           console.log('error submit!!')
@@ -115,20 +123,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.sku-ct{
-  position: relative
-  margin-bottom: 20px
-  padding-right: 120px
-  padding-top: 20px
-  border: 1px dashed #ccc
-  border-radius: 4px;
-  .delete{
-    position: absolute
-    right: 20px
-    top: 20px
-  }
-}
-.form-item-add-sku{
-  text-align: right
-}
 </style>

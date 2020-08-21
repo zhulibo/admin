@@ -5,18 +5,10 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="支付密码" prop="payPwd">
-          <el-input v-model="ruleForm.payPwd"></el-input>
-        </el-form-item>
-        <el-form-item label="用户充值密码" prop="passWord">
-          <el-input v-model="ruleForm.passWord"></el-input>
-        </el-form-item>
-        <el-form-item label="账户状态" prop="del">
-          <el-switch
-            v-model="ruleForm.del"
-            :active-value="0"
-            :inactive-value="1">
-          </el-switch>
+        <el-form-item label="选择ip" prop="classifyId">
+          <el-select v-model="ruleForm.ipId" placeholder="请选择">
+            <el-option v-for="item in ipList" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -33,23 +25,20 @@ export default {
   name: 'itemEdit',
   data() {
     return {
-      userId: '',
-      detail: {},
+      id: '',
+      ipList: [],
       ruleForm: {
-        payPwd: '',
-        passWord: '',
-        del: '',
+        ipId: '',
       },
       rules: {
-        payPwd: [],
-        passWord: [],
-        del: [],
+        ipId: [
+          {required: true, message: '请输入', trigger: 'blur'}
+        ],
       },
     }
   },
   created() {
-    this.userId = this.$route.query.userId
-    if(this.userId) this.getDetail()
+    this.id = this.$route.query.id
   },
   mounted() {
   },
@@ -60,33 +49,34 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getDetail() {
+    getClassifyList() {
       this.$http({
-        url: '/userorg/backadmin/appuser/detail/' + this.userId,
+        url: '/goodsmanage/backadmin/classify',
         method: 'GET',
+        params: {
+          name: this.name,
+          level: 2,
+          pageSize: 1000,
+          pageNumber: 1,
+        }
       })
         .then(res => {
-          this.detail = res.data
-          this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
-          this.ruleForm.passWord = this.detail.passWord
-          this.ruleForm.del = this.detail.del
+          this.ipList = res.data.list
         }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/userorg/backadmin/appuser',
-            method: 'PUT',
+            url: '/goodsmanage/backadmin/goods/bindip',
+            method: 'POST',
             data: {
-              userId: this.userId,
-              payPwd: this.ruleForm.payPwd,
-              passWord: this.ruleForm.passWord,
-              del: this.ruleForm.del,
+              goodsId: this.id,
+              ipId: this.ruleForm.ipId,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/user'})
+            this.$router.push({path: '/goodsBindIp', query: {id: this.id}})
           }).catch(e => {console.log(e)})
         } else {
           console.log('error submit!!')

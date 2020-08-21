@@ -1,8 +1,8 @@
 const state = {
   theme: {
     colorNav: '#252a2f',
-    colorHead: '#fff',
-    colorBg: 'rgba(255, 255, 255, 1)',
+    colorHead: '',
+    colorBg: '',
     bg: [],
     cursorImg: '',
   },
