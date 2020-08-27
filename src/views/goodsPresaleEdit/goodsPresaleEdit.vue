@@ -17,12 +17,6 @@
         <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="官网维护销量" prop="sellNumber">
-          <el-input v-model="ruleForm.sellNumber"></el-input>
-        </el-form-item>
-        <el-form-item label="排序分值" prop="sort">
-          <el-input v-model="ruleForm.sort"></el-input>
-        </el-form-item>
         <el-form-item label="材质" prop="material">
           <el-input v-model="ruleForm.material"></el-input>
         </el-form-item>
@@ -69,8 +63,6 @@ export default {
         listedImg: [],
         bannerImg: [],
         contentImg: [],
-        sellNumber: '',
-        sort: '',
         material: '',
         size: '',
         cargoNo: '',
@@ -88,12 +80,6 @@ export default {
         ],
         contentImg: [
           {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sellNumber: [
-          // {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
-          // {required: true, message: '请输入', trigger: 'change'}
         ],
         material: [
           {required: true, message: '请输入', trigger: 'change'}
@@ -125,11 +111,8 @@ export default {
     ...mapMutations(['setUserInfo']),
     getDetail() {
       this.$http({
-        url: '/goodsmanage/backadmin/goods/detail',
+        url: '/goodsmanage/backadmin/presellgoods/detail/' + this.id,
         method: 'GET',
-        params: {
-          id: this.id
-        }
       })
         .then(res => {
           this.detail = res.data
@@ -143,10 +126,9 @@ export default {
               this.contentImgOptions.fileList.push({url: this.detail.images[i].url})
             }
           }
-          this.ruleForm.sort = this.detail.sort
-          this.ruleForm.material = this.detail.tbGoodsDetail.material
-          this.ruleForm.size = this.detail.tbGoodsDetail.size
-          this.ruleForm.cargoNo = this.detail.tbGoodsDetail.cargoNo
+          this.ruleForm.material = this.detail.tbPresellGoodsDetail.material
+          this.ruleForm.size = this.detail.tbPresellGoodsDetail.size
+          this.ruleForm.cargoNo = this.detail.tbPresellGoodsDetail.cargoNo
         }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
@@ -167,16 +149,14 @@ export default {
           }
 
           this.$http({
-            url: '/goodsmanage/backadmin/goods',
+            url: '/goodsmanage/backadmin/presellgoods/detail',
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
               title: this.ruleForm.title,
               listedImage: this.ruleForm.listedImg[0],
-              sellNumber: this.ruleForm.sellNumber,
-              sort: this.ruleForm.sort,
-              tbGoodsDetail: {
-                id: this.detail.tbGoodsDetail.id,
+              tbPresellGoodsDetail: {
+                id: this.detail.tbPresellGoodsDetail.id,
                 material: this.ruleForm.material,
                 size: this.ruleForm.size,
                 cargoNo: this.ruleForm.cargoNo,
@@ -185,7 +165,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goods'})
+            this.$router.push({path: '/goodsPresale'})
           }).catch(e => {console.log(e)})
         } else {
           console.log('error submit!!')

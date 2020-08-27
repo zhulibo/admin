@@ -5,7 +5,7 @@
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入分类名称" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.name" placeholder="请输入ip名称" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -17,32 +17,18 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
+        <el-table-column prop="creatTime" label="绑定时间时间" align="center">
           <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="name" label="名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+        <el-table-column prop="tbIp.name" label="名称" align="center">
+          <template slot-scope="scope">{{scope.row.tbIp.name}}</template>
         </el-table-column>
-        <!--        <el-admin-column label="img" align="center" class-name="row-img">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <img :src="scope.row.iconUrl" alt="">-->
-        <!--          </template>-->
-        <!--        </el-admin-column>-->
-        <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{scope.row.sort}}</template>
+        <el-table-column prop="tbIp.id" label="ip-id" align="center">
+          <template slot-scope="scope">{{scope.row.tbIp.id}}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" align="center">
-          <template slot-scope="scope">{{scope.row.remark}}</template>
-        </el-table-column>
-        <!--        <el-table-column prop="del" label="账号状态" align="center">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <span v-if="scope.row.del == 0">正常</span>-->
-        <!--            <span v-if="scope.row.del == 1">停用</span>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -101,11 +87,31 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     newItem() {
       this.$router.push({path: '/goodsBindIpEdit', query: {id: this.id}})
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.tbIp.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/goods/ip',
+          method: 'DELETE',
+          data: {
+            ipId: scope.ipId,
+            goodsId: scope.goodsId,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.tbIp.name)
+            this.getList()
+          })
+      }).catch(e => {console.log(e)})
     },
   }
 }

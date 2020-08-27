@@ -5,10 +5,8 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="选择ip" prop="classifyId">
-          <el-select v-model="ruleForm.ipId" placeholder="请选择">
-            <el-option v-for="item in ipList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
+        <el-form-item label="选择ip" prop="ipId">
+          <el-cascader :props="props" v-model="ruleForm.ipId"></el-cascader>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -24,17 +22,60 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'itemEdit',
   data() {
+    let _this = this
     return {
       id: '',
-      ipList: [],
       ruleForm: {
-        ipId: '',
+        ipId: [],
       },
       rules: {
         ipId: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
       },
+      props: {
+        lazy: true,
+        lazyLoad (node, resolve) {
+          if (node.level == 0){
+            _this.$http({
+              url: '/goodsmanage/backadmin/classify',
+              method: 'GET',
+              params: {
+                level: 2,
+                pageSize: 1000,
+                pageNumber: 1,
+              }
+            })
+              .then(res => {
+                const items = res.data.list.map((value, i) => ({
+                  value: value.id,
+                  label: value.name,
+                  leaf: node.level >= 1
+                }));
+                resolve(items);
+              }).catch(e => {console.log(e)})
+          }else if (node.level == 1){
+            console.log(node)
+            _this.$http({
+              url: '/goodsmanage/backadmin/classify/classifyip',
+              method: 'GET',
+              params: {
+                classifyId: node.path[0],
+                pageSize: 1000,
+                pageNumber: 1,
+              }
+            })
+              .then(res => {
+                const items = res.data.list.map((value, i) => ({
+                  value: value.id,
+                  label: value.name,
+                  leaf: node.level >= 1
+                }));
+                resolve(items);
+              }).catch(e => {console.log(e)})
+          }
+        }
+      }
     }
   },
   created() {
@@ -49,21 +90,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getClassifyList() {
-      this.$http({
-        url: '/goodsmanage/backadmin/classify',
-        method: 'GET',
-        params: {
-          name: this.name,
-          level: 2,
-          pageSize: 1000,
-          pageNumber: 1,
-        }
-      })
-        .then(res => {
-          this.ipList = res.data.list
-        }).catch(e => {console.log(e)})
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -72,7 +98,7 @@ export default {
             method: 'POST',
             data: {
               goodsId: this.id,
-              ipId: this.ruleForm.ipId,
+              ipId: this.ruleForm.ipId[1],
             },
           }).then(res => {
             this.$message.success(res.msg)

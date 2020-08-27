@@ -5,17 +5,32 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="商品id" prop="goodsId">
+          <el-input v-model="ruleForm.goodsId" :disabled="!!id"></el-input>
         </el-form-item>
-        <el-form-item label="分类图片" prop="classifyImg" class="form-item-img-top">
-          <img-upload v-model="ruleForm.classifyImg" :options="classifyImgOptions"></img-upload>
+        <el-form-item label="sku-id" prop="skuId">
+          <el-input v-model="ruleForm.skuId" :disabled="!!id"></el-input>
         </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input v-model="ruleForm.sort"></el-input>
+        <el-form-item label="奖品数量" prop="number">
+          <el-input v-model="ruleForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="备注(200字以内)" prop="remark">
-          <el-input v-model="ruleForm.remark"></el-input>
+        <el-form-item label="开奖时间" prop="drawTime">
+          <el-date-picker
+            v-model="ruleForm.drawTime"
+            type="datetime"
+            value-format="timestamp"
+            default-value=""
+            default-time="23:00:00"
+            placeholder="选择日期时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="抽奖状态" prop="status">
+          <el-radio-group v-model="ruleForm.status" :disabled="!id">
+            <el-radio :label="0">未开始</el-radio>
+            <el-radio :label="1">已开始</el-radio>
+            <el-radio :label="2">已结束</el-radio>
+            <el-radio :label="3">强制结束</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -27,7 +42,6 @@
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
 
 export default {
   name: 'itemEdit',
@@ -35,35 +49,28 @@ export default {
     return {
       id: '',
       detail: {},
-      classifyImgOptions: {
-        fileList: [],
-        accept: '.jpg,.jpeg,.png,.gif',
-        limit: 1
-      },
       ruleForm: {
-        name: '',
-        classifyImg: [],
-        sort: '',
-        remark: '',
+        goodsId: '',
+        skuId: '',
+        number: '',
+        drawTime: '',
+        status: '',
       },
       rules: {
-        name: [
+        goodsId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        classifyImg: [
+        skuId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        sort: [
+        number: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        remark: [
+        drawTime: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
-  },
-  components: {
-    imgUpload
   },
   created() {
     this.id = this.$route.query.id
@@ -80,34 +87,38 @@ export default {
     ...mapMutations(['setUserInfo']),
     getDetail() {
       this.$http({
-        url: '/userorg/backadmin/tribe/detail/' + this.id,
+        url: '/goodsmanage/backadmin/drawgoods/detail',
         method: 'GET',
+        params: {
+          id: this.id
+        }
       })
         .then(res => {
           this.detail = res.data
-          this.ruleForm.name = this.detail.name
-          this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
-          this.ruleForm.sort = this.detail.sort
-          this.ruleForm.remark = this.detail.remark
+          this.ruleForm.goodsId = this.detail.goodsId
+          this.ruleForm.skuId = this.detail.skuId
+          this.ruleForm.number = this.detail.number
+          this.ruleForm.drawTime = this.detail.drawTime
+          this.ruleForm.status = this.detail.status
         }).catch(e => {console.log(e)})
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/goodsmanage/backadmin/classify/classify',
+            url: '/goodsmanage/backadmin/drawgoods',
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
-              level: 2,
-              name: this.ruleForm.name,
-              image: this.ruleForm.classifyImg[0],
-              sort: this.ruleForm.sort,
-              remark: this.ruleForm.remark,
+              goodsId: this.ruleForm.goodsId,
+              skuId: this.ruleForm.skuId,
+              number: this.ruleForm.number,
+              drawTime: this.ruleForm.drawTime,
+              status: this.id ? this.ruleForm.status : '',
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyLevelTwo'})
+            this.$router.push({path: '/goodsLottery'})
           }).catch(e => {console.log(e)})
         } else {
           console.log('error submit!!')

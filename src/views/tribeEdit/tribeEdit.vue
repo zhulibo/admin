@@ -8,11 +8,11 @@
         <el-form-item label="部落名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="部落logo" prop="logoImage" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.logoImage" :options="logoImgOptions"></img-upload>
+        <el-form-item label="部落logo" prop="logoImg" class="form-item-img-logo">
+          <img-upload v-model="ruleForm.logoImg" :options="logoImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="部落背景图片" prop="topImage" class="form-item-img-top">
-          <img-upload v-model="ruleForm.topImage" :options="topImgOptions"></img-upload>
+        <el-form-item label="部落背景图片" prop="topImg" class="form-item-img-top">
+          <img-upload v-model="ruleForm.topImg" :options="topImgOptions"></img-upload>
         </el-form-item>
         <el-form-item label="部落公告" prop="notice">
           <el-input v-model="ruleForm.notice"></el-input>
@@ -69,8 +69,8 @@ export default {
       },
       ruleForm: {
         name: '',
-        logoImage: [],
-        topImage: [],
+        logoImg: [],
+        topImg: [],
         notice: '',
         noticeTitle: '',
         adminUser: '',
@@ -80,25 +80,25 @@ export default {
       },
       rules: {
         name: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
-        logoImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        logoImg: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
-        topImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        topImg: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         notice: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         noticeTitle: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         adminUser: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         type: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
@@ -146,8 +146,8 @@ export default {
             data: {
               id: this.id ? this.id : '',
               name: this.ruleForm.name,
-              logoImage: this.ruleForm.logoImage[0],
-              topImage: this.ruleForm.topImage[0],
+              logoImage: this.ruleForm.logoImg[0],
+              topImage: this.ruleForm.topImg[0],
               notice: this.ruleForm.notice,
               noticeTitle: this.ruleForm.noticeTitle,
               adminUser: this.ruleForm.adminUser,

@@ -31,7 +31,7 @@ export const constantRouter = [
     children: [
       {
         path: '/user',
-        name: '用户列表',
+        name: '用户 ',
         component: () => import (/* webpackChunkName: 'user' */ '@/views/user/user'),
         meta: {
           icon: 'iconfont icon-yonghu',
@@ -39,7 +39,7 @@ export const constantRouter = [
       },
       {
         path: '/businessMan',
-        name: '商家列表',
+        name: '商家',
         component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/businessMan/businessMan'),
         meta: {
           icon: 'iconfont icon-shangjia',
@@ -64,6 +64,21 @@ export const constantRouter = [
   },
   {
     path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/businessManEdit',
+        name: '商家编辑',
+        component: () => import (/* webpackChunkName: 'businessManEdit' */ '@/views/businessManEdit/businessManEdit'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
     name: '管理员',
     meta: {
       icon: 'iconfont icon-guanliyuan',
@@ -72,7 +87,7 @@ export const constantRouter = [
     children: [
       {
         path: '/admin',
-        name: '管理员列表',
+        name: '管理员 ',
         component: () => import (/* webpackChunkName: 'admin' */ '@/views/admin/admin'),
         meta: {
           icon: 'iconfont icon-guanliyuan',
@@ -80,7 +95,7 @@ export const constantRouter = [
       },
       {
         path: '/role',
-        name: '角色列表',
+        name: '角色',
         component: () => import (/* webpackChunkName: 'role' */ '@/views/role/role'),
         meta: {
           icon: 'iconfont icon-jiaoseleixing',
@@ -319,10 +334,34 @@ export const constantRouter = [
     children: [
       {
         path: '/goods',
-        name: '商品列表',
+        name: '商品 ',
         component: () => import (/* webpackChunkName: 'goods' */ '@/views/goods/goods'),
         meta: {
           icon: 'iconfont icon-shangpin',
+        },
+      },
+      {
+        path: '/goodsPresale',
+        name: '预售商品',
+        component: () => import (/* webpackChunkName: 'goodsPresale' */ '@/views/goodsPresale/goodsPresale'),
+        meta: {
+          icon: 'iconfont icon-yushou',
+        },
+      },
+      {
+        path: '/goodsLottery',
+        name: '抽奖商品',
+        component: () => import (/* webpackChunkName: 'goodsLottery' */ '@/views/goodsLottery/goodsLottery'),
+        meta: {
+          icon: 'iconfont icon-jiangpin',
+        },
+      },
+      {
+        path: '/goodsImgBorder',
+        name: '图片边框设置',
+        component: () => import (/* webpackChunkName: 'goodsImgBorder' */ '@/views/goodsImgBorder/goodsImgBorder'),
+        meta: {
+          icon: 'iconfont icon-xiabiankuang',
         },
       },
     ]
@@ -414,6 +453,58 @@ export const constantRouter = [
         path: '/goodsBindIpEdit',
         name: '商品所绑ip编辑',
         component: () => import (/* webpackChunkName: 'goodsBindIpEdit' */ '@/views/goodsBindIpEdit/goodsBindIpEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleNew',
+        name: '预售商品发布',
+        component: () => import (/* webpackChunkName: 'goodsPresaleNew' */ '@/views/goodsPresaleNew/goodsPresaleNew'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleEdit',
+        name: '预售商品编辑',
+        component: () => import (/* webpackChunkName: 'goodsPresaleEdit' */ '@/views/goodsPresaleEdit/goodsPresaleEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleSkuEdit',
+        name: '预售商品sku编辑',
+        component: () => import (/* webpackChunkName: 'goodsPresaleSkuEdit' */ '@/views/goodsPresaleSkuEdit/goodsPresaleSkuEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsLotteryEdit',
+        name: '抽奖商品编辑',
+        component: () => import (/* webpackChunkName: 'goodsLotteryEdit' */ '@/views/goodsLotteryEdit/goodsLotteryEdit'),
         meta: {},
       }
     ]

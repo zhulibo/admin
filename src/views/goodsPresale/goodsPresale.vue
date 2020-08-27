@@ -52,7 +52,6 @@
                 <th>名称</th>
                 <th>图片</th>
                 <th>价格</th>
-                <th>是否上架</th>
                 <th>操作</th>
               </tr>
               <tr v-for="item in props.row.skus">
@@ -61,14 +60,6 @@
                 <td>{{ item.name }}</td>
                 <td><img :src="item.skuImage" alt=""></td>
                 <td>{{ item.price }}</td>
-                <td>
-                  <el-switch
-                    v-model="item.isUp"
-                    :active-value="0"
-                    :inactive-value="1"
-                    @change=switchStatusSku(item)>
-                  </el-switch>
-                </td>
                 <td class="row-manage">
                   <el-button type="text" size="medium" class="edit" @click="editItemSku(item)">编辑</el-button>
                   <el-button type="text" size="medium" class="delete" @click="deleteItemSku(item)">删除</el-button>
@@ -92,27 +83,9 @@
             <img :src="scope.row.listedImage" alt="">
           </template>
         </el-table-column>
-        <el-table-column prop="sellPrice" label="销售价格" align="center">
-          <template slot-scope="scope">{{scope.row.sellPrice}}</template>
-        </el-table-column>
-        <el-table-column prop="realNumber" label="真实销量" align="center">
-          <template slot-scope="scope">{{scope.row.realNumber}}</template>
-        </el-table-column>
-        <el-table-column prop="sort" label="排序分值" align="center">
-          <template slot-scope="scope">{{scope.row.sort}}</template>
-        </el-table-column>
-        <el-table-column prop="isUp" label="是否上架" align="center">
+        <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
           <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.isUp"
-              :active-value="0"
-              :inactive-value="1"
-              @change=switchStatus(scope.row)>
-            </el-switch>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" width="200px" class-name="row-manage">
-          <template slot-scope="scope">
+            <el-button type="text" size="medium" class="edit" @click="newItemSku(scope.row)">新建sku</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
             <el-dropdown @command="handleCommand" :show-timeout="50">
@@ -120,7 +93,7 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item :command="beforeHandleCommand(scope.row,'1')">查看分类</el-dropdown-item>
                 <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">查看ip</el-dropdown-item>
-<!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>-->
+                <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>-->
               </el-dropdown-menu>
             </el-dropdown>
           </template>
@@ -216,7 +189,7 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goods',
+        url: '/goodsmanage/backadmin/presellgoods',
         method: 'GET',
         params: {
           title: this.formInline.title,
@@ -239,37 +212,6 @@ export default {
       this.currentPage = val
       this.getList()
     },
-    switchStatus(scope) {
-      this.$http({
-        url: '/goodsmanage/backadmin/goods/goodsisup',
-        method: 'PUT',
-        data: {
-          id: scope.id,
-          isUp: scope.isUp
-        }
-      }).then(res => {
-        this.$message.success(res.msg)
-      }).catch(e => {
-        this.getList()
-        console.log(e)
-      })
-    },
-    switchStatusSku(scope) {
-      this.$http({
-        url: '/goodsmanage/backadmin/goods/skuisup',
-        method: 'PUT',
-        data: {
-          id: scope.id,
-          mainId: scope.mainId,
-          isUp: scope.isUp
-        }
-      }).then(res => {
-        this.$message.success(res.msg)
-      }).catch(e => {
-        this.getList()
-        console.log(e)
-      })
-    },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.title, '提示', {
         confirmButtonText: '确定',
@@ -277,12 +219,8 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goods',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            del: 1,
-          }
+          url: '/goodsmanage/backadmin/presellgoods/' + scope.id,
+          method: 'DELETE',
         })
           .then(res => {
             this.$message.success('已删除 ' + scope.title)
@@ -322,13 +260,8 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goods/sku',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            mainId: scope.mainId,
-            del: 1,
-          }
+          url: '/goodsmanage/backadmin/presellgoods/sku/' + scope.id,
+          method: 'DELETE',
         })
           .then(res => {
             this.$message.success('已删除 ' + scope.name)
@@ -337,13 +270,16 @@ export default {
       }).catch(e => {console.log(e)})
     },
     editItem(scope) {
-      this.$router.push({path: '/goodsEdit', query: {id: scope.id}})
+      this.$router.push({path: '/goodsPresaleEdit', query: {id: scope.id}})
     },
     editItemSku(scope) {
-      this.$router.push({path: '/goodsSkuEdit', query: {id: scope.id}})
+      this.$router.push({path: '/goodsPresaleSkuEdit', query: {id: scope.id, mainId: scope.mainId}})
     },
     newItem() {
-      this.$router.push({path: '/goodsNew'})
+      this.$router.push({path: '/goodsPresaleNew'})
+    },
+    newItemSku(scope) {
+      this.$router.push({path: '/goodsPresaleSkuEdit', query: {mainId: scope.id}})
     },
   }
 }

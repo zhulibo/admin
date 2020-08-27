@@ -8,14 +8,14 @@
         <el-form-item label="名称" prop="title">
           <el-input v-model="ruleForm.title"></el-input>
         </el-form-item>
-        <el-form-item label="列表图" prop="listedImage" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.listedImage" :options="listedImgOptions"></img-upload>
+        <el-form-item label="列表图" prop="listedImg" class="form-item-img-logo">
+          <img-upload v-model="ruleForm.listedImg" :options="listedImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="轮播图" prop="bannerImage" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.bannerImage" :options="bannerImgOptions"></img-upload>
+        <el-form-item label="轮播图" prop="bannerImg" class="form-item-img-logo">
+          <img-upload v-model="ruleForm.bannerImg" :options="bannerImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="详情图" prop="contentImage" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.contentImage" :options="contentImgOptions"></img-upload>
+        <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
+          <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
         <el-form-item label="排序分值" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
@@ -30,10 +30,10 @@
           <el-input v-model="ruleForm.cargoNo"></el-input>
         </el-form-item>
       <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" :key="sku.key">
-        <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'" :rules="{required: true, message: '请输入sku信息', trigger: 'blur'}">
+        <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'" :rules="{required: true, message: '请输入sku信息', trigger: 'change'}">
           <el-input v-model="sku.name"></el-input>
         </el-form-item>
-        <el-form-item :label="'sku' + (index+1) + '图片'" :prop="'skus.' + index + '.url'" :rules="{required: true, message: '请选择sku图片', trigger: 'blur'}">
+        <el-form-item :label="'sku' + (index+1) + '图片'" :prop="'skus.' + index + '.url'" :rules="{required: true, message: '请选择sku图片', trigger: 'change'}">
           <img-upload v-model="sku.url" :options="sku.skuImgOptions"></img-upload>
         </el-form-item>
         <el-button type="text" class="delete" @click="removeSku(sku)">删除sku{{index+1}}</el-button>
@@ -57,7 +57,6 @@ export default {
   name: 'itemEdit',
   data() {
     return {
-      id: '',
       detail: {},
       listedImgOptions: {
         fileList: [],
@@ -75,9 +74,9 @@ export default {
       },
       ruleForm: {
         title: '',
-        listedImage: [],
-        bannerImage: [],
-        contentImage: [],
+        listedImg: [],
+        bannerImg: [],
+        contentImg: [],
         sort: '',
         material: '',
         size: '',
@@ -95,28 +94,28 @@ export default {
       },
       rules: {
         title: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
-        listedImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        listedImg: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
-        bannerImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        bannerImg: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
-        contentImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        contentImg: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         sort: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         material: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         size: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         cargoNo: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
@@ -125,8 +124,6 @@ export default {
     imgUpload,
   },
   created() {
-    this.id = this.$route.query.id
-    if(this.id) this.getDetail()
   },
   mounted() {
   },
@@ -137,26 +134,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
-    getDetail() {
-      this.$http({
-        url: '/goodsmanage/backadmin/goods/detail',
-        method: 'GET',
-        params: {
-          id: this.id
-        }
-      })
-        .then(res => {
-          this.detail = res.data
-          this.ruleForm.title = this.detail.title
-          this.listedImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
-          this.bannerImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
-          this.contentImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
-          this.ruleForm.sort = this.detail.sort
-          this.ruleForm.material = this.detail.material
-          this.ruleForm.size = this.detail.size
-          this.ruleForm.cargoNo = this.detail.cargoNo
-        }).catch(e => {console.log(e)})
-    },
     removeSku(item) {
       var index = this.ruleForm.skus.indexOf(item)
       if (index !== -1) {
@@ -178,16 +155,16 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let images = []
-          for (let i = 0; i < this.ruleForm.bannerImage.length; i++) {
-            images.push({
-              url: this.ruleForm.bannerImage[i],
+          let imgs = []
+          for (let i = 0; i < this.ruleForm.bannerImg.length; i++) {
+            imgs.push({
+              url: this.ruleForm.bannerImg[i],
               type: 1
             })
           }
-          for (let i = 0; i < this.ruleForm.contentImage.length; i++) {
-            images.push({
-              url: this.ruleForm.contentImage[i],
+          for (let i = 0; i < this.ruleForm.contentImg.length; i++) {
+            imgs.push({
+              url: this.ruleForm.contentImg[i],
               type: 2
             })
           }
@@ -205,16 +182,15 @@ export default {
             url: '/goodsmanage/backadmin/goods',
             method: this.id ? 'PUT' : 'POST',
             data: {
-              id: this.id ? this.id : '',
               title: this.ruleForm.title,
-              listedImage: this.ruleForm.listedImage[0],
+              listedImage: this.ruleForm.listedImg[0],
               sort: this.ruleForm.sort,
               tbGoodsDetail: {
                 material: this.ruleForm.material,
                 size: this.ruleForm.size,
                 cargoNo: this.ruleForm.cargoNo,
               },
-              images: images,
+              images: imgs,
               skus: skus,
             },
           }).then(res => {

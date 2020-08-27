@@ -51,6 +51,7 @@ export default {
 
 <style lang="stylus" scoped>
 .side-nav {
+  overflow-x: hidden;
   overflow-y: auto;
   position: absolute;
   z-index: 100;
@@ -59,6 +60,19 @@ export default {
   bottom: 0;
   box-sizing: border-box;
   width: 200px;
+  // chrome
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,.15)
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent
+  }
+  // 火狐
+  scrollbar-color: rgba(255,255,255,.15) transparent;
+  scrollbar-width: thin;
 }
 .logo {
   padding: 10px

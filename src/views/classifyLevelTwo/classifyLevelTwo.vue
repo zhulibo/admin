@@ -93,7 +93,7 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     editItem(scope) {

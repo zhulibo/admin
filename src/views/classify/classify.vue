@@ -14,6 +14,7 @@
               <dl>
                 <dt class="classify-module-name">{{item.tbModel.name}}</dt>
                 <dd class="classify-level-two" v-for="(item2, index2) in item.classifyLevelTwoList">{{item2.tbClassify.name}}</dd>
+<!--                <dd class="classify-level-two" v-for="(item2, index2) in item.classifyLevelTwoList" @click="addIp(item2.classifyId)">{{item2.tbClassify.name}}</dd>-->
                 <dd class="classify-level-two-add" @click="showClassifyLevelTwoAllList(item.modelId)">+绑定分类</dd>
               </dl>
             </dd>
@@ -74,6 +75,19 @@ export default {
     }),
   },
   methods: {
+    addIp(classifyId) {
+      this.$http({
+        url: '/goodsmanage/backadmin/classify/ip',
+        method: 'POST',
+        data: {
+          name: '测试3',
+          classifyId: classifyId,
+          sort: 1,
+        }
+      })
+        .then(res => {
+        }).catch(e => {console.log(e)})
+    },
     getClassifyLevelOneList() {
       this.$http({
         url: '/goodsmanage/backadmin/classify',

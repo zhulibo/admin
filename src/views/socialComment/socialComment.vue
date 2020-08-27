@@ -45,7 +45,7 @@
         <el-table-column prop="del" label="是否屏蔽" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.del == 0">正常</span>
-            <span v-if="scope.row.del == 1">已屏蔽</span>
+            <span v-else-if="scope.row.del == 1">已屏蔽</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
@@ -165,7 +165,7 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     editItem(scope) {

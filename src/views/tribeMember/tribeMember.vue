@@ -52,9 +52,9 @@
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1">提交审核</span>
-            <span v-if="scope.row.status == 2">已拒绝</span>
-            <span v-if="scope.row.status == 3">已通过</span>
-            <span v-if="scope.row.status == 4">被踢出</span>
+            <span v-else-if="scope.row.status == 2">已拒绝</span>
+            <span v-else-if="scope.row.status == 3">已通过</span>
+            <span v-else-if="scope.row.status == 4">被踢出</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
@@ -187,7 +187,7 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     editItem(scope) {

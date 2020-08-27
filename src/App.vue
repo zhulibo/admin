@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <div v-html="css"></div>
     <router-view/>
   </div>
 </template>
@@ -12,7 +11,6 @@ export default {
   name: 'App',
   data() {
     return {
-      css: '',
     }
   },
   created() {
@@ -31,8 +29,12 @@ export default {
     let theme = JSON.parse(localStorage.getItem('theme'))
     if (theme){
       this.setTheme(theme)
+      if (theme.sheetMusic){
+        this.global.sheetMusic()
+      }
     }
-
+  },
+  mounted() {
   },
   methods: {
     ...mapMutations(['setUserInfo']),
@@ -43,7 +45,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '//at.alicdn.com/t/font_1970537_gx513id7rv.css'; // 阿里巴巴图标库
+@import '//at.alicdn.com/t/font_1970537_ev2d25c2ptv.css'; // 阿里巴巴图标库
 @import './assets/css/base.css'; // 基础样式
 @import './assets/css/common.styl'; // 公共样式
 @import './assets/css/table.styl'; // 表格样式

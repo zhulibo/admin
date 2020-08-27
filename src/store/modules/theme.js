@@ -1,3 +1,4 @@
+import global from '../../components/global/global' // 全局变量
 const state = {
   theme: {
     colorNav: '#252a2f',
@@ -5,17 +6,18 @@ const state = {
     colorBg: '',
     bg: [],
     cursorImg: '',
+    sheetMusic: '',
   },
 };
 
-const getters = {};
+const getters = {}
 
 const mutations = {
   setTheme(state, theme) {
     state.theme = theme
 
-    let css = document.createElement('style');
-    css.type = 'text/css';
+    let css = document.createElement('style')
+    css.type = 'text/css'
 
     // 表格背景色
     let innerHTML = '.table,.edit-ct{background-color: ' + theme.colorBg + ';}'
@@ -24,8 +26,8 @@ const mutations = {
     }
 
     css.innerHTML = innerHTML
-    console.log(css)
-    document.getElementsByTagName('head')[0].appendChild(css);
+    document.getElementsByTagName('head')[0].appendChild(css)
+
   },
 };
 

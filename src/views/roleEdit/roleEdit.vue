@@ -49,13 +49,13 @@ export default {
       },
       rules: {
         roleName: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         description: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         privilegeIds: [
-          {required: true, message: '请选择', trigger: 'blur'}
+          {required: true, message: '请选择', trigger: 'change'}
         ],
       },
     }

@@ -43,45 +43,48 @@
           </el-form-item>
         </el-form>
       </div>
-      <!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>-->
     </div>
     <div class="table">
       <el-table :data="tableList">
-<!--      <el-table :data="tableList" v-loading="loading">-->
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+        <el-table-column prop="createTime" label="申请时间" align="center">
+          <template slot-scope="scope">{{scope.row.submitTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
+        <el-table-column prop="id" label="申请人id" align="center">
+          <template slot-scope="scope">{{scope.row.id}}</template>
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" align="center">
-          <template slot-scope="scope">{{scope.row.nickName | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="sex" label="性别" align="center">
-          <template slot-scope="scope">{{scope.row.sex | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="homesickId" label="漫想家id" align="center">
-          <template slot-scope="scope">{{scope.row.homesickId | noneToLine}}</template>
-        </el-table-column>
-        <el-table-column prop="signature" label="签名" align="center">
-          <template slot-scope="scope">{{scope.row.signature | noneToLine}}</template>
-        </el-table-column>
-        <!--        <el-admin-column label="img" align="center" class-name="row-img">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <img :src="scope.row.iconUrl" alt="">-->
-        <!--          </template>-->
-        <!--        </el-admin-column>-->
-        <el-table-column prop="del" label="账号状态" align="center">
+        <el-table-column prop="certificate" label="营业执照图片" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <span v-if="scope.row.del == 0">正常</span>
-            <span v-if="scope.row.del == 1">停用</span>
+            <img :src="scope.row.certificate" alt="">
           </template>
+        </el-table-column>
+        <el-table-column prop="qualification" label="品牌资质" align="center" class-name="row-img">
+          <template slot-scope="scope">
+            <img :src="scope.row.qualification" alt="">
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="审核时间" align="center">
+          <template slot-scope="scope">{{scope.row.checkTime | timestampToDate}}</template>
+        </el-table-column>
+        <el-table-column prop="userId" label="审核人id" align="center">
+          <template slot-scope="scope">{{scope.row.userId}}</template>
+        </el-table-column>
+        <el-table-column prop="status" label="状态" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status == 1">待审核</span>
+            <span v-else-if="scope.row.status == 2">审核通过</span>
+            <span v-else-if="scope.row.status == 3">审核未通过</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="serviceRatio" label="服务费比例" align="center">
+          <template slot-scope="scope">{{scope.row.serviceRatio | noneToLine}}</template>
+        </el-table-column>
+        <el-table-column prop="failReason" label="拒绝原因" align="center">
+          <template slot-scope="scope">{{scope.row.failReason | noneToLine}}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -159,7 +162,6 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
-      // loading: false, // 加载中
     }
   },
   created() {
@@ -175,7 +177,7 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: 'goodsmanage/backadmin/shop',
+        url: 'userorg/backadmin/shop',
         method: 'GET',
         params: {
           userId: this.formInline.userId,
@@ -195,60 +197,12 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
-    // switchStatus(scope) {
-    //   this.loading = true
-    //   this.$http({
-    //     url: '/userorg/backadmin/appuser',
-    //     method: 'PUT',
-    //     data: {
-    //       userId: scope.userId,
-    //       del: scope.del
-    //     }
-    //   }).then(res => {
-    //     this.loading = false
-    //     this.$message.success(res.msg)
-    //     this.getList()
-    //   }).catch(e => {console.log(e)})
-    // },
-    // deleteItem(scope) {
-    //   this.$confirm('确定删除 ' + scope.softName, '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'info'
-    //   }).then(() => {
-    //     this.$http({
-    //       url: '/backSoftware/delSoftware',
-    //       method: 'DELETE',
-    //       params: {
-    //         userId: this.userInfo.userId,
-    //         softId: scope.softId,
-    //       }
-    //     })
-    //       .then(res => {
-    //         if(res.code == 204) {
-    //           this.$message({
-    //             type: 'success',
-    //             message: '已删除 ' + scope.softName,
-    //           });
-    //           this.getList()
-    //         }else {
-    //           this.$message({
-    //             type: 'error',
-    //             message: res.data.message
-    //           })
-    //         }
-    //       }).catch(e => {console.log(e)})
-    //   }).catch(e => {console.log(e)})
-    // },
     editItem(scope) {
-      this.$router.push({path: '/userEdit', query: {userId: scope.userId}})
+      this.$router.push({path: '/businessManEdit', query: {id: scope.id}})
     },
-    // newItem() {
-    //   this.$router.push({path: '/userEdit'})
-    // },
   }
 }
 </script>

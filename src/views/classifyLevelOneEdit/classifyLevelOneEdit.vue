@@ -39,13 +39,13 @@ export default {
       },
       rules: {
         name: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         sort: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         remark: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }

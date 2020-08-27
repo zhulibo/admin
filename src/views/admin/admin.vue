@@ -38,7 +38,7 @@
         <el-table-column prop="status" label="账号状态" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 0">正常</span>
-            <span v-if="scope.row.status == 1">停用</span>
+            <span v-else-if="scope.row.status == 1">停用</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
@@ -101,7 +101,7 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     editItem(scope) {

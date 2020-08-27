@@ -4,60 +4,40 @@
       <h2 class="head-title">{{this.$route.name}}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="是否官方账号">
-            <el-select v-model="formInline.isAuthority" placeholder="请选择" @change="getList">
-              <el-option label="全部" value=""></el-option>
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="0"></el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item label="">
-            <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList"></el-input>
-          </el-form-item>
-          <el-form-item label="">
-            <el-input v-model="formInline.homesickId" placeholder="请输入漫想家id" @keyup.enter.native="getList"></el-input>
-          </el-form-item>
-          <el-form-item label="">
-            <el-input v-model="formInline.nickName" placeholder="请输入昵称" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.title" placeholder="商品名称" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
           </el-form-item>
         </el-form>
       </div>
-      <!--      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>-->
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
-<!--      <el-table :data="tableList" v-loading="loading">-->
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
+        <el-table-column prop="goodsId" label="商品id" align="center">
+          <template slot-scope="scope">{{scope.row.goodsId}}</template>
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" align="center">
-          <template slot-scope="scope">{{scope.row.nickName | noneToLine}}</template>
+        <el-table-column prop="skuId" label="sku-id" align="center">
+          <template slot-scope="scope">{{scope.row.skuId}}</template>
         </el-table-column>
-        <el-table-column prop="sex" label="性别" align="center">
-          <template slot-scope="scope">{{scope.row.sex | noneToLine}}</template>
+        <el-table-column prop="drawTime" label="开奖时间" align="center">
+          <template slot-scope="scope">{{scope.row.drawTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="homesickId" label="漫想家id" align="center">
-          <template slot-scope="scope">{{scope.row.homesickId | noneToLine}}</template>
+        <el-table-column prop="number" label="奖品数量" align="center">
+          <template slot-scope="scope">{{scope.row.number}}</template>
         </el-table-column>
-        <el-table-column prop="signature" label="签名" align="center">
-          <template slot-scope="scope">{{scope.row.signature | noneToLine}}</template>
-        </el-table-column>
-<!--                <el-table-column prop="iconUrl" label="img" align="center" class-name="row-img">-->
-<!--                  <template slot-scope="scope">-->
-<!--                    <img :src="scope.row.iconUrl" alt="">-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
-        <el-table-column prop="del" label="账号状态" align="center">
+        <el-table-column prop="status" label="抽奖状态" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.del == 0">正常</span>
-            <span v-else-if="scope.row.del == 1">停用</span>
+            <span v-if="scope.row.status == 0">未开始</span>
+            <span v-else-if="scope.row.status == 1">已开始</span>
+            <span v-else-if="scope.row.status == 2">已结束</span>
+            <span v-else-if="scope.row.status == 3">已强制结束</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
@@ -92,7 +72,6 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
-      // loading: false, // 加载中
     }
   },
   created() {
@@ -108,13 +87,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/userorg/backadmin/appuser',
+        url: '/goodsmanage/backadmin/drawgoods',
         method: 'GET',
         params: {
-          isAuthority: this.formInline.isAuthority,
-          phone: this.formInline.phone,
-          homesickId: this.formInline.homesickId,
-          nickName: this.formInline.nickName,
+          title: this.formInline.title,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -175,11 +151,11 @@ export default {
     //   }).catch(e => {console.log(e)})
     // },
     editItem(scope) {
-      this.$router.push({path: '/userEdit', query: {userId: scope.userId}})
+      this.$router.push({path: '/goodsLotteryEdit', query: {id: scope.id}})
     },
-    // newItem() {
-    //   this.$router.push({path: '/userEdit'})
-    // },
+    newItem() {
+      this.$router.push({path: '/goodsLotteryEdit'})
+    },
   }
 }
 </script>

@@ -23,8 +23,8 @@
             </li>
           </ul>
         </el-form-item>
-        <el-form-item :label="detail.type == 1 ? '添加新的图片' : '添加新的视频'" prop="logoImage" :class="detail.type == 1 ? 'form-item-images' : 'form-item-video'">
-          <img-upload v-model="ruleForm.logoImage" :options="logoImgOptions"></img-upload>
+        <el-form-item :label="detail.type == 1 ? '添加新的图片' : '添加新的视频'" prop="logoImg" :class="detail.type == 1 ? 'form-item-images' : 'form-item-video'">
+          <img-upload v-model="ruleForm.logoImg" :options="logoImgOptions"></img-upload>
         </el-form-item>
         <el-form-item label="标题" prop="title">
           <el-input v-model="ruleForm.title"></el-input>
@@ -83,7 +83,7 @@ export default {
         limit: 9
       },
       ruleForm: {
-        logoImage: [],
+        logoImg: [],
         title: '',
         content: '',
         commentNum: '',
@@ -138,12 +138,19 @@ export default {
         method: 'PUT',
         data: {
           id: item.id,
-          del: item.del,
-          updateType: this.detail.type
+          // del: item.del,
+          updateType: 1
         }
       }).then(res => {
         this.$message.success(res.msg)
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        for (let i = 0; i < this.detail.images.length; i++) {
+          if(this.detail.images[i].id == item.id) {
+            this.detail.images[i].del = item.del == 1 ? 0 : 1
+          }
+        }
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -151,14 +158,14 @@ export default {
 
           let submitForm = async () => {
 
-            let imagesParams = await this.getImagesParams()
+            let ImgsParams = await this.getImgsParams()
 
             this.$http({
               url: '/userorg/backadmin/article',
               method: 'PUT',
               data: {
                 id: this.id,
-                images: imagesParams,
+                images: ImgsParams,
                 title: this.ruleForm.title,
                 content: this.ruleForm.content,
                 commentNum: this.ruleForm.commentNum,
@@ -182,37 +189,37 @@ export default {
         }
       });
     },
-    getImagesParams() { // 添加图片参数
+    getImgsParams() { // 添加图片参数
       return new Promise( (resolve, reject) => {
-        if(this.ruleForm.logoImage.length == 0) {
+        if(this.ruleForm.logoImg.length == 0) {
           resolve()
           return
         }
 
-        let images = []
-        for (let i = 0; i < this.ruleForm.logoImage.length; i++) {
+        let imgs = []
+        for (let i = 0; i < this.ruleForm.logoImg.length; i++) {
 
           if (this.detail.type == 2) { // 视频
-            images.push({
+            imgs.push({
               userId: this.detail.images[0].userId,
               articleId: this.detail.images[0].articleId,
-              url: this.ruleForm.logoImage[i],
+              url: this.ruleForm.logoImg[i],
               type: this.detail.type,
             })
-            if (this.ruleForm.logoImage.length == i+1) resolve(images)
+            if (this.ruleForm.logoImg.length == i+1) resolve(imgs)
           }else{ // 图片
             let img = new Image()
-            img.src = this.ruleForm.logoImage[i]
+            img.src = this.ruleForm.logoImg[i]
             img.onload = () => {
-              images.push({
+              imgs.push({
                 userId: this.detail.images[0].userId,
                 articleId: this.detail.images[0].articleId,
-                url: this.ruleForm.logoImage[i],
+                url: this.ruleForm.logoImg[i],
                 type: this.detail.type,
                 imageWidth: img.width,
                 imageHeight: img.height,
               })
-              if (this.ruleForm.logoImage.length == i+1) resolve(images)
+              if (this.ruleForm.logoImg.length == i+1) resolve(imgs)
             }
           }
         }

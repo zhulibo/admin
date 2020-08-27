@@ -8,8 +8,8 @@
         <el-form-item label="sku名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="sku图片" prop="skuImage" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.skuImage" :options="skuImgOptions"></img-upload>
+        <el-form-item label="sku图片" prop="skuImg" class="form-item-img-logo">
+          <img-upload v-model="ruleForm.skuImg" :options="skuImgOptions"></img-upload>
         </el-form-item>
         <el-form-item label="价格" prop="price">
           <el-input v-model="ruleForm.price"></el-input>
@@ -39,18 +39,18 @@ export default {
       },
       ruleForm: {
         name: '',
-        skuImage: [],
+        skuImg: [],
         price: '',
       },
       rules: {
         name: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
-        skuImage: [
-          {required: true, message: '请输入', trigger: 'blur'}
+        skuImg: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         price: [
-          {required: true, message: '请输入', trigger: 'blur'}
+          {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
@@ -96,8 +96,8 @@ export default {
             data: {
               id: this.id ? this.id : '',
               mainId: this.detail.mainId,
-              name: this.detail.name,
-              skuImage: this.ruleForm.skuImage[0],
+              name: this.ruleForm.name,
+              skuImage: this.ruleForm.skuImg[0],
               price: this.ruleForm.price,
             },
           }).then(res => {

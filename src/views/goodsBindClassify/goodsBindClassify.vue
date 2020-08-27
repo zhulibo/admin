@@ -17,32 +17,24 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
+        <el-table-column prop="creatTime" label="绑定时间" align="center">
           <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="name" label="名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+        <el-table-column prop="tbClassify.name" label="名称" align="center">
+          <template slot-scope="scope">{{scope.row.tbClassify.name}}</template>
         </el-table-column>
-        <!--        <el-admin-column label="img" align="center" class-name="row-img">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <img :src="scope.row.iconUrl" alt="">-->
-        <!--          </template>-->
-        <!--        </el-admin-column>-->
-        <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{scope.row.sort}}</template>
+        <el-table-column prop="classifyId" label="分类id" align="center">
+          <template slot-scope="scope">{{scope.row.classifyId}}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" align="center">
-          <template slot-scope="scope">{{scope.row.remark}}</template>
+        <el-table-column prop="type" label="分类类型" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.type == 1">首页</span>
+            <span v-if="scope.row.type == 2">普通</span>
+          </template>
         </el-table-column>
-        <!--        <el-table-column prop="del" label="账号状态" align="center">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <span v-if="scope.row.del == 0">正常</span>-->
-        <!--            <span v-if="scope.row.del == 1">停用</span>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -101,11 +93,32 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     newItem() {
       this.$router.push({path: '/goodsBindClassifyEdit', query: {id: this.id}})
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/goods/classify',
+          method: 'DELETE',
+          data: {
+            classifyId: scope.classifyId,
+            goodsId: scope.goodsId,
+            type: scope.type,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.name)
+            this.getList()
+          })
+      }).catch(e => {console.log(e)})
     },
   }
 }

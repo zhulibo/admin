@@ -30,8 +30,8 @@
         <el-table-column prop="name" label="部落名称" align="center">
           <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
         </el-table-column>
-        <el-table-column prop="logoImage" label="部落logo" align="center" class-name="row-img">
-          <template slot-scope="scope"><img :src="scope.row.logoImage" alt=""></template>
+        <el-table-column prop="logoImg" label="部落logo" align="center" class-name="row-img">
+          <template slot-scope="scope"><img :src="scope.row.logoImg" alt=""></template>
         </el-table-column>
         <el-table-column prop="adminUser" label="管理员id" align="center">
           <template slot-scope="scope">{{scope.row.adminUser | noneToLine}}</template>
@@ -39,7 +39,7 @@
         <el-table-column prop="type" label="部落类型" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 1">普通部落</span>
-            <span v-if="scope.row.type == 2">明星部落</span>
+            <span v-else-if="scope.row.type == 2">明星部落</span>
           </template>
         </el-table-column>
         <el-table-column prop="isRecommend" label="推荐部落顺序" align="center">
@@ -120,7 +120,7 @@ export default {
         }).catch(e => {console.log(e)})
     },
     handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val;
+      this.currentPage = val
       this.getList()
     },
     editItem(scope) {

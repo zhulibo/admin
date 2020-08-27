@@ -8,9 +8,11 @@
       :multiple="true"
       :limit="options.limit"
       :file-list="options.fileList"
-      :on-success="handleImageSuccess"
-      :on-remove="handleImageRemove"
-      :on-exceed="handleImageexceed">
+      :before-upload="handleImgBeforeUpload"
+      :on-success="handleImgSuccess"
+      :on-error="handleImgError"
+      :on-remove="handleImgRemove"
+      :on-exceed="handleImgexceed">
       <div v-if="options.type == 2" slot="file" slot-scope="{file}">
         <video v-if="file.response" :src="file.response.data" controls alt=""></video>
       </div>
@@ -20,7 +22,8 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { renameFileName } from '@/utils/renameFileName/renameFileName'
 
 export default {
   name: 'imgUpload',
@@ -42,18 +45,47 @@ export default {
     }),
   },
   methods: {
-    handleImageSuccess(res, file, fileList) {
+    handleImgBeforeUpload(file) {
+
+      if(/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
+        this.$message.warning('暂不支持包含汉字的文件上传')
+        return false
+      }
+
+      if(file.type == 'image/png' || file.type == 'image/jpg' ||  file.type == 'image/jpeg' ||  file.type == 'image/gif' ){
+        if(file.size / 1024 / 1024 >= 10){
+          this.$message.warning('图片最大10M')
+          return false
+        }
+        // const fileTypeIndex = file.name.lastIndexOf('.')
+        // const fileType = file.name.substring(fileTypeIndex)
+        // const fileName = renameFileName() + fileType
+        // const copyFile = new File([file], fileName)
+        // return Promise.resolve(copyFile)
+      }
+    },
+    handleImgSuccess(res, file, fileList) {
       console.log('res', res)
       console.log('file', file)
       console.log('fileList', fileList)
-      this.fileList = fileList
+      if(res.code == 0) {
+        this.fileList = fileList
+      } else {
+        this.$message.error(res.msg)
+      }
     },
-    handleImageRemove(file, fileList) {
+    handleImgError(err, file, fileList) {
+      console.log('err', err)
+      console.log('file', file)
+      console.log('fileList', fileList)
+      this.$message.error('逻辑处理错误')
+    },
+    handleImgRemove(file, fileList) {
       console.log('file', file)
       console.log('fileList', fileList)
       this.fileList = fileList
     },
-    handleImageexceed(file, fileList) {
+    handleImgexceed(file, fileList) {
       console.log('file', file)
       console.log('fileList', fileList)
       this.$message.warning(`最多${this.options.limit}张图片←_←`)
