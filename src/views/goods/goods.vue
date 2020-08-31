@@ -81,7 +81,7 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="title" label="商品名称" align="center">
+        <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{scope.row.title}}</template>
         </el-table-column>
         <el-table-column prop="id" label="商品id" align="center">
@@ -114,7 +114,6 @@
         <el-table-column label="操作" align="center" width="200px" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
             <el-dropdown @command="handleCommand" :show-timeout="50">
               <span class="el-dropdown-link">分类<i class="el-icon-arrow-down el-icon--right"></i></span>
               <el-dropdown-menu slot="dropdown">
@@ -123,6 +122,7 @@
 <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>-->
               </el-dropdown-menu>
             </el-dropdown>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -300,10 +300,10 @@ export default {
       console.log(command)
       if(command.command == 1) {
         console.log()
-        this.$router.push({path: '/goodsBindClassify', query: {id: command.row.id}})
+        this.$router.push({path: '/goodsBindClassify', query: {id: command.row.id, goodsType: 1}})
       }
       else if(command.command == 2) {
-        this.$router.push({path: '/goodsBindIp', query: {id: command.row.id}})
+        this.$router.push({path: '/goodsBindIp', query: {id: command.row.id, goodsType: 1}})
       }
       else if(command.command == 3) {
         this.$http({

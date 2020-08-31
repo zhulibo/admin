@@ -49,6 +49,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
+    this.goodsType = this.$route.query.goodsType
   },
   mounted() {
   },
@@ -102,6 +103,7 @@ export default {
             url: '/goodsmanage/backadmin/goods/bindgoods',
             method: 'POST',
             data: {
+              goodsType: this.goodsType,
               type: this.ruleForm.type,
               classifyId: this.ruleForm.classifyId,
               goodsId: this.id,

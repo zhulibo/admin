@@ -80,6 +80,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
+    this.goodsType = this.$route.query.goodsType
   },
   mounted() {
   },
@@ -97,6 +98,7 @@ export default {
             url: '/goodsmanage/backadmin/goods/bindip',
             method: 'POST',
             data: {
+              goodsType: this.goodsType,
               goodsId: this.id,
               ipId: this.ruleForm.ipId[1],
             },

@@ -42,12 +42,25 @@ export default {
   height: 100%
 }
 .main-content {
-  overflow-x auto
+  overflow-y auto
   position: absolute
   top: 60px
   left: 200px
   right: 0
   bottom: 0
   padding: 10px;
+  // chrome
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.2)
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent
+  }
+  // 火狐
+  scrollbar-color: rgba(0,0,0,.2) transparent;
+  scrollbar-width: thin;
 }
 </style>

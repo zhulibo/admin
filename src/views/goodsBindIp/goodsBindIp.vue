@@ -17,9 +17,9 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="creatTime" label="绑定时间时间" align="center">
-          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
-        </el-table-column>
+<!--        <el-table-column prop="creatTime" label="绑定时间时间" align="center">-->
+<!--          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>-->
+<!--        </el-table-column>-->
         <el-table-column prop="tbIp.name" label="名称" align="center">
           <template slot-scope="scope">{{scope.row.tbIp.name}}</template>
         </el-table-column>
@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       id: '',
+      goodsType: '',
       formInline: {
         name: '',
       },
@@ -59,6 +60,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
+    this.goodsType = this.$route.query.goodsType
     this.getList()
   },
   mounted() {
@@ -91,7 +93,7 @@ export default {
       this.getList()
     },
     newItem() {
-      this.$router.push({path: '/goodsBindIpEdit', query: {id: this.id}})
+      this.$router.push({path: '/goodsBindIpEdit', query: {id: this.id, goodsType: this.goodsType}})
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.tbIp.name, '提示', {

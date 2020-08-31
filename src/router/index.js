@@ -269,6 +269,14 @@ export const constantRouter = [
         meta: {
           icon: 'iconfont icon-fenlei2',
         },
+      },
+      {
+        path: '/classifyBrand',
+        name: '品牌',
+        component: () => import (/* webpackChunkName: 'classifyBrand' */ '@/views/classifyBrand/classifyBrand'),
+        meta: {
+          icon: 'iconfont icon-pinpaitemai',
+        },
       }
     ]
   },
@@ -317,6 +325,19 @@ export const constantRouter = [
     hidden: true,
     children: [
       {
+        path: '/classifyBrandEdit',
+        name: '品牌编辑',
+        component: () => import (/* webpackChunkName: 'classifyBrandEdit' */ '@/views/classifyBrandEdit/classifyBrandEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
         path: '/classifyIndexEdit',
         name: '首页分类编辑',
         component: () => import (/* webpackChunkName: 'classifyIndexEdit' */ '@/views/classifyIndexEdit/classifyIndexEdit'),
@@ -346,6 +367,14 @@ export const constantRouter = [
         component: () => import (/* webpackChunkName: 'goodsPresale' */ '@/views/goodsPresale/goodsPresale'),
         meta: {
           icon: 'iconfont icon-yushou',
+        },
+      },
+      {
+        path: '/goodsPresaleActivity',
+        name: '预售活动',
+        component: () => import (/* webpackChunkName: 'goodsPresaleActivity' */ '@/views/goodsPresaleActivity/goodsPresaleActivity'),
+        meta: {
+          icon: 'iconfont icon-RectangleCopy',
         },
       },
       {
@@ -492,6 +521,19 @@ export const constantRouter = [
         path: '/goodsPresaleSkuEdit',
         name: '预售商品sku编辑',
         component: () => import (/* webpackChunkName: 'goodsPresaleSkuEdit' */ '@/views/goodsPresaleSkuEdit/goodsPresaleSkuEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleActivityEdit',
+        name: '预售商品活动编辑',
+        component: () => import (/* webpackChunkName: 'goodsPresaleActivityEdit' */ '@/views/goodsPresaleActivityEdit/goodsPresaleActivityEdit'),
         meta: {},
       }
     ]

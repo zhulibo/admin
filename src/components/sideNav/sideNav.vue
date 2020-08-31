@@ -65,13 +65,13 @@ export default {
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,.15)
+    background-color: rgba(255,255,255,.1)
   }
   &::-webkit-scrollbar-track {
     background-color: transparent
   }
   // 火狐
-  scrollbar-color: rgba(255,255,255,.15) transparent;
+  scrollbar-color: rgba(255,255,255,.1) transparent;
   scrollbar-width: thin;
 }
 .logo {

@@ -17,23 +17,21 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-<!--        <el-table-column prop="creatTime" label="绑定时间" align="center">-->
-<!--          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>-->
-<!--        </el-table-column>-->
-        <el-table-column prop="tbClassify.name" label="名称" align="center">
-          <template slot-scope="scope">{{scope.row.tbClassify.name}}</template>
+        <el-table-column prop="createTime" label="时间" align="center">
+          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
         </el-table-column>
-        <el-table-column prop="classifyId" label="分类id" align="center">
-          <template slot-scope="scope">{{scope.row.classifyId}}</template>
+        <el-table-column prop="name" label="名称" align="center">
+          <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
-        <el-table-column prop="type" label="分类类型" align="center">
-          <template slot-scope="scope">
-            <span v-if="scope.row.type == 1">首页</span>
-            <span v-if="scope.row.type == 2">普通</span>
-          </template>
+        <el-table-column prop="sort" label="排序" align="center">
+          <template slot-scope="scope">{{scope.row.sort}}</template>
+        </el-table-column>
+        <el-table-column prop="remark" label="备注" align="center">
+          <template slot-scope="scope">{{scope.row.remark}}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -53,10 +51,8 @@ export default {
   name: 'item',
   data() {
     return {
-      id: '',
-      goodsType: '',
       formInline: {
-        name: '',
+        phone: '',
       },
       tableList: [],
       pageSize: 10,
@@ -65,8 +61,6 @@ export default {
     }
   },
   created() {
-    this.id = this.$route.query.id
-    this.goodsType = this.$route.query.goodsType
     this.getList()
   },
   mounted() {
@@ -79,11 +73,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goods/goodsclassify',
+        url: '/goodsmanage/backadmin/brand',
         method: 'GET',
         params: {
           name: this.name,
-          goodsId: this.id,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -98,29 +91,30 @@ export default {
       this.currentPage = val
       this.getList()
     },
-    newItem() {
-      this.$router.push({path: '/goodsBindClassifyEdit', query: {id: this.id, goodsType: this.goodsType}})
+    editItem(scope) {
+      this.$router.push({path: '/classifyBrandEdit', query: {id: scope.id}})
     },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.name, '提示', {
+      this.$confirm('确定删除 ' + scope.title, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goods/classify',
+          url: '/goodsmanage/backadmin/brand',
           method: 'DELETE',
           data: {
-            classifyId: scope.classifyId,
-            goodsId: scope.goodsId,
-            type: scope.type,
+            id: scope.id,
           }
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.name)
+            this.$message.success('已删除 ' + scope.title)
             this.getList()
           })
       }).catch(e => {console.log(e)})
+    },
+    newItem() {
+      this.$router.push({path: '/classifyBrandEdit'})
     },
   }
 }

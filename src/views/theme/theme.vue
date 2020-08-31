@@ -32,6 +32,7 @@
           </el-select>
         </div>
       </li>
+      <p>z-p 45-65键</p>
       <li>
         <div class="l"><span>背景图</span></div>
         <div class="r"><img-upload v-model="theme.bg" :options="bgImgOptions"></img-upload></div>

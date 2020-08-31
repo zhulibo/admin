@@ -81,6 +81,8 @@ export default {
       rules: {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
+          // {type: 'number', message: '此项须为数字',trigger: 'blur',transform: Number},
+          // {pattern: /^[+]?([\d]{1,12})([\.]{1}[\d]{1,2})?$/, message: '最多12位正数,小数最多两位',trigger: 'blur'},
         ],
         logoImg: [
           {required: true, message: '请输入', trigger: 'change'}

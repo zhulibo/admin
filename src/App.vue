@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '//at.alicdn.com/t/font_1970537_ev2d25c2ptv.css'; // 阿里巴巴图标库
+@import '//at.alicdn.com/t/font_1970537_x4qkd3c674o.css'; // 阿里巴巴图标库
 @import './assets/css/base.css'; // 基础样式
 @import './assets/css/common.styl'; // 公共样式
 @import './assets/css/table.styl'; // 表格样式
