@@ -1,15 +1,16 @@
 import router from '../router'
 import axios from 'axios'
+import store from '../store'
 import { Message } from 'element-ui'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 axios.defaults.timeout =  6000
 
-var userInfo = JSON.parse(localStorage.getItem('userInfo'))
-
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
+
+    let userInfo = store.getters.userInfo
 
     if (userInfo) {
       config.headers.Authorization = userInfo
@@ -27,15 +28,6 @@ axios.interceptors.response.use(
   res => {
 
     switch (res.data.code) {
-
-      case 802:
-        Message({
-          message: res.data.msg + `(${res.data.code})`,
-          type: 'error',
-          duration: 3000
-        })
-        router.push({path: '/logIn'})
-        return Promise.reject(res) // 请求结果异常(code!=0)进入catch函数，避免报错
 
       case 0:
         return res.data
@@ -107,6 +99,7 @@ axios.interceptors.response.use(
         //   err.message = 'HTTP版本不受支持(505)'
         //   break
         case 802:
+          router.push({path: '/logIn'})
           err.message = '请重新登录(802)'
           break
         default:

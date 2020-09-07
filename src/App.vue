@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'App',
   data() {
@@ -21,14 +19,12 @@ export default {
     if (!userInfo && this.$route.path != '/register') {
       this.$router.push({path: '/login'})
     }
-    this.setUserInfo(userInfo)
-    if (userInfo) {
-      // this.updateRouter(userInfo.roleSet)
-    }
+    this.$store.dispatch('updateUserInfo', userInfo)
+
     // 主题信息
     let theme = JSON.parse(localStorage.getItem('theme'))
-    if (theme){
-      this.setTheme(theme)
+    if(theme) {
+      this.$store.dispatch('updateTheme', theme)
       if (theme.sheetMusic){
         this.global.sheetMusic()
       }
@@ -36,18 +32,13 @@ export default {
   },
   mounted() {
   },
-  methods: {
-    ...mapMutations(['setUserInfo']),
-    ...mapMutations(['setTheme']),
-    ...mapActions(['updateRouter']),
-  },
 }
 </script>
 
 <style lang="stylus">
-@import '//at.alicdn.com/t/font_1970537_x4qkd3c674o.css'; // 阿里巴巴图标库
-@import './assets/css/base.css'; // 基础样式
-@import './assets/css/common.styl'; // 公共样式
-@import './assets/css/table.styl'; // 表格样式
-@import './assets/css/edit.styl'; // 编辑样式
+@import '//at.alicdn.com/t/font_1970537_8o2lam53xe.css' // 阿里巴巴图标库
+@import './assets/css/base.css' // 基础样式
+@import './assets/css/common.styl' // 公共样式
+@import './assets/css/table.styl' // 表格样式
+@import './assets/css/edit.styl' // 编辑样式
 </style>

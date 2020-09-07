@@ -8,6 +8,12 @@
         <div class="form-ct">
           <h2 class="form-title">漫想家管理后台</h2>
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="log-form">
+            <el-form-item label="用户类型" prop="type">
+              <el-select v-model="ruleForm.type" placeholder="请选择">
+                <el-option label="管理员登录" value="1"></el-option>
+                <el-option label="供货商登录" value="2"></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="" prop="account">
               <el-input v-model="ruleForm.account" placeholder="请输入手机号"
                         @keyup.enter.native="submitForm('ruleForm')"></el-input>
@@ -32,7 +38,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import randomCode from '@/components/randomCode/randomCode'
 
 export default {
@@ -48,8 +53,9 @@ export default {
     return {
       type: null,
       ruleForm: {
-        account: '',
-        password: '',
+        type: '1',
+        account: '18203663961',
+        password: 'Cf022044',
         randomCode: '',
       },
       rules: {
@@ -74,11 +80,6 @@ export default {
   mounted() {
     this.ruleForm.randomCode = this.randomCode
   },
-  computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
-  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -88,14 +89,15 @@ export default {
             url: '/userorg/login/back',
             method: 'POST',
             data: {
+              type: this.ruleForm.type,
               phone: this.ruleForm.account,
               passWord: this.ruleForm.password,
             }
           })
             .then(res => {
+              this.$store.dispatch('updateUserInfo', res.data)
               localStorage.setItem('userInfo', JSON.stringify(res.data))
-              this.setUserInfo(res.data)
-              // this.updateRouter(res.data.roleSet)
+              // this.$store.dispatch('updateRouter', res.data.roleSet)
               this.$router.push({path: '/user'})
             }).catch(e => {console.log(e)})
 
@@ -105,8 +107,6 @@ export default {
         }
       });
     },
-    ...mapMutations(['setUserInfo']),
-    ...mapActions(['updateRouter']),
   }
 }
 </script>

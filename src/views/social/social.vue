@@ -76,8 +76,8 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="detail" @click="goSocialCommentList(scope.row)">查看评论</el-button>
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,8 +90,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'item',
   data() {
@@ -164,9 +162,9 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
     getList: function () {

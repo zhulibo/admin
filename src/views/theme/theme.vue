@@ -32,7 +32,6 @@
           </el-select>
         </div>
       </li>
-      <p>z-p 45-65键</p>
       <li>
         <div class="l"><span>背景图</span></div>
         <div class="r"><img-upload v-model="theme.bg" :options="bgImgOptions"></img-upload></div>
@@ -78,7 +77,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
 
 export default {
@@ -103,13 +101,11 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo,
-      theme: state => state.theme.theme
-    }),
+    theme() {
+      return this.$store.getters.theme
+    },
   },
   methods: {
-    ...mapMutations(['setTheme']),
     changeCursorImg(event) {
       let src = event.currentTarget.getAttribute("src")
       this.theme.cursorImg = src
@@ -122,7 +118,7 @@ export default {
   watch: {
     'theme': {
       handler: function (theme, oldTheme) {
-        this.setTheme(theme)
+        this.$store.dispatch('updateTheme', theme)
         localStorage.setItem('theme', JSON.stringify(theme))
       },
       deep: true,

@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
 
 export default {
@@ -115,12 +114,11 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
-    ...mapMutations(['setUserInfo']),
     getDetail() {
       this.$http({
         url: '/userorg/backadmin/tribe/detail/' + this.id,

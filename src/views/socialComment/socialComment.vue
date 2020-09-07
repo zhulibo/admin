@@ -63,8 +63,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'item',
   data() {
@@ -139,9 +137,9 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
     getList: function () {

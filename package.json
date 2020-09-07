@@ -9,7 +9,6 @@
     "a": "vue-cli-service build && vue-cli-service build --mode test"
   },
   "dependencies": {
-    "ali-oss": "^6.10.0",
     "axios": "^0.19.2",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.2",

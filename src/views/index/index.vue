@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import sideNav from '@/components/sideNav/sideNav'
 import headBar from '@/components/headBar/headBar'
 
@@ -27,9 +26,9 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      theme: state => state.theme.theme,
-    }),
+    theme() {
+      return this.$store.getters.theme
+    },
   },
   methods: {
   }

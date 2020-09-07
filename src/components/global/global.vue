@@ -5,16 +5,16 @@ let baseUrl = process.env.NODE_ENV == 'development' ? process.env.VUE_APP_REAL_U
 let getParams = () => {
   let params = {} // 参数存放的对象
   let key, value;  // 键、值
-  let str = location.href; // 整个url
-  str = str.substr(str.indexOf("?") + 1); // 从?下标+1处截取到最后
-  let arr = str.split("&"); // 以&分割参数
+  let str = location.href // 整个url
+  str = str.substr(str.indexOf("?") + 1) // 从?下标+1处截取到最后
+  let arr = str.split("&") // 以&分割参数
 
   for (let i = 0; i < arr.length; i++) {
-    let num = arr[i].indexOf("=");
+    let num = arr[i].indexOf("=")
     if (num > 0) {
       key = arr[i].substring(0, num); // 从0到num
-      value = arr[i].substr(num + 1); // 从num + 1到最后
-      params[key] = value;
+      value = arr[i].substr(num + 1) // 从num + 1到最后
+      params[key] = value
     }
   }
   return params
@@ -89,7 +89,7 @@ let sheetMusic = () => {
     gainNode.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.01)
     // 音调从当前时间开始播放
     oscillator.start(audioCtx.currentTime)
-    // 1.2秒内声音慢慢降低，是个不错的停止声音的方法
+    // 1.2秒内声音慢慢降低
     gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2)
     // 1.2秒后完全停止声音
     oscillator.stop(audioCtx.currentTime + 1.2)

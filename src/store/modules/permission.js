@@ -5,10 +5,13 @@ const permission = {
   state: {
     routers: constantRouter,
   },
+  getters: {
+    routers: state => state.routers,
+  },
   mutations: {
     setRouter: (state, addRouter) => {
       // console.log(addRouter)
-      state.routers = constantRouter.concat(addRouter);
+      state.routers = constantRouter.concat(addRouter)
       router.addRoutes(addRouter)
     }
   },

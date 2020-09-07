@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'itemEdit',
   data() {
@@ -54,12 +52,12 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
-    ...mapMutations(['setUserInfo']),
+
     getDetail() {
       this.$http({
         url: '/userorg/backadmin/appuser/detail/' + this.userId,

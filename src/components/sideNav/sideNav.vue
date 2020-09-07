@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'sideNav',
   data() {
@@ -37,14 +35,14 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo,
-      routers: state => state.permission.routers,
-      theme: state => state.theme.theme,
-    }),
+    routers() {
+      return this.$store.getters.routers
+    },
+    theme() {
+      return this.$store.getters.theme
+    },
   },
   methods: {
-    ...mapMutations(['setUserInfo']),
   }
 }
 </script>

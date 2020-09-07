@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 const chat = () => import(/* webpackChunkName: "chat" */ '@/components/chat/chat')
 
 export default {

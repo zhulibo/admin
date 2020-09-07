@@ -76,8 +76,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'item',
   data() {
@@ -101,9 +99,9 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
     getList: function () {
@@ -145,33 +143,19 @@ export default {
     //   }).catch(e => {console.log(e)})
     // },
     // deleteItem(scope) {
-    //   this.$confirm('确定删除 ' + scope.softName, '提示', {
+    //   this.$confirm('确定删除 ' + scope.id, '提示', {
     //     confirmButtonText: '确定',
     //     cancelButtonText: '取消',
     //     type: 'info'
     //   }).then(() => {
     //     this.$http({
-    //       url: '/backSoftware/delSoftware',
+    //       url: '/userorg/backadmin/shopaddress/delete/' + scope.id,
     //       method: 'DELETE',
-    //       params: {
-    //         userId: this.userInfo.userId,
-    //         softId: scope.softId,
-    //       }
     //     })
     //       .then(res => {
-    //         if(res.code == 204) {
-    //           this.$message({
-    //             type: 'success',
-    //             message: '已删除 ' + scope.softName,
-    //           });
-    //           this.getList()
-    //         }else {
-    //           this.$message({
-    //             type: 'error',
-    //             message: res.data.message
-    //           })
-    //         }
-    //       }).catch(e => {console.log(e)})
+    //         this.$message.success('已删除 ' + scope.id)
+    //         this.getList()
+    //       })
     //   }).catch(e => {console.log(e)})
     // },
     editItem(scope) {

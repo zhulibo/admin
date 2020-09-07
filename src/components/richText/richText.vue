@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 // 富文本
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -93,9 +92,9 @@ export default {
     addQuillTitle(); // 添加title
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
     handleLogoImageSuccess(res, file, fileList) {

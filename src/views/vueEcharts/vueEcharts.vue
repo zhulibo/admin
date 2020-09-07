@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/line'
 

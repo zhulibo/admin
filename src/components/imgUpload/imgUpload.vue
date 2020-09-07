@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import { renameFileName } from '@/utils/renameFileName/renameFileName'
 
 export default {
@@ -40,9 +39,9 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
   },
   methods: {
     handleImgBeforeUpload(file) {

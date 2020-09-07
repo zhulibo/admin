@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-
 export default {
   name: 'headBar',
   data() {
@@ -26,13 +24,14 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo,
-      theme: state => state.theme.theme,
-    }),
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+    theme() {
+      return this.$store.getters.theme
+    },
   },
   methods: {
-    ...mapMutations(['setUserInfo']),
     logOut: function () {
       this.$http({
         url: '/userorg/login/back/out',
