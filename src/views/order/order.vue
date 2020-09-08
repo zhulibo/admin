@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="订单状态">
@@ -44,28 +44,28 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{scope.row.phone | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.phone | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="nickName" label="昵称" align="center">
-          <template slot-scope="scope">{{scope.row.nickName | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.nickName | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="sex" label="性别" align="center">
-          <template slot-scope="scope">{{scope.row.sex | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.sex | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="homesickId" label="漫想家id" align="center">
-          <template slot-scope="scope">{{scope.row.homesickId | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.homesickId | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="signature" label="签名" align="center">
-          <template slot-scope="scope">{{scope.row.signature | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.signature | noneToLine }}</template>
         </el-table-column>
-<!--                <el-table-column prop="iconUrl" label="img" align="center" class-name="row-img">-->
-<!--                  <template slot-scope="scope">-->
-<!--                    <img :src="scope.row.iconUrl" alt="">-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
+        <!--                <el-table-column prop="iconUrl" label="img" align="center" class-name="row-img">-->
+        <!--                  <template slot-scope="scope">-->
+        <!--                    <img :src="scope.row.iconUrl" alt="">-->
+        <!--                  </template>-->
+        <!--                </el-table-column>-->
         <el-table-column prop="status" label="订单状态" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 0">删除</span>
@@ -183,7 +183,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

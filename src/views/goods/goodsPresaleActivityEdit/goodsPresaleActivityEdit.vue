@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -20,14 +20,15 @@
             placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
-      <div class="sku-ct" v-for="(sku, index) in ruleForm.skus"  v-if="ruleForm.skus && ruleForm.type == 2">
-        <el-form-item :label="'sku名称'">
-          <el-input v-model="sku.name" disabled></el-input>
-        </el-form-item>
-        <el-form-item :label="'预售数量'" :prop="'skus.' + index + '.store'" :rules="{required: true, message: '请输入sku预售数量', trigger: 'change'}">
-          <el-input v-model="sku.store"></el-input>
-        </el-form-item>
-      </div>
+        <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" v-if="ruleForm.skus && ruleForm.type == 2">
+          <el-form-item :label="'sku名称'">
+            <el-input v-model="sku.name" disabled></el-input>
+          </el-form-item>
+          <el-form-item :label="'预售数量'" :prop="'skus.' + index + '.store'"
+                        :rules="{required: true, message: '请输入sku预售数量', trigger: 'change'}">
+            <el-input v-model="sku.store"></el-input>
+          </el-form-item>
+        </div>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -61,7 +62,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -87,7 +88,9 @@ export default {
               store: '',
             })
           }
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -115,7 +118,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/goodsPresale'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -127,20 +132,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.sku-ct{
+.sku-ct {
   position: relative
   margin-bottom: 20px
   padding-right: 120px
   padding-top: 20px
   border: 1px dashed #ccc
   border-radius: 4px;
-  .delete{
+  .delete {
     position: absolute
     right: 20px
     top: 20px
   }
 }
-.form-item-add-sku{
+.form-item-add-sku {
   text-align: right
 }
 </style>

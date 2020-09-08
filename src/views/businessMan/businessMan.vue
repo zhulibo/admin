@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -48,10 +48,10 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="申请时间" align="center">
-          <template slot-scope="scope">{{scope.row.submitTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.submitTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="id" label="申请人id" align="center">
-          <template slot-scope="scope">{{scope.row.id}}</template>
+          <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column prop="certificate" label="营业执照图片" align="center" class-name="row-img">
           <template slot-scope="scope">
@@ -64,10 +64,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="审核时间" align="center">
-          <template slot-scope="scope">{{scope.row.checkTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.checkTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="userId" label="审核人id" align="center">
-          <template slot-scope="scope">{{scope.row.userId}}</template>
+          <template slot-scope="scope">{{ scope.row.userId }}</template>
         </el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
@@ -77,10 +77,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="serviceRatio" label="服务费比例" align="center">
-          <template slot-scope="scope">{{scope.row.serviceRatio | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.serviceRatio | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="failReason" label="拒绝原因" align="center">
-          <template slot-scope="scope">{{scope.row.failReason | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.failReason | noneToLine }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
@@ -192,7 +192,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

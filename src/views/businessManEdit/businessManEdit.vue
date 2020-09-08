@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -67,8 +67,8 @@ export default {
       rules: {
         serviceRatio: [
           {required: true, message: '请选择', trigger: 'change'},
-          {type: 'number', message: '此项须为数字',trigger: 'change',transform: Number},
-          ]
+          {type: 'number', message: '此项须为数字', trigger: 'change', transform: Number},
+        ]
       },
     }
   },
@@ -91,7 +91,7 @@ export default {
       this.$http({
         url: 'userorg/backadmin/shop/detail',
         method: 'GET',
-        params:{
+        params: {
           id: this.id
         }
       })
@@ -103,7 +103,9 @@ export default {
           this.ruleForm.status = String(this.detail.status) // el-select必须字符串
           this.ruleForm.failReason = this.detail.failReason
           this.ruleForm.remark = this.detail.remark
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -123,7 +125,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/businessMan'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

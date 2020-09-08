@@ -99,7 +99,9 @@ export default {
               localStorage.setItem('userInfo', JSON.stringify(res.data))
               // this.$store.dispatch('updateRouter', res.data.roleSet)
               this.$router.push({path: '/user'})
-            }).catch(e => {console.log(e)})
+            }).catch(e => {
+            console.log(e)
+          })
 
         } else {
           console.log('error submit!!')

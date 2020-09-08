@@ -1,5 +1,6 @@
 <template>
-  <div class="app-wrapper" :style="{ background: 'url(' + theme.bg[0] + ') center center/cover no-repeat', cursor: 'url(' + theme.cursorImg + ') 0 0, auto!important'}">
+  <div class="app-wrapper"
+       :style="{ background: 'url(' + theme.bg[0] + ') center center/cover no-repeat', cursor: 'url(' + theme.cursorImg + ') 0 0, auto!important'}">
     <side-nav></side-nav>
     <head-bar></head-bar>
     <div class="main-content">
@@ -30,13 +31,12 @@ export default {
       return this.$store.getters.theme
     },
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
 <style lang="stylus" scoped>
-.app-wrapper{
+.app-wrapper {
   width: 100%
   height: 100%
 }
@@ -53,13 +53,13 @@ export default {
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,.2)
+    background-color: rgba(0, 0, 0, .2)
   }
   &::-webkit-scrollbar-track {
     background-color: transparent
   }
   // 火狐
-  scrollbar-color: rgba(0,0,0,.2) transparent;
+  scrollbar-color: rgba(0, 0, 0, .2) transparent;
   scrollbar-width: thin;
 }
 </style>

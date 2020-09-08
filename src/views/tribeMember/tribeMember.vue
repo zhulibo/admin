@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="状态">
@@ -38,13 +38,13 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="userId" label="id" align="center">
-          <template slot-scope="scope">{{scope.row.id | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.id | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="remark" label="申请内容" align="center">
-          <template slot-scope="scope">{{scope.row.remark | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.remark | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="applyImage" label="申请图片" align="center" class-name="row-img">
           <template slot-scope="scope"><img :src="scope.row.applyImage" alt=""></template>
@@ -182,7 +182,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
@@ -194,20 +196,20 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    beforeHandleCommand(row, command){
+    beforeHandleCommand(row, command) {
       return {
         'row': row,
-        'command':command
+        'command': command
       }
     },
     handleCommand(command) {
       let type = Object.prototype.toString.call(command)
       let ids = []
       let status = ''
-      if(type == '[object Object]') {
+      if (type == '[object Object]') {
         ids = command.row.id
         status = command.command
-      }else{
+      } else {
         ids = this.multipleSelection
         status = command
       }
@@ -221,7 +223,9 @@ export default {
       })
         .then(res => {
           this.$message.success(res.msg)
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     }
   }
 }

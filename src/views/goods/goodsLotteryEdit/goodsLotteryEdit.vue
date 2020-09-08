@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -72,7 +72,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -97,7 +97,9 @@ export default {
           this.ruleForm.number = this.detail.number
           this.ruleForm.drawTime = this.detail.drawTime
           this.ruleForm.status = this.detail.status
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -116,7 +118,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/goodsLottery'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

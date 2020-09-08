@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -47,7 +47,7 @@ export default {
   },
   created() {
     this.userId = this.$route.query.userId
-    if(this.userId) this.getDetail()
+    if (this.userId) this.getDetail()
   },
   mounted() {
   },
@@ -68,7 +68,9 @@ export default {
           this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
           this.ruleForm.passWord = this.detail.passWord
           this.ruleForm.del = this.detail.del
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -85,7 +87,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/user'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -12,31 +12,32 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="sender" label="收货人" align="center">
-          <template slot-scope="scope">{{scope.row.sender | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.sender | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="sendPhone" label="手机号" align="center">
-          <template slot-scope="scope">{{scope.row.sendPhone | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.sendPhone | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="provinceName" label="省" align="center">
-          <template slot-scope="scope">{{scope.row.provinceName}}</template>
+          <template slot-scope="scope">{{ scope.row.provinceName }}</template>
         </el-table-column>
         <el-table-column prop="cityName" label="市" align="center">
-          <template slot-scope="scope">{{scope.row.cityName}}</template>
+          <template slot-scope="scope">{{ scope.row.cityName }}</template>
         </el-table-column>
         <el-table-column prop="areaName" label="县" align="center">
-          <template slot-scope="scope">{{scope.row.areaName}}</template>
+          <template slot-scope="scope">{{ scope.row.areaName }}</template>
         </el-table-column>
         <el-table-column prop="sendAddress" label="详细地址" align="center">
-          <template slot-scope="scope">{{scope.row.sendAddress}}</template>
+          <template slot-scope="scope">{{ scope.row.sendAddress }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
@@ -95,7 +96,9 @@ export default {
           this.tableList = res.data
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
@@ -118,7 +121,9 @@ export default {
             this.$message.success('已删除 ' + scope.id)
             this.getList()
           })
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
     newItem() {
       this.$router.push({path: '/supplierAddressEdit'})

@@ -33,13 +33,12 @@ export default {
   mounted() {
   },
   computed: {},
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
 <style lang="stylus" scoped>
-.chatCt{
+.chatCt {
   padding: 20px
   background-color: #fff
 }

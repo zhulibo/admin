@@ -14,13 +14,13 @@
             </div>
             <div class="r">
               <h6>
-                <b>{{item.name}}</b>
-                <span>{{item.time}}</span>
+                <b>{{ item.name }}</b>
+                <span>{{ item.time }}</span>
               </h6>
               <p>
                 <template v-if="item.status == 1">[在线]</template>
                 <template v-else-if="item.status == 0">[离线]</template>
-                {{item.lastWold}}
+                {{ item.lastWold }}
               </p>
             </div>
           </dd>
@@ -33,13 +33,13 @@
             </div>
             <div class="r">
               <h6>
-                <b>{{item.name}}</b>
-                <span>{{item.time}}</span>
+                <b>{{ item.name }}</b>
+                <span>{{ item.time }}</span>
               </h6>
               <p>
                 <template v-if="item.status == 1">[在线]</template>
                 <template v-else-if="item.status == 0">[离线]</template>
-                {{item.lastWold}}
+                {{ item.lastWold }}
               </p>
             </div>
           </dd>
@@ -52,7 +52,7 @@
         <div class="chat-ct" ref="chatct">
           <ul>
             <li v-for="item in msgList" :class="item.type == 1? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
-              <div class="li-time"><span>{{item.time}}</span></div>
+              <div class="li-time"><span>{{ item.time }}</span></div>
               <div class="li-ct clearfix">
                 <el-avatar shape="square" :size="38" :src='item.avatarUrl'></el-avatar>
                 <pre v-html="item.msg"></pre>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -12,17 +12,20 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="setFreeShipping" icon="el-icon-plus">设置包邮</el-button>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="setFreeShipping" icon="el-icon-plus">
+        设置包邮
+      </el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="shopId" label="shopId" align="center">
-          <template slot-scope="scope">{{scope.row.shopId}}</template>
+          <template slot-scope="scope">{{ scope.row.shopId }}</template>
         </el-table-column>
         <el-table-column prop="type" label="类型" align="center">
           <template slot-scope="scope">
@@ -34,12 +37,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="carriagePrice" label="邮费" align="center">
-          <template slot-scope="scope">{{scope.row.carriagePrice}}</template>
+          <template slot-scope="scope">{{ scope.row.carriagePrice }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-<!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
+            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -107,14 +110,19 @@ export default {
           this.tableList = res.data
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/supplierCarriageEdit', query: {id: scope.id, shopId: scope.shopId, type: scope.type, carriagePrice: scope.carriagePrice}})
+      this.$router.push({
+        path: '/supplierCarriageEdit',
+        query: {id: scope.id, shopId: scope.shopId, type: scope.type, carriagePrice: scope.carriagePrice}
+      })
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.id, '提示', {
@@ -130,7 +138,9 @@ export default {
             this.$message.success('已删除 ' + scope.id)
             this.getList()
           })
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
     newItem() {
       this.$router.push({path: '/supplierCarriageEdit'})

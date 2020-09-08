@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getList() {
-      return new Promise( (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.$http({
           url: '/userorg/backadmin/appuser',
           method: 'GET',
@@ -37,7 +37,9 @@ export default {
         })
           .then(res => {
             resolve(res);
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+          console.log(e)
+        })
       })
     }
   }

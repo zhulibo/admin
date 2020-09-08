@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -31,13 +31,13 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{scope.row.title}}</template>
+          <template slot-scope="scope">{{ scope.row.title }}</template>
         </el-table-column>
         <el-table-column prop="id" label="商品id" align="center">
-          <template slot-scope="scope">{{scope.row.id}}</template>
+          <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column prop="listedImage" label="列表图片" align="center" class-name="row-img">
           <template slot-scope="scope">
@@ -149,7 +149,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
@@ -172,27 +174,29 @@ export default {
             this.$message.success('已删除 ' + scope.title)
             this.getList()
           })
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.table-sku{
+.table-sku {
   width: 100%
   border-collapse: collapse;
-  th{
+  th {
     padding: 10px 0
     text-align: center
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
   }
-  td{
+  td {
     padding: 5px 0
     text-align: center
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
   }
-  img{
+  img {
     height: 3em
   }
 }

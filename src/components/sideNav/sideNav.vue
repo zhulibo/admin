@@ -3,21 +3,22 @@
     <div class="logo">
       <img src="../../assets/img/left-logo.png" alt="">
     </div>
-    <el-menu router :default-active="$route.path" :background-color="theme.colorNav" text-color="#ccc" active-text-color="#fff">
+    <el-menu router :default-active="$route.path" :background-color="theme.colorNav" text-color="#ccc"
+             active-text-color="#fff">
       <template v-if="!item.hidden" v-for="(item,index) in routers">
         <el-submenu :index="String(index)" v-if="item.children.length > 1">
           <template slot="title">
             <i :class="item.meta.icon"></i>
-            <span>{{item.name}}</span>
+            <span>{{ item.name }}</span>
           </template>
           <el-menu-item v-for="item2 in item.children" :index="item2.path" :key="item2.path">
             <i :class="item2.meta.icon"></i>
-            <span>{{item2.name}}</span>
+            <span>{{ item2.name }}</span>
           </el-menu-item>
         </el-submenu>
         <el-menu-item :index="item.children[0].path" v-if="item.children.length == 1">
           <i :class="item.children[0].meta.icon"></i>
-          <span>{{item.children[0].name}}</span>
+          <span>{{ item.children[0].name }}</span>
         </el-menu-item>
       </template>
     </el-menu>
@@ -42,8 +43,7 @@ export default {
       return this.$store.getters.theme
     },
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
@@ -63,13 +63,13 @@ export default {
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,.1)
+    background-color: rgba(255, 255, 255, .1)
   }
   &::-webkit-scrollbar-track {
     background-color: transparent
   }
   // 火狐
-  scrollbar-color: rgba(255,255,255,.1) transparent;
+  scrollbar-color: rgba(255, 255, 255, .1) transparent;
   scrollbar-width: thin;
 }
 .logo {

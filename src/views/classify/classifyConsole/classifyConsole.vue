@@ -4,7 +4,9 @@
       <div class="classify-ct">
         <div class="side-bar">
           <dl class="classify-level-one-list">
-            <dd v-for="(item, index) in classifyLevelOneList" :class="{on:item.active}" :data-index="index" @click="clickClassifyLevelOneList($event)">{{item.name}}</dd>
+            <dd v-for="(item, index) in classifyLevelOneList" :class="{on:item.active}" :data-index="index"
+                @click="clickClassifyLevelOneList($event)">{{ item.name }}
+            </dd>
           </dl>
         </div>
         <div class="classify-main">
@@ -12,9 +14,11 @@
             <dt class="classify-module-add" @click="showClassifyModuleAllList">+绑定模块</dt>
             <dd class="classify-module" v-for="(item, index) in classifyModuleList">
               <dl>
-                <dt class="classify-module-name">{{item.tbModel.name}}</dt>
-                <dd class="classify-level-two" v-for="(item2, index2) in item.classifyLevelTwoList">{{item2.tbClassify.name}}</dd>
-<!--                <dd class="classifyConsole-level-two" v-for="(item2, index2) in item.classifyLevelTwoList" @click="addIp(item2.classifyId)">{{item2.tbClassify.name}}</dd>-->
+                <dt class="classify-module-name">{{ item.tbModel.name }}</dt>
+                <dd class="classify-level-two" v-for="(item2, index2) in item.classifyLevelTwoList">
+                  {{ item2.tbClassify.name }}
+                </dd>
+                <!--                <dd class="classifyConsole-level-two" v-for="(item2, index2) in item.classifyLevelTwoList" @click="addIp(item2.classifyId)">{{item2.tbClassify.name}}</dd>-->
                 <dd class="classify-level-two-add" @click="showClassifyLevelTwoAllList(item.modelId)">+绑定分类</dd>
               </dl>
             </dd>
@@ -25,7 +29,8 @@
     <div class="dialog">
       <el-dialog title="请选择模块" :visible.sync="classifyModuleDialogVisible">
         <div class="choose-list">
-          <span v-for="(item, index) in classifyModuleAllList" :class="{on:item.active}" :data-id="item.id" :data-index="index" @click="chooseModule($event)">{{item.name}}</span>
+          <span v-for="(item, index) in classifyModuleAllList" :class="{on:item.active}" :data-id="item.id"
+                :data-index="index" @click="chooseModule($event)">{{ item.name }}</span>
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="addModule()">确 定</el-button>
@@ -33,7 +38,8 @@
       </el-dialog>
       <el-dialog title="请选择二级分类" :visible.sync="classifyLevelTwoDialogVisible">
         <div class="choose-list">
-          <span v-for="(item, index) in classifyLevelTwoAllList" :class="{on:item.active}" :data-index="index" @click="chooseClassifyLevelTwo($event)">{{item.name}}</span>
+          <span v-for="(item, index) in classifyLevelTwoAllList" :class="{on:item.active}" :data-index="index"
+                @click="chooseClassifyLevelTwo($event)">{{ item.name }}</span>
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="addClassifyLevelTwo()">确 定</el-button>
@@ -84,7 +90,9 @@ export default {
         }
       })
         .then(res => {
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     getClassifyLevelOneList() {
       this.$http({
@@ -101,7 +109,9 @@ export default {
           this.$set(this.classifyLevelOneList[0], 'active', true)
           this.classifyLevelOneId = this.classifyLevelOneList[0].id
           this.getClassifyModuleList()
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     clickClassifyLevelOneList(event) {
       for (let i = 0; i < this.classifyLevelOneList.length; i++) {
@@ -128,7 +138,9 @@ export default {
           for (let i = 0; i < this.classifyModuleList.length; i++) {
             this.getClassifyLevelTwoList(this.classifyModuleList[i].modelId)
           }
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     getClassifyLevelTwoList(modelId) {
       this.$http({
@@ -142,11 +154,13 @@ export default {
       })
         .then(res => {
           for (let i = 0; i < this.classifyModuleList.length; i++) {
-            if(this.classifyModuleList[i].modelId == modelId) {
+            if (this.classifyModuleList[i].modelId == modelId) {
               this.$set(this.classifyModuleList[i], 'classifyLevelTwoList', res.data.list)
             }
           }
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     getClassifyIpList(classifyId) {
       this.$http({
@@ -158,7 +172,9 @@ export default {
       })
         .then(res => {
           this.classifyIpList = res.data.list
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     showClassifyModuleAllList() {
       this.classifyModuleDialogVisible = true
@@ -172,7 +188,9 @@ export default {
       })
         .then(res => {
           this.classifyModuleAllList = res.data.list
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     chooseModule(event) {
       // let id = event.currentTarget.getAttribute("data-id")
@@ -200,7 +218,9 @@ export default {
           this.$message.success(res.msg)
           this.getClassifyModuleList(this.classifyLevelOneId)
           this.classifyModuleDialogVisible = false
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     showClassifyLevelTwoAllList(moduleId) {
       this.classifyLevelTwoDialogVisible = true
@@ -216,7 +236,9 @@ export default {
       })
         .then(res => {
           this.classifyLevelTwoAllList = res.data.list
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     chooseClassifyLevelTwo(event) {
       let index = event.currentTarget.getAttribute("data-index")
@@ -243,17 +265,19 @@ export default {
           this.$message.success(res.msg)
           this.getClassifyModuleList()
           this.classifyModuleDialogVisible = false
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.classify{
+.classify {
   padding: 20px
   background-color: #fff
-  .classify-ct{
+  .classify-ct {
     display: flex
     max-width 1000px
     min-height 600px
@@ -261,38 +285,38 @@ export default {
     font-size 16px
   }
 }
-.side-bar{
+.side-bar {
   width: 200px
-  dd{
+  dd {
     padding: 15px
     cursor: pointer
-    &.on{
+    &.on {
       font-weight: bold
       background-color: #f5f5f5
     }
   }
 }
-.classify-main{
+.classify-main {
   flex: 1
   padding: 20px
   background-color: #f5f5f5
-  .classify-module-add{
+  .classify-module-add {
     margin-bottom: 10px
     color: blue;
   }
-  .classify-module{
+  .classify-module {
     padding: 10px 0
-    .classify-module-name{
+    .classify-module-name {
       margin-bottom: 10px
     }
-    .classify-level-two{
+    .classify-level-two {
       display: inline-block
       margin-right: 10px
       padding: 0 5px
       border: 1px solid #ddd
       border-radius: 5px;
     }
-    .classify-level-two-add{
+    .classify-level-two-add {
       display: inline-block
       margin-right: 10px
       padding: 0 5px
@@ -302,21 +326,20 @@ export default {
     }
   }
 }
-
-.choose-list{
-  span{
+.choose-list {
+  span {
     display: inline-block
     padding: 5px 10px
     margin-right: 20px
     border: 1px solid #ccc
     border-radius: 4px;
     cursor: pointer
-    &.on{
+    &.on {
       border-color: blue
     }
   }
 }
-.on{
+.on {
   color: blue
 }
 </style>

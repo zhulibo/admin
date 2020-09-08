@@ -8,11 +8,10 @@
 export default {
   name: 'App',
   data() {
-    return {
-    }
+    return {}
   },
   created() {
-    console.log("%c ", "background: url('http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/logIn17419.gif') no-repeat center;padding-left:640px;padding-bottom: 242px;")
+    // console.log("%c ", "background: url('http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/logIn17419.gif') no-repeat center;padding-left:640px;padding-bottom: 242px;")
 
     // 读取localStorage用户信息
     let userInfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -23,9 +22,9 @@ export default {
 
     // 主题信息
     let theme = JSON.parse(localStorage.getItem('theme'))
-    if(theme) {
+    if (theme) {
       this.$store.dispatch('updateTheme', theme)
-      if (theme.sheetMusic){
+      if (theme.sheetMusic) {
         this.global.sheetMusic()
       }
     }

@@ -3,15 +3,21 @@
     <ul class="theme-ct">
       <li>
         <div class="l"><span>导航栏背景颜色</span></div>
-        <div class="r"><el-color-picker v-model="theme.colorNav" show-alpha :predefine="['#252a2f']" disabled></el-color-picker></div>
+        <div class="r">
+          <el-color-picker v-model="theme.colorNav" show-alpha :predefine="['#252a2f']" disabled></el-color-picker>
+        </div>
       </li>
       <li>
         <div class="l"><span>顶部栏背景颜色</span></div>
-        <div class="r"><el-color-picker v-model="theme.colorHead" show-alpha :predefine="['#fff']"></el-color-picker></div>
+        <div class="r">
+          <el-color-picker v-model="theme.colorHead" show-alpha :predefine="['#fff']"></el-color-picker>
+        </div>
       </li>
       <li>
         <div class="l"><span>表格、编辑区域背景色</span></div>
-        <div class="r"><el-color-picker v-model="theme.colorBg" show-alpha :predefine="['rgba(255, 255, 255, 1)']"></el-color-picker></div>
+        <div class="r">
+          <el-color-picker v-model="theme.colorBg" show-alpha :predefine="['rgba(255, 255, 255, 1)']"></el-color-picker>
+        </div>
       </li>
       <li>
         <div class="l"><span>按键声音</span></div>
@@ -34,30 +40,35 @@
       </li>
       <li>
         <div class="l"><span>背景图</span></div>
-        <div class="r"><img-upload v-model="theme.bg" :options="bgImgOptions"></img-upload></div>
+        <div class="r">
+          <img-upload v-model="theme.bg" :options="bgImgOptions"></img-upload>
+        </div>
       </li>
       <li>
         <div class="l"><span>鼠标指针</span></div>
         <div class="r">
           <ul>
             <li>
-              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png" alt="">
+              <img @click="changeCursorImg($event)"
+                   src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png" alt="">
               <span>坂本</span>
             </li>
-<!--            <li>-->
-<!--              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/28930.png" alt="">-->
-<!--              <span>小埋</span>-->
-<!--            </li>-->
+            <!--            <li>-->
+            <!--              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/28930.png" alt="">-->
+            <!--              <span>小埋</span>-->
+            <!--            </li>-->
             <li>
-              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/32926.png" alt="">
+              <img @click="changeCursorImg($event)"
+                   src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/32926.png" alt="">
               <span>我妻善逸</span>
             </li>
-<!--            <li>-->
-<!--              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/45193.png" alt="">-->
-<!--              <span>书记</span>-->
-<!--            </li>-->
+            <!--            <li>-->
+            <!--              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/45193.png" alt="">-->
+            <!--              <span>书记</span>-->
+            <!--            </li>-->
             <li>
-              <img @click="changeCursorImg($event)" src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/57825.png" alt="">
+              <img @click="changeCursorImg($event)"
+                   src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/57825.png" alt="">
               <span>凶真</span>
             </li>
             <li>
@@ -96,7 +107,7 @@ export default {
   created() {
   },
   mounted() {
-    if(this.theme.bg[0]){
+    if (this.theme.bg[0]) {
       this.bgImgOptions.fileList.push({url: this.theme.bg[0]})
     }
   },
@@ -126,7 +137,7 @@ export default {
     'theme.sheetMusic': {
       handler: function (val, oldVal) {
         console.log(val, oldVal)
-        if(val != oldVal) {
+        if (val != oldVal) {
           this.global.sheetMusic()
           this.$router.go(0)
         }
@@ -137,35 +148,35 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.theme{
+.theme {
   padding: 100px
-  background-color: rgba(255,255,255,.6)
-  .theme-ct{
-    &>li{
+  background-color: rgba(255, 255, 255, .6)
+  .theme-ct {
+    & > li {
       margin-top: 20px
       display: flex
-      .l{
+      .l {
         margin-right: 1em
         width: 10em
         text-align: right
         font-weight: bold
       }
-      .r{
+      .r {
         flex: 1
-        ul{
-          li{
+        ul {
+          li {
             display: inline-block
             text-align: center
             margin-right: 10px
             width: 100px
-            img{
+            img {
               display: inline-block
               width: 100%
               height: 100%
               border: 1px dashed #ccc
               cursor: pointer
             }
-            span{
+            span {
               display: inline-block
               margin-top: 10px
             }

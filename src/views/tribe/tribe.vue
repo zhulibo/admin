@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="部落类型">
@@ -19,22 +19,23 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="name" label="部落名称" align="center">
-          <template slot-scope="scope">{{scope.row.name | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.name | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="logoImg" label="部落logo" align="center" class-name="row-img">
           <template slot-scope="scope"><img :src="scope.row.logoImg" alt=""></template>
         </el-table-column>
         <el-table-column prop="adminUser" label="管理员id" align="center">
-          <template slot-scope="scope">{{scope.row.adminUser | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.adminUser | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="type" label="部落类型" align="center">
           <template slot-scope="scope">
@@ -43,20 +44,20 @@
           </template>
         </el-table-column>
         <el-table-column prop="isRecommend" label="推荐部落顺序" align="center">
-          <template slot-scope="scope">{{scope.row.isRecommend | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.isRecommend | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="notice" label="部落公告" align="center">
-          <template slot-scope="scope">{{scope.row.notice | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.notice | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="noticeTitle" label="公告标题" align="center">
-          <template slot-scope="scope">{{scope.row.noticeTitle | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.noticeTitle | noneToLine }}</template>
         </el-table-column>
-<!--        <el-table-column prop="status" label="部落状态" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <span v-if="scope.row.status == 0">正常</span>-->
-<!--            <span v-if="scope.row.status == 1">删除</span>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <!--        <el-table-column prop="status" label="部落状态" align="center">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span v-if="scope.row.status == 0">正常</span>-->
+        <!--            <span v-if="scope.row.status == 1">删除</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="detail" @click="goTribeMemberList(scope.row)">管理成员</el-button>
@@ -115,7 +116,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

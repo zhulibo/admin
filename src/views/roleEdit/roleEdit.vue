@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -86,7 +86,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/role'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -105,7 +107,9 @@ export default {
         this.ruleForm.roleName = this.detail.roleName
         this.ruleForm.description = this.detail.description
         this.ruleForm.privilegeIds = this.detail.privilegeIds
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
     getRoleList() {
       this.$http({
@@ -113,7 +117,9 @@ export default {
         method: 'GET',
       }).then(res => {
         this.roleList = res.data.child[0].child
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     }
   },
 }

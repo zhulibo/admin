@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -37,8 +37,8 @@ export default {
       classifyList: [],
       props: {
         lazy: true,
-        lazyLoad (node, resolve) {
-          if (node.level == 0){
+        lazyLoad(node, resolve) {
+          if (node.level == 0) {
             _this.$http({
               url: '/goodsmanage/backadmin/classify',
               method: 'GET',
@@ -55,8 +55,10 @@ export default {
                   leaf: node.level >= 2
                 }));
                 resolve(items);
-              }).catch(e => {console.log(e)})
-          }else if(node.level == 1){
+              }).catch(e => {
+              console.log(e)
+            })
+          } else if (node.level == 1) {
             _this.$http({
               url: '/goodsmanage/backadmin/classify/classifymode',
               method: 'GET',
@@ -73,8 +75,10 @@ export default {
                   leaf: node.level >= 2
                 }));
                 resolve(items);
-              }).catch(e => {console.log(e)})
-          }else if (node.level == 2){
+              }).catch(e => {
+              console.log(e)
+            })
+          } else if (node.level == 2) {
             console.log(node)
             _this.$http({
               url: '/goodsmanage/backadmin/classify/modeclassify',
@@ -92,7 +96,9 @@ export default {
                   leaf: node.level >= 2
                 }));
                 resolve(items);
-              }).catch(e => {console.log(e)})
+              }).catch(e => {
+              console.log(e)
+            })
           }
         }
       },
@@ -136,7 +142,9 @@ export default {
       })
         .then(res => {
           this.classifyList = res.data.list
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     getClassifyIndexList() {
       this.$http({
@@ -155,7 +163,9 @@ export default {
               name: list[i].name,
             })
           }
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -172,7 +182,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/goodsBindClassify', query: {id: this.id}})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

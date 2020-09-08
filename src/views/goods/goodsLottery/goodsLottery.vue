@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -12,25 +12,26 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="goodsId" label="商品id" align="center">
-          <template slot-scope="scope">{{scope.row.goodsId}}</template>
+          <template slot-scope="scope">{{ scope.row.goodsId }}</template>
         </el-table-column>
         <el-table-column prop="skuId" label="sku-id" align="center">
-          <template slot-scope="scope">{{scope.row.skuId}}</template>
+          <template slot-scope="scope">{{ scope.row.skuId }}</template>
         </el-table-column>
         <el-table-column prop="drawTime" label="开奖时间" align="center">
-          <template slot-scope="scope">{{scope.row.drawTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.drawTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="number" label="奖品数量" align="center">
-          <template slot-scope="scope">{{scope.row.number}}</template>
+          <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
         <el-table-column prop="status" label="抽奖状态" align="center">
           <template slot-scope="scope">
@@ -97,7 +98,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -12,7 +12,8 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="网页地址" prop="url" v-if="ruleForm.type == 2" :rules="{required: true, message: '请选择sku图片', trigger: 'change'}">
+        <el-form-item label="网页地址" prop="url" v-if="ruleForm.type == 2"
+                      :rules="{required: true, message: '请选择sku图片', trigger: 'change'}">
           <el-input v-model="ruleForm.url"></el-input>
         </el-form-item>
         <el-form-item label="分类图片" prop="classifyImg" class="form-item-img-classify">
@@ -73,7 +74,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -96,7 +97,9 @@ export default {
           this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           this.ruleForm.remark = this.detail.remark
           this.ruleForm.sort = this.detail.sort
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -116,7 +119,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/classifyIndexHot'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

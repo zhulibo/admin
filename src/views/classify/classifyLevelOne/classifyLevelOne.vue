@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -12,34 +12,35 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+          <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
-<!--        <el-admin-column label="img" align="center" class-name="row-img">-->
-<!--          <template slot-scope="scope">-->
-<!--            <img :src="scope.row.iconUrl" alt="">-->
-<!--          </template>-->
-<!--        </el-admin-column>-->
+        <!--        <el-admin-column label="img" align="center" class-name="row-img">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <img :src="scope.row.iconUrl" alt="">-->
+        <!--          </template>-->
+        <!--        </el-admin-column>-->
         <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{scope.row.sort}}</template>
+          <template slot-scope="scope">{{ scope.row.sort }}</template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" align="center">
-          <template slot-scope="scope">{{scope.row.remark}}</template>
+          <template slot-scope="scope">{{ scope.row.remark }}</template>
         </el-table-column>
-<!--        <el-table-column prop="del" label="账号状态" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <span v-if="scope.row.del == 0">正常</span>-->
-<!--            <span v-if="scope.row.del == 1">停用</span>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <!--        <el-table-column prop="del" label="账号状态" align="center">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span v-if="scope.row.del == 0">正常</span>-->
+        <!--            <span v-if="scope.row.del == 1">停用</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
@@ -94,7 +95,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

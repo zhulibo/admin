@@ -13,16 +13,14 @@ export default {
     chat
   },
   data() {
-    return {
-    }
+    return {}
   },
   created() {
   },
   mounted() {
   },
   computed: {},
-  methods: {
-  }
+  methods: {}
 }
 </script>
 

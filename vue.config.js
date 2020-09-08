@@ -32,8 +32,8 @@ module.exports = {
   chainWebpack: config => {
     config.plugin('html')
       .tap(args => {
-        args[0].title = '漫想家';
-        return args;
+        args[0].title = '漫想家'
+        return args
       })
     // config.resolve.alias
     //   .set('components', path.join(__dirname,'src/components'))

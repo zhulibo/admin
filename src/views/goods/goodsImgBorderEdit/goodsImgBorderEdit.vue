@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -47,7 +47,7 @@ export default {
   created() {
     this.id = this.$route.query.id
     this.url = this.$route.query.url
-    if(this.url) {
+    if (this.url) {
       this.urlImgOptions.fileList.push({url: this.url}) // 图片回显
     }
   },
@@ -72,7 +72,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/goodsImgBorder'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

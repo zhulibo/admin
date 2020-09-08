@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -12,7 +12,8 @@
           <el-input v-model="ruleForm.sendPhone"></el-input>
         </el-form-item>
         <el-form-item label="发货地址" prop="sendAddressArea">
-          <el-cascader v-model="ruleForm.sendAddressArea" :options="areaList" :props="{ value: 'id', label: 'name', children: 'children' }"></el-cascader>
+          <el-cascader v-model="ruleForm.sendAddressArea" :options="areaList"
+                       :props="{ value: 'id', label: 'name', children: 'children' }"></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址" prop="sendAddress">
           <el-input v-model="ruleForm.sendAddress"></el-input>
@@ -63,7 +64,7 @@ export default {
   created() {
     this.id = this.$route.query.id
     this.getAreaList()
-    if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -84,7 +85,9 @@ export default {
       })
         .then(res => {
           this.areaList = res.data.list
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     getDetail() {
       this.$http({
@@ -99,7 +102,9 @@ export default {
           this.ruleForm.sendAddressArea.push(this.detail.cityId)
           this.ruleForm.sendAddressArea.push(this.detail.areaId)
           this.ruleForm.sendAddress = this.detail.sendAddress
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -119,7 +124,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/supplierAddress'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

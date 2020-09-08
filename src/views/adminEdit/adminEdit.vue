@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -86,10 +86,12 @@ export default {
         this.ruleForm.passWord = this.detail.passWord
         this.ruleForm.name = this.detail.name
         this.ruleForm.status = this.detail.status
-        for (let i = 0; i < this.detail.tbBackRoleList.length; i++){
+        for (let i = 0; i < this.detail.tbBackRoleList.length; i++) {
           this.ruleForm.tbBackRoleList.push(this.detail.tbBackRoleList[i].id)
         }
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
     getRoleList: function () {
       this.$http({
@@ -98,12 +100,14 @@ export default {
       })
         .then(res => {
           this.roleList = res.data.list
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         let tbBackRoleList = []
-        for (let i = 0; i < this.ruleForm.tbBackRoleList.length; i++){
+        for (let i = 0; i < this.ruleForm.tbBackRoleList.length; i++) {
           tbBackRoleList.push({id: this.ruleForm.tbBackRoleList[i]})
         }
         if (valid) {
@@ -121,7 +125,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/admin'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

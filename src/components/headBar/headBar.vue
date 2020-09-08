@@ -43,7 +43,9 @@ export default {
         .then(res => {
           localStorage.removeItem('userInfo');
           this.$router.push({path: '/login'})
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
   }
 }
@@ -75,7 +77,7 @@ export default {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  box-shadow 0 2px 5px rgba(0,0,0,.2)
+  box-shadow 0 2px 5px rgba(0, 0, 0, .2)
 }
 .user .pic img {
   width: 100%;

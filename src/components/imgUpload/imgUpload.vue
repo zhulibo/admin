@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { renameFileName } from '@/utils/renameFileName/renameFileName'
+import {renameFileName} from '@/utils/renameFileName/renameFileName'
 
 export default {
   name: 'imgUpload',
@@ -46,13 +46,13 @@ export default {
   methods: {
     handleImgBeforeUpload(file) {
 
-      if(/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
+      if (/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
         this.$message.warning('暂不支持包含汉字的文件上传')
         return false
       }
 
-      if(file.type == 'image/png' || file.type == 'image/jpg' ||  file.type == 'image/jpeg' ||  file.type == 'image/gif' ){
-        if(file.size / 1024 / 1024 >= 10){
+      if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
+        if (file.size / 1024 / 1024 >= 10) {
           this.$message.warning('图片最大10M')
           return false
         }
@@ -67,7 +67,7 @@ export default {
       console.log('res', res)
       console.log('file', file)
       console.log('fileList', fileList)
-      if(res.code == 0) {
+      if (res.code == 0) {
         this.fileList = fileList
       } else {
         this.$message.error(res.msg)
@@ -103,12 +103,12 @@ export default {
         for (let i = 0; i < fileList.length; i++) {
           // 上传过程中fileList.status会发生变化
           // console.log(JSON.parse(JSON.stringify(fileList[i])))
-          if(fileList[i].status && fileList[i].status != 'success') { // 多图上传此判断有性能漏洞，待优化
+          if (fileList[i].status && fileList[i].status != 'success') { // 多图上传此判断有性能漏洞，待优化
             return
           }
           if (fileList[i].response) {
             imgUrls.push(fileList[i].response.data)
-          }else{
+          } else {
             imgUrls.push(fileList[i].url)
           }
         }

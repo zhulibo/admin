@@ -29,7 +29,7 @@ const actions = {
 
       // 表格背景色
       let innerHTML = '.table,.edit-ct{background-color: ' + theme.colorBg + ';}'
-      if(theme.colorBg !== 'rgba(255, 255, 255, 1)'){
+      if (theme.colorBg !== 'rgba(255, 255, 255, 1)') {
         innerHTML += '.el-table,.el-table__expanded-cell,.el-table th,.el-table tr{background-color: transparent}'
       }
 

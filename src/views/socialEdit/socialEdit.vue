@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -23,7 +23,8 @@
             </li>
           </ul>
         </el-form-item>
-        <el-form-item :label="detail.type == 1 ? '添加新的图片' : '添加新的视频'" prop="logoImg" :class="detail.type == 1 ? 'form-item-images' : 'form-item-video'">
+        <el-form-item :label="detail.type == 1 ? '添加新的图片' : '添加新的视频'" prop="logoImg"
+                      :class="detail.type == 1 ? 'form-item-images' : 'form-item-video'">
           <img-upload v-model="ruleForm.logoImg" :options="logoImgOptions"></img-upload>
         </el-form-item>
         <el-form-item label="标题" prop="title">
@@ -92,8 +93,7 @@ export default {
         del: '',
         isTop: '',
       },
-      rules: {
-      },
+      rules: {},
     }
   },
   components: {
@@ -128,7 +128,9 @@ export default {
           this.ruleForm.isTop = this.detail.isTop
           this.logoImgOptions.type = this.detail.type == 1 ? '1' : '2'
           this.logoImgOptions.accept = this.detail.type == 1 ? '.jpg,.jpeg,.png,.gif' : '.mp4'
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     switchStatus(item) {
       this.$http({
@@ -143,7 +145,7 @@ export default {
         this.$message.success(res.msg)
       }).catch(e => {
         for (let i = 0; i < this.detail.images.length; i++) {
-          if(this.detail.images[i].id == item.id) {
+          if (this.detail.images[i].id == item.id) {
             this.detail.images[i].del = item.del == 1 ? 0 : 1
           }
         }
@@ -176,7 +178,9 @@ export default {
             }).then(res => {
               this.$message.success(res.msg)
               this.$router.push({path: '/social'})
-            }).catch(e => {console.log(e)})
+            }).catch(e => {
+              console.log(e)
+            })
 
           }
           submitForm()
@@ -188,8 +192,8 @@ export default {
       });
     },
     getImgsParams() { // 添加图片参数
-      return new Promise( (resolve, reject) => {
-        if(this.ruleForm.logoImg.length == 0) {
+      return new Promise((resolve, reject) => {
+        if (this.ruleForm.logoImg.length == 0) {
           resolve()
           return
         }
@@ -204,8 +208,8 @@ export default {
               url: this.ruleForm.logoImg[i],
               type: this.detail.type,
             })
-            if (this.ruleForm.logoImg.length == i+1) resolve(imgs)
-          }else{ // 图片
+            if (this.ruleForm.logoImg.length == i + 1) resolve(imgs)
+          } else { // 图片
             let img = new Image()
             img.src = this.ruleForm.logoImg[i]
             img.onload = () => {
@@ -217,56 +221,54 @@ export default {
                 imageWidth: img.width,
                 imageHeight: img.height,
               })
-              if (this.ruleForm.logoImg.length == i+1) resolve(imgs)
+              if (this.ruleForm.logoImg.length == i + 1) resolve(imgs)
             }
           }
         }
       })
     }
   },
-  watch: {
-
-  }
+  watch: {}
 }
 </script>
 
 <style lang="stylus" scoped>
-.form-item-original{
-  li{
+.form-item-original {
+  li {
     float: left
     display: inline-block
     margin-bottom: 20px
     margin-right: 20px
     text-align: center
-    img{
+    img {
       width 200px
       height 200px
     }
-    span{
+    span {
       display: inline-block
       margin-right: 10px
     }
-    video{
+    video {
       width 200px
       height 400px
       background-color: #000
     }
   }
 }
->>> .form-item-video .el-upload-list--picture-card .el-upload-list__item{
+>>> .form-item-video .el-upload-list--picture-card .el-upload-list__item {
   width 200px
   height: 400px
-  div{
+  div {
     width: 100%
     height: 100%
-    video{
+    video {
       width: 100%
       height: 100%
       background-color: #000
     }
   }
 }
->>> .form-item-video .el-upload--picture-card{
+>>> .form-item-video .el-upload--picture-card {
   width 200px
   height: 400px
   line-height: 400px

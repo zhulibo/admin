@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
@@ -12,19 +12,20 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-<!--        <el-table-column prop="creatTime" label="绑定时间时间" align="center">-->
-<!--          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>-->
-<!--        </el-table-column>-->
+        <!--        <el-table-column prop="creatTime" label="绑定时间时间" align="center">-->
+        <!--          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>-->
+        <!--        </el-table-column>-->
         <el-table-column prop="tbIp.name" label="名称" align="center">
-          <template slot-scope="scope">{{scope.row.tbIp.name}}</template>
+          <template slot-scope="scope">{{ scope.row.tbIp.name }}</template>
         </el-table-column>
         <el-table-column prop="tbIp.id" label="ip-id" align="center">
-          <template slot-scope="scope">{{scope.row.tbIp.id}}</template>
+          <template slot-scope="scope">{{ scope.row.tbIp.id }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
@@ -84,7 +85,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
@@ -111,7 +114,9 @@ export default {
             this.$message.success('已删除 ' + scope.tbIp.name)
             this.getList()
           })
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -97,7 +97,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -117,17 +117,19 @@ export default {
           this.ruleForm.title = this.detail.title
           this.listedImgOptions.fileList.push({url: this.detail.listedImage}) // 图片回显
           for (let i = 0; i < this.detail.images.length; i++) {
-            if(this.detail.images[i].type == 1) {
+            if (this.detail.images[i].type == 1) {
               this.bannerImgOptions.fileList.push({url: this.detail.images[i].url})
             }
-            if(this.detail.images[i].type == 2) {
+            if (this.detail.images[i].type == 2) {
               this.contentImgOptions.fileList.push({url: this.detail.images[i].url})
             }
           }
           this.ruleForm.material = this.detail.tbPresellGoodsDetail.material
           this.ruleForm.size = this.detail.tbPresellGoodsDetail.size
           this.ruleForm.cargoNo = this.detail.tbPresellGoodsDetail.cargoNo
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -164,7 +166,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/goodsPresale'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -176,20 +180,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.sku-ct{
+.sku-ct {
   position: relative
   margin-bottom: 20px
   padding-right: 120px
   padding-top: 20px
   border: 1px dashed #ccc
   border-radius: 4px;
-  .delete{
+  .delete {
     position: absolute
     right: 20px
     top: 20px
   }
 }
-.form-item-add-sku{
+.form-item-add-sku {
   text-align: right
 }
 </style>

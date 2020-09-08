@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="edit-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
@@ -29,15 +29,17 @@
         <el-form-item label="货号" prop="cargoNo">
           <el-input v-model="ruleForm.cargoNo"></el-input>
         </el-form-item>
-      <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" :key="sku.key">
-        <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'" :rules="{required: true, message: '请输入sku信息', trigger: 'change'}">
-          <el-input v-model="sku.name"></el-input>
-        </el-form-item>
-        <el-form-item :label="'sku' + (index+1) + '图片'" :prop="'skus.' + index + '.url'" :rules="{required: true, message: '请选择sku图片', trigger: 'change'}">
-          <img-upload v-model="sku.url" :options="sku.skuImgOptions"></img-upload>
-        </el-form-item>
-        <el-button type="text" class="delete" @click="removeSku(sku)">删除sku{{index+1}}</el-button>
-      </div>
+        <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" :key="sku.key">
+          <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'"
+                        :rules="{required: true, message: '请输入sku信息', trigger: 'change'}">
+            <el-input v-model="sku.name"></el-input>
+          </el-form-item>
+          <el-form-item :label="'sku' + (index+1) + '图片'" :prop="'skus.' + index + '.url'"
+                        :rules="{required: true, message: '请选择sku图片', trigger: 'change'}">
+            <img-upload v-model="sku.url" :options="sku.skuImgOptions"></img-upload>
+          </el-form-item>
+          <el-button type="text" class="delete" @click="removeSku(sku)">删除sku{{ index + 1 }}</el-button>
+        </div>
         <el-form-item label="" class="form-item-add-sku">
           <el-button plain type="primary" size="medium" @click="addSku">添加sku</el-button>
         </el-form-item>
@@ -174,7 +176,7 @@ export default {
               name: this.ruleForm.skus[i].name
             })
           }
-          if(skus.length < 1) this.$message.warning('至少一个sku')
+          if (skus.length < 1) this.$message.warning('至少一个sku')
 
           this.$http({
             url: '/goodsmanage/backadmin/goods',
@@ -194,7 +196,9 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.$router.push({path: '/goods'})
-          }).catch(e => {console.log(e)})
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -206,20 +210,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.sku-ct{
+.sku-ct {
   position: relative
   margin-bottom: 20px
   padding-right: 120px
   padding-top: 20px
   border: 1px dashed #ccc
   border-radius: 4px;
-  .delete{
+  .delete {
     position: absolute
     right: 20px
     top: 20px
   }
 }
-.form-item-add-sku{
+.form-item-add-sku {
   text-align: right
 }
 </style>

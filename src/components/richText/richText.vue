@@ -24,13 +24,13 @@
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import "../../assets/css/quillFontSizeReset.css"
-import { quillEditor, Quill } from 'vue-quill-editor'
+import {quillEditor, Quill} from 'vue-quill-editor'
 import ImageResize from 'quill-image-resize-module'; // 图片缩放组件
 
 Quill.register('modules/ImageResize', ImageResize);
 
 // 添加title
-import { addQuillTitle } from '@/utils/quill/addQuillTitle'
+import {addQuillTitle} from '@/utils/quill/addQuillTitle'
 
 // 设置字体
 let fontSizeStyle = Quill.import('attributors/style/size')
@@ -72,7 +72,7 @@ export default {
               ["clean"]
             ], // container为工具栏，此次引入了全部工具栏，也可自行配置
             handlers: {
-              'image': function(value) { // 劫持原来的图片点击按钮事件
+              'image': function (value) { // 劫持原来的图片点击按钮事件
                 let _this = this // quill插件实例
                 if (value) {
                   document.querySelector('.el-upload-rich-text input').click()
@@ -122,10 +122,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.quill-ct{
+.quill-ct {
   line-height initial
 }
-.el-upload-rich-text{
-   display: none
+.el-upload-rich-text {
+  display: none
 }
 </style>

@@ -42,12 +42,12 @@ let sheetMusic = () => {
 
   // 频率
   let frequency = null
-  let frequencyArr = [262,294,330,349,392,440,494,523,587,659,698,784,880,988]
-  let frequencyArrCTuneAll = [262,277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,659,698,740,784,831,880,932,988,1046,1109,1175,1245,1318,1397,1480,1568,1661,1760,1865,1976]
+  let frequencyArr = [262, 294, 330, 349, 392, 440, 494, 523, 587, 659, 698, 784, 880, 988]
+  let frequencyArrCTuneAll = [262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587, 622, 659, 698, 740, 784, 831, 880, 932, 988, 1046, 1109, 1175, 1245, 1318, 1397, 1480, 1568, 1661, 1760, 1865, 1976]
   // 频谱
   let sheetMusic = []
   let theme = JSON.parse(localStorage.getItem('theme'))
-  if (theme){
+  if (theme) {
     sheetMusic = theme.sheetMusic.split(',')
   }
 
@@ -61,10 +61,10 @@ let sheetMusic = () => {
       start = 0
     }
     let frequencyIndex = parseInt(sheetMusic[start]) - 1
-    if(event.keyCode <= 90 && event.keyCode >= 65) { // 键盘固定频率
+    if (event.keyCode <= 90 && event.keyCode >= 65) { // 键盘固定频率
       let keyIndex = keyArr.indexOf(event.key)
       frequency = frequencyArrCTuneAll[keyIndex]
-    } else{ // 频谱频率
+    } else { // 频谱频率
       frequency = frequencyArr[frequencyIndex]
     }
     start++

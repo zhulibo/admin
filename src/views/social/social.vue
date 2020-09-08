@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-head clearfix">
-      <h2 class="head-title">{{this.$route.name}}</h2>
+      <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="动态类型">
@@ -48,25 +48,25 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | timestampToDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="title" label="动态标题" align="center">
-          <template slot-scope="scope">{{scope.row.title | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.title | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="content" label="内容" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{scope.row.content | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.content | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="isUser" label="发布人id" align="center">
-          <template slot-scope="scope">{{scope.row.isUser | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.isUser | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="commentNum" label="评论数" align="center">
-          <template slot-scope="scope">{{scope.row.commentNum | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.commentNum | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="supportNum" label="点赞数" align="center">
-          <template slot-scope="scope">{{scope.row.supportNum | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.supportNum | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="shareNum" label="分享量" align="center">
-          <template slot-scope="scope">{{scope.row.shareNum | noneToLine}}</template>
+          <template slot-scope="scope">{{ scope.row.shareNum | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="del" label="是否屏蔽" align="center">
           <template slot-scope="scope">
@@ -186,7 +186,9 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-        }).catch(e => {console.log(e)})
+        }).catch(e => {
+        console.log(e)
+      })
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
