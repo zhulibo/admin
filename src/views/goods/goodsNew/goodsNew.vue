@@ -17,8 +17,10 @@
         <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="排序分值" prop="sort">
-          <el-input v-model="ruleForm.sort"></el-input>
+        <el-form-item label="品牌" prop="brandId">
+          <el-select v-model="ruleForm.brandId" placeholder="请选择" clearable filterable>
+            <el-option v-for="item in brandList" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="材质" prop="material">
           <el-input v-model="ruleForm.material"></el-input>
@@ -28,6 +30,9 @@
         </el-form-item>
         <el-form-item label="货号" prop="cargoNo">
           <el-input v-model="ruleForm.cargoNo"></el-input>
+        </el-form-item>
+        <el-form-item label="排序分值" prop="sort">
+          <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
         <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" :key="sku.key">
           <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'"
@@ -59,6 +64,7 @@ export default {
   data() {
     return {
       detail: {},
+      brandList: [],
       listedImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
@@ -78,10 +84,11 @@ export default {
         listedImg: [],
         bannerImg: [],
         contentImg: [],
-        sort: '',
+        brandId: '',
         material: '',
         size: '',
         cargoNo: '',
+        sort: '',
         skus: [{
           name: '',
           url: '',
@@ -106,7 +113,7 @@ export default {
         contentImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        sort: [
+        brandId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         material: [
@@ -118,6 +125,9 @@ export default {
         cargoNo: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
+        sort: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
       },
     }
   },
@@ -125,6 +135,7 @@ export default {
     imgUpload,
   },
   created() {
+    this.getBrandList()
   },
   mounted() {
   },
@@ -134,6 +145,22 @@ export default {
     },
   },
   methods: {
+    getBrandList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/brand',
+        method: 'GET',
+        params: {
+          name: this.name,
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.brandList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
     removeSku(item) {
       var index = this.ruleForm.skus.indexOf(item)
       if (index !== -1) {
@@ -184,14 +211,15 @@ export default {
             data: {
               title: this.ruleForm.title,
               listedImage: this.ruleForm.listedImg[0],
-              sort: this.ruleForm.sort,
+              images: imgs,
+              brandId: this.ruleForm.brandId,
               tbGoodsDetail: {
                 material: this.ruleForm.material,
                 size: this.ruleForm.size,
                 cargoNo: this.ruleForm.cargoNo,
               },
-              images: imgs,
               skus: skus,
+              sort: this.ruleForm.sort,
             },
           }).then(res => {
             this.$message.success(res.msg)

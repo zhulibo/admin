@@ -17,11 +17,13 @@
         <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
+        <el-form-item label="品牌" prop="brandId">
+          <el-select v-model="ruleForm.brandId" placeholder="请选择" clearable filterable>
+            <el-option v-for="item in brandList" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="官网维护销量" prop="sellNumber">
           <el-input v-model="ruleForm.sellNumber"></el-input>
-        </el-form-item>
-        <el-form-item label="排序分值" prop="sort">
-          <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
         <el-form-item label="材质" prop="material">
           <el-input v-model="ruleForm.material"></el-input>
@@ -31,6 +33,9 @@
         </el-form-item>
         <el-form-item label="货号" prop="cargoNo">
           <el-input v-model="ruleForm.cargoNo"></el-input>
+        </el-form-item>
+        <el-form-item label="排序分值" prop="sort">
+          <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -49,6 +54,7 @@ export default {
     return {
       id: '',
       detail: {},
+      brandList: [],
       listedImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
@@ -68,12 +74,12 @@ export default {
         listedImg: [],
         bannerImg: [],
         contentImg: [],
-        sellNumber: '',
-        sort: '',
+        brandId: '',
         material: '',
         size: '',
         cargoNo: '',
-        isUp: 0,
+        sellNumber: '',
+        sort: '',
       },
       rules: {
         title: [
@@ -88,11 +94,8 @@ export default {
         contentImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        sellNumber: [
-          // {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
-          // {required: true, message: '请输入', trigger: 'change'}
+        brandId: [
+          {required: true, message: '请输入', trigger: 'change'}
         ],
         material: [
           {required: true, message: '请输入', trigger: 'change'}
@@ -103,6 +106,12 @@ export default {
         cargoNo: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
+        sellNumber: [
+          // {required: true, message: '请输入', trigger: 'change'}
+        ],
+        sort: [
+          // {required: true, message: '请输入', trigger: 'change'}
+        ],
       },
     }
   },
@@ -112,6 +121,7 @@ export default {
   created() {
     this.id = this.$route.query.id
     if (this.id) this.getDetail()
+    this.getBrandList()
   },
   mounted() {
   },
@@ -141,10 +151,28 @@ export default {
               this.contentImgOptions.fileList.push({url: this.detail.images[i].url})
             }
           }
-          this.ruleForm.sort = this.detail.sort
+          this.ruleForm.brandId = this.detail.tbGoodsDetail.brandId
           this.ruleForm.material = this.detail.tbGoodsDetail.material
           this.ruleForm.size = this.detail.tbGoodsDetail.size
           this.ruleForm.cargoNo = this.detail.tbGoodsDetail.cargoNo
+          this.ruleForm.sellNumber = this.detail.sellNumber
+          this.ruleForm.sort = this.detail.sort
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getBrandList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/brand',
+        method: 'GET',
+        params: {
+          name: this.name,
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.brandList = res.data.list
         }).catch(e => {
         console.log(e)
       })
@@ -173,15 +201,16 @@ export default {
               id: this.id ? this.id : '',
               title: this.ruleForm.title,
               listedImage: this.ruleForm.listedImg[0],
-              sellNumber: this.ruleForm.sellNumber,
-              sort: this.ruleForm.sort,
+              images: imgs,
+              brandId: this.ruleForm.brandId,
               tbGoodsDetail: {
                 id: this.detail.tbGoodsDetail.id,
                 material: this.ruleForm.material,
                 size: this.ruleForm.size,
                 cargoNo: this.ruleForm.cargoNo,
               },
-              images: imgs,
+              sellNumber: this.ruleForm.sellNumber,
+              sort: this.ruleForm.sort,
             },
           }).then(res => {
             this.$message.success(res.msg)

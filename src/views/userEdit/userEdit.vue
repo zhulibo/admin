@@ -18,6 +18,13 @@
             :inactive-value="1">
           </el-switch>
         </el-form-item>
+        <el-form-item label="是否推荐" prop="isRecommendFocus">
+          <el-switch
+            v-model="ruleForm.isRecommendFocus"
+            :active-value="1"
+            :inactive-value="0">
+          </el-switch>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -37,11 +44,13 @@ export default {
         payPwd: '',
         passWord: '',
         del: '',
+        isRecommendFocus: '',
       },
       rules: {
         payPwd: [],
         passWord: [],
         del: [],
+        isRecommendFocus: [],
       },
     }
   },
@@ -68,6 +77,7 @@ export default {
           this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
           this.ruleForm.passWord = this.detail.passWord
           this.ruleForm.del = this.detail.del
+          this.ruleForm.isRecommendFocus = this.detail.tbAppUserDetail.isRecommendFocus
         }).catch(e => {
         console.log(e)
       })
@@ -83,6 +93,7 @@ export default {
               payPwd: this.ruleForm.payPwd,
               passWord: this.ruleForm.passWord,
               del: this.ruleForm.del,
+              isRecommendFocus: this.ruleForm.isRecommendFocus,
             },
           }).then(res => {
             this.$message.success(res.msg)

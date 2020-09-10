@@ -11,6 +11,13 @@
               <el-option label="否" value="0"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="是否推荐">
+            <el-select v-model="formInline.isRecommendFocus" placeholder="请选择" @change="getList">
+              <el-option label="全部" value=""></el-option>
+              <el-option label="是" value="1"></el-option>
+              <el-option label="否" value="0"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="">
             <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList"></el-input>
           </el-form-item>
@@ -82,6 +89,7 @@ export default {
     return {
       formInline: {
         isAuthority: '',
+        isRecommendFocus: '',
         phone: '',
         homesickId: '',
         nickName: '',
@@ -110,6 +118,7 @@ export default {
         method: 'GET',
         params: {
           isAuthority: this.formInline.isAuthority,
+          isRecommendFocus: this.formInline.isRecommendFocus,
           phone: this.formInline.phone,
           homesickId: this.formInline.homesickId,
           nickName: this.formInline.nickName,

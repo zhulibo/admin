@@ -156,7 +156,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
 
-          let submitForm = async () => {
+          (async () => {
 
             let ImgsParams = await this.getImgsParams()
 
@@ -182,8 +182,7 @@ export default {
               console.log(e)
             })
 
-          }
-          submitForm()
+          })()
 
         } else {
           console.log('error submit!!')
