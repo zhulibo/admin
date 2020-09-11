@@ -17,8 +17,10 @@ export default {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'))
     if (!userInfo && this.$route.path != '/register') {
       this.$router.push({path: '/login'})
+    }else{
+      this.$store.dispatch('updateUserInfo', userInfo)
+      this.$store.dispatch('updateRouter', userInfo.permission)
     }
-    this.$store.dispatch('updateUserInfo', userInfo)
 
     // 主题信息
     let theme = JSON.parse(localStorage.getItem('theme'))

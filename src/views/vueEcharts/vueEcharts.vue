@@ -1,10 +1,6 @@
 <template>
   <div class="vue-echarts-wrap">
     <v-chart :options="eChartsOptions"/>
-    <el-button v-permission="[1]">删除</el-button>
-    <el-button v-permission="[2]">新增</el-button>
-    <el-button v-permission="[3]">修改</el-button>
-    <el-button v-permission="[4]">查询</el-button>
   </div>
 </template>
 

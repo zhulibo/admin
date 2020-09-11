@@ -1,9 +1,9 @@
 export default [
-  {
-    path: '/',
-    redirect: {path: '/admin'},
-    hidden: true,
-  },
+  // {
+  //   path: '/',
+  //   redirect: {path: '/admin'},
+  //   hidden: true,
+  // },
   {
     path: '/',
     name: 'index',

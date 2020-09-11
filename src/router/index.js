@@ -16,6 +16,13 @@ Vue.use(Router)
 
 export const constantRouter = [
   ...home,
+]
+
+export default new Router({
+  routes: constantRouter,
+})
+
+export const asyncRouter = [
   ...user,
   ...admin,
   ...classify,
@@ -25,12 +32,5 @@ export const constantRouter = [
   ...tribe,
   ...supplier,
   ...other,
-]
-
-export default new Router({
-  routes: constantRouter,
-})
-
-export const asyncRouter = [
   ...test,
 ]

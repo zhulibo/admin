@@ -13,6 +13,7 @@ export default [
         component: () => import (/* webpackChunkName: 'goods' */ '@/views/goods/goods/goods'),
         meta: {
           icon: 'iconfont icon-shangpin',
+          permission: 'goods',
         },
       },
       {
@@ -21,6 +22,7 @@ export default [
         component: () => import (/* webpackChunkName: 'goodsPresale' */ '@/views/goods/goodsPresale/goodsPresale'),
         meta: {
           icon: 'iconfont icon-yushou',
+          permission: 'goodsPresale',
         },
       },
       {
@@ -29,6 +31,7 @@ export default [
         component: () => import (/* webpackChunkName: 'goodsPresaleActivity' */ '@/views/goods/goodsPresaleActivity/goodsPresaleActivity'),
         meta: {
           icon: 'iconfont icon-RectangleCopy',
+          permission: '',
         },
       },
       {
@@ -37,6 +40,7 @@ export default [
         component: () => import (/* webpackChunkName: 'goodsLottery' */ '@/views/goods/goodsLottery/goodsLottery'),
         meta: {
           icon: 'iconfont icon-jiangpin',
+          permission: '',
         },
       },
       {
@@ -45,6 +49,7 @@ export default [
         component: () => import (/* webpackChunkName: 'goodsImgBorder' */ '@/views/goods/goodsImgBorder/goodsImgBorder'),
         meta: {
           icon: 'iconfont icon-xiabiankuang',
+          permission: '',
         },
       },
     ]

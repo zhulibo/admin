@@ -54,8 +54,8 @@ export default {
       type: null,
       ruleForm: {
         type: '1',
-        account: '18203663961',
-        password: 'Cf022044',
+        account: '',
+        password: '',
         randomCode: '',
       },
       rules: {
@@ -95,10 +95,56 @@ export default {
             }
           })
             .then(res => {
-              this.$store.dispatch('updateUserInfo', res.data)
-              localStorage.setItem('userInfo', JSON.stringify(res.data))
-              // this.$store.dispatch('updateRouter', res.data.roleSet)
-              this.$router.push({path: '/user'})
+              let userInfo = {
+                token: res.data,
+                permission: [
+                  {
+                    id: 1,
+                    path: 'goods',
+                    pathName: '商品',
+                    children: [
+                      {
+                        id: 2,
+                        path: 'goods',
+                        pathName: '普通商品',
+                      },
+                      {
+                        id: 3,
+                        path: 'goodsPresale',
+                        pathName: '预售商品',
+                      }
+                    ]
+                  },
+                  {
+                    id: 4,
+                    path: 'admin',
+                    pathName: '管理员',
+                    children: [
+                      {
+                        id: 5,
+                        path: 'admin',
+                        pathName: '管理员',
+                      },
+                      {
+                        id: 6,
+                        path: 'role',
+                        pathName: '角色',
+                        children: [
+                          {
+                            id: 7,
+                            path: 'role_del',
+                            pathName: '删除',
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+              }
+              this.$store.dispatch('updateUserInfo', userInfo)
+              this.$store.dispatch('updateRouter', userInfo.permission)
+              localStorage.setItem('userInfo', JSON.stringify(userInfo))
+              this.$router.push({path: '/'})
             }).catch(e => {
             console.log(e)
           })

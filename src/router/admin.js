@@ -13,6 +13,7 @@ export default [
         component: () => import (/* webpackChunkName: 'admin' */ '@/views/admin/admin'),
         meta: {
           icon: 'iconfont icon-guanliyuan',
+          permission: 'admin',
         },
       },
       {
@@ -21,6 +22,7 @@ export default [
         component: () => import (/* webpackChunkName: 'role' */ '@/views/role/role'),
         meta: {
           icon: 'iconfont icon-jiaoseleixing',
+          permission: 'role',
         },
       }
     ]
