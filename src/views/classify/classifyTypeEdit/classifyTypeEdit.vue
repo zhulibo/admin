@@ -47,7 +47,7 @@ export default {
   methods: {
     getDetail() {
       this.$http({
-        url: '/goodsmanage/backadmin/goodip/detail',
+        url: '/goodsmanage/backadmin/goodtypes/detail',
         method: 'GET',
         params: {
           id: this.id
@@ -64,7 +64,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/goodsmanage/backadmin/goodip',
+            url: '/goodsmanage/backadmin/goodtypes',
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
@@ -72,7 +72,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyIp'})
+            this.$router.push({path: '/classifyType'})
           }).catch(e => {
             console.log(e)
           })

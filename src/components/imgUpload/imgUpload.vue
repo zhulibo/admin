@@ -1,7 +1,7 @@
 <template>
   <div class="el-upload-ct">
     <el-upload
-      :headers="{Authorization: userInfo}"
+      :headers="{Authorization: token}"
       :action="this.global.baseUrl + '/userorg/backadmin/uploading'"
       list-type="picture-card"
       :accept='options.accept'
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {renameFileName} from '@/utils/renameFileName/renameFileName'
+// import {renameFileName} from '@/utils/renameFileName/renameFileName'
 
 export default {
   name: 'imgUpload',
@@ -39,8 +39,8 @@ export default {
   mounted() {
   },
   computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
+    token() {
+      return this.$store.getters.userInfo.token
     },
   },
   methods: {

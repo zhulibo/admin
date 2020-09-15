@@ -5,6 +5,11 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
+        <el-form-item label="绑定一级分类" prop="parentId">
+          <el-select v-model="ruleForm.parentId" placeholder="请选择" filterable>
+            <el-option v-for="item in classifyList" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
@@ -34,18 +39,23 @@ export default {
     return {
       id: '',
       detail: {},
+      classifyList: [],
       moduleImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
         limit: 1
       },
       ruleForm: {
+        parentId: '',
         name: '',
         moduleImg: [],
         sort: '',
         remark: '',
       },
       rules: {
+        parentId: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
@@ -66,6 +76,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
+    this.getClassifyList()
     if (this.id) this.getDetail()
   },
   mounted() {
@@ -83,6 +94,7 @@ export default {
       })
         .then(res => {
           this.detail = res.data
+          this.ruleForm.parentId = this.detail.parentId
           this.ruleForm.name = this.detail.name
           this.moduleImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           this.ruleForm.sort = this.detail.sort
@@ -91,14 +103,31 @@ export default {
         console.log(e)
       })
     },
+    getClassifyList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/classify',
+        method: 'GET',
+        params: {
+          level: 1,
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.classifyList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/goodsmanage/backadmin/classify/model',
+            url: '/goodsmanage/backadmin/model',
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
+              classifyId: this.ruleForm.parentId,
               name: this.ruleForm.name,
               image: this.ruleForm.moduleImg[0],
               sort: this.ruleForm.sort,

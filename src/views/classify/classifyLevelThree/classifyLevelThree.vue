@@ -24,13 +24,20 @@
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
+        <el-table-column label="img" align="center" class-name="row-img">
+          <template slot-scope="scope">
+            <img :src="scope.row.image" alt="">
+          </template>
+        </el-table-column>
         <el-table-column prop="sort" label="排序" align="center">
           <template slot-scope="scope">{{ scope.row.sort }}</template>
+        </el-table-column>
+        <el-table-column prop="remark" label="备注" align="center">
+          <template slot-scope="scope">{{ scope.row.remark }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -61,13 +68,19 @@ export default {
   },
   mounted() {
   },
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+  },
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goodbrand',
+        url: '/goodsmanage/backadmin/classify',
         method: 'GET',
         params: {
           name: this.name,
+          level: 3,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -85,32 +98,10 @@ export default {
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/classifyBrandEdit', query: {id: scope.id}})
-    },
-    deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.name, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/goodsmanage/backadmin/goodbrand',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            del: 1,
-          }
-        })
-          .then(res => {
-            this.$message.success('已删除 ' + scope.name)
-            this.getList()
-          })
-      }).catch(e => {
-        console.log(e)
-      })
+      this.$router.push({path: '/classifyLevelThreeEdit', query: {id: scope.id}})
     },
     newItem() {
-      this.$router.push({path: '/classifyBrandEdit'})
+      this.$router.push({path: '/classifyLevelThreeEdit'})
     },
   }
 }

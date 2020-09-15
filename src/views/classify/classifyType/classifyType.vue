@@ -24,9 +24,6 @@
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
-        </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
@@ -64,7 +61,7 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goodbrand',
+        url: '/goodsmanage/backadmin/goodtypes',
         method: 'GET',
         params: {
           name: this.name,
@@ -85,7 +82,7 @@ export default {
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/classifyBrandEdit', query: {id: scope.id}})
+      this.$router.push({path: '/classifyTypeEdit', query: {id: scope.id}})
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {
@@ -94,7 +91,7 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goodbrand',
+          url: '/goodsmanage/backadmin/goodtypes',
           method: 'PUT',
           data: {
             id: scope.id,
@@ -110,7 +107,7 @@ export default {
       })
     },
     newItem() {
-      this.$router.push({path: '/classifyBrandEdit'})
+      this.$router.push({path: '/classifyTypeEdit'})
     },
   }
 }

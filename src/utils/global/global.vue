@@ -31,7 +31,7 @@ let getNowBeijingTimestamp = () => {
   return nowBeijingTimestamp
 }
 
-let sheetMusic = () => {
+let keyboardPiano = () => {
   if (!window.AudioContext) {
     console.log('当前浏览器不支持Web Audio API')
     return
@@ -40,34 +40,26 @@ let sheetMusic = () => {
   // 创建新的音频上下文接口
   var audioCtx = new AudioContext()
 
-  // 频率
-  let frequency = null
-  let frequencyArr = [262, 294, 330, 349, 392, 440, 494, 523, 587, 659, 698, 784, 880, 988]
-  let frequencyArrCTuneAll = [262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587, 622, 659, 698, 740, 784, 831, 880, 932, 988, 1046, 1109, 1175, 1245, 1318, 1397, 1480, 1568, 1661, 1760, 1865, 1976]
-  // 频谱
-  let sheetMusic = []
-  let theme = JSON.parse(localStorage.getItem('theme'))
-  if (theme) {
-    sheetMusic = theme.sheetMusic.split(',')
-  }
+  let frequency = null // 播放频率
+  let frequencyArr = [] // 频率总数组
+  let frequencyArr0a = [130.813, 146.832, 164.814, 174.614, 195.998, 220.000, 246.942] // 小字母组
+  let frequencyArr1a = [261.626, 293.665, 329.628, 349.228, 391.995, 440.000, 493.883] // 小字母1组
+  let frequencyArr2a = [523.251, 587.330, 659.255, 698.456, 783.991, 880.000, 987.767] // 小字母2组
+  let frequencyArr3a = [1046.502, 1174.659, 1318.510, 1396.913, 1567.982, 1760.000, 1975.533] // 小字母3组
 
-  // 频谱位置
-  var start = 0
-  // 键盘顺序
-  let keyArr = 'zxcvbnmasdfghjklqwertyuiop'
+  // 合并频率数组
+  frequencyArr = frequencyArr.concat(frequencyArr0a, frequencyArr1a, frequencyArr2a, frequencyArr3a)
+
+  let keyArr = 'zxcvbnmasdfghjklqwertyuiop' // 键盘字母顺序
 
   function music(event) {
-    if (start > sheetMusic.length - 1) {
-      start = 0
-    }
-    let frequencyIndex = parseInt(sheetMusic[start]) - 1
-    if (event.keyCode <= 90 && event.keyCode >= 65) { // 键盘固定频率
+
+    if (event.keyCode <= 90 && event.keyCode >= 65) {
       let keyIndex = keyArr.indexOf(event.key)
-      frequency = frequencyArrCTuneAll[keyIndex]
-    } else { // 频谱频率
-      frequency = frequencyArr[frequencyIndex]
+      frequency = frequencyArr[keyIndex]
+    }else{
+      return
     }
-    start++
 
     console.log(frequency)
 
@@ -89,10 +81,10 @@ let sheetMusic = () => {
     gainNode.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.01)
     // 音调从当前时间开始播放
     oscillator.start(audioCtx.currentTime)
-    // 1.2秒内声音慢慢降低
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2)
-    // 1.2秒后完全停止声音
-    oscillator.stop(audioCtx.currentTime + 1.2)
+    // 1.5秒内声音慢慢降低
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5)
+    // 1.5秒后完全停止声音
+    oscillator.stop(audioCtx.currentTime + 1.5)
   }
 
   document.addEventListener('keydown', music)
@@ -103,6 +95,6 @@ export default {
   baseUrl, // 上传图片路径
   getParams, // 获取url中参数
   getNowBeijingTimestamp, // 获取此时北京时间戳
-  sheetMusic, // 点击音效
+  keyboardPiano, // 钢琴键盘
 }
 </script>

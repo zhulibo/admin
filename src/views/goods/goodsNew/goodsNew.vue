@@ -17,11 +17,6 @@
         <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="品牌" prop="brandId">
-          <el-select v-model="ruleForm.brandId" placeholder="请选择" clearable filterable>
-            <el-option v-for="item in brandList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="材质" prop="material">
           <el-input v-model="ruleForm.material"></el-input>
         </el-form-item>
@@ -33,6 +28,46 @@
         </el-form-item>
         <el-form-item label="排序分值" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
+        </el-form-item>
+        <el-form-item label="类别" prop="typeList">
+          <el-select v-model="ruleForm.typeList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in typeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="品牌" prop="brandList">
+          <el-select v-model="ruleForm.brandList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in brandList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="IP" prop="ipList">
+          <el-select v-model="ruleForm.ipList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in ipList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="属性" prop="attributeList">
+          <el-select v-model="ruleForm.attributeList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in attributeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <div class="sku-ct" v-for="(sku, index) in ruleForm.skus" :key="sku.key">
           <el-form-item :label="'sku' + (index+1) + '名称'" :prop="'skus.' + index + '.name'"
@@ -64,7 +99,10 @@ export default {
   data() {
     return {
       detail: {},
+      typeList: [],
       brandList: [],
+      ipList: [],
+      attributeList: [],
       listedImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
@@ -84,11 +122,14 @@ export default {
         listedImg: [],
         bannerImg: [],
         contentImg: [],
-        brandId: '',
         material: '',
         size: '',
         cargoNo: '',
         sort: '',
+        typeList: [],
+        brandList: [],
+        ipList: [],
+        attributeList: [],
         skus: [{
           name: '',
           url: '',
@@ -113,9 +154,6 @@ export default {
         contentImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        brandId: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
         material: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
@@ -125,9 +163,6 @@ export default {
         cargoNo: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        sort: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
       },
     }
   },
@@ -135,7 +170,10 @@ export default {
     imgUpload,
   },
   created() {
+    this.getTypeList()
     this.getBrandList()
+    this.getIpList()
+    this.getAttributeList()
   },
   mounted() {
   },
@@ -145,22 +183,6 @@ export default {
     },
   },
   methods: {
-    getBrandList: function () {
-      this.$http({
-        url: '/goodsmanage/backadmin/brand',
-        method: 'GET',
-        params: {
-          name: this.name,
-          pageSize: 1000,
-          pageNumber: 1,
-        }
-      })
-        .then(res => {
-          this.brandList = res.data.list
-        }).catch(e => {
-        console.log(e)
-      })
-    },
     removeSku(item) {
       var index = this.ruleForm.skus.indexOf(item)
       if (index !== -1) {
@@ -178,6 +200,66 @@ export default {
         },
         key: Date.now(),
       });
+    },
+    getTypeList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodtypes',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.typeList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getBrandList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodbrand',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.brandList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getIpList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodip',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.ipList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getAttributeList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodattribute',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.attributeList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -219,7 +301,10 @@ export default {
                 cargoNo: this.ruleForm.cargoNo,
               },
               skus: skus,
-              sort: this.ruleForm.sort,
+              goodTypes: this.ruleForm.typeList[0],
+              goodBrand: this.ruleForm.brandList[0],
+              goodIp: this.ruleForm.ipList[0],
+              goodAttribute: this.ruleForm.attributeList[0],
             },
           }).then(res => {
             this.$message.success(res.msg)

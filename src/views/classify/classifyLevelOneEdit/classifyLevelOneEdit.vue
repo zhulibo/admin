@@ -11,9 +11,6 @@
         <el-form-item label="排序" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
-        <el-form-item label="备注(200字以内)" prop="remark">
-          <el-input type="textarea" v-model="ruleForm.remark" maxlength="200" rows="4"></el-input>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -34,16 +31,12 @@ export default {
       ruleForm: {
         name: '',
         sort: '',
-        remark: '',
       },
       rules: {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         sort: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        remark: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
@@ -66,14 +59,13 @@ export default {
   methods: {
     getDetail() {
       this.$http({
-        url: '/userorg/backadmin/tribe/detail/' + this.id,
+        url: '/goodsmanage/backadmin/classify/' + this.id,
         method: 'GET',
       })
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
           this.ruleForm.sort = this.detail.sort
-          this.ruleForm.remark = this.detail.remark
         }).catch(e => {
         console.log(e)
       })
@@ -82,14 +74,14 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/goodsmanage/backadmin/classify/classify',
+            url: '/goodsmanage/backadmin/classify',
             method: this.id ? 'PUT' : 'POST',
             data: {
+              type: 1,
               id: this.id ? this.id : '',
               level: 1,
               name: this.ruleForm.name,
               sort: this.ruleForm.sort,
-              remark: this.ruleForm.remark,
             },
           }).then(res => {
             this.$message.success(res.msg)

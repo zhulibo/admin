@@ -17,11 +17,6 @@
         <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="品牌" prop="brandId">
-          <el-select v-model="ruleForm.brandId" placeholder="请选择" clearable filterable>
-            <el-option v-for="item in brandList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="官网维护销量" prop="sellNumber">
           <el-input v-model="ruleForm.sellNumber"></el-input>
         </el-form-item>
@@ -36,6 +31,46 @@
         </el-form-item>
         <el-form-item label="排序分值" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
+        </el-form-item>
+        <el-form-item label="类别" prop="typeList">
+          <el-select v-model="ruleForm.typeList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in typeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="品牌" prop="brandList">
+          <el-select v-model="ruleForm.brandList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in brandList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="IP" prop="ipList">
+          <el-select v-model="ruleForm.ipList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in ipList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="属性" prop="attributeList">
+          <el-select v-model="ruleForm.attributeList" multiple filterable placeholder="请选择">
+            <el-option
+              v-for="item in attributeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -54,7 +89,10 @@ export default {
     return {
       id: '',
       detail: {},
+      typeList: [],
       brandList: [],
+      ipList: [],
+      attributeList: [],
       listedImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
@@ -74,12 +112,15 @@ export default {
         listedImg: [],
         bannerImg: [],
         contentImg: [],
-        brandId: '',
         material: '',
         size: '',
         cargoNo: '',
         sellNumber: '',
         sort: '',
+        typeList: [],
+        brandList: [],
+        ipList: [],
+        attributeList: [],
       },
       rules: {
         title: [
@@ -94,9 +135,6 @@ export default {
         contentImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        brandId: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
         material: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
@@ -105,12 +143,6 @@ export default {
         ],
         cargoNo: [
           {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sellNumber: [
-          // {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
-          // {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
@@ -121,7 +153,10 @@ export default {
   created() {
     this.id = this.$route.query.id
     if (this.id) this.getDetail()
+    this.getTypeList()
     this.getBrandList()
+    this.getIpList()
+    this.getAttributeList()
   },
   mounted() {
   },
@@ -156,23 +191,70 @@ export default {
           this.ruleForm.size = this.detail.tbGoodsDetail.size
           this.ruleForm.cargoNo = this.detail.tbGoodsDetail.cargoNo
           this.ruleForm.sellNumber = this.detail.sellNumber
-          this.ruleForm.sort = this.detail.sort
+          this.ruleForm.typeList = [this.detail.goodTypes]
+          this.ruleForm.brandList = [this.detail.goodBrand]
+          this.ruleForm.ipList = [this.detail.goodIp]
+          this.ruleForm.attributeList = [this.detail.goodAttribute]
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getTypeList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodtypes',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.typeList = res.data.list
         }).catch(e => {
         console.log(e)
       })
     },
     getBrandList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/brand',
+        url: '/goodsmanage/backadmin/goodbrand',
         method: 'GET',
         params: {
-          name: this.name,
           pageSize: 1000,
           pageNumber: 1,
         }
       })
         .then(res => {
           this.brandList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getIpList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodip',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.ipList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getAttributeList: function () {
+      this.$http({
+        url: '/goodsmanage/backadmin/goodattribute',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.attributeList = res.data.list
         }).catch(e => {
         console.log(e)
       })
@@ -211,6 +293,10 @@ export default {
               },
               sellNumber: this.ruleForm.sellNumber,
               sort: this.ruleForm.sort,
+              goodTypes: this.ruleForm.typeList[0],
+              goodBrand: this.ruleForm.brandList[0],
+              goodIp: this.ruleForm.ipList[0],
+              goodAttribute: this.ruleForm.attributeList[0],
             },
           }).then(res => {
             this.$message.success(res.msg)

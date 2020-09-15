@@ -5,12 +5,6 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="类型" prop="type">
-          <el-select v-model="ruleForm.type" placeholder="请选择">
-            <el-option label="品牌" value="1"></el-option>
-            <el-option label="设计师工作室" value="2"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
@@ -35,8 +29,6 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
-
 const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
 
 export default {
@@ -64,9 +56,6 @@ export default {
         sort: '',
       },
       rules: {
-        type: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
@@ -94,25 +83,21 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    ...mapState({
-      userInfo: state => state.login.userInfo
-    }),
-  },
   methods: {
-    ...mapMutations(['setUserInfo']),
     getDetail() {
       this.$http({
-        url: '/userorg/backadmin/tribe/detail/' + this.id,
+        url: '/goodsmanage/backadmin/goodbrand/detail',
         method: 'GET',
+        params: {
+          id: this.id
+        }
       })
         .then(res => {
           this.detail = res.data
-          this.ruleForm.type = this.detail.type
           this.ruleForm.name = this.detail.name
-          this.iconImgOptions.fileList.push({url: this.detail.icon}) // 图片回显
-          this.brandBgImgOptions.fileList.push({url: this.detail.brandBg}) // 图片回显
-          this.ruleForm.intro = this.detail.intro
+          this.iconImgOptions.fileList.push({url: this.detail.image}) // 图片回显
+          this.brandBgImgOptions.fileList.push({url: this.detail.backImag}) // 图片回显
+          this.ruleForm.intro = this.detail.describes
           this.ruleForm.sort = this.detail.sort
         }).catch(e => {
         console.log(e)
@@ -122,20 +107,19 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/goodsmanage/backadmin/brand',
+            url: '/goodsmanage/backadmin/goodbrand',
             method: this.id ? 'PUT' : 'POST',
             data: {
-              // id: this.id ? this.id : '',
-              type: this.ruleForm.type,
+              id: this.id ? this.id : '',
               name: this.ruleForm.name,
-              icon: this.ruleForm.iconImg[0],
-              brandBg: this.ruleForm.brandBgImg[0],
-              intro: this.ruleForm.intro,
+              image: this.ruleForm.iconImg[0],
+              backImag: this.ruleForm.brandBgImg[0],
+              describe: this.ruleForm.intro,
               sort: this.ruleForm.sort,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyModule'})
+            this.$router.push({path: '/classifyBrand'})
           }).catch(e => {
             console.log(e)
           })

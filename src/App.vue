@@ -26,8 +26,8 @@ export default {
     let theme = JSON.parse(localStorage.getItem('theme'))
     if (theme) {
       this.$store.dispatch('updateTheme', theme)
-      if (theme.sheetMusic) {
-        this.global.sheetMusic()
+      if (theme.keyboardPiano) {
+        this.global.keyboardPiano()
       }
     }
   },

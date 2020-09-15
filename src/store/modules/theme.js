@@ -5,7 +5,7 @@ const state = {
     colorBg: '',
     bg: [],
     cursorImg: '',
-    sheetMusic: '',
+    keyboardPiano: '',
   },
 }
 

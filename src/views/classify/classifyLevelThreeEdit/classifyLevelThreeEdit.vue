@@ -5,15 +5,8 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="绑定一级分类" prop="parentId">
-          <el-select v-model="ruleForm.parentId" placeholder="请选择" filterable>
-            <el-option v-for="item in classifyList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="绑定模块" prop="moduleId">
-          <el-select v-model="ruleForm.moduleId" placeholder="请选择" filterable>
-            <el-option v-for="item in moduleList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
+        <el-form-item label="绑定二级分类" prop="parentId">
+          <el-cascader :props="props" v-model="ruleForm.parentId"></el-cascader>
         </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
@@ -78,23 +71,68 @@ const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components
 export default {
   name: 'itemEdit',
   data() {
+    let _this = this
     return {
       id: '',
       detail: {},
-      classifyList: [],
-      moduleList: [],
+      props: {
+        lazy: true,
+        // emitPath: false,
+        lazyLoad(node, resolve) {
+          if (node.level == 0) {
+            _this.$http({
+              url: '/goodsmanage/backadmin/classify',
+              method: 'GET',
+              params: {
+                level: 1,
+                pageSize: 1000,
+                pageNumber: 1,
+              }
+            })
+              .then(res => {
+                const items = res.data.list.map((value, i) => ({
+                  value: value.id,
+                  label: value.name,
+                  leaf: node.level >= 1
+                }));
+                resolve(items);
+              }).catch(e => {
+              console.log(e)
+            })
+          } else if (node.level == 1) {
+            _this.$http({
+              url: '/goodsmanage/backadmin/classify/parentId/' + node.path[0],
+              method: 'GET',
+              params: {
+                pageSize: 1000,
+                pageNumber: 1,
+              }
+            })
+              .then(res => {
+                const items = res.data.map((value, i) => ({
+                  value: value.id,
+                  label: value.name,
+                  leaf: node.level >= 1
+                }));
+                resolve(items);
+              }).catch(e => {
+              console.log(e)
+            })
+          }
+        }
+      },
       typeList: [],
       brandList: [],
       ipList: [],
       attributeList: [],
+      classifyAllList: [],
       classifyImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
         limit: 1
       },
       ruleForm: {
-        parentId: '',
-        moduleId: '',
+        parentId: [],
         name: '',
         classifyImg: [],
         sort: '',
@@ -105,9 +143,6 @@ export default {
       },
       rules: {
         parentId: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        moduleId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         name: [
@@ -139,13 +174,11 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    this.getClassifyList()
-    this.getModuleList()
+    if (this.id) this.getDetail()
     this.getTypeList()
     this.getBrandList()
     this.getIpList()
     this.getAttributeList()
-    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -163,8 +196,7 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.type = this.detail.type
-          this.ruleForm.parentId = this.detail.parentId
-          this.ruleForm.moduleId = this.detail.modelId
+          this.ruleForm.parentId = [this.detail.firstId, this.detail.parentId]
           this.ruleForm.name = this.detail.name
           this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           this.ruleForm.sort = this.detail.sort
@@ -172,37 +204,6 @@ export default {
           this.ruleForm.brandList = this.detail.brands.split(',').map(Number)
           this.ruleForm.ipList = this.detail.ips.split(',').map(Number)
           this.ruleForm.attributeList = this.detail.attributes.split(',').map(Number)
-        }).catch(e => {
-        console.log(e)
-      })
-    },
-    getClassifyList: function () {
-      this.$http({
-        url: '/goodsmanage/backadmin/classify',
-        method: 'GET',
-        params: {
-          level: 1,
-          pageSize: 1000,
-          pageNumber: 1,
-        }
-      })
-        .then(res => {
-          this.classifyList = res.data.list
-        }).catch(e => {
-        console.log(e)
-      })
-    },
-    getModuleList: function () {
-      this.$http({
-        url: '/goodsmanage/backadmin/model',
-        method: 'GET',
-        params: {
-          pageSize: 1000,
-          pageNumber: 1,
-        }
-      })
-        .then(res => {
-          this.moduleList = res.data.list
         }).catch(e => {
         console.log(e)
       })
@@ -276,9 +277,8 @@ export default {
             data: {
               type: 1,
               id: this.id ? this.id : '',
-              level: 2,
-              parentId: this.ruleForm.parentId,
-              modelId: this.ruleForm.moduleId,
+              level: 3,
+              parentId: this.ruleForm.parentId[1],
               name: this.ruleForm.name,
               image: this.ruleForm.classifyImg[0],
               sort: this.ruleForm.sort,
@@ -289,7 +289,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyLevelTwo'})
+            this.$router.push({path: '/classifyLevelThree'})
           }).catch(e => {
             console.log(e)
           })
