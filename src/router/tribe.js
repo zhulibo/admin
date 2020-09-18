@@ -21,7 +21,7 @@ export default [
       {
         path: '/tribeMember',
         name: '部落成员',
-        component: () => import (/* webpackChunkName: 'tribeMember' */ '@/views/tribeMember/tribeMember'),
+        component: () => import (/* webpackChunkName: 'tribeMember' */ '@/views/tribe/tribeMember'),
         meta: {},
       }
     ]
@@ -34,7 +34,7 @@ export default [
       {
         path: '/tribeEdit',
         name: '部落编辑',
-        component: () => import (/* webpackChunkName: 'tribeEdit' */ '@/views/tribeEdit/tribeEdit'),
+        component: () => import (/* webpackChunkName: 'tribeEdit' */ '@/views/tribe/tribeEdit'),
         meta: {},
       }
     ]

@@ -37,7 +37,7 @@ export default {
         url: '/userorg/login/back/out',
         method: 'POST',
         data: {
-          token: this.userInfo
+          token: this.userInfo.token
         }
       })
         .then(res => {

@@ -38,7 +38,7 @@ axios.interceptors.response.use(
           type: 'error',
           duration: 3000
         })
-        return Promise.reject(res) // 请求结果异常(code!=0)进入catch函数，避免报错
+        return Promise.reject(res) // 请求结果异常(code!=0)进入catch函数，避免页面因数据问题报错
     }
 
   },

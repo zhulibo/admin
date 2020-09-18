@@ -10,7 +10,7 @@ export default [
       {
         path: '/supplierStore',
         name: '仓库',
-        component: () => import (/* webpackChunkName: 'supplierStore' */ '@/views/supplier/supplierStore/supplierStore'),
+        component: () => import (/* webpackChunkName: 'supplierStore' */ '@/views/supplier/supplierStore'),
         meta: {
           icon: 'iconfont icon-cangku',
         },
@@ -18,7 +18,7 @@ export default [
       {
         path: '/supplierAddress',
         name: '发货地址',
-        component: () => import (/* webpackChunkName: 'supplierAddress' */ '@/views/supplier/supplierAddress/supplierAddress'),
+        component: () => import (/* webpackChunkName: 'supplierAddress' */ '@/views/supplier/supplierAddress'),
         meta: {
           icon: 'iconfont icon-dizhi',
         },
@@ -26,7 +26,7 @@ export default [
       {
         path: '/supplierCarriage',
         name: '运费',
-        component: () => import (/* webpackChunkName: 'supplierCarriage' */ '@/views/supplier/supplierCarriage/supplierCarriage'),
+        component: () => import (/* webpackChunkName: 'supplierCarriage' */ '@/views/supplier/supplierCarriage'),
         meta: {
           icon: 'iconfont icon-mianyunfei',
         },
@@ -41,7 +41,7 @@ export default [
       {
         path: '/supplierAddressEdit',
         name: '发货地址编辑',
-        component: () => import (/* webpackChunkName: 'supplierAddressEdit' */ '@/views/supplier/supplierAddressEdit/supplierAddressEdit'),
+        component: () => import (/* webpackChunkName: 'supplierAddressEdit' */ '@/views/supplier/supplierAddressEdit'),
         meta: {},
       }
     ]
@@ -54,7 +54,7 @@ export default [
       {
         path: '/supplierCarriageEdit',
         name: '运费编辑',
-        component: () => import (/* webpackChunkName: 'supplierCarriageEdit' */ '@/views/supplier/supplierCarriageEdit/supplierCarriageEdit'),
+        component: () => import (/* webpackChunkName: 'supplierCarriageEdit' */ '@/views/supplier/supplierCarriageEdit'),
         meta: {},
       }
     ]

@@ -18,11 +18,13 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
-        </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
+        </el-table-column>
+        <el-table-column label="img" align="center" class-name="row-img">
+          <template slot-scope="scope">
+            <img :src="scope.row.image" alt="">
+          </template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" align="center">
           <template slot-scope="scope">{{ scope.row.sort }}</template>
@@ -32,7 +34,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
-<!--            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>-->
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -71,10 +73,11 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/model',
+        url: '/goodsmanage/backadmin/classify',
         method: 'GET',
         params: {
           name: this.name,
+          level: 2,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -92,10 +95,10 @@ export default {
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/classifyModuleEdit', query: {id: scope.id}})
+      this.$router.push({path: '/classifyLevelTwoEdit', query: {id: scope.id}})
     },
     newItem() {
-      this.$router.push({path: '/classifyModuleEdit'})
+      this.$router.push({path: '/classifyLevelTwoEdit'})
     },
   }
 }

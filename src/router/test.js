@@ -1,6 +1,49 @@
 export default [
   {
     path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/richTextCt',
+        name: '模玩百科',
+        component: () => import (/* webpackChunkName: 'richTextCt' */ '@/views/test/richTextCt'),
+        meta: {
+          icon: 'iconfont icon-bianji',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/other',
+        name: '图表',
+        component: () => import (/* webpackChunkName: 'other' */ '@/views/test/vueEcharts'),
+        meta: {
+          icon: 'iconfont icon-bianji',
+          permissions: [1, 2, 3]
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    children: [
+      {
+        path: '/chatCt',
+        name: '客服聊天',
+        component: () => import (/* webpackChunkName: 'chatCt' */ '@/views/test/chatCt'),
+        meta: {
+          icon: 'iconfont icon-bianji',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
     name: '权限',
     meta: {
       icon: 'iconfont icon-bianji',

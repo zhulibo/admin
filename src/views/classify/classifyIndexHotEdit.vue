@@ -13,7 +13,7 @@
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="网页地址" prop="url" v-if="ruleForm.type == 2"
-                      :rules="{required: true, message: '请选择sku图片', trigger: 'change'}">
+                      :rules="{required: true, message: '请选择图片', trigger: 'change'}">
           <el-input v-model="ruleForm.url"></el-input>
         </el-form-item>
         <el-form-item label="分类图片" prop="classifyImg" class="form-item-img-classify">

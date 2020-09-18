@@ -18,7 +18,7 @@ export default [
       // {
       //   path: '/businessMan',
       //   name: '商家',
-      //   component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/businessMan/businessMan'),
+      //   component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/user/businessMan'),
       //   meta: {
       //     icon: 'iconfont icon-shangjia',
       //   },
@@ -33,7 +33,7 @@ export default [
       {
         path: '/userEdit',
         name: '用户编辑',
-        component: () => import (/* webpackChunkName: 'userEdit' */ '@/views/userEdit/userEdit'),
+        component: () => import (/* webpackChunkName: 'userEdit' */ '@/views/user/userEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },
@@ -48,7 +48,7 @@ export default [
   //     {
   //       path: '/businessManEdit',
   //       name: '商家编辑',
-  //       component: () => import (/* webpackChunkName: 'businessManEdit' */ '@/views/businessManEdit/businessManEdit'),
+  //       component: () => import (/* webpackChunkName: 'businessManEdit' */ '@/views/user/businessManEdit'),
   //       meta: {
   //         icon: 'iconfont icon-yonghu',
   //       },

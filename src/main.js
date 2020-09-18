@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router'
 import axios from './axios'
 import store from './store'
-import './utils/directives/btnPermission' // 按钮指令
-import common from './utils/filters/common' // 过滤器
+import './utils/directive/btnPermission' // 按钮指令
+import common from './utils/filter/common' // 过滤器
 import global from './utils/global/global' // 全局变量
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

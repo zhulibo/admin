@@ -90,10 +90,8 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         notice: [
-          {required: true, message: '请输入', trigger: 'change'}
         ],
         noticeTitle: [
-          {required: true, message: '请输入', trigger: 'change'}
         ],
         adminUser: [
           {required: true, message: '请输入', trigger: 'change'}

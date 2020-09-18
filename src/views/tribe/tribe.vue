@@ -79,10 +79,8 @@ export default {
   data() {
     return {
       formInline: {
-        isAuthority: '',
-        phone: '',
-        homesickId: '',
-        nickName: '',
+        type: '',
+        name: '',
       },
       tableList: [],
       pageSize: 10,

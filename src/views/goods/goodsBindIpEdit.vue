@@ -124,7 +124,7 @@ export default {
       //   lazyLoad (node, resolve) {
       //     if (node.level == 0){
       //       _this.$http({
-      //         url: '/goodsmanage/backadmin/classifyConsole',
+      //         url: '/goodsmanage/backadmin/classifyPreview',
       //         method: 'GET',
       //         params: {
       //           level: 2,
@@ -143,7 +143,7 @@ export default {
       //     }else if (node.level == 1){
       //       console.log(node)
       //       _this.$http({
-      //         url: '/goodsmanage/backadmin/classifyConsole/classifyip',
+      //         url: '/goodsmanage/backadmin/classifyPreview/classifyip',
       //         method: 'GET',
       //         params: {
       //           classifyId: node.path[0],

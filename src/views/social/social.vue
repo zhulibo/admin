@@ -95,8 +95,8 @@ export default {
   data() {
     return {
       formInline: {
-        type: null,
-        del: null,
+        type: '',
+        del: '',
         goodId: '',
         isUser: '',
         time: [],
