@@ -10,11 +10,19 @@
               <el-option label="待付款" value="1"></el-option>
               <el-option label="待发货" value="2"></el-option>
               <el-option label="待收货" value="3"></el-option>
-              <el-option label="确认收货已完成" value="5"></el-option>
-              <el-option label="超时取消" value="6"></el-option>
-              <el-option label="用户取消" value="7"></el-option>
-              <el-option label="管理员取消" value="8"></el-option>
+              <el-option label="确认收货已完成" value="4"></el-option>
+              <el-option label="支付后用户取消" value="5"></el-option>
+              <el-option label="支付后后台取消" value="6"></el-option>
+              <el-option label="未支付超时取消" value="7"></el-option>
+              <el-option label="未支付用户取消" value="8"></el-option>
               <el-option label="删除" value="0"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="预售状态">
+            <el-select v-model="formInline.preStatus" placeholder="请选择" @change="getList">
+              <el-option label="全部" value=""></el-option>
+              <el-option label="已预订" value="1"></el-option>
+              <el-option label="已付尾款" value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="">
@@ -76,7 +84,6 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="confirmReceipt(scope.row)">确认收货</el-button>
             <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
@@ -97,6 +104,7 @@ export default {
     return {
       formInline: {
         status: '',
+        preStatus: '',
         number: '',
         time: [],
       },
@@ -172,6 +180,7 @@ export default {
         method: 'GET',
         params: {
           status: this.formInline.status,
+          preStatus: this.formInline.preStatus,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -184,28 +193,6 @@ export default {
         console.log(e)
       })
     },
-    confirmReceipt(scope) {
-      this.$confirm('确认收货 ' + scope.number, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/order/backadmin/paasorder',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            status: 4,
-          }
-        })
-          .then(res => {
-            this.$message.success(res.msg + scope.number)
-            this.getList()
-          })
-      }).catch(e => {
-        console.log(e)
-      })
-    },
     cancleOrder(scope) {
       this.$confirm('取消订单 ' + scope.number, '提示', {
         confirmButtonText: '确定',
@@ -213,11 +200,11 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/order/backadmin/paasorder',
+          url: '/order/backadmin/paasorder/pre',
           method: 'PUT',
           data: {
             id: scope.id,
-            status: 6,
+            status: 5,
           }
         })
           .then(res => {

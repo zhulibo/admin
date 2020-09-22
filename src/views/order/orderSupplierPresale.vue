@@ -10,11 +10,19 @@
               <el-option label="待付款" value="1"></el-option>
               <el-option label="待发货" value="2"></el-option>
               <el-option label="待收货" value="3"></el-option>
-              <el-option label="确认收货已完成" value="5"></el-option>
-              <el-option label="超时取消" value="6"></el-option>
-              <el-option label="用户取消" value="7"></el-option>
-              <el-option label="管理员取消" value="8"></el-option>
+              <el-option label="确认收货已完成" value="4"></el-option>
+              <el-option label="支付后用户取消" value="5"></el-option>
+              <el-option label="支付后后台取消" value="6"></el-option>
+              <el-option label="未支付超时取消" value="7"></el-option>
+              <el-option label="未支付用户取消" value="8"></el-option>
               <el-option label="删除" value="0"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="预售状态">
+            <el-select v-model="formInline.preStatus" placeholder="请选择" @change="getList">
+              <el-option label="全部" value=""></el-option>
+              <el-option label="已预订" value="1"></el-option>
+              <el-option label="已付尾款" value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="">
@@ -76,8 +84,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="confirmReceipt(scope.row)">确认收货</el-button>
-            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
+<!--            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>-->
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
         </el-table-column>
@@ -86,6 +93,21 @@
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
                        @current-change="handleCurrentChange" background></el-pagination>
       </div>
+    </div>
+    <div class="dialog">
+      <el-dialog title="发货" :visible.sync="shipDialogVisible">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
+          <el-form-item label="快递公司编码" prop="companyCode">
+            <el-input v-model="ruleForm.companyCode"></el-input>
+          </el-form-item>
+          <el-form-item label="订单号" prop="logNumber">
+            <el-input v-model="ruleForm.logNumber"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -97,6 +119,7 @@ export default {
     return {
       formInline: {
         status: '',
+        preStatus: '',
         number: '',
         time: [],
       },
@@ -153,6 +176,16 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
+      shipDialogVisible: false,
+      scope: {},
+      ruleForm: {
+        companyCode: '',
+        logNumber: '',
+      },
+      rules: {
+        companyCode: '',
+        logNumber: '',
+      },
     }
   },
   created() {
@@ -168,10 +201,11 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/order/backadmin/paasorder',
+        url: '/order/backadmin/shoporder',
         method: 'GET',
         params: {
           status: this.formInline.status,
+          preStatus: this.formInline.preStatus,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -184,27 +218,36 @@ export default {
         console.log(e)
       })
     },
-    confirmReceipt(scope) {
-      this.$confirm('确认收货 ' + scope.number, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/order/backadmin/paasorder',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            status: 4,
-          }
-        })
-          .then(res => {
-            this.$message.success(res.msg + scope.number)
-            this.getList()
+
+    ship(scope) {
+      this.shipDialogVisible = true
+      this.scope = scope
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/order/backadmin/shoporder',
+            method: 'PUT',
+            data: {
+              id: this.scope.id,
+              status: 3,
+              tbOrderDetail: {
+                companyCode: this.ruleForm.companyCode,
+                logNumber: this.ruleForm.logNumber,
+              }
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.shipDialogVisible = false
+          }).catch(e => {
+            console.log(e)
           })
-      }).catch(e => {
-        console.log(e)
-      })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
     },
     cancleOrder(scope) {
       this.$confirm('取消订单 ' + scope.number, '提示', {
@@ -213,11 +256,11 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/order/backadmin/paasorder',
+          url: '/order/backadmin/paasorder/pre',
           method: 'PUT',
           data: {
             id: scope.id,
-            status: 6,
+            status: 5,
           }
         })
           .then(res => {
@@ -229,7 +272,7 @@ export default {
       })
     },
     checkItem(scope) {
-      this.$router.push({path: '/orderDetail', query: {id: scope.id}})
+      this.$router.push({path: '/orderSupplierPresaleDetail', query: {id: scope.id}})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

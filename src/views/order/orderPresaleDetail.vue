@@ -64,7 +64,7 @@
         <!--                </el-table-column>-->
         <el-table-column prop="status" label="订单状态" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 0">已删除</span>
+            <span v-if="scope.row.status == 0">删除</span>
             <span v-else-if="scope.row.status == 1">待付款</span>
             <span v-else-if="scope.row.status == 2">待发货</span>
             <span v-else-if="scope.row.status == 3">待收货</span>
@@ -74,10 +74,8 @@
             <span v-else-if="scope.row.status == 8">管理员取消</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="confirmReceipt(scope.row)">确认收货</el-button>
-            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
         </el-table-column>
@@ -181,50 +179,6 @@ export default {
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {
-        console.log(e)
-      })
-    },
-    confirmReceipt(scope) {
-      this.$confirm('确认收货 ' + scope.number, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/order/backadmin/paasorder',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            status: 4,
-          }
-        })
-          .then(res => {
-            this.$message.success(res.msg + scope.number)
-            this.getList()
-          })
-      }).catch(e => {
-        console.log(e)
-      })
-    },
-    cancleOrder(scope) {
-      this.$confirm('取消订单 ' + scope.number, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/order/backadmin/paasorder',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            status: 6,
-          }
-        })
-          .then(res => {
-            this.$message.success(res.msg + scope.number)
-            this.getList()
-          })
-      }).catch(e => {
         console.log(e)
       })
     },

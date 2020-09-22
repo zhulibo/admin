@@ -66,7 +66,6 @@ export default {
     },
   },
   methods: {
-
     getDetail() {
       this.$http({
         url: '/userorg/backadmin/appuser/detail/' + this.userId,
