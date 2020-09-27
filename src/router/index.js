@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from './home'
-import classify from './classify'
 import goods from './goods'
 import order from './order'
+import coupon from './coupon'
+import classify from './classify'
 import social from './social'
 import tribe from './tribe'
+import banner from './banner'
 import supplier from './supplier'
 import user from './user'
 import admin from './admin'
@@ -23,11 +25,13 @@ export default new Router({
 })
 
 export const asyncRouter = [
-  ...classify,
   ...goods,
   ...order,
+  ...coupon,
+  ...classify,
   ...social,
   ...tribe,
+  ...banner,
   ...supplier,
   ...user,
   ...admin,

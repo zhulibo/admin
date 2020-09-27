@@ -17,7 +17,7 @@ export default {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'))
     if (!userInfo && this.$route.path != '/register') {
       this.$router.push({path: '/login'})
-    }else{
+    } else {
       this.$store.dispatch('updateUserInfo', userInfo)
       this.$store.dispatch('updateRouter', userInfo.permission)
     }
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '//at.alicdn.com/t/font_1970537_8o2lam53xe.css' // 阿里巴巴图标库
+@import '//at.alicdn.com/t/font_1970537_63gf84elyom.css' // 阿里巴巴图标库
 @import './assets/css/base.css' // 基础样式
 @import './assets/css/common.styl' // 公共样式
 @import './assets/css/table.styl' // 表格样式

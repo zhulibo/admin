@@ -5,7 +5,7 @@
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入ip名称" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.userId" placeholder="用户id" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -18,18 +18,19 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <!--        <el-table-column prop="creatTime" label="绑定时间时间" align="center">-->
-        <!--          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>-->
-        <!--        </el-table-column>-->
-        <el-table-column prop="tbIp.name" label="名称" align="center">
-          <template slot-scope="scope">{{ scope.row.tbIp.name }}</template>
+        <el-table-column prop="createTime" label="时间" align="center">
+          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="tbIp.id" label="ip-id" align="center">
-          <template slot-scope="scope">{{ scope.row.tbIp.id }}</template>
+        <el-table-column prop="drawId" label="抽奖码" align="center">
+          <template slot-scope="scope">{{ scope.row.drawId }}</template>
+        </el-table-column>
+        <el-table-column prop="userId" label="用户id" align="center">
+          <template slot-scope="scope">{{ scope.row.userId }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
+<!--            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>-->
+            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -47,9 +48,11 @@ export default {
   data() {
     return {
       id: '',
-      goodsType: '',
       formInline: {
-        name: '',
+        isAuthority: '',
+        phone: '',
+        homesickId: '',
+        nickName: '',
       },
       tableList: [],
       pageSize: 10,
@@ -59,7 +62,6 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    this.goodsType = this.$route.query.goodsType
     this.getList()
   },
   mounted() {
@@ -72,11 +74,11 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goods/goodsip',
+        url: '/goodsmanage/backadmin/drawgoods/user/detail',
         method: 'GET',
         params: {
-          name: this.name,
-          goodsId: this.id,
+          userId: this.formInline.userId,
+          id: this.formInline.id,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -92,31 +94,6 @@ export default {
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
       this.getList()
-    },
-    newItem() {
-      this.$router.push({path: '/goodsBindIpEdit', query: {id: this.id, goodsType: this.goodsType}})
-    },
-    deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.tbIp.name, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/goodsmanage/backadmin/goods/ip',
-          method: 'DELETE',
-          data: {
-            ipId: scope.ipId,
-            goodsId: scope.goodsId,
-          }
-        })
-          .then(res => {
-            this.$message.success('已删除 ' + scope.tbIp.name)
-            this.getList()
-          })
-      }).catch(e => {
-        console.log(e)
-      })
     },
   }
 }

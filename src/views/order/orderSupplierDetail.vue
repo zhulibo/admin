@@ -365,16 +365,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.detail li{
+.detail li {
   display: flex
   margin-top: 10px
   margin-bottom: 10px
-  .l{
+  .l {
     width: 200px
   }
   .r {
     flex: 1
-    ul{
+    ul {
       padding: 0 10px
       border-top: 1px dashed #ddd
       border-bottom: 1px dashed #ddd
@@ -384,11 +384,11 @@ export default {
     }
   }
 }
-  .split-order {
-    padding: 50px
-    h3{
-      font-weight: bold
-      font-size 16px
-    }
+.split-order {
+  padding: 50px
+  h3 {
+    font-weight: bold
+    font-size 16px
   }
+}
 </style>

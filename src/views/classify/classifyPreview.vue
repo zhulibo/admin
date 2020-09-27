@@ -4,7 +4,8 @@
       <div class="classify-ct">
         <div class="side-bar">
           <dl class="classify-one">
-            <dd v-for="(classifyOne, classifyOneIndex) in classifyAllList" :class="{on:classifyOne.active}" :data-index="classifyOneIndex"
+            <dd v-for="(classifyOne, classifyOneIndex) in classifyAllList" :class="{on:classifyOne.active}"
+                :data-index="classifyOneIndex"
                 @click="changeClassifyOne($event)">{{ classifyOne.name }}
             </dd>
           </dl>
@@ -15,7 +16,9 @@
             <dd class="classify-two" v-for="(classifyTwo, classifyTwoIndex) in module.classifies">
               <dl>
                 <dt class="classify-two-name">{{ classifyTwo.name }}</dt>
-                <dd class="classify-three" v-for="(classifyThree, classifyThreeIndex) in classifyTwo.classifies">{{ classifyThree.name }}</dd>
+                <dd class="classify-three" v-for="(classifyThree, classifyThreeIndex) in classifyTwo.classifies">
+                  {{ classifyThree.name }}
+                </dd>
               </dl>
             </dd>
           </dl>
@@ -117,11 +120,11 @@ export default {
       margin-right: 10px
       padding: 0 5px
       border-radius: 5px
-      .classify-two-name{
+      .classify-two-name {
         padding-left: 10px
         border-left: 5px solid #ddd
       }
-      .classify-three{
+      .classify-three {
         display: inline-block
         padding: 5px 10px
       }

@@ -1,7 +1,7 @@
 import router from '../router'
 import axios from 'axios'
 import store from '../store'
-import { Message } from 'element-ui'
+import {Message} from 'element-ui'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 axios.defaults.timeout = 6000

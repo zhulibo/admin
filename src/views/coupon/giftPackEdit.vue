@@ -5,17 +5,23 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="sku名称" prop="name">
+        <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="sku图片" prop="skuImg" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.skuImg" :options="skuImgOptions"></img-upload>
+        <el-form-item label="类型" prop="type">
+          <el-radio v-model="ruleForm.type" label="1">分享礼包</el-radio>
+          <el-radio v-model="ruleForm.type" label="2">邀请码礼包</el-radio>
         </el-form-item>
-        <el-form-item label="总价格" prop="totalPrice">
-          <el-input v-model="ruleForm.totalPrice"></el-input>
+        <el-form-item label="礼包图片" prop="iconImg" class="form-item-img-top">
+          <img-upload v-model="ruleForm.iconImg" :options="iconImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="预售价格" prop="price">
-          <el-input v-model="ruleForm.price"></el-input>
+        <el-form-item label="发放时间" prop="time">
+          <el-date-picker
+            v-model="ruleForm.time"
+            type="datetimerange"
+            value-format="timestamp"
+            placeholder="选择日期时间">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -33,65 +39,60 @@ export default {
   data() {
     return {
       id: '',
-      mainId: '',
       detail: {},
-      skuImgOptions: {
+      iconImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
         limit: 1
       },
       ruleForm: {
         name: '',
-        skuImg: [],
-        totalPrice: '',
-        price: '',
+        type: '1',
+        iconImg: [],
+        time: [],
       },
       rules: {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        skuImg: [
+        type: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        totalPrice: [
+        iconImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        price: [
+        time: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
   },
   components: {
-    imgUpload,
+    imgUpload
   },
   created() {
     this.id = this.$route.query.id
-    this.mainId = this.$route.query.mainId
-    // if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getDetail() {
       this.$http({
-        url: '/goodsmanage/backadmin/presellgoods/sku/detail',
+        // url: '/order/backadmin/discount/page/detail',
+        url: '/order/backadmin/discount/page/' + this.id,
         method: 'GET',
-        params: {
-          id: this.id
-        }
+        // params: {
+        //   id: this.id
+        // }
       })
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
-          this.skuImgOptions.fileList.push({url: this.detail.skuImage}) // 图片回显
-          this.ruleForm.totalPrice = this.detail.totalPrice
-          this.ruleForm.price = this.detail.price
+          this.ruleForm.type = String(this.detail.type)
+          this.iconImgOptions.fileList.push({url: this.detail.img}) // 图片回显
+          if (this.detail.startTime) this.ruleForm.time.push(this.detail.startTime)
+          if (this.detail.endTime) this.ruleForm.time.push(this.detail.endTime)
         }).catch(e => {
         console.log(e)
       })
@@ -99,21 +100,20 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
           this.$http({
-            url: '/goodsmanage/backadmin/presellgoods/sku',
+            url: '/order/backadmin/discount/page',
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
-              mainId: this.mainId,
               name: this.ruleForm.name,
-              skuImage: this.ruleForm.skuImg[0],
-              totalPrice: this.ruleForm.totalPrice,
-              price: this.ruleForm.price,
+              type: this.ruleForm.type,
+              img: this.ruleForm.iconImg[0],
+              startTime: this.ruleForm.time[0],
+              endTime: this.ruleForm.time[1],
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goodsPresale'})
+            this.$router.push({path: '/giftPack'})
           }).catch(e => {
             console.log(e)
           })
@@ -128,20 +128,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.sku-ct {
-  position: relative
-  margin-bottom: 20px
-  padding-right: 120px
-  padding-top: 20px
-  border: 1px dashed #ccc
-  border-radius: 4px;
-  .delete {
-    position: absolute
-    right: 20px
-    top: 20px
-  }
-}
-.form-item-add-sku {
-  text-align: right
-}
 </style>

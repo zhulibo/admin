@@ -75,14 +75,6 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItemActivity(scope.row)">预售设置</el-button>
             <el-button type="text" size="medium" class="edit" @click="newItemSku(scope.row)">新建sku</el-button>
-            <el-dropdown @command="handleCommand" :show-timeout="50">
-              <span class="el-dropdown-link">分类<i class="el-icon-arrow-down el-icon--right"></i></span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item :command="beforeHandleCommand(scope.row,'1')">查看分类</el-dropdown-item>
-                <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">查看ip</el-dropdown-item>
-                <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>-->
-              </el-dropdown-menu>
-            </el-dropdown>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
@@ -208,35 +200,12 @@ export default {
           .then(res => {
             this.$message.success('已删除 ' + scope.title)
             this.getList()
-          })
-      }).catch(e => {
-        console.log(e)
-      })
-    },
-    beforeHandleCommand(row, command) {
-      return {
-        'row': row,
-        'command': command
-      }
-    },
-    handleCommand(command) {
-      console.log(command)
-      if (command.command == 1) {
-        console.log()
-        this.$router.push({path: '/goodsBindClassify', query: {id: command.row.id, goodsType: 2}})
-      } else if (command.command == 2) {
-        this.$router.push({path: '/goodsBindIp', query: {id: command.row.id, goodsType: 2}})
-      } else if (command.command == 3) {
-        this.$http({
-          url: '/goodsmanage/backadmin/goods/all/' + command.row.id,
-          method: 'DELETE',
-        })
-          .then(res => {
-            this.$message.success(res.msg)
           }).catch(e => {
           console.log(e)
         })
-      }
+      }).catch(e => {
+        console.log(e)
+      })
     },
     deleteItemSku(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {
@@ -251,7 +220,9 @@ export default {
           .then(res => {
             this.$message.success('已删除 ' + scope.name)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })

@@ -99,58 +99,6 @@ export default [
     hidden: true,
     children: [
       {
-        path: '/goodsBindClassify',
-        name: '商品所绑分类',
-        component: () => import (/* webpackChunkName: 'goodsBindClassify' */ '@/views/goods/goodsBindClassify'),
-        meta: {},
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/goodsBindClassifyEdit',
-        name: '商品所绑分类编辑',
-        component: () => import (/* webpackChunkName: 'goodsBindClassifyEdit' */ '@/views/goods/goodsBindClassifyEdit'),
-        meta: {},
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/goodsBindIp',
-        name: '商品所绑ip',
-        component: () => import (/* webpackChunkName: 'goodsBindIp' */ '@/views/goods/goodsBindIp'),
-        meta: {},
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/goodsBindIpEdit',
-        name: '商品所绑ip编辑',
-        component: () => import (/* webpackChunkName: 'goodsBindIpEdit' */ '@/views/goods/goodsBindIpEdit'),
-        meta: {},
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
         path: '/goodsPresaleNew',
         name: '预售商品发布',
         component: () => import (/* webpackChunkName: 'goodsPresaleNew' */ '@/views/goods/goodsPresaleNew'),
@@ -206,6 +154,19 @@ export default [
         path: '/goodsLotteryEdit',
         name: '抽奖商品编辑',
         component: () => import (/* webpackChunkName: 'goodsLotteryEdit' */ '@/views/goods/goodsLotteryEdit'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsLotteryCode',
+        name: '抽奖码',
+        component: () => import (/* webpackChunkName: 'goodsLotteryCode' */ '@/views/goods/goodsLotteryCode'),
         meta: {},
       }
     ]

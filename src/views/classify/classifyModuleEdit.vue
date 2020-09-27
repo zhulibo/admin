@@ -59,15 +59,6 @@ export default {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        moduleImg: [
-          // {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        remark: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
       },
     }
   },

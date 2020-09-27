@@ -76,8 +76,8 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
           <template slot-scope="scope">
-<!--            <el-button type="text" size="medium" class="edit" @click="confirmReceipt(scope.row)">确认收货</el-button>-->
-<!--            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>-->
+            <!--            <el-button type="text" size="medium" class="edit" @click="confirmReceipt(scope.row)">确认收货</el-button>-->
+            <!--            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>-->
             <el-button type="text" size="medium" class="edit" @click="ship(scope.row)">发货</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
@@ -97,9 +97,9 @@
           <el-form-item label="订单号" prop="logNumber">
             <el-input v-model="ruleForm.logNumber"></el-input>
           </el-form-item>
-<!--          <el-form-item>-->
-<!--            <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>-->
-<!--          </el-form-item>-->
+          <!--          <el-form-item>-->
+          <!--            <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>-->
+          <!--          </el-form-item>-->
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>

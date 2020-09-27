@@ -77,7 +77,6 @@ export default {
       detail: {},
       props: {
         lazy: true,
-        // emitPath: false,
         lazyLoad(node, resolve) {
           if (node.level == 0) {
             _this.$http({
@@ -146,24 +145,6 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         name: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        classifyImg: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        typeList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        brandList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        ipList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        attributeList: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
@@ -289,7 +270,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyLevelThree'})
+            // this.$router.push({path: '/classifyLevelThree'})
           }).catch(e => {
             console.log(e)
           })

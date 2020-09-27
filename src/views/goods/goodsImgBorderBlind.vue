@@ -108,13 +108,15 @@ export default {
           url: '/goodsmanage/backadmin/frame/goods',
           method: 'DELETE',
           data: {
-            ids: scope.id,
+            ids: [scope.id],
           }
         })
           .then(res => {
             this.$message.success('已删除 ' + scope.name)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })

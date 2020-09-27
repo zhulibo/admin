@@ -22,9 +22,9 @@ const permission = {
         let addRouter = []
         asyncRouter.forEach(item => {
 
-          if(item.hidden == true) { // 减少维护成本，不然...
+          if (item.hidden == true) { // 减少维护成本，不然...
             addRouter.push(item)
-          }else{
+          } else {
 
             let filterRouter = { // 复制单个路由，下面循环把符合条件的子路由赋值给children属性
               path: item.path,
@@ -38,10 +38,10 @@ const permission = {
               for (let j = 0; j < permission.length; j++) { // 权限第一层(模块权限)
                 for (let k = 0; k < permission[j].children.length; k++) { // 权限第二层(页面权限)
 
-                  if(item.children[i].meta.permission == permission[j].children[k].path) { // 有页面权限
+                  if (item.children[i].meta.permission == permission[j].children[k].path) { // 有页面权限
 
                     let btnPermissions = [] // 存放权限第三层(按钮操作权限)的数组
-                    if(permission[j].children[k].children) {
+                    if (permission[j].children[k].children) {
                       for (let l = 0; l < permission[j].children[k].children.length; l++) { // 权限第三层(按钮权限)
                         btnPermissions.push(permission[j].children[k].children[l].path) // 把各个按钮权限合并进btnPermissions数组
                       }

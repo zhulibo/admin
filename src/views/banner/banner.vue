@@ -4,8 +4,15 @@
       <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入分类名称" @keyup.enter.native="getList"></el-input>
+          <el-form-item label="类型">
+            <el-select v-model="formInline.type" placeholder="请选择" @change="getList">
+              <el-option label="全部" value=""></el-option>
+              <el-option label="商品" value="1"></el-option>
+              <el-option label="品牌" value="2"></el-option>
+              <el-option label="类别" value="3"></el-option>
+              <el-option label="属性" value="4"></el-option>
+              <el-option label="ip" value="5"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -18,23 +25,20 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <!--        <el-table-column prop="creatTime" label="绑定时间" align="center">-->
-        <!--          <template slot-scope="scope">{{scope.row.creatTime | timestampToDate}}</template>-->
-        <!--        </el-table-column>-->
-        <el-table-column prop="name" label="名称" align="center">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
+<!--        <el-table-column prop="createTime" label="时间" align="center">-->
+<!--          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>-->
+<!--        </el-table-column>-->
+        <el-table-column prop="itemName" label="名称" align="center">
+          <template slot-scope="scope">{{ scope.row.itemName }}</template>
         </el-table-column>
-        <el-table-column prop="classifyId" label="分类id" align="center">
-          <template slot-scope="scope">{{ scope.row.classifyId }}</template>
-        </el-table-column>
-        <el-table-column prop="type" label="分类类型" align="center">
+        <el-table-column prop="image" label="图片" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <span v-if="scope.row.type == 1">首页</span>
-            <span v-if="scope.row.type == 2">普通</span>
+            <img :src="scope.row.image" alt="">
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage">
           <template slot-scope="scope">
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -52,10 +56,8 @@ export default {
   name: 'item',
   data() {
     return {
-      id: '',
-      goodsType: '',
       formInline: {
-        name: '',
+        type: '',
       },
       tableList: [],
       pageSize: 10,
@@ -64,25 +66,17 @@ export default {
     }
   },
   created() {
-    this.id = this.$route.query.id
-    this.goodsType = this.$route.query.goodsType
     this.getList()
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goods/goodsclassify',
+        url: '/goodsmanage/backadmin/viewpager/list',
         method: 'GET',
         params: {
-          name: this.name,
-          goodsId: this.id,
+          type: this.formInline.type,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -91,13 +85,6 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
-          for (let i = 0; i < this.tableList.length; i++) {
-            if (this.tableList[i].tbClassify) {
-              this.$set(this.tableList[i], 'name', this.tableList[i].tbClassify.name)
-            } else {
-              this.$set(this.tableList[i], 'name', this.tableList[i].tbIndexClassify.name)
-            }
-          }
         }).catch(e => {
         console.log(e)
       })
@@ -106,8 +93,8 @@ export default {
       this.currentPage = val
       this.getList()
     },
-    newItem() {
-      this.$router.push({path: '/goodsBindClassifyEdit', query: {id: this.id, goodsType: this.goodsType}})
+    editItem(scope) {
+      this.$router.push({path: '/bannerEdit', query: {id: scope.id}})
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {
@@ -116,21 +103,24 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goods/classify',
+          url: '/goodsmanage/backadmin/viewpager/deleteview',
           method: 'DELETE',
           data: {
-            classifyId: scope.classifyId,
-            goodsId: scope.goodsId,
-            type: scope.type,
+            id: scope.id,
           }
         })
           .then(res => {
             this.$message.success('已删除 ' + scope.name)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })
+    },
+    newItem() {
+      this.$router.push({path: '/bannerEdit'})
     },
   }
 }

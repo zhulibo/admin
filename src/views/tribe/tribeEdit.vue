@@ -89,10 +89,8 @@ export default {
         topImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        notice: [
-        ],
-        noticeTitle: [
-        ],
+        notice: [],
+        noticeTitle: [],
         adminUser: [
           {required: true, message: '请输入', trigger: 'change'}
         ],

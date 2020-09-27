@@ -5,7 +5,7 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="部落logo" prop="urlImg" class="form-item-img-logo">
+        <el-form-item label="边框图片" prop="urlImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.urlImg" :options="urlImgOptions"></img-upload>
         </el-form-item>
         <el-form-item>
@@ -48,7 +48,9 @@ export default {
     this.id = this.$route.query.id
     this.url = this.$route.query.url
     if (this.url) {
-      this.urlImgOptions.fileList.push({url: this.url}) // 图片回显
+      setTimeout(() => {
+        this.urlImgOptions.fileList.push({url: this.url}) // 图片回显
+      }, 0)
     }
   },
   mounted() {

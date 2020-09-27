@@ -116,6 +116,7 @@ export default {
         this.$emit('input', imgUrls)
       },
       deep: true,
+      immediate: true
     },
   }
 }

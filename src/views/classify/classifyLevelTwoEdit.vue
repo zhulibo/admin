@@ -113,24 +113,6 @@ export default {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        classifyImg: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        typeList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        brandList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        ipList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        attributeList: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
       },
     }
   },

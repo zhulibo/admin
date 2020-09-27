@@ -57,7 +57,7 @@ let keyboardPiano = () => {
     if (event.keyCode <= 90 && event.keyCode >= 65) {
       let keyIndex = keyArr.indexOf(event.key)
       frequency = frequencyArr[keyIndex]
-    }else{
+    } else {
       return
     }
 

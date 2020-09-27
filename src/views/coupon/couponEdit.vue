@@ -5,16 +5,20 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="sku名称" prop="name">
+        <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="sku图片" prop="skuImg" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.skuImg" :options="skuImgOptions"></img-upload>
+        <el-form-item label="类型" prop="type">
+          <el-radio v-model="ruleForm.type" label="1">指定商品</el-radio>
+          <el-radio v-model="ruleForm.type" label="2">全品类</el-radio>
         </el-form-item>
-        <el-form-item label="总价格" prop="totalPrice">
+        <el-form-item v-if="ruleForm.type == 1" label="商品id" prop="goodId">
+          <el-input v-model="ruleForm.goodId"></el-input>
+        </el-form-item>
+        <el-form-item label="满减金额" prop="totalPrice">
           <el-input v-model="ruleForm.totalPrice"></el-input>
         </el-form-item>
-        <el-form-item label="预售价格" prop="price">
+        <el-form-item label="金额" prop="price">
           <el-input v-model="ruleForm.price"></el-input>
         </el-form-item>
         <el-form-item>
@@ -32,25 +36,24 @@ export default {
   name: 'itemEdit',
   data() {
     return {
+      packageId: '',
       id: '',
-      mainId: '',
       detail: {},
-      skuImgOptions: {
-        fileList: [],
-        accept: '.jpg,.jpeg,.png,.gif',
-        limit: 1
-      },
       ruleForm: {
+        type: '2',
         name: '',
-        skuImg: [],
+        goodId: '',
         totalPrice: '',
         price: '',
       },
       rules: {
+        type: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        skuImg: [
+        goodId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         totalPrice: [
@@ -63,33 +66,26 @@ export default {
     }
   },
   components: {
-    imgUpload,
+    imgUpload
   },
   created() {
     this.id = this.$route.query.id
-    this.mainId = this.$route.query.mainId
-    // if(this.id) this.getDetail()
+    this.packageId = this.$route.query.packageId
+    if (this.id) this.getDetail()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getDetail() {
       this.$http({
-        url: '/goodsmanage/backadmin/presellgoods/sku/detail',
+        url: '/order/backadmin/discount/discount/' + this.id,
         method: 'GET',
-        params: {
-          id: this.id
-        }
       })
         .then(res => {
           this.detail = res.data
+          this.ruleForm.type = String(this.detail.type)
           this.ruleForm.name = this.detail.name
-          this.skuImgOptions.fileList.push({url: this.detail.skuImage}) // 图片回显
+          this.ruleForm.goodId = this.detail.goodId
           this.ruleForm.totalPrice = this.detail.totalPrice
           this.ruleForm.price = this.detail.price
         }).catch(e => {
@@ -99,21 +95,21 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
           this.$http({
-            url: '/goodsmanage/backadmin/presellgoods/sku',
+            url: '/order/backadmin/discount/discount',
             method: this.id ? 'PUT' : 'POST',
             data: {
+              packageId: this.packageId,
               id: this.id ? this.id : '',
-              mainId: this.mainId,
               name: this.ruleForm.name,
-              skuImage: this.ruleForm.skuImg[0],
+              type: this.ruleForm.type,
+              goodId: this.ruleForm.type == 1 ? this.ruleForm.goodId : '',
               totalPrice: this.ruleForm.totalPrice,
               price: this.ruleForm.price,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goodsPresale'})
+            this.$router.push({path: '/coupon',query: {packageId: this.packageId}})
           }).catch(e => {
             console.log(e)
           })
@@ -128,20 +124,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.sku-ct {
-  position: relative
-  margin-bottom: 20px
-  padding-right: 120px
-  padding-top: 20px
-  border: 1px dashed #ccc
-  border-radius: 4px;
-  .delete {
-    position: absolute
-    right: 20px
-    top: 20px
-  }
-}
-.form-item-add-sku {
-  text-align: right
-}
 </style>

@@ -17,7 +17,7 @@ export default [
       },
       {
         path: '/orderPresale',
-        name: '预售订单 ',
+        name: '预售订单',
         component: () => import (/* webpackChunkName: 'order' */ '@/views/order/orderPresale'),
         meta: {
           icon: 'iconfont icon-dingdan',
@@ -25,7 +25,7 @@ export default [
       },
       {
         path: '/orderSupplier',
-        name: '供应商订单',
+        name: '供货商订单',
         component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplier'),
         meta: {
           icon: 'iconfont icon-dingdan',
@@ -33,8 +33,16 @@ export default [
       },
       {
         path: '/orderSupplierPresale',
-        name: '供应商预售订单 ',
+        name: '供货商预售订单',
         component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplierPresale'),
+        meta: {
+          icon: 'iconfont icon-dingdan',
+        },
+      },
+      {
+        path: '/orderRepair',
+        name: '修复订单',
+        component: () => import (/* webpackChunkName: 'orderRepair' */ '@/views/order/orderRepair'),
         meta: {
           icon: 'iconfont icon-dingdan',
         },
@@ -74,7 +82,7 @@ export default [
     children: [
       {
         path: '/orderSupplierDetail',
-        name: '供应商订单详情',
+        name: '供货商订单详情',
         component: () => import (/* webpackChunkName: 'orderSupplierDetail' */ '@/views/order/orderSupplierDetail'),
         meta: {},
       }
@@ -87,8 +95,21 @@ export default [
     children: [
       {
         path: '/orderSupplierPresaleDetail',
-        name: '供应商预售订单详情',
+        name: '供货商预售订单详情',
         component: () => import (/* webpackChunkName: 'orderSupplierPresaleDetail' */ '@/views/order/orderSupplierPresaleDetail'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderRepairDetail',
+        name: '修复订单详情',
+        component: () => import (/* webpackChunkName: 'orderRepairDetail' */ '@/views/order/orderRepairDetail'),
         meta: {},
       }
     ]

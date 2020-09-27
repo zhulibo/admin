@@ -114,14 +114,14 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="200px" class-name="row-manage">
           <template slot-scope="scope">
-<!--            <el-dropdown @command="handleCommand" :show-timeout="50">-->
-<!--              <span class="el-dropdown-link">分类<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i></span>-->
-<!--              <el-dropdown-menu slot="dropdown">-->
-<!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'1')">查看分类</el-dropdown-item>-->
-<!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">查看ip</el-dropdown-item>-->
-<!--                &lt;!&ndash;                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>&ndash;&gt;-->
-<!--              </el-dropdown-menu>-->
-<!--            </el-dropdown>-->
+            <!--            <el-dropdown @command="handleCommand" :show-timeout="50">-->
+            <!--              <span class="el-dropdown-link">分类<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i></span>-->
+            <!--              <el-dropdown-menu slot="dropdown">-->
+            <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'1')">查看分类</el-dropdown-item>-->
+            <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">查看ip</el-dropdown-item>-->
+            <!--                &lt;!&ndash;                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>&ndash;&gt;-->
+            <!--              </el-dropdown-menu>-->
+            <!--            </el-dropdown>-->
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
@@ -288,7 +288,9 @@ export default {
           .then(res => {
             this.$message.success('已删除 ' + scope.title)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })
@@ -336,7 +338,9 @@ export default {
           .then(res => {
             this.$message.success('已删除 ' + scope.name)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })

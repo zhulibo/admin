@@ -19,17 +19,39 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
+        </el-table-column>
+        <el-table-column prop="id" label="礼包id" align="center">
+          <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
+        <el-table-column prop="type" label="类型" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.type == 1">分享礼包</span>
+            <span v-else-if="scope.row.type == 2">邀请码礼包</span>
+          </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage">
+        <el-table-column prop="img" label="图片" align="center" class-name="row-img">
+          <template slot-scope="scope"><img :src="scope.row.img" alt=""></template>
+        </el-table-column>
+        <el-table-column prop="startTime" label="领取时间" align="center">
+          <template slot-scope="scope">{{ scope.row.startTime | timestampToDate }}</template>
+        </el-table-column>
+        <el-table-column prop="endTime" label="截止时间" align="center">
+          <template slot-scope="scope">{{ scope.row.endTime | timestampToDate }}</template>
+        </el-table-column>
+        <el-table-column prop="getCount" label="领取个数" align="center">
+          <template slot-scope="scope">{{ scope.row.getCount }}</template>
+        </el-table-column>
+        <el-table-column prop="useCount" label="使用个数" align="center">
+          <template slot-scope="scope">{{ scope.row.useCount }}</template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" class-name="row-manage" width="250px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="edit" @click="checkItemCoupon(scope.row)">查看优惠券</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -64,7 +86,7 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goodbrand',
+        url: '/order/backadmin/discount/page',
         method: 'GET',
         params: {
           name: this.name,
@@ -85,7 +107,10 @@ export default {
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/classifyBrandEdit', query: {id: scope.id}})
+      this.$router.push({path: '/giftPackEdit', query: {id: scope.id}})
+    },
+    checkItemCoupon(scope) {
+      this.$router.push({path: '/coupon', query: {packageId: scope.id}})
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {
@@ -94,11 +119,11 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goodbrand',
+          url: '/order/backadmin/discount/page',
           method: 'PUT',
           data: {
             id: scope.id,
-            del: 1,
+            status: 1,
           }
         })
           .then(res => {
@@ -112,7 +137,7 @@ export default {
       })
     },
     newItem() {
-      this.$router.push({path: '/classifyBrandEdit'})
+      this.$router.push({path: '/giftPackEdit'})
     },
   }
 }

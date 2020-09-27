@@ -45,6 +45,7 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
+            <el-button type="text" size="medium" class="edit" @click="checkItemCode(scope.row)">查看抽奖码</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -106,53 +107,11 @@ export default {
       this.currentPage = val
       this.getList()
     },
-    // switchStatus(scope) {
-    //   this.loading = true
-    //   this.$http({
-    //     url: '/userorg/backadmin/appuser',
-    //     method: 'PUT',
-    //     data: {
-    //       userId: scope.userId,
-    //       del: scope.del
-    //     }
-    //   }).then(res => {
-    //     this.loading = false
-    //     this.$message.success(res.msg)
-    //     this.getList()
-    //   }).catch(e => {console.log(e)})
-    // },
-    // deleteItem(scope) {
-    //   this.$confirm('确定删除 ' + scope.softName, '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'info'
-    //   }).then(() => {
-    //     this.$http({
-    //       url: '/backSoftware/delSoftware',
-    //       method: 'DELETE',
-    //       params: {
-    //         userId: this.userInfo.userId,
-    //         softId: scope.softId,
-    //       }
-    //     })
-    //       .then(res => {
-    //         if(res.code == 204) {
-    //           this.$message({
-    //             type: 'success',
-    //             message: '已删除 ' + scope.softName,
-    //           });
-    //           this.getList()
-    //         }else {
-    //           this.$message({
-    //             type: 'error',
-    //             message: res.data.message
-    //           })
-    //         }
-    //       }).catch(e => {console.log(e)})
-    //   }).catch(e => {console.log(e)})
-    // },
     editItem(scope) {
       this.$router.push({path: '/goodsLotteryEdit', query: {id: scope.id}})
+    },
+    checkItemCode(scope) {
+      this.$router.push({path: '/goodsLotteryCode', query: {id: scope.id}})
     },
     newItem() {
       this.$router.push({path: '/goodsLotteryEdit'})

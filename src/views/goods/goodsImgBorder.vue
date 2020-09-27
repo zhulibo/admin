@@ -166,7 +166,9 @@ export default {
           .then(res => {
             this.$message.success('已删除 ' + scope.id)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })

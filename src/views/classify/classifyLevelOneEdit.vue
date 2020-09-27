@@ -20,8 +20,6 @@
 </template>
 
 <script>
-const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
-
 export default {
   name: 'itemEdit',
   data() {
@@ -36,14 +34,8 @@ export default {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        sort: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
       },
     }
-  },
-  components: {
-    imgUpload
   },
   created() {
     this.id = this.$route.query.id

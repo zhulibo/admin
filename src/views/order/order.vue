@@ -201,7 +201,9 @@ export default {
           .then(res => {
             this.$message.success(res.msg + scope.number)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })
@@ -223,7 +225,9 @@ export default {
           .then(res => {
             this.$message.success(res.msg + scope.number)
             this.getList()
-          })
+          }).catch(e => {
+          console.log(e)
+        })
       }).catch(e => {
         console.log(e)
       })

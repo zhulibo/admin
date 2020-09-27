@@ -47,6 +47,7 @@ export default {
   name: 'item',
   data() {
     return {
+      packageId: '',
       formInline: {
         phone: '',
       },
@@ -57,6 +58,7 @@ export default {
     }
   },
   created() {
+    this.packageId = this.$route.query.packageId
     this.getList()
   },
   mounted() {
@@ -64,10 +66,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/goodbrand',
+        url: '/order/backadmin/discount/discount',
         method: 'GET',
         params: {
-          name: this.name,
+          packageId: this.packageId,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -85,7 +87,7 @@ export default {
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/classifyBrandEdit', query: {id: scope.id}})
+      this.$router.push({path: '/couponEdit', query: {id: scope.id, packageId: this.packageId}})
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {
@@ -94,11 +96,11 @@ export default {
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goodbrand',
+          url: '/order/backadmin/discount/discount',
           method: 'PUT',
           data: {
             id: scope.id,
-            del: 1,
+            status: 1,
           }
         })
           .then(res => {
@@ -112,7 +114,7 @@ export default {
       })
     },
     newItem() {
-      this.$router.push({path: '/classifyBrandEdit'})
+      this.$router.push({path: '/couponEdit', query: {packageId: this.packageId}})
     },
   }
 }

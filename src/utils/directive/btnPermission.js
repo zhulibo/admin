@@ -3,7 +3,7 @@ import Vue from 'vue'
 Vue.directive('permission', {
   inserted(el, binding, vnode) {
 
-    const { value } = binding
+    const {value} = binding
     const btnPermissions = value
     const roles = vnode.context.$route.meta.btnPermissions || [] // 获取mate中的权限
 
