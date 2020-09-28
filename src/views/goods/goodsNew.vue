@@ -161,7 +161,7 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         cargoNo: [
-          {required: true, message: '请输入', trigger: 'change'}
+          // {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }

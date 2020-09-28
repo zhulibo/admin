@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     userInfo() {
-      return this.$store.getters.userInfo
+      return this.$store.getters.userInfo.token
     },
   },
   methods: {

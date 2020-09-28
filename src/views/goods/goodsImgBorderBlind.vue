@@ -38,7 +38,7 @@
             <span v-else-if="scope.row.type == 3">抽奖商品</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>

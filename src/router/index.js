@@ -3,10 +3,11 @@ import Router from 'vue-router'
 import home from './home'
 import goods from './goods'
 import order from './order'
-import coupon from './coupon'
 import classify from './classify'
 import social from './social'
 import tribe from './tribe'
+import article from './article'
+import coupon from './coupon'
 import banner from './banner'
 import supplier from './supplier'
 import user from './user'
@@ -27,10 +28,11 @@ export default new Router({
 export const asyncRouter = [
   ...goods,
   ...order,
-  ...coupon,
   ...classify,
   ...social,
   ...tribe,
+  ...article,
+  ...coupon,
   ...banner,
   ...supplier,
   ...user,

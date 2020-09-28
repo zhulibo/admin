@@ -32,7 +32,7 @@
         <el-table-column prop="remark" label="备注" align="center">
           <template slot-scope="scope">{{ scope.row.remark }}</template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
           </template>

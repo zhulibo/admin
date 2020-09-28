@@ -41,7 +41,7 @@
             <span v-else-if="scope.row.status == 3">已强制结束</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->

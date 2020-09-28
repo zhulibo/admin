@@ -82,7 +82,7 @@
             <span v-else-if="scope.row.status == 8">管理员取消</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>

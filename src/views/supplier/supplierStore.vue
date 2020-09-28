@@ -29,7 +29,7 @@
             <img :src="scope.row.url" alt="">
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>

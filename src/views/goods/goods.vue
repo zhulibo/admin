@@ -112,7 +112,7 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="200px" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <!--            <el-dropdown @command="handleCommand" :show-timeout="50">-->
             <!--              <span class="el-dropdown-link">分类<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i></span>-->

@@ -74,7 +74,7 @@
             <span v-else-if="scope.row.del == 1">已屏蔽</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="detail" @click="goSocialCommentList(scope.row)">查看评论</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>

@@ -24,7 +24,7 @@
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>

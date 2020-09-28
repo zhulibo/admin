@@ -71,7 +71,7 @@
             <img :src="scope.row.listedImage" alt="">
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="350px" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItemActivity(scope.row)">预售设置</el-button>
             <el-button type="text" size="medium" class="edit" @click="newItemSku(scope.row)">新建sku</el-button>

@@ -86,7 +86,7 @@
             <span v-else-if="scope.row.status == 18">二次确认放弃修复</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="300px" class-name="row-manage">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="firstEvaluation(scope.row)">初次评审</el-button>
             <el-button type="text" size="medium" class="edit" @click="secondEvaluation(scope.row)">二次评估</el-button>
