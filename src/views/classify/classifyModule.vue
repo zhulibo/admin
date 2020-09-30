@@ -21,15 +21,13 @@
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
-        </el-table-column>
-        <el-table-column prop="remark" label="备注" align="center">
-          <template slot-scope="scope">{{ scope.row.remark }}</template>
+        <el-table-column prop="image" label="图片" align="center" class-name="row-img">
+          <template slot-scope="scope"><img :src="scope.row.image" alt=""></template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <!--            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>-->
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,6 +88,28 @@ export default {
     },
     editItem(scope) {
       this.$router.push({path: '/classifyModuleEdit', query: {id: scope.id}})
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/model',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            del: 1,
+          },
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.name)
+            this.getList()
+          })
+      }).catch(e => {
+        console.log(e)
+      })
     },
     newItem() {
       this.$router.push({path: '/classifyModuleEdit'})

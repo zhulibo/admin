@@ -37,7 +37,7 @@ export default [
     children: [
       {
         path: '/coupon',
-        name: '礼包编辑',
+        name: '优惠券 ',
         component: () => import (/* webpackChunkName: 'coupon' */ '@/views/coupon/coupon'),
         meta: {},
       }

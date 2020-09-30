@@ -99,9 +99,6 @@
         <el-table-column prop="realNumber" label="真实销量" align="center">
           <template slot-scope="scope">{{ scope.row.realNumber }}</template>
         </el-table-column>
-        <el-table-column prop="sort" label="排序分值" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
-        </el-table-column>
         <el-table-column prop="isUp" label="是否上架" align="center">
           <template slot-scope="scope">
             <el-switch

@@ -19,9 +19,6 @@
         <el-form-item label="排序" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
         </el-form-item>
-        <el-form-item label="备注(200字以内)" prop="remark">
-          <el-input v-model="ruleForm.remark"></el-input>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -50,7 +47,6 @@ export default {
         name: '',
         moduleImg: [],
         sort: '',
-        remark: '',
       },
       rules: {
         parentId: [
@@ -80,16 +76,15 @@ export default {
   methods: {
     getDetail() {
       this.$http({
-        url: '/userorg/backadmin/tribe/detail/' + this.id,
+        url: '/goodsmanage/backadmin/model/' + this.id,
         method: 'GET',
       })
         .then(res => {
           this.detail = res.data
-          this.ruleForm.parentId = this.detail.parentId
+          this.ruleForm.parentId = this.detail.classifyId
           this.ruleForm.name = this.detail.name
-          this.moduleImgOptions.fileList.push({url: this.detail.image}) // 图片回显
+          if(this.detail.image) this.moduleImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           this.ruleForm.sort = this.detail.sort
-          this.ruleForm.remark = this.detail.remark
         }).catch(e => {
         console.log(e)
       })
@@ -122,7 +117,6 @@ export default {
               name: this.ruleForm.name,
               image: this.ruleForm.moduleImg[0],
               sort: this.ruleForm.sort,
-              remark: this.ruleForm.remark,
             },
           }).then(res => {
             this.$message.success(res.msg)

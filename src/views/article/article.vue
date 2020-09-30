@@ -21,7 +21,7 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="title" label="名称" align="center">
+        <el-table-column prop="title" label="标题" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.title }}</template>
         </el-table-column>
         <el-table-column prop="topImage" label="首图" align="center" class-name="row-img">

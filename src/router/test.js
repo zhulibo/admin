@@ -4,9 +4,9 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/richTextCt',
-        name: '模玩百科',
-        component: () => import (/* webpackChunkName: 'richTextCt' */ '@/views/test/richTextCt'),
+        path: '/chatCt',
+        name: '客服聊天',
+        component: () => import (/* webpackChunkName: 'chatCt' */ '@/views/test/chatCt'),
         meta: {
           icon: 'iconfont icon-bianji',
         },
@@ -24,20 +24,6 @@ export default [
         meta: {
           icon: 'iconfont icon-bianji',
           permissions: [1, 2, 3]
-        },
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    children: [
-      {
-        path: '/chatCt',
-        name: '客服聊天',
-        component: () => import (/* webpackChunkName: 'chatCt' */ '@/views/test/chatCt'),
-        meta: {
-          icon: 'iconfont icon-bianji',
         },
       }
     ]

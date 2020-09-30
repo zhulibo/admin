@@ -97,7 +97,7 @@ export default {
       this.$router.push({path: '/bannerEdit', query: {id: scope.id}})
     },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.name, '提示', {
+      this.$confirm('确定删除 ' + scope.itemName, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
@@ -110,7 +110,7 @@ export default {
           }
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.name)
+            this.$message.success('已删除 ' + scope.itemName)
             this.getList()
           }).catch(e => {
           console.log(e)

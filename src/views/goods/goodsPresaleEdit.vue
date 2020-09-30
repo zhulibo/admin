@@ -188,10 +188,10 @@ export default {
           this.ruleForm.size = this.detail.tbPresellGoodsDetail.size
           this.ruleForm.cargoNo = this.detail.tbPresellGoodsDetail.cargoNo
           this.ruleForm.sellNumber = this.detail.sellNumber
-          this.ruleForm.typeList = [this.detail.goodTypes]
-          this.ruleForm.brandList = [this.detail.goodBrand]
-          this.ruleForm.ipList = [this.detail.goodIp]
-          this.ruleForm.attributeList = [this.detail.goodAttribute]
+          if(this.detail.goodTypes) this.ruleForm.typeList = [this.detail.goodTypes]
+          if(this.detail.goodBrand) this.ruleForm.brandList = [this.detail.goodBrand]
+          if(this.detail.goodIp) this.ruleForm.ipList = [this.detail.goodIp]
+          if(this.detail.goodAttribute) this.ruleForm.attributeList = [this.detail.goodAttribute]
         }).catch(e => {
         console.log(e)
       })
