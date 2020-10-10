@@ -61,9 +61,9 @@ export default {
         skuId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        number: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
+        // number: [
+        //   {required: true, message: '请输入', trigger: 'change'}
+        // ],
         drawTime: [
           {required: true, message: '请输入', trigger: 'change'}
         ],

@@ -16,6 +16,14 @@ export default [
         },
       },
       {
+        path: '/supplierGoods',
+        name: '出售商品',
+        component: () => import (/* webpackChunkName: 'supplierGoods' */ '@/views/supplier/supplierGoods'),
+        meta: {
+          icon: 'iconfont icon-cangku',
+        },
+      },
+      {
         path: '/supplierAddress',
         name: '发货地址',
         component: () => import (/* webpackChunkName: 'supplierAddress' */ '@/views/supplier/supplierAddress'),
@@ -31,6 +39,32 @@ export default [
           icon: 'iconfont icon-mianyunfei',
         },
       },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/supplierGoodsStockAdd',
+        name: '添加库存',
+        component: () => import (/* webpackChunkName: 'supplierGoodsStockAdd' */ '@/views/supplier/supplierGoodsStockAdd'),
+        meta: {},
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/supplierGoodsStockEdit',
+        name: '编辑库存',
+        component: () => import (/* webpackChunkName: 'supplierGoodsStockEdit' */ '@/views/supplier/supplierGoodsStockEdit'),
+        meta: {},
+      }
     ]
   },
   {

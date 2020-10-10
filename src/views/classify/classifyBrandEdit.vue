@@ -69,7 +69,6 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         sort: [
-          {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }
@@ -119,7 +118,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyBrand'})
+            // this.$router.push({path: '/classifyBrand'})
           }).catch(e => {
             console.log(e)
           })

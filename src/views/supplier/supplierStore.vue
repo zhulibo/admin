@@ -17,23 +17,48 @@
     </div>
     <div class="table">
       <el-table :data="tableList">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <table class="table-sku">
+              <tr>
+                <th>creatTime</th>
+                <th>sku-id</th>
+                <th>名称</th>
+                <th>图片</th>
+                <th>操作</th>
+              </tr>
+              <tr v-for="item in props.row.skus">
+                <td>{{ item.creatTime | timestampToDate }}</td>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td><img :src="item.skuImage" alt=""></td>
+                <td class="row-manage">
+                  <el-button type="text" size="medium" class="edit" @click="addItem(item.id, item.mainId)">添加库存</el-button>
+                </td>
+              </tr>
+            </table>
+          </template>
+        </el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="id" label="id" align="center">
-          <template slot-scope="scope">{{ scope.row.id | noneToLine }}</template>
+        <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.title }}</template>
         </el-table-column>
-        <el-table-column prop="url" label="边框图片" align="center" class-name="row-img">
+        <el-table-column prop="id" label="商品id" align="center">
+          <template slot-scope="scope">{{ scope.row.id }}</template>
+        </el-table-column>
+        <el-table-column prop="listedImage" label="列表图片" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <img :src="scope.row.url" alt="">
+            <img :src="scope.row.listedImage" alt="">
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
-          <template slot-scope="scope">
-            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
       </el-table>
       <div class="pagination-ct clearfix">
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
@@ -206,10 +231,30 @@ export default {
         console.log(e)
       })
     },
+    addItem(id, mainId) {
+      this.$router.push({path: '/supplierGoodsStockAdd', query: {mainId: mainId, skuId: id}})
+    },
   },
   watch: {}
 }
 </script>
 
 <style lang="stylus" scoped>
+.table-sku {
+  width: 100%
+  border-collapse: collapse;
+  th {
+    padding: 10px 0
+    text-align: center
+    border: 1px solid #ddd;
+  }
+  td {
+    padding: 5px 0
+    text-align: center
+    border: 1px solid #ddd;
+  }
+  img {
+    height: 3em
+  }
+}
 </style>
