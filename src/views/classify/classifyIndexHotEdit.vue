@@ -96,7 +96,7 @@ export default {
           this.ruleForm.url = this.detail.url
           this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           this.ruleForm.remark = this.detail.remark
-          this.ruleForm.sort = this.detail.sort
+          if(this.detail.sort) this.ruleForm.sort = this.detail.sort
         }).catch(e => {
         console.log(e)
       })

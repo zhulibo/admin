@@ -57,7 +57,7 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
-          this.ruleForm.sort = this.detail.sort
+          if(this.detail.sort) this.ruleForm.sort = this.detail.sort
         }).catch(e => {
         console.log(e)
       })
