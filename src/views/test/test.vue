@@ -7,13 +7,13 @@
     <div class="chat-body clearfix" v-stopDrag>
       <div class="side-nav">
         <dl class="chat-list">
-          <dd v-for="item in chatList" :key="item.id" @click="changeChatUser(item.id)" :class="item.id == sendId ? 'selected' : ''">
+          <dd v-for="item in msgList" :key="item.customerId" @click="changeChatUser(item.customerId)" :class="item.customerId == customerId ? 'selected' : ''">
             <div class="l">
               <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg'></el-avatar>
             </div>
             <div class="r">
               <h6>
-                <b>{{ item.id }}</b>
+                <b>{{ item.customerId }}</b>
                 <span>2012/2/2</span>
               </h6>
               <p>最后一句话</p>
@@ -23,12 +23,12 @@
       </div>
       <div class="chat-main">
         <div class="chat-header">
-          <span>{{sendId}}</span>
+          <span>{{customerId}}</span>
         </div>
         <div class="chat-ct" ref="chatct">
-          <p v-if="sendId" @click="fetchHistoryMsg">加载更多</p>
+          <p v-if="customerId" @click="fetchHistoryMsg">加载更多</p>
           <ul>
-            <li v-for="item in msgList" :class="item.to == chatUserId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
+            <li v-for="item in activeMsgList" :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
               <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>
               <div class="li-ct clearfix">
                 <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg'></el-avatar>
@@ -59,36 +59,53 @@ export default {
   name: 'chat',
   data() {
     return {
-      chatUserId: 182036639613,
-      sendId: null,
+      userId: 182036639612,
+      customerId: null, // 当前聊天顾客
+      msgList: [], // 消息二维数组
+      activeMsgList: [], // 当前聊天消息列表
       msg: '',
       sendMsgTipVisible: false, // 发送空信息提示
-      chatList: [
-        {
-          id: '182036639611',
-        },
-        {
-          id: '182036639613',
-        },
-      ],
-      msgList: [],
     }
   },
   created() {
-    this.sendId = this.chatList[0].id
+    if(localStorage.getItem('msgList')){
+      this.msgList = JSON.parse(localStorage.getItem('msgList'))
+    }
+    if(this.msgList.length>0) this.customerId = this.msgList[0].customerId
     this.logIn()
   },
   mounted() {
-    // WebIM.conn.listen({
-    //   onTextMessage: function(e){console.log('收到文本消息2', e)},
-    // })
-    this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+    WebIM.conn.listen({
+      onTextMessage: (e) => {
+        console.log('收到文本消息2', e)
+        for (let i = 0; i < this.msgList.length; i++) {
+          if(e.from == this.msgList[i].customerId) { // 消息列表已存在用户新消息
+            this.msgList[i].status = 1 // 消息状态
+            this.msgList[i].msg.push(e) // 添加消息
+            // 移到最前
+            let latelyItem = this.msgList.splice(i, 1)
+            this.msgList.unshift(latelyItem[0])
+            if(this.customerId == e.from) {
+              this.$nextTick(() => {
+                this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+              })
+            }
+            return
+          }
+        }
+        this.msgList.unshift({ // 新用户新消息
+          customerId: e.from,
+          status: 1,
+          msg: [e],
+        })
+      },
+    })
   },
   methods: {
     logIn() {
       let options = {
         apiUrl: WebIM.config.apiURL,
-        user: this.chatUserId,
+        user: this.userId,
         pwd: 'Cf022044',
         appKey: WebIM.config.appkey,
         success: (e) => {console.log('登陆成功');console.log(e)},
@@ -101,10 +118,26 @@ export default {
       let msg = new WebIM.message('txt', id) // 创建文本消息
       msg.set({
         msg: this.msg, // 消息内容
-        to: this.sendId, // 接收消息对象（用户id）
+        to: this.customerId, // 接收消息对象（用户id）
         chatType: 'singleChat', // 设置为单聊
         success: (id, serverMsgId) => {
           console.log('send private text Success')
+          for (let i = 0; i < this.msgList.length; i++) {
+            if(this.msgList[i].customerId == this.customerId) {
+              this.msgList[i].msg.push({
+                from: this.userId,
+                to: this.customerId,
+                data: this.msg,
+                id: serverMsgId,
+                time: new Date().getTime(),
+              }) // 添加消息
+              this.$nextTick(() => {
+                this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+              })
+              this.msg = ''
+              return
+            }
+          }
         },
         fail: (e) => {
           console.log("Send private text error", e)
@@ -112,20 +145,25 @@ export default {
       })
       WebIM.conn.send(msg.body)
     },
-    changeChatUser(id) {
-      if (id == this.sendId) return
-      this.sendId = id
-      this.msgList = []
-      this.fetchHistoryMsg()
+    changeChatUser(customerId) {
+      if (customerId == this.userId) return
+      this.customerId = customerId
     },
     fetchHistoryMsg() {
       let options = {
-        queue: this.sendId,
+        queue: this.customerId,
         isGroup: false,
         count: 3,
         success: (e) => {
           console.log('拉取历史消息成功', e)
-          this.msgList = e.concat(this.msgList)
+          for (let i = 0; i < this.msgList.length; i++) {
+            if(this.msgList[i].customerId == this.customerId) { // 消息列表已存在用户新消息
+              console.log(i)
+              this.msgList[i].msg = e.concat(this.msgList[i].msg) // 保存信息
+              this.activeMsgList = this.msgList[i].msg // 复制到聊天窗口
+              return
+            }
+          }
         },
         fail: (e) => {console.log('拉取历史消息失败', e)},
       }
@@ -155,34 +193,28 @@ export default {
     closeChat() {
       this.$emit('closeChat')
     },
-    register() {
-      let options = {
-        username: '',
-        password: 'Cf022044',
-        nickname: '',
-        appKey: WebIM.config.appkey,
-        success: () => {console.log('注册成功')},
-        error: (err) => {
-          let errorData = JSON.parse(err.data)
-          if (errorData.error === 'duplicate_unique_property_exists') {
-            console.log('用户已存在！')
-          } else if (errorData.error === 'illegal_argument') {
-            if (errorData.error_description === 'USERNAME_TOO_LONG') {
-              console.log('用户名超过64个字节！')
-            }else{
-              console.log('用户名不合法！')
-            }
-          } else if (errorData.error === 'unauthorized') {
-            console.log('注册失败，无权限！')
-          } else if (errorData.error === 'resource_limited') {
-            console.log('您的App用户注册数量已达上限,请升级至企业版！')
-          }
-        },
-        apiUrl: WebIM.config.apiURL
-      }
-      WebIM.conn.registerUser(options)
-    }
   },
+  watch: {
+    customerId: {
+      handler: function (customerId){
+        for (let i = 0; i < this.msgList.length; i++) {
+          if(customerId == this.msgList[i].customerId) {
+            this.activeMsgList = this.msgList[i].msg
+            this.$nextTick(() => {
+              this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+            })
+            return
+          }
+        }
+      },
+    },
+    msgList: {
+      handler: function (val){
+        localStorage.setItem('msgList',JSON.stringify(val))
+      },
+      deep: true
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="chat" v-drag>
     <div class="chat-title clearfix">
-      <div class="chat-host-name"><i class="el-icon-service"></i> 客服A</div>
+      <div class="chat-host-name"><i class="el-icon-service"></i> 客服:{{userId}}</div>
       <div class="chat-close" @click="closeChat" v-stopDrag><i class="el-icon-close"></i></div>
     </div>
     <div class="chat-body clearfix" v-stopDrag>
@@ -14,19 +14,19 @@
             <div class="r">
               <h6>
                 <b>{{ item.customerId }}</b>
-                <span>2012/2/2</span>
+                <span>{{item.msg[item.msg.length -1].time | timestampToDate}}</span>
               </h6>
-              <p>最后一句话</p>
+              <p>{{item.msg[item.msg.length -1].data}}</p>
             </div>
           </dd>
         </dl>
       </div>
       <div class="chat-main">
         <div class="chat-header">
-          <span>{{customerId}}</span>
+          <span>客户:{{customerId}}</span>
         </div>
         <div class="chat-ct" ref="chatct">
-          <p v-if="customerId" @click="fetchHistoryMsg">加载更多</p>
+          <p class="load-more" v-if="customerId" @click="fetchHistoryMsg"><span>加载更多</span></p>
           <ul>
             <li v-for="item in activeMsgList" :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
               <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>
@@ -61,14 +61,16 @@ export default {
     return {
       userId: 182036639611,
       customerId: null, // 当前聊天顾客
-      // 消息二维数组
-      msgList: [{"customerId":"182036639612","status":1,"msg":[{"id":"794288114313987912","type":"chat","contentsType":"TEXT","from":"182036639612","to":"182036639611","data":"0","ext":{},"sourceMsg":"0","time":"1602499412924","msgConfig":null,"error":false,"errorText":"","errorCode":0}]}],
+      msgList: [], // 消息二维数组
       activeMsgList: [], // 当前聊天消息列表
       msg: '',
       sendMsgTipVisible: false, // 发送空信息提示
     }
   },
   created() {
+    if(localStorage.getItem('msgList')){
+      this.msgList = JSON.parse(localStorage.getItem('msgList'))
+    }
     if(this.msgList.length>0) this.customerId = this.msgList[0].customerId
     this.logIn()
   },
@@ -83,6 +85,11 @@ export default {
             // 移到最前
             let latelyItem = this.msgList.splice(i, 1)
             this.msgList.unshift(latelyItem[0])
+            if(this.customerId == e.from) {
+              this.$nextTick(() => {
+                this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+              })
+            }
             return
           }
         }
@@ -93,7 +100,6 @@ export default {
         })
       },
     })
-    this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
   },
   methods: {
     logIn() {
@@ -116,6 +122,22 @@ export default {
         chatType: 'singleChat', // 设置为单聊
         success: (id, serverMsgId) => {
           console.log('send private text Success')
+          for (let i = 0; i < this.msgList.length; i++) {
+            if(this.msgList[i].customerId == this.customerId) {
+              this.msgList[i].msg.push({
+                from: this.userId,
+                to: this.customerId,
+                data: this.msg,
+                id: serverMsgId,
+                time: new Date().getTime(),
+              }) // 添加消息
+              this.$nextTick(() => {
+                this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+              })
+              this.msg = ''
+              return
+            }
+          }
         },
         fail: (e) => {
           console.log("Send private text error", e)
@@ -134,7 +156,14 @@ export default {
         count: 3,
         success: (e) => {
           console.log('拉取历史消息成功', e)
-          this.msgList = e.concat(this.msgList)
+          for (let i = 0; i < this.msgList.length; i++) {
+            if(this.msgList[i].customerId == this.customerId) { // 消息列表已存在用户新消息
+              console.log(i)
+              this.msgList[i].msg = e.concat(this.msgList[i].msg) // 保存信息
+              this.activeMsgList = this.msgList[i].msg // 复制到聊天窗口
+              return
+            }
+          }
         },
         fail: (e) => {console.log('拉取历史消息失败', e)},
       }
@@ -171,11 +200,19 @@ export default {
         for (let i = 0; i < this.msgList.length; i++) {
           if(customerId == this.msgList[i].customerId) {
             this.activeMsgList = this.msgList[i].msg
+            this.$nextTick(() => {
+              this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
+            })
             return
           }
         }
       },
-      // immediate: true
+    },
+    msgList: {
+      handler: function (val){
+        localStorage.setItem('msgList',JSON.stringify(val))
+      },
+      deep: true
     }
   }
 }
@@ -187,7 +224,7 @@ export default {
   right: 100px
   bottom: 100px
   z-index 1000
-  width: 700px
+  width: 800px
   background-color: #fff
   box-shadow 0 0 8px rgba(0, 0, 0, .2)
 }
@@ -202,7 +239,7 @@ export default {
     padding-top: 10px
     padding-left: 10px
     user-select none
-    cursor: default
+    cursor: move
     i {
       font-size 16px
       vertical-align: text-bottom;
@@ -225,12 +262,12 @@ export default {
   }
 }
 .chat-body {
-  height: 500px
+  height: 600px
 }
 .side-nav {
   float: left
   overflow-y auto
-  width: 270px
+  width: 280px
   height: 100%
   background-color: #eee
   &::-webkit-scrollbar {
@@ -267,6 +304,7 @@ export default {
         h6 {
           display: flex
           padding-bottom: 5px
+          line-height: 1.2em
           b {
             flex: 1;
             width: 0
@@ -275,7 +313,8 @@ export default {
           span {
             overflow: hidden
             text-align: right
-            width: 80px
+            width: 100px
+            font-size 12px
             color: #666
           }
         }
@@ -289,7 +328,7 @@ export default {
 }
 .chat-main {
   float: right;
-  width: 430px;
+  width: 520px;
   height: 100%;
   .chat-header {
     box-sizing border-box
@@ -301,9 +340,17 @@ export default {
   .chat-ct {
     overflow-y auto
     box-sizing border-box
-    height: 310px
+    height: 400px
     border-bottom: 1px solid #e1e1e1
     background-color: #f7f7f7
+    .load-more{
+      text-align: center
+      span{
+        cursor: pointer
+        display: inline-block
+        padding: 10px 20px
+      }
+    }
     &::-webkit-scrollbar {
       width: 8px;
     }
@@ -315,7 +362,7 @@ export default {
     }
   }
   .chat-enter {
-    height: 150px
+    height: 160px
     background-color: #fff
     pre {
       box-sizing border-box
@@ -324,6 +371,8 @@ export default {
       overflow-x hidden
       overflow-y: auto;
       outline none
+      white-space: normal;
+      word-break: break-all;
       &::-webkit-scrollbar {
         width: 8px;
       }
@@ -344,10 +393,12 @@ export default {
 .chat-ct {
   padding: 10px
   .chat-li {
-    margin-top: 10px
-    margin-bottom: 10px
+    margin-top: 15px
+    margin-bottom: 15px
     .li-time {
-      margin-bottom: 10px
+      font-size 12px
+      color: #999
+      margin-bottom: 5px
       text-align: center
     }
     .li-ct {
@@ -357,6 +408,7 @@ export default {
         max-width: 60%
         border-radius: 3px;
         white-space: normal;
+        word-break: break-all;
       }
     }
   }
