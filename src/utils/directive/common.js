@@ -35,13 +35,13 @@ Vue.directive('drag', {
         // 防止拖出可视区域
         if (left < 0) {
           left = 0;
-        } else if (left > document.documentElement.clientWidth - el.offsetWidth + 600) {
-          left = document.documentElement.clientWidth - el.offsetWidth + 600;
+        } else if (left > document.documentElement.clientWidth - 100) {
+          left = document.documentElement.clientWidth - 100;
         }
         if (top < 0) {
           top = 0;
-        } else if (top > document.documentElement.clientHeight - el.offsetHeight + 500) {
-          top = document.documentElement.clientHeight - el.offsetHeight + 500
+        } else if (top > document.documentElement.clientHeight - 40) {
+          top = document.documentElement.clientHeight - 40
         }
         el.style.right = "auto"
         el.style.bottom = "auto"

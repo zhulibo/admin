@@ -1,7 +1,7 @@
 <template>
   <div class="chat" v-drag>
     <div class="chat-title clearfix">
-      <div class="chat-host-name"><i class="el-icon-service"></i> 客服A</div>
+      <div class="chat-host-name" @click="sendImg"><i class="el-icon-service"></i> 客服:{{userId}}</div>
       <div class="chat-close" @click="closeChat" v-stopDrag><i class="el-icon-close"></i></div>
     </div>
     <div class="chat-body clearfix" v-stopDrag>
@@ -9,7 +9,7 @@
         <dl class="chat-list">
           <dd v-for="item in msgList" :key="item.customerId" @click="changeChatUser(item.customerId)" :class="item.customerId == customerId ? 'selected' : ''">
             <div class="l">
-              <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg'></el-avatar>
+              <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
             </div>
             <div class="r">
               <h6>
@@ -31,7 +31,7 @@
             <li v-for="item in activeMsgList" :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
               <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>
               <div class="li-ct clearfix">
-                <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg'></el-avatar>
+                <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
                 <pre v-html="item.data"></pre>
               </div>
             </li>
@@ -59,8 +59,10 @@ export default {
   name: 'chat',
   data() {
     return {
-      userId: 182036639612,
-      customerId: null, // 当前聊天顾客
+      userId: '182036639614',
+      customerId: '182036639611', // 当前聊天顾客
+      // customerId: 'kf1062', // 当前聊天顾客
+      // customerId: 'kf1679', // 当前聊天顾客
       msgList: [], // 消息二维数组
       activeMsgList: [], // 当前聊天消息列表
       msg: '',
@@ -71,7 +73,6 @@ export default {
     if(localStorage.getItem('msgList')){
       this.msgList = JSON.parse(localStorage.getItem('msgList'))
     }
-    if(this.msgList.length>0) this.customerId = this.msgList[0].customerId
     this.logIn()
   },
   mounted() {
@@ -102,6 +103,33 @@ export default {
     })
   },
   methods: {
+    register() {
+      let options = {
+        username: this.userId,
+        password: 'Cf022044',
+        nickname: '123456',
+        appKey: WebIM.config.appkey,
+        success: () => {console.log('注册成功')},
+        error: (err) => {
+          let errorData = JSON.parse(err.data)
+          if (errorData.error === 'duplicate_unique_property_exists') {
+            console.log('用户已存在！')
+          } else if (errorData.error === 'illegal_argument') {
+            if (errorData.error_description === 'USERNAME_TOO_LONG') {
+              console.log('用户名超过64个字节！')
+            }else{
+              console.log('用户名不合法！')
+            }
+          } else if (errorData.error === 'unauthorized') {
+            console.log('注册失败，无权限！')
+          } else if (errorData.error === 'resource_limited') {
+            console.log('您的App用户注册数量已达上限,请升级至企业版！')
+          }
+        },
+        apiUrl: WebIM.config.apiURL
+      }
+      WebIM.conn.registerUser(options)
+    },
     logIn() {
       let options = {
         apiUrl: WebIM.config.apiURL,
@@ -112,6 +140,27 @@ export default {
         error: (e) => {console.log('登陆失败');console.log(e)},
       }
       WebIM.conn.open(options)
+    },
+    sendImg() {
+      let id = WebIM.conn.getUniqueId() // 生成本地消息id
+      let msg = new WebIM.message('img', id) // 创建图片消息
+      console.log(msg)
+      msg.set({
+        body: {
+          type: 'file',
+          data: 'http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg',
+          url: 'http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg',
+          // size: {
+          //   width: msg.width,
+          //   height: msg.height,
+          // },
+          // length: msg.length,
+          filename: 'image',
+          // filetype: msg.filetype
+        },
+        to: this.customerId,
+      })
+      WebIM.conn.send(msg.body)
     },
     sendMsg() { // 单聊发送文本消息
       let id = WebIM.conn.getUniqueId() // 生成本地消息id

@@ -42,7 +42,8 @@ export default {
       })
         .then(res => {
           localStorage.removeItem('userInfo');
-          this.$router.push({path: '/login'})
+          // this.$router.push({path: '/login'})
+          location.reload() // 防止不清空全局变量引起bug，待优化
         }).catch(e => {
         console.log(e)
       })

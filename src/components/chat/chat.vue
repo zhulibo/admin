@@ -7,16 +7,17 @@
     <div class="chat-body clearfix" v-stopDrag>
       <div class="side-nav">
         <dl class="chat-list">
-          <dd v-for="item in msgList" :key="item.customerId" @click="changeChatUser(item.customerId)" :class="item.customerId == customerId ? 'selected' : ''">
+          <dd v-for="item in msgList" :key="item.customerId" @click="changeChatUser(item.customerId)" :class="[{'selected': item.customerId == customerId},{'new-msg': item.status == 1}]">
             <div class="l">
-              <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg'></el-avatar>
+              <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
             </div>
             <div class="r">
               <h6>
                 <b>{{ item.customerId }}</b>
                 <span>{{item.msg[item.msg.length -1].time | timestampToDate}}</span>
               </h6>
-              <p>{{item.msg[item.msg.length -1].data}}</p>
+              <p v-if="item.msg[item.msg.length -1].contentsType == 'TEXT'">{{item.msg[item.msg.length -1].data}}</p>
+              <p v-else-if="item.msg[item.msg.length -1].contentsType == 'IMAGE'">图片</p>
             </div>
           </dd>
         </dl>
@@ -29,10 +30,14 @@
           <p class="load-more" v-if="customerId" @click="fetchHistoryMsg"><span>加载更多</span></p>
           <ul>
             <li v-for="item in activeMsgList" :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
-              <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>
+              <div class="li-time"><span>{{ item.time }}</span></div>
+<!--              <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>-->
               <div class="li-ct clearfix">
-                <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/timg2595.jpg'></el-avatar>
-                <pre v-html="item.data"></pre>
+                <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
+                <pre v-if="item.contentsType == 'TEXT'" v-html="item.data"></pre>
+                <pre v-else-if="item.contentsType == 'IMAGE'">
+                  <img :src="item.url" :alt="item.time">
+                </pre>
               </div>
             </li>
           </ul>
@@ -59,8 +64,10 @@ export default {
   name: 'chat',
   data() {
     return {
-      userId: 182036639611,
-      customerId: null, // 当前聊天顾客
+      userId: '182036639611',
+      customerId: '', // 当前聊天顾客
+      // customerId: 'kf1062', // 当前聊天顾客
+      // customerId: 'kf1679', // 当前聊天顾客
       msgList: [], // 消息二维数组
       activeMsgList: [], // 当前聊天消息列表
       msg: '',
@@ -68,35 +75,70 @@ export default {
     }
   },
   created() {
-    if(localStorage.getItem('msgList')){
-      this.msgList = JSON.parse(localStorage.getItem('msgList'))
+    // 获取缓存中的聊天记录
+    let msgListStorage = JSON.parse(localStorage.getItem('msgList'))
+    if(msgListStorage) {
+      this.msgList = msgListStorage
     }
-    if(this.msgList.length>0) this.customerId = this.msgList[0].customerId
     this.logIn()
   },
   mounted() {
     WebIM.conn.listen({
       onTextMessage: (e) => {
-        console.log('收到文本消息2', e)
+        console.log('收到文本', e)
+        // 保存聊天记录
         for (let i = 0; i < this.msgList.length; i++) {
-          if(e.from == this.msgList[i].customerId) { // 消息列表已存在用户新消息
-            this.msgList[i].status = 1 // 消息状态
-            this.msgList[i].msg.push(e) // 添加消息
-            // 移到最前
+          if(e.from == this.msgList[i].customerId) { // 已存在的用户的消息
+            this.msgList[i].msg.push(e)
+            // 把此人移到消息列表的最前边
             let latelyItem = this.msgList.splice(i, 1)
             this.msgList.unshift(latelyItem[0])
-            if(this.customerId == e.from) {
-              this.$nextTick(() => {
-                this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
-              })
+
+            if(this.customerId == e.from) {// 如果此消息人是正在聊天的对象，则聊天框滚动到最下面
+              this.chatWindowScrollBottom()
+            }else{
+              this.msgList[i].status = 1 // 不是当前聊天则添加提示
             }
             return
           }
         }
-        this.msgList.unshift({ // 新用户新消息
+        // 新用户直接添加到聊天列表最前面
+        this.msgList.unshift({ // 新用户的消息
           customerId: e.from,
           status: 1,
           msg: [e],
+        })
+      },
+      onPictureMessage: (e) => {
+        console.log('收到图片', e)
+        let msg = { // 存放消息，过滤多余字段
+          contentsType: 'IMAGE',
+          from: e.from,
+          to: e.to,
+          url: e.url,
+          id: e.id,
+          time: e.time,
+        }
+        for (let i = 0; i < this.msgList.length; i++) {
+          if(e.from == this.msgList[i].customerId) { // 已存在的用户的消息
+            this.msgList[i].msg.push(msg)
+            // 把此人移到消息列表的最前边
+            let latelyItem = this.msgList.splice(i, 1)
+            this.msgList.unshift(latelyItem[0])
+
+            if(this.customerId == e.from) {// 如果此消息人是正在聊天的对象，则聊天框滚动到最下面
+              this.chatWindowScrollBottom()
+            }else{
+              this.msgList[i].status = 1 // 不是当前聊天则添加提示
+            }
+            return
+          }
+        }
+        // 新用户直接添加到聊天列表最前面
+        this.msgList.unshift({ // 新用户的消息
+          customerId: e.from,
+          status: 1,
+          msg: [msg],
         })
       },
     })
@@ -122,31 +164,36 @@ export default {
         chatType: 'singleChat', // 设置为单聊
         success: (id, serverMsgId) => {
           console.log('send private text Success')
+          // 添加此条信息到到聊天窗口
           for (let i = 0; i < this.msgList.length; i++) {
             if(this.msgList[i].customerId == this.customerId) {
               this.msgList[i].msg.push({
+                contentsType: 'TEXT',
                 from: this.userId,
                 to: this.customerId,
                 data: this.msg,
                 id: serverMsgId,
                 time: new Date().getTime(),
-              }) // 添加消息
-              this.$nextTick(() => {
-                this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
               })
-              this.msg = ''
+              this.chatWindowScrollBottom()
+              // 把此人移到消息列表的最前边
+              let latelyItem = this.msgList.splice(i, 1)
+              this.msgList.unshift(latelyItem[0])
+              this.$refs.msgPre.innerHTML = '' // 输入框清空
+              this.msg = '' // 清空消息字段
               return
             }
           }
         },
         fail: (e) => {
           console.log("Send private text error", e)
+          this.$message.warning('消息发送失败，请重新发送')
         }
       })
       WebIM.conn.send(msg.body)
     },
     changeChatUser(customerId) {
-      if (customerId == this.userId) return
+      if (customerId == this.customerId || customerId == this.userId) return
       this.customerId = customerId
     },
     fetchHistoryMsg() {
@@ -171,10 +218,7 @@ export default {
     },
     trimMsg(event) {
       event.preventDefault() // 阻止换行
-
       this.msg = this.$refs.msgPre.innerHTML
-      this.$refs.msgPre.innerHTML = ''
-
       // 判断是否为空
       if (this.msg.replace(/\s/g, '').length < 1) {
         this.sendMsgTipVisible = true
@@ -183,12 +227,21 @@ export default {
         }, 2000)
         return false
       }
-
-      // 发送信息
       this.msg = this.msg.replace(/\r?\n/g, '<br>') // 回车转换成<br>
       this.msg = this.msg.replace(/ /g, '&nbsp;') // 空格转换成&nbsp
-
-      this.sendMsg()
+      this.sendMsg() // 发送消息
+    },
+    chatWindowScrollBottom() {
+      this.$nextTick(() => { // 对话框滚动到最下边
+        let img = document.querySelector('.chat-ct li:last-child pre img')
+        if(!img) {
+          this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight
+        }else {
+          img.onload = () => { // 图片加载完再执行
+            this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight
+          }
+        }
+      })
     },
     closeChat() {
       this.$emit('closeChat')
@@ -200,9 +253,8 @@ export default {
         for (let i = 0; i < this.msgList.length; i++) {
           if(customerId == this.msgList[i].customerId) {
             this.activeMsgList = this.msgList[i].msg
-            this.$nextTick(() => {
-              this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
-            })
+            this.chatWindowScrollBottom()
+            this.msgList[i].status = 0 // 消息置为已读
             return
           }
         }
@@ -210,6 +262,18 @@ export default {
     },
     msgList: {
       handler: function (val){
+        // 联系人最多保存100个
+        let msgListLength = this.msgList.length
+        if(msgListLength > 100){
+          this.msgList.splice(100, msgListLength + 1 - 100)
+        }
+        // 单个联系人最多保留10条信息
+        for (let i = 0; i < this.msgList.length; i++) {
+          let length = this.msgList[i].msg.length
+          if(length > 10){
+            this.msgList[i].msg.splice(0, length - 10)
+          }
+        }
         localStorage.setItem('msgList',JSON.stringify(val))
       },
       deep: true
@@ -290,8 +354,14 @@ export default {
       padding: 10px
       line-height: 1.2
       cursor: pointer
-      &:hover,&.selected {
-        background-color: #e1e1e1
+      &.selected {
+        background-color: #ddd
+      }
+      &:hover {
+        background-color: #e5e5e5
+      }
+      &.new-msg{
+        background-color: #98e165
       }
       .l {
         margin-right: 10px
