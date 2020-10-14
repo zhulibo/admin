@@ -59,7 +59,7 @@ export default {
   name: 'chat',
   data() {
     return {
-      userId: '182036639614',
+      userId: '182036639615',
       customerId: '182036639611', // 当前聊天顾客
       // customerId: 'kf1062', // 当前聊天顾客
       // customerId: 'kf1679', // 当前聊天顾客
@@ -74,8 +74,6 @@ export default {
       this.msgList = JSON.parse(localStorage.getItem('msgList'))
     }
     this.logIn()
-  },
-  mounted() {
     WebIM.conn.listen({
       onTextMessage: (e) => {
         console.log('收到文本消息2', e)
@@ -101,6 +99,12 @@ export default {
         })
       },
     })
+  },
+  mounted() {
+    // setTimeout(()=> {
+    //   // this.msg++
+    //   this.sendMsg()
+    // },3000,)
   },
   methods: {
     register() {
@@ -167,6 +171,7 @@ export default {
       let msg = new WebIM.message('txt', id) // 创建文本消息
       msg.set({
         msg: this.msg, // 消息内容
+        // msg: '测试' + this.msg, // 消息内容
         to: this.customerId, // 接收消息对象（用户id）
         chatType: 'singleChat', // 设置为单聊
         success: (id, serverMsgId) => {
@@ -184,6 +189,10 @@ export default {
                 this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
               })
               this.msg = ''
+              // setTimeout(()=> {
+              //   this.msg = this.msg+1
+              //   this.sendMsg()
+              // },3000,)
               return
             }
           }

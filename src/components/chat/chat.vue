@@ -30,8 +30,7 @@
           <p class="load-more" v-if="customerId" @click="fetchHistoryMsg"><span>加载更多</span></p>
           <ul>
             <li v-for="item in activeMsgList" :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
-              <div class="li-time"><span>{{ item.time }}</span></div>
-<!--              <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>-->
+              <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>
               <div class="li-ct clearfix">
                 <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
                 <pre v-if="item.contentsType == 'TEXT'" v-html="item.data"></pre>
@@ -81,10 +80,8 @@ export default {
       this.msgList = msgListStorage
     }
     this.logIn()
-  },
-  mounted() {
     WebIM.conn.listen({
-      onTextMessage: (e) => {
+      onTextMessage: (e) => { // 监听文字消息
         console.log('收到文本', e)
         // 保存聊天记录
         for (let i = 0; i < this.msgList.length; i++) {
@@ -109,7 +106,7 @@ export default {
           msg: [e],
         })
       },
-      onPictureMessage: (e) => {
+      onPictureMessage: (e) => { // 监听图片消息
         console.log('收到图片', e)
         let msg = { // 存放消息，过滤多余字段
           contentsType: 'IMAGE',
@@ -143,8 +140,10 @@ export default {
       },
     })
   },
+  mounted() {
+  },
   methods: {
-    logIn() {
+    logIn() { // 环信客服登录
       let options = {
         apiUrl: WebIM.config.apiURL,
         user: this.userId,
@@ -192,31 +191,46 @@ export default {
       })
       WebIM.conn.send(msg.body)
     },
-    changeChatUser(customerId) {
+    changeChatUser(customerId) { // 切换联系人
       if (customerId == this.customerId || customerId == this.userId) return
       this.customerId = customerId
     },
-    fetchHistoryMsg() {
+    fetchHistoryMsg() { // 获取历史消息
       let options = {
         queue: this.customerId,
         isGroup: false,
-        count: 3,
+        count: 50,
         success: (e) => {
-          console.log('拉取历史消息成功', e)
-          for (let i = 0; i < this.msgList.length; i++) {
-            if(this.msgList[i].customerId == this.customerId) { // 消息列表已存在用户新消息
-              console.log(i)
-              this.msgList[i].msg = e.concat(this.msgList[i].msg) // 保存信息
-              this.activeMsgList = this.msgList[i].msg // 复制到聊天窗口
+          console.log('拉取历史消息成功', JSON.parse(JSON.stringify(e)))
+          if(e.length == 0) {
+            this.$message.info('无更多历史消息')
+            return
+          }
+          if(e.length < options.count) {
+            this.$message.info('已获取全部历史消息')
+          }
+          if (this.activeMsgList.length == 0) { // 当前窗口无聊天记录
+            this.activeMsgList = e
+            return
+          }
+          if(e[0].time>=this.activeMsgList[0].time){ // 历史聊天记录时间 >= 聊天窗口消息时间，循环拉取
+            this.fetchHistoryMsg()
+            return
+          }
+          for (let i = 0; i < e.length; i++) { // 找到id对应处，拼接聊天记录
+            if (e[i].id == this.activeMsgList[0].id){
+              e.splice(i, e.length -i)
+              this.activeMsgList = e.concat(this.activeMsgList)
               return
             }
           }
+          this.activeMsgList = e.concat(this.activeMsgList) // id无对应，直接合并聊天记录
         },
         fail: (e) => {console.log('拉取历史消息失败', e)},
       }
       WebIM.conn.fetchHistoryMessages(options)
     },
-    trimMsg(event) {
+    trimMsg(event) { // 消息发送前预处理
       event.preventDefault() // 阻止换行
       this.msg = this.$refs.msgPre.innerHTML
       // 判断是否为空
@@ -231,8 +245,8 @@ export default {
       this.msg = this.msg.replace(/ /g, '&nbsp;') // 空格转换成&nbsp
       this.sendMsg() // 发送消息
     },
-    chatWindowScrollBottom() {
-      this.$nextTick(() => { // 对话框滚动到最下边
+    chatWindowScrollBottom() { // 对话框滚动到最下边
+      this.$nextTick(() => {
         let img = document.querySelector('.chat-ct li:last-child pre img')
         if(!img) {
           this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight
@@ -248,7 +262,7 @@ export default {
     },
   },
   watch: {
-    customerId: {
+    customerId: { // 联系人切换
       handler: function (customerId){
         for (let i = 0; i < this.msgList.length; i++) {
           if(customerId == this.msgList[i].customerId) {
@@ -260,18 +274,18 @@ export default {
         }
       },
     },
-    msgList: {
+    msgList: { // 实时保存消息到localStorage
       handler: function (val){
         // 联系人最多保存100个
         let msgListLength = this.msgList.length
         if(msgListLength > 100){
           this.msgList.splice(100, msgListLength + 1 - 100)
         }
-        // 单个联系人最多保留10条信息
+        // 单个联系人最多保留100条信息
         for (let i = 0; i < this.msgList.length; i++) {
           let length = this.msgList[i].msg.length
-          if(length > 10){
-            this.msgList[i].msg.splice(0, length - 10)
+          if(length > 100){
+            this.msgList[i].msg.splice(0, length - 100)
           }
         }
         localStorage.setItem('msgList',JSON.stringify(val))

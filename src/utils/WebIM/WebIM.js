@@ -2,7 +2,7 @@ import websdk from "easemob-websdk"
 import config from "@/utils/WebIM/config"
 
 let WebIM = {}
-WebIM = window.WebIM = websdk
+WebIM = websdk
 WebIM.config = config
 
 WebIM.conn = new WebIM.connection({
