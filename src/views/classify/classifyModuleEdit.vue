@@ -68,11 +68,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getDetail() {
       this.$http({
@@ -83,8 +78,8 @@ export default {
           this.detail = res.data
           this.ruleForm.parentId = this.detail.classifyId
           this.ruleForm.name = this.detail.name
-          if(this.detail.image) this.moduleImgOptions.fileList.push({url: this.detail.image}) // 图片回显
-          if(this.detail.sort) this.ruleForm.sort = this.detail.sort
+          if (this.detail.image) this.moduleImgOptions.fileList.push({url: this.detail.image}) // 图片回显
+          if (this.detail.sort) this.ruleForm.sort = this.detail.sort
         }).catch(e => {
         console.log(e)
       })

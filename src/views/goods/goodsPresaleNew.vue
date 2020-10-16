@@ -194,11 +194,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     removeSku(item) {
       var index = this.ruleForm.skus.indexOf(item)

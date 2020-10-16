@@ -167,11 +167,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getList: function () {
       this.$http({

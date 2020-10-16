@@ -9,6 +9,7 @@ export default [
         component: () => import (/* webpackChunkName: 'social' */ '@/views/social/social'),
         meta: {
           icon: 'iconfont icon-pengyouquan',
+          permission: '/social',
         },
       }
     ]
@@ -22,7 +23,9 @@ export default [
         path: '/socialEdit',
         name: '社交动态编辑',
         component: () => import (/* webpackChunkName: 'socialEdit' */ '@/views/social/socialEdit'),
-        meta: {},
+        meta: {
+          permission: '/socialEdit',
+        },
       }
     ]
   },
@@ -35,7 +38,9 @@ export default [
         path: '/socialComment',
         name: '社交动态评论',
         component: () => import (/* webpackChunkName: 'socialComment' */ '@/views/social/socialComment'),
-        meta: {},
+        meta: {
+          permission: '/socialComment',
+        },
       }
     ]
   },
@@ -48,7 +53,9 @@ export default [
         path: '/socialCommentEdit',
         name: '社交动态评论编辑',
         component: () => import (/* webpackChunkName: 'socialCommentEdit' */ '@/views/social/socialCommentEdit'),
-        meta: {},
+        meta: {
+          permission: '/socialCommentEdit',
+        },
       }
     ]
   },

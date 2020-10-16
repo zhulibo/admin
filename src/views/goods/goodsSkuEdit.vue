@@ -11,9 +11,6 @@
         <el-form-item label="sku图片" prop="skuImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.skuImg" :options="skuImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="价格" prop="price">
-          <el-input v-model="ruleForm.price"></el-input>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -48,9 +45,6 @@ export default {
         skuImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        price: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
       },
     }
   },
@@ -59,14 +53,10 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
+    this.mainId = this.$route.query.mainId
     if (this.id) this.getDetail()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getDetail() {
@@ -81,7 +71,6 @@ export default {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
           this.skuImgOptions.fileList.push({url: this.detail.skuImage}) // 图片回显
-          this.ruleForm.price = this.detail.price
         }).catch(e => {
         console.log(e)
       })
@@ -95,10 +84,9 @@ export default {
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
-              mainId: this.detail.mainId,
+              mainId: this.mainId,
               name: this.ruleForm.name,
               skuImage: this.ruleForm.skuImg[0],
-              price: this.ruleForm.price,
             },
           }).then(res => {
             this.$message.success(res.msg)

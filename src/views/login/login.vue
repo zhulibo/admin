@@ -39,6 +39,7 @@
 
 <script>
 import randomCode from '@/components/randomCode/randomCode'
+import permissionList from "@/store/modules/permissionList";
 
 export default {
   name: 'login',
@@ -97,49 +98,7 @@ export default {
             .then(res => {
               let userInfo = {
                 token: res.data,
-                permission: [
-                  {
-                    id: 1,
-                    path: 'goods',
-                    pathName: '商品',
-                    children: [
-                      {
-                        id: 2,
-                        path: 'goods',
-                        pathName: '普通商品',
-                      },
-                      {
-                        id: 3,
-                        path: 'goodsPresale',
-                        pathName: '预售商品',
-                      }
-                    ]
-                  },
-                  {
-                    id: 4,
-                    path: 'admin',
-                    pathName: '管理员',
-                    children: [
-                      {
-                        id: 5,
-                        path: 'admin',
-                        pathName: '管理员',
-                      },
-                      {
-                        id: 6,
-                        path: 'role',
-                        pathName: '角色',
-                        children: [
-                          {
-                            id: 7,
-                            path: 'role_del',
-                            pathName: '删除',
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
+                permission: permissionList,
               }
               this.$store.dispatch('updateUserInfo', userInfo)
               this.$store.dispatch('updateRouter', userInfo.permission)

@@ -4,8 +4,12 @@
       <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.title" placeholder="商品名称" @keyup.enter.native="getList"></el-input>
+          <el-form-item label="商品类型">
+            <el-select v-model="formInline.type" placeholder="请选择" @change="getList">
+              <el-option label="全部" value=""></el-option>
+              <el-option label="现货" value="1"></el-option>
+              <el-option label="预售" value="2"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -19,33 +23,20 @@
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
+          <template slot-scope="scope">{{ scope.row.creatTime }}</template>
         </el-table-column>
-        <el-table-column prop="goodsId" label="商品id" align="center">
-          <template slot-scope="scope">{{ scope.row.goodsId }}</template>
+        <el-table-column prop="goodId" label="商品id" align="center">
+          <template slot-scope="scope">{{ scope.row.goodId }}</template>
         </el-table-column>
-        <el-table-column prop="skuId" label="sku-id" align="center">
-          <template slot-scope="scope">{{ scope.row.skuId }}</template>
-        </el-table-column>
-        <el-table-column prop="drawTime" label="开奖时间" align="center">
-          <template slot-scope="scope">{{ scope.row.drawTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="number" label="奖品数量" align="center">
-          <template slot-scope="scope">{{ scope.row.number }}</template>
-        </el-table-column>
-        <el-table-column prop="status" label="抽奖状态" align="center">
+        <el-table-column prop="type" label="商品类型" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 0">未开始</span>
-            <span v-else-if="scope.row.status == 1">已开始</span>
-            <span v-else-if="scope.row.status == 2">已结束</span>
-            <span v-else-if="scope.row.status == 3">已强制结束</span>
+            <span v-if="scope.row.type == 1">现货</span>
+            <span v-else-if="scope.row.type == 2">预售</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
-            <el-button type="text" size="medium" class="edit" @click="checkItemCode(scope.row)">查看抽奖码</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,10 +54,7 @@ export default {
   data() {
     return {
       formInline: {
-        isAuthority: '',
-        phone: '',
-        homesickId: '',
-        nickName: '',
+        name: '',
       },
       tableList: [],
       pageSize: 10,
@@ -82,10 +70,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/goodsmanage/backadmin/drawgoods',
+        url: '/goodsmanage/backadmin/goods/recommendgoods',
         method: 'GET',
         params: {
-          title: this.formInline.title,
+          type: this.type,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -102,14 +90,29 @@ export default {
       this.currentPage = val
       this.getList()
     },
-    editItem(scope) {
-      this.$router.push({path: '/goodsLotteryEdit', query: {id: scope.id}})
-    },
-    checkItemCode(scope) {
-      this.$router.push({path: '/goodsLotteryCode', query: {id: scope.id}})
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.goodId, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/goods/recommenddel',
+          method: 'DELETE',
+          data: {
+            goodId: scope.goodId
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.goodId)
+            this.getList()
+          })
+      }).catch(e => {
+        console.log(e)
+      })
     },
     newItem() {
-      this.$router.push({path: '/goodsLotteryEdit'})
+      this.$router.push({path: '/goodsRecommendEdit'})
     },
   }
 }

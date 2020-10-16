@@ -119,6 +119,7 @@
             <!--                &lt;!&ndash;                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>&ndash;&gt;-->
             <!--              </el-dropdown-menu>-->
             <!--            </el-dropdown>-->
+            <el-button type="text" size="medium" class="edit" @click="newItemSku(scope.row)">新建sku</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
@@ -139,6 +140,7 @@ export default {
     return {
       formInline: {
         title: '',
+        // title: '测试商品',
         isUp: '',
         minSort: '',
         maxSort: '',
@@ -203,11 +205,6 @@ export default {
     this.getList()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getList: function () {
@@ -292,31 +289,6 @@ export default {
         console.log(e)
       })
     },
-    beforeHandleCommand(row, command) {
-      return {
-        'row': row,
-        'command': command
-      }
-    },
-    handleCommand(command) {
-      console.log(command)
-      if (command.command == 1) {
-        console.log()
-        this.$router.push({path: '/goodsBindClassify', query: {id: command.row.id, goodsType: 1}})
-      } else if (command.command == 2) {
-        this.$router.push({path: '/goodsBindIp', query: {id: command.row.id, goodsType: 1}})
-      } else if (command.command == 3) {
-        this.$http({
-          url: '/goodsmanage/backadmin/goods/all/' + command.row.id,
-          method: 'DELETE',
-        })
-          .then(res => {
-            this.$message.success(res.msg)
-          }).catch(e => {
-          console.log(e)
-        })
-      }
-    },
     deleteItemSku(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {
         confirmButtonText: '确定',
@@ -342,11 +314,14 @@ export default {
         console.log(e)
       })
     },
-    editItem(scope) {
-      this.$router.push({path: '/goodsEdit', query: {id: scope.id}})
+    newItemSku(scope) {
+      this.$router.push({path: '/goodsSkuEdit', query: {mainId: scope.id}})
     },
     editItemSku(scope) {
-      this.$router.push({path: '/goodsSkuEdit', query: {id: scope.id}})
+      this.$router.push({path: '/goodsSkuEdit', query: {id: scope.id, mainId: scope.mainId}})
+    },
+    editItem(scope) {
+      this.$router.push({path: '/goodsEdit', query: {id: scope.id}})
     },
     newItem() {
       this.$router.push({path: '/goodsNew'})

@@ -65,11 +65,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

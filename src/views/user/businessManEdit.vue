@@ -81,11 +81,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getDetail() {
       this.$http({

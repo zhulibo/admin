@@ -13,6 +13,7 @@ export default [
         component: () => import (/* webpackChunkName: 'order' */ '@/views/order/order'),
         meta: {
           icon: 'iconfont icon-dingdan',
+          permission: '/order',
         },
       },
       {
@@ -21,6 +22,7 @@ export default [
         component: () => import (/* webpackChunkName: 'order' */ '@/views/order/orderPresale'),
         meta: {
           icon: 'iconfont icon-dingdan',
+          permission: '/orderPresale',
         },
       },
       {
@@ -29,6 +31,7 @@ export default [
         component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplier'),
         meta: {
           icon: 'iconfont icon-dingdan',
+          permission: '/orderSupplier',
         },
       },
       {
@@ -37,6 +40,7 @@ export default [
         component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplierPresale'),
         meta: {
           icon: 'iconfont icon-dingdan',
+          permission: '/orderSupplierPresale',
         },
       },
       {
@@ -45,6 +49,7 @@ export default [
         component: () => import (/* webpackChunkName: 'orderRepair' */ '@/views/order/orderRepair'),
         meta: {
           icon: 'iconfont icon-dingdan',
+          permission: '/orderRepair',
         },
       },
     ]
@@ -58,7 +63,9 @@ export default [
         path: '/orderDetail',
         name: '订单详情',
         component: () => import (/* webpackChunkName: 'orderDetail' */ '@/views/order/orderDetail'),
-        meta: {},
+        meta: {
+          permission: '/orderDetail',
+        },
       }
     ]
   },
@@ -71,7 +78,9 @@ export default [
         path: '/orderPresaleDetail',
         name: '预售订单详情',
         component: () => import (/* webpackChunkName: 'orderPresaleDetail' */ '@/views/order/orderPresaleDetail'),
-        meta: {},
+        meta: {
+          permission: '/orderPresaleDetail',
+        },
       }
     ]
   },
@@ -84,7 +93,9 @@ export default [
         path: '/orderSupplierDetail',
         name: '供货商订单详情',
         component: () => import (/* webpackChunkName: 'orderSupplierDetail' */ '@/views/order/orderSupplierDetail'),
-        meta: {},
+        meta: {
+          permission: '/orderSupplierDetail',
+        },
       }
     ]
   },
@@ -97,7 +108,9 @@ export default [
         path: '/orderSupplierPresaleDetail',
         name: '供货商预售订单详情',
         component: () => import (/* webpackChunkName: 'orderSupplierPresaleDetail' */ '@/views/order/orderSupplierPresaleDetail'),
-        meta: {},
+        meta: {
+          permission: '/orderSupplierPresaleDetail',
+        },
       }
     ]
   },
@@ -110,7 +123,9 @@ export default [
         path: '/orderRepairDetail',
         name: '修复订单详情',
         component: () => import (/* webpackChunkName: 'orderRepairDetail' */ '@/views/order/orderRepairDetail'),
-        meta: {},
+        meta: {
+          permission: '/orderRepairDetail',
+        },
       }
     ]
   },

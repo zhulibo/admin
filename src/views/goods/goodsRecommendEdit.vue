@@ -5,15 +5,12 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="评论内容" prop="content">
-          <el-input type="textarea" v-model="ruleForm.content" maxlength="200" rows="4"></el-input>
+        <el-form-item label="类型" prop="type">
+          <el-radio v-model="ruleForm.type" label="1">现货商品</el-radio>
+          <el-radio v-model="ruleForm.type" label="2">预售商品</el-radio>
         </el-form-item>
-        <el-form-item label="是否屏蔽" prop="del">
-          <el-switch
-            v-model="ruleForm.del"
-            :active-value="1"
-            :inactive-value="0">
-          </el-switch>
+        <el-form-item label="商品id" prop="goodId">
+          <el-input v-model="ruleForm.goodsId"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -28,21 +25,22 @@ export default {
   name: 'itemEdit',
   data() {
     return {
-      articleId: '',
       id: '',
-      detail: {},
       ruleForm: {
-        content: '',
-        del: '',
+        type: '1',
+        goodsId: '',
       },
-      rules: {},
+      rules: {
+        type: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        goodsId: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+      },
     }
   },
   created() {
-    this.articleId = this.$route.query.articleId
-    this.id = this.$route.query.id
-    this.ruleForm.content = this.$route.query.content
-    this.ruleForm.del = this.$route.query.del
   },
   mounted() {
   },
@@ -51,16 +49,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/userorg/backadmin/articlecomment',
-            method: 'PUT',
+            url: '/goodsmanage/backadmin/goods/recommendgoods',
+            method: 'POST',
             data: {
-              id: this.id,
-              content: this.ruleForm.content,
-              del: this.ruleForm.del,
+              type: this.ruleForm.type,
+              goodId: this.ruleForm.goodsId,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/socialComment', query: {articleId: this.articleId}})
+            this.$router.push({path: '/goodsRecommend'})
           }).catch(e => {
             console.log(e)
           })

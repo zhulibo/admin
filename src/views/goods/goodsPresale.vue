@@ -157,11 +157,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getList: function () {
       this.$http({
@@ -236,14 +231,14 @@ export default {
     editItemSku(scope) {
       this.$router.push({path: '/goodsPresaleSkuEdit', query: {id: scope.id, mainId: scope.mainId}})
     },
+    newItemSku(scope) {
+      this.$router.push({path: '/goodsPresaleSkuEdit', query: {mainId: scope.id}})
+    },
     goodsPresaleActivity() {
       this.$router.push({path: '/goodsPresaleActivity'})
     },
     newItem() {
       this.$router.push({path: '/goodsPresaleNew'})
-    },
-    newItemSku(scope) {
-      this.$router.push({path: '/goodsPresaleSkuEdit', query: {mainId: scope.id}})
     },
   }
 }

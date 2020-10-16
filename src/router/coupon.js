@@ -13,6 +13,7 @@ export default [
         component: () => import (/* webpackChunkName: 'giftPack' */ '@/views/coupon/giftPack'),
         meta: {
           icon: 'iconfont icon-dingdan',
+          permission: '/giftPack',
         },
       },
     ]
@@ -26,7 +27,9 @@ export default [
         path: '/giftPackEdit',
         name: '礼包编辑',
         component: () => import (/* webpackChunkName: 'giftPackEdit' */ '@/views/coupon/giftPackEdit'),
-        meta: {},
+        meta: {
+          permission: '/giftPackEdit'
+        },
       }
     ]
   },
@@ -39,7 +42,9 @@ export default [
         path: '/coupon',
         name: '优惠券 ',
         component: () => import (/* webpackChunkName: 'coupon' */ '@/views/coupon/coupon'),
-        meta: {},
+        meta: {
+          permission: '/coupon'
+        },
       }
     ]
   },
@@ -52,7 +57,9 @@ export default [
         path: '/couponEdit',
         name: '优惠券编辑',
         component: () => import (/* webpackChunkName: 'couponEdit' */ '@/views/coupon/couponEdit'),
-        meta: {},
+        meta: {
+          permission: '/couponEdit'
+        },
       }
     ]
   },

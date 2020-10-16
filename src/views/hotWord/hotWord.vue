@@ -12,7 +12,8 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建</el-button>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
@@ -54,11 +55,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getList: function () {
       this.$http({
@@ -96,7 +92,9 @@ export default {
             this.$message.success('已删除 ' + scope.name)
             this.getList()
           })
-      }).catch(e => {console.log(e)})
+      }).catch(e => {
+        console.log(e)
+      })
     },
     editItem(scope) {
       this.$router.push({path: '/hotWordEdit', query: {id: scope.id}})

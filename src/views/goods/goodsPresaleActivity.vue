@@ -49,8 +49,12 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.orderStatus == 2" type="text" size="medium" class="edit" @click="payFinalPayment(scope.row)">开始付尾款</el-button>
-            <el-button v-if="scope.row.orderStatus == 3" type="text" size="medium" class="edit" @click="payFinalPayment(scope.row)">结束付尾款</el-button>
+            <el-button v-if="scope.row.orderStatus == 2" type="text" size="medium" class="edit"
+                       @click="payFinalPayment(scope.row)">开始付尾款
+            </el-button>
+            <el-button v-if="scope.row.orderStatus == 3" type="text" size="medium" class="edit"
+                       @click="payFinalPayment(scope.row)">结束付尾款
+            </el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">结束预售</el-button>
           </template>
         </el-table-column>
@@ -131,11 +135,6 @@ export default {
     this.getList()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getList: function () {

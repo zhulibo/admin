@@ -16,7 +16,8 @@
         </el-form-item>
         <el-form-item label="发货地址" prop="addressId">
           <el-select v-model="ruleForm.addressId" placeholder="请选择" filterable>
-            <el-option v-for="item in addressList" :label="item.sendAddress" :value="item.id" :key="item.id"></el-option>
+            <el-option v-for="item in addressList" :label="item.sendAddress" :value="item.id"
+                       :key="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -59,7 +60,7 @@ export default {
     this.mainId = this.$route.query.mainId
     this.skuId = this.$route.query.skuId
     this.getAddressList()
-    if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
@@ -73,7 +74,7 @@ export default {
           this.detail = res.data
           this.ruleForm.price = this.detail.price
           this.ruleForm.store = this.detail.store
-          if(this.detail.carriage) this.ruleForm.carriage = this.detail.carriage
+          if (this.detail.carriage) this.ruleForm.carriage = this.detail.carriage
           this.ruleForm.addressId = this.detail.addressId
         }).catch(e => {
         console.log(e)

@@ -68,14 +68,9 @@ export default {
   created() {
     this.id = this.$route.query.id
     this.mainId = this.$route.query.mainId
-    // if(this.id) this.getDetail()
+    if (this.id) this.getDetail()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getDetail() {

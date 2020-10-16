@@ -13,6 +13,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyPreview' */ '@/views/classify/classifyPreview'),
         meta: {
           icon: 'iconfont icon-ziyuan',
+          permission: '/classifyPreview',
         },
       },
       {
@@ -21,6 +22,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyLevelOne' */ '@/views/classify/classifyLevelOne'),
         meta: {
           icon: 'iconfont icon-fenlei',
+          permission: '/classifyLevelOne',
         },
       },
       {
@@ -29,6 +31,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyModule' */ '@/views/classify/classifyModule'),
         meta: {
           icon: 'iconfont icon-danmokuai',
+          permission: '/classifyModule',
         },
       },
       {
@@ -37,6 +40,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyLevelTwo' */ '@/views/classify/classifyLevelTwo'),
         meta: {
           icon: 'iconfont icon-fenlei',
+          permission: '/classifyLevelTwo',
         },
       },
       {
@@ -45,6 +49,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyLevelThree' */ '@/views/classify/classifyLevelThree'),
         meta: {
           icon: 'iconfont icon-fenlei',
+          permission: '/classifyLevelThree',
         },
       },
       {
@@ -53,6 +58,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyType' */ '@/views/classify/classifyType'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
+          permission: '/classifyType',
         },
       },
       {
@@ -61,6 +67,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyBrand' */ '@/views/classify/classifyBrand'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
+          permission: '/classifyBrand',
         },
       },
       {
@@ -69,6 +76,7 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyIp' */ '@/views/classify/classifyIp'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
+          permission: '/classifyIp',
         },
       },
       {
@@ -77,24 +85,18 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyAttribute' */ '@/views/classify/classifyAttribute'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
+          permission: '/classifyAttribute',
         },
       },
-      // {
-      //   path: '/classifyIndexHot',
-      //   name: '顶部格分类',
-      //   component: () => import (/* webpackChunkName: 'classifyIndexHot' */ '@/views/classify/classifyIndexHot/classifyIndexHot'),
-      //   meta: {
-      //     icon: 'iconfont icon-fenlei2',
-      //   },
-      // },
-      // {
-      //   path: '/classifyIndexTab',
-      //   name: '横向单行分类',
-      //   component: () => import (/* webpackChunkName: 'classifyIndexTab' */ '@/views/classify/classifyIndexTab/classifyIndexTab'),
-      //   meta: {
-      //     icon: 'iconfont icon-fenlei2',
-      //   },
-      // },
+      {
+        path: '/classifyIndex',
+        name: '首页分类',
+        component: () => import (/* webpackChunkName: 'classifyIndex' */ '@/views/classify/classifyIndex'),
+        meta: {
+          icon: 'iconfont icon-fenlei2',
+          permission: '/classifyIndex',
+        },
+      },
     ]
   },
   {
@@ -106,7 +108,9 @@ export default [
         path: '/classifyLevelOneEdit',
         name: '一级分类编辑',
         component: () => import (/* webpackChunkName: 'classifyLevelOneEdit' */ '@/views/classify/classifyLevelOneEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyLevelOneEdit'
+        },
       }
     ]
   },
@@ -119,7 +123,9 @@ export default [
         path: '/classifyModuleEdit',
         name: '模块编辑',
         component: () => import (/* webpackChunkName: 'classifyModuleEdit' */ '@/views/classify/classifyModuleEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyModuleEdit'
+        },
       }
     ]
   },
@@ -132,7 +138,9 @@ export default [
         path: '/classifyLevelTwoEdit',
         name: '二级分类编辑',
         component: () => import (/* webpackChunkName: 'classifyLevelTwoEdit' */ '@/views/classify/classifyLevelTwoEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyLevelTwoEdit'
+        },
       }
     ]
   },
@@ -145,7 +153,9 @@ export default [
         path: '/classifyLevelThreeEdit',
         name: '三级分类编辑',
         component: () => import (/* webpackChunkName: 'classifyLevelThreeEdit' */ '@/views/classify/classifyLevelThreeEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyLevelThreeEdit'
+        },
       }
     ]
   },
@@ -158,7 +168,9 @@ export default [
         path: '/classifyTypeEdit',
         name: '类别编辑',
         component: () => import (/* webpackChunkName: 'classifyTypeEdit' */ '@/views/classify/classifyTypeEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyTypeEdit'
+        },
       }
     ]
   },
@@ -171,7 +183,9 @@ export default [
         path: '/classifyBrandEdit',
         name: '品牌编辑',
         component: () => import (/* webpackChunkName: 'classifyBrandEdit' */ '@/views/classify/classifyBrandEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyBrandEdit'
+        },
       }
     ]
   },
@@ -184,7 +198,9 @@ export default [
         path: '/classifyIpEdit',
         name: 'IP编辑',
         component: () => import (/* webpackChunkName: 'classifyIpEdit' */ '@/views/classify/classifyIpEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyIpEdit'
+        },
       }
     ]
   },
@@ -197,34 +213,25 @@ export default [
         path: '/classifyAttributeEdit',
         name: '属性编辑',
         component: () => import (/* webpackChunkName: 'classifyAttributeEdit' */ '@/views/classify/classifyAttributeEdit'),
-        meta: {},
+        meta: {
+          permission: '/classifyAttributeEdit'
+        },
       }
     ]
   },
-  // {
-  //   path: '/',
-  //   component: () => import ('@/views/index/index'),
-  //   hidden: true,
-  //   children: [
-  //     {
-  //       path: '/classifyIndexHotEdit',
-  //       name: '首页热门分类编辑',
-  //       component: () => import (/* webpackChunkName: 'classifyIndexHotEdit' */ '@/views/classify/classifyIndexHotEdit/classifyIndexHotEdit'),
-  //       meta: {},
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/',
-  //   component: () => import ('@/views/index/index'),
-  //   hidden: true,
-  //   children: [
-  //     {
-  //       path: '/classifyIndexTabEdit',
-  //       name: '首页列表分类编辑',
-  //       component: () => import (/* webpackChunkName: 'classifyIndexTabEdit' */ '@/views/classify/classifyIndexTabEdit/classifyIndexTabEdit'),
-  //       meta: {},
-  //     }
-  //   ]
-  // },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyIndexEdit',
+        name: '首页编辑',
+        component: () => import (/* webpackChunkName: 'classifyIndexEdit' */ '@/views/classify/classifyIndexEdit'),
+        meta: {
+          permission: '/classifyIndexEdit'
+        },
+      }
+    ]
+  },
 ]

@@ -1,15 +1,17 @@
 <template>
   <div class="chat" v-drag>
     <div class="chat-title clearfix">
-      <div class="chat-host-name" @click="sendImg"><i class="el-icon-service"></i> 客服:{{userId}}</div>
+      <div class="chat-host-name" @click="sendImg"><i class="el-icon-service"></i> 客服:{{ userId }}</div>
       <div class="chat-close" @click="closeChat" v-stopDrag><i class="el-icon-close"></i></div>
     </div>
     <div class="chat-body clearfix" v-stopDrag>
       <div class="side-nav">
         <dl class="chat-list">
-          <dd v-for="item in msgList" :key="item.customerId" @click="changeChatUser(item.customerId)" :class="item.customerId == customerId ? 'selected' : ''">
+          <dd v-for="item in msgList" :key="item.customerId" @click="changeChatUser(item.customerId)"
+              :class="item.customerId == customerId ? 'selected' : ''">
             <div class="l">
-              <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
+              <el-avatar shape="square" :size="38"
+                         src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
             </div>
             <div class="r">
               <h6>
@@ -23,15 +25,17 @@
       </div>
       <div class="chat-main">
         <div class="chat-header">
-          <span>{{customerId}}</span>
+          <span>{{ customerId }}</span>
         </div>
         <div class="chat-ct" ref="chatct">
           <p v-if="customerId" @click="fetchHistoryMsg">加载更多</p>
           <ul>
-            <li v-for="item in activeMsgList" :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
+            <li v-for="item in activeMsgList"
+                :class="item.to == userId? 'chat-li-costumer chat-li' : 'chat-li-user chat-li'">
               <div class="li-time"><span>{{ item.time | timestampToDate }}</span></div>
               <div class="li-ct clearfix">
-                <el-avatar shape="square" :size="38" src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
+                <el-avatar shape="square" :size="38"
+                           src='http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png'></el-avatar>
                 <pre v-html="item.data"></pre>
               </div>
             </li>
@@ -70,7 +74,7 @@ export default {
     }
   },
   created() {
-    if(localStorage.getItem('msgList')){
+    if (localStorage.getItem('msgList')) {
       this.msgList = JSON.parse(localStorage.getItem('msgList'))
     }
     this.logIn()
@@ -78,13 +82,13 @@ export default {
       onTextMessage: (e) => {
         console.log('收到文本消息2', e)
         for (let i = 0; i < this.msgList.length; i++) {
-          if(e.from == this.msgList[i].customerId) { // 消息列表已存在用户新消息
+          if (e.from == this.msgList[i].customerId) { // 消息列表已存在用户新消息
             this.msgList[i].status = 1 // 消息状态
             this.msgList[i].msg.push(e) // 添加消息
             // 移到最前
             let latelyItem = this.msgList.splice(i, 1)
             this.msgList.unshift(latelyItem[0])
-            if(this.customerId == e.from) {
+            if (this.customerId == e.from) {
               this.$nextTick(() => {
                 this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
               })
@@ -113,7 +117,9 @@ export default {
         password: 'Cf022044',
         nickname: '123456',
         appKey: WebIM.config.appkey,
-        success: () => {console.log('注册成功')},
+        success: () => {
+          console.log('注册成功')
+        },
         error: (err) => {
           let errorData = JSON.parse(err.data)
           if (errorData.error === 'duplicate_unique_property_exists') {
@@ -121,7 +127,7 @@ export default {
           } else if (errorData.error === 'illegal_argument') {
             if (errorData.error_description === 'USERNAME_TOO_LONG') {
               console.log('用户名超过64个字节！')
-            }else{
+            } else {
               console.log('用户名不合法！')
             }
           } else if (errorData.error === 'unauthorized') {
@@ -140,8 +146,14 @@ export default {
         user: this.userId,
         pwd: 'Cf022044',
         appKey: WebIM.config.appkey,
-        success: (e) => {console.log('登陆成功');console.log(e)},
-        error: (e) => {console.log('登陆失败');console.log(e)},
+        success: (e) => {
+          console.log('登陆成功');
+          console.log(e)
+        },
+        error: (e) => {
+          console.log('登陆失败');
+          console.log(e)
+        },
       }
       WebIM.conn.open(options)
     },
@@ -177,7 +189,7 @@ export default {
         success: (id, serverMsgId) => {
           console.log('send private text Success')
           for (let i = 0; i < this.msgList.length; i++) {
-            if(this.msgList[i].customerId == this.customerId) {
+            if (this.msgList[i].customerId == this.customerId) {
               this.msgList[i].msg.push({
                 from: this.userId,
                 to: this.customerId,
@@ -215,7 +227,7 @@ export default {
         success: (e) => {
           console.log('拉取历史消息成功', e)
           for (let i = 0; i < this.msgList.length; i++) {
-            if(this.msgList[i].customerId == this.customerId) { // 消息列表已存在用户新消息
+            if (this.msgList[i].customerId == this.customerId) { // 消息列表已存在用户新消息
               console.log(i)
               this.msgList[i].msg = e.concat(this.msgList[i].msg) // 保存信息
               this.activeMsgList = this.msgList[i].msg // 复制到聊天窗口
@@ -223,7 +235,9 @@ export default {
             }
           }
         },
-        fail: (e) => {console.log('拉取历史消息失败', e)},
+        fail: (e) => {
+          console.log('拉取历史消息失败', e)
+        },
       }
       WebIM.conn.fetchHistoryMessages(options)
     },
@@ -254,9 +268,9 @@ export default {
   },
   watch: {
     customerId: {
-      handler: function (customerId){
+      handler: function (customerId) {
         for (let i = 0; i < this.msgList.length; i++) {
-          if(customerId == this.msgList[i].customerId) {
+          if (customerId == this.msgList[i].customerId) {
             this.activeMsgList = this.msgList[i].msg
             this.$nextTick(() => {
               this.$refs.chatct.scrollTop = this.$refs.chatct.scrollHeight // 对话滚动到最下边
@@ -267,8 +281,8 @@ export default {
       },
     },
     msgList: {
-      handler: function (val){
-        localStorage.setItem('msgList',JSON.stringify(val))
+      handler: function (val) {
+        localStorage.setItem('msgList', JSON.stringify(val))
       },
       deep: true
     }
@@ -348,7 +362,7 @@ export default {
       padding: 10px
       line-height: 1.2
       cursor: pointer
-      &:hover,&.selected {
+      &:hover, &.selected {
         background-color: #e1e1e1
       }
       .l {

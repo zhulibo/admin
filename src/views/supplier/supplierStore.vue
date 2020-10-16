@@ -33,7 +33,8 @@
                 <td>{{ item.name }}</td>
                 <td><img :src="item.skuImage" alt=""></td>
                 <td class="row-manage">
-                  <el-button type="text" size="medium" class="edit" @click="addItem(item.id, item.mainId)">添加库存</el-button>
+                  <el-button type="text" size="medium" class="edit" @click="addItem(item.id, item.mainId)">添加库存
+                  </el-button>
                 </td>
               </tr>
             </table>
@@ -54,11 +55,11 @@
             <img :src="scope.row.listedImage" alt="">
           </template>
         </el-table-column>
-<!--        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">-->
-<!--          <template slot-scope="scope">-->
-<!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <!--        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
       </el-table>
       <div class="pagination-ct clearfix">
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
@@ -132,11 +133,6 @@ export default {
     this.getList()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getList: function () {

@@ -15,9 +15,6 @@ export default {
   },
   data() {
     return {
-      list: [],
-      startTime: '1602663880789',
-      endTime: '1602662880789',
       eChartsOptions: {
         xAxis: {
           type: 'category',
@@ -34,28 +31,11 @@ export default {
     }
   },
   created() {
-    this.getList()
   },
   mounted() {
   },
   computed: {},
-  methods: {
-    getList: function () {
-      this.$http({
-        url: '/userorg/backadmin/stUser/selectActivity',
-        method: 'POST',
-        data: {
-          startTime: this.startTime,
-          endTime: this.endTime,
-        }
-      })
-        .then(res => {
-          this.List = res.data
-        }).catch(e => {
-        console.log(e)
-      })
-    },
-  }
+  methods: {}
 }
 </script>
 

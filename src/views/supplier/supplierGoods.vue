@@ -34,7 +34,9 @@
                   <el-dropdown @command="handleCommand" :show-timeout="50">
                     <el-button size="small" class="el-dropdown-link">修改库存</el-button>
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item :command="store" v-for="store in item.storeList" :key="store.id">id:{{store.id}} 库存:{{store.store}} 剩余:{{store.number}} 价格:{{store.price}}</el-dropdown-item>
+                      <el-dropdown-item :command="store" v-for="store in item.storeList" :key="store.id">
+                        id:{{ store.id }} 库存:{{ store.store }} 剩余:{{ store.number }} 价格:{{ store.price }}
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </td>

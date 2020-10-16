@@ -1,6 +1,7 @@
 export default [
   {
     path: '/',
+    dev: true,
     component: () => import ('@/views/index/index'),
     children: [
       {
@@ -9,39 +10,23 @@ export default [
         component: () => import (/* webpackChunkName: 'chatCt' */ '@/views/test/chatCt'),
         meta: {
           icon: 'iconfont icon-bianji',
+          permission: '/chatCt',
         },
       }
     ]
   },
   {
     path: '/',
-    component: () => import ('@/views/index/index'),
-    children: [
-      {
-        path: '/other',
-        name: '图表',
-        component: () => import (/* webpackChunkName: 'other' */ '@/views/test/vueEcharts'),
-        meta: {
-          icon: 'iconfont icon-bianji',
-          permissions: [1, 2, 3]
-        },
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: '权限',
-    meta: {
-      icon: 'iconfont icon-bianji',
-    },
+    dev: true,
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/test',
-        name: '测试页',
+        name: '测试',
         component: () => import (/* webpackChunkName: 'test' */ '@/views/test/test'),
         meta: {
           icon: 'iconfont icon-bianji',
+          permission: '/test',
         },
       },
     ]

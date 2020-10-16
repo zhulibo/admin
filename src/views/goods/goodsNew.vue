@@ -177,11 +177,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     removeSku(item) {
       var index = this.ruleForm.skus.indexOf(item)
@@ -308,7 +303,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            // this.$router.push({path: '/goods'})
+            this.$router.push({path: '/goods'})
           }).catch(e => {
             console.log(e)
           })

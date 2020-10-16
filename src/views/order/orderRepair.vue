@@ -105,8 +105,9 @@
     </div>
     <div class="dialog">
       <el-dialog title="初次评审" :visible.sync="firstEvaluationDialogVisible">
-        <el-form :model="firstEvaluationRuleForm" :rules="firstEvaluationRules" ref="firstEvaluationRuleForm" label-width="150px" class="edit-form">
-        <el-form-item label="修复人id" prop="repairerId">
+        <el-form :model="firstEvaluationRuleForm" :rules="firstEvaluationRules" ref="firstEvaluationRuleForm"
+                 label-width="150px" class="edit-form">
+          <el-form-item label="修复人id" prop="repairerId">
             <el-input v-model="firstEvaluationRuleForm.repairerId"></el-input>
           </el-form-item>
           <el-form-item label="初步评估价格/低" prop="firstMinPrice">
@@ -136,7 +137,8 @@
         </span>
       </el-dialog>
       <el-dialog title="二次评估" :visible.sync="secondEvaluationDialogVisible">
-        <el-form :model="secondEvaluationRuleForm" :rules="secondEvaluationRules" ref="secondEvaluationRuleForm" label-width="150px" class="edit-form">
+        <el-form :model="secondEvaluationRuleForm" :rules="secondEvaluationRules" ref="secondEvaluationRuleForm"
+                 label-width="150px" class="edit-form">
           <el-form-item label="最终价格" prop="finalPrice">
             <el-input v-model="secondEvaluationRuleForm.finalPrice"></el-input>
           </el-form-item>
@@ -256,8 +258,7 @@ export default {
         receivePhone: '',
         receiveAddress: '',
       },
-      firstEvaluationRules: {
-      },
+      firstEvaluationRules: {},
       repairImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',
@@ -271,14 +272,12 @@ export default {
         repairParts: '',
         weight: '',
       },
-      secondEvaluationRules: {
-      },
+      secondEvaluationRules: {},
       ruleForm: {
         companyCode: '',
         logNumber: '',
       },
-      rules: {
-      },
+      rules: {},
     }
   },
   components: {
@@ -288,11 +287,6 @@ export default {
     this.getList()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getList: function () {

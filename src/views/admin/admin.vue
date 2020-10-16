@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)" v-permission="['/adminEdit']">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,11 +74,6 @@ export default {
     this.getList()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getList: function () {

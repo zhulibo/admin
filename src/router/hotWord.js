@@ -13,6 +13,7 @@ export default [
         component: () => import (/* webpackChunkName: 'hotWord' */ '@/views/hotWord/hotWord'),
         meta: {
           icon: 'iconfont icon-yonghu',
+          permission: '/hotWord',
         },
       },
     ]
@@ -27,7 +28,7 @@ export default [
         name: '热词编辑',
         component: () => import (/* webpackChunkName: 'hotWordEdit' */ '@/views/hotWord/hotWordEdit'),
         meta: {
-          icon: 'iconfont icon-yonghu',
+          permission: '/hotWordEdit',
         },
       }
     ]

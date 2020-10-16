@@ -9,6 +9,7 @@ export default [
         component: () => import (/* webpackChunkName: 'banner' */ '@/views/banner/banner'),
         meta: {
           icon: 'iconfont icon-banner',
+          permission: '/banner',
         },
       }
     ]
@@ -22,7 +23,9 @@ export default [
         path: '/bannerEdit',
         name: '轮播图编辑',
         component: () => import (/* webpackChunkName: 'bannerEdit' */ '@/views/banner/bannerEdit'),
-        meta: {},
+        meta: {
+          permission: '/bannerEdit'
+        },
       }
     ]
   },

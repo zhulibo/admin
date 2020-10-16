@@ -9,6 +9,7 @@ export default [
         component: () => import (/* webpackChunkName: 'tribe' */ '@/views/tribe/tribe'),
         meta: {
           icon: 'iconfont icon-zhangpeng',
+          permission: '/tribe',
         },
       }
     ]
@@ -22,7 +23,9 @@ export default [
         path: '/tribeMember',
         name: '部落成员',
         component: () => import (/* webpackChunkName: 'tribeMember' */ '@/views/tribe/tribeMember'),
-        meta: {},
+        meta: {
+          permission: '/tribeMember'
+        },
       }
     ]
   },
@@ -35,7 +38,9 @@ export default [
         path: '/tribeEdit',
         name: '部落编辑',
         component: () => import (/* webpackChunkName: 'tribeEdit' */ '@/views/tribe/tribeEdit'),
-        meta: {},
+        meta: {
+          permission: '/tribeEdit'
+        },
       }
     ]
   },

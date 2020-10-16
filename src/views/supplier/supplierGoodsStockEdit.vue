@@ -37,8 +37,7 @@ export default {
         price: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        status: [
-        ],
+        status: [],
       },
     }
   },

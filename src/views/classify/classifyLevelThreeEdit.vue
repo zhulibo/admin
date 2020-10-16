@@ -163,11 +163,6 @@ export default {
   },
   mounted() {
   },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
-  },
   methods: {
     getDetail() {
       this.$http({
@@ -179,12 +174,12 @@ export default {
           this.ruleForm.type = this.detail.type
           this.ruleForm.parentId = [this.detail.firstId, this.detail.parentId]
           this.ruleForm.name = this.detail.name
-          if(this.detail.image) this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
-          if(this.detail.sort) this.ruleForm.sort = this.detail.sort
-          if(this.detail.types) this.ruleForm.typeList = this.detail.types.split(',').map(Number)
-          if(this.detail.brands) this.ruleForm.brandList = this.detail.brands.split(',').map(Number)
-          if(this.detail.ips) this.ruleForm.ipList = this.detail.ips.split(',').map(Number)
-          if(this.detail.attributes) this.ruleForm.attributeList = this.detail.attributes.split(',').map(Number)
+          if (this.detail.image) this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
+          if (this.detail.sort) this.ruleForm.sort = this.detail.sort
+          if (this.detail.types) this.ruleForm.typeList = this.detail.types.split(',').map(Number)
+          if (this.detail.brands) this.ruleForm.brandList = this.detail.brands.split(',').map(Number)
+          if (this.detail.ips) this.ruleForm.ipList = this.detail.ips.split(',').map(Number)
+          if (this.detail.attributes) this.ruleForm.attributeList = this.detail.attributes.split(',').map(Number)
         }).catch(e => {
         console.log(e)
       })

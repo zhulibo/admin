@@ -53,14 +53,14 @@
     </div>
     <div class="dialog">
       <el-dialog title="包邮设置" :visible.sync="freeShippingDialogVisible">
-        <el-form :model="form">
-          <el-form-item label="满多少包邮金额" label-width="150px">
-            <el-input v-model="form.price"></el-input>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
+          <el-form-item label="满多少包邮金额">
+            <el-input v-model="ruleForm.price"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="freeShippingDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="freeShippingDialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -83,17 +83,20 @@ export default {
       currentPage: 1,
       totalPages: null,
       freeShippingDialogVisible: false,
+      ruleForm: {
+        price: ''
+      },
+      rules: {
+        price: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+      },
     }
   },
   created() {
     this.getList()
   },
   mounted() {
-  },
-  computed: {
-    userInfo() {
-      return this.$store.getters.userInfo
-    },
   },
   methods: {
     getList: function () {
@@ -141,6 +144,28 @@ export default {
       }).catch(e => {
         console.log(e)
       })
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/order/backadmin/carriage',
+            method: 'POST',
+            data: {
+              type: 6,
+              price: this.ruleForm.price,
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.freeShippingDialogVisible = false
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
     },
     newItem() {
       this.$router.push({path: '/supplierCarriageEdit'})
