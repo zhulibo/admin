@@ -27,8 +27,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)" v-permission="['/roleEdit']">编辑</el-button>
-            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)" v-permission="['/roleDel']">删除
-            </el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)" v-permission="['/roleDel']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

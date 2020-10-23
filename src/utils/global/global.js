@@ -1,5 +1,3 @@
-<script>
-
 let baseUrl = process.env.NODE_ENV == 'development' ? process.env.VUE_APP_REAL_URL : process.env.VUE_APP_BASE_URL
 
 let getParams = () => {
@@ -97,4 +95,3 @@ export default {
   getNowBeijingTimestamp, // 获取此时北京时间戳
   keyboardPiano, // 钢琴键盘
 }
-</script>

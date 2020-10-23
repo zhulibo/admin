@@ -5,7 +5,7 @@ import axios from './axios'
 import store from './store'
 import './utils/directive/common' // 按钮指令
 import common from './utils/filter/common' // 过滤器
-import global from './utils/global/global' // 全局变量
+import global from './utils/global/global.js' // 全局变量
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 

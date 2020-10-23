@@ -1,15 +1,22 @@
 import Vue from 'vue'
+import store from '../../store'
 
 Vue.directive('permission', {
   inserted(el, binding, vnode) {
 
     const {value} = binding
     const btnPermission = value
-    const roles = vnode.context.$route.meta.btnPermission || [] // 获取mate中的权限
+    const roles = store.getters.routers
 
     if (value && value instanceof Array && value.length > 0) {
       const hasPermission = roles.some(role => {
-        return btnPermission.includes(role)
+        if(role.children) {
+          for (let i = 0; i < role.children.length; i++) {
+            console.log(role.children[i].path)
+            if(btnPermission == role.children[i].path) return true
+          }
+          return false
+        }
       })
       if (!hasPermission) {
         el.parentNode && el.parentNode.removeChild(el)
