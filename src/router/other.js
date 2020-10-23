@@ -10,7 +10,6 @@ export default [
         component: () => import (/* webpackChunkName: 'theme' */ '@/views/other/theme'),
         meta: {
           icon: 'iconfont icon-yanse',
-          permission: '/theme',
         },
       }
     ]

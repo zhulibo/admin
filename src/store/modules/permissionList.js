@@ -1,12 +1,16 @@
 let permissionList = [
   {
-    path: '/admin',
+    path: '/adminModule',
     name: '管理员',
     children: [
       {
         path: '/admin',
         name: '管理员',
         children: [
+          {
+            path: '/adminList',
+            name: '管理员列表'
+          },
           {
             path: '/adminEdit',
             name: '管理员编辑'
@@ -17,6 +21,10 @@ let permissionList = [
         path: '/role',
         name: '角色',
         children: [
+          {
+            path: '/roleList',
+            name: '角色列表',
+          },
           {
             path: '/roleEdit',
             name: '角色编辑',
@@ -30,13 +38,17 @@ let permissionList = [
     ]
   },
   {
-    path: '/article',
+    path: '/articleModule',
     name: '模玩文化',
     children: [
       {
         path: '/article',
         name: '模玩文化',
         children: [
+          {
+            path: '/articleList',
+            name: '模玩文化列表',
+          },
           {
             path: '/articleEdit',
             name: '模玩文化编辑',
@@ -46,13 +58,17 @@ let permissionList = [
     ]
   },
   {
-    path: '/banner',
+    path: '/bannerModule',
     name: '轮播图',
     children: [
       {
         path: '/banner',
         name: '轮播图',
         children: [
+          {
+            path: '/bannerList',
+            name: '轮播图列表',
+          },
           {
             path: '/bannerEdit',
             name: '轮播图编辑',
@@ -62,21 +78,51 @@ let permissionList = [
     ]
   },
   {
-    path: '/classify',
+    path: '/cashOutModule',
+    name: '提现',
+    children: [
+      {
+        path: '/cashOut',
+        name: '提现',
+        children: [
+          {
+            path: '/cashOutList',
+            name: '提现列表',
+          },
+        ]
+      }
+    ]
+  },
+  {
+    path: '/classifyModule',
     name: '分类',
     children: [
       {
-        path: '/classifyPreview',
+        path: '/classifyPreview2',
         name: '分类预览',
+        children: [
+          {
+            path: '/classifyPreview',
+            name: '分类预览',
+          }
+        ]
       },
       {
         path: '/classifyLevelOne',
         name: '一级分类',
         children: [
           {
+            path: '/classifyLevelOneList',
+            name: '一级分类列表',
+          },
+          {
             path: '/classifyLevelOneEdit',
             name: '一级分类编辑',
-          }
+          },
+          {
+            path: '/classifyLevelOneDel',
+            name: '一级分类删除',
+          },
         ]
       },
       {
@@ -84,9 +130,17 @@ let permissionList = [
         name: '模块',
         children: [
           {
+            path: '/classifyModuleList',
+            name: '模块列表',
+          },
+          {
             path: '/classifyModuleEdit',
             name: '模块编辑',
-          }
+          },
+          {
+            path: '/classifyModuleDel',
+            name: '模块删除',
+          },
         ]
       },
       {
@@ -94,9 +148,17 @@ let permissionList = [
         name: '二级分类',
         children: [
           {
+            path: '/classifyLevelTwoList',
+            name: '二级分类列表',
+          },
+          {
             path: '/classifyLevelTwoEdit',
             name: '二级分类编辑',
-          }
+          },
+          {
+            path: '/classifyLevelTwoDel',
+            name: '二级分类删除',
+          },
         ]
       },
       {
@@ -104,9 +166,17 @@ let permissionList = [
         name: '三级分类',
         children: [
           {
+            path: '/classifyLevelThreeList',
+            name: '三级分类列表',
+          },
+          {
             path: '/classifyLevelThreeEdit',
             name: '三级分类编辑',
-          }
+          },
+          {
+            path: '/classifyLevelThreeDel',
+            name: '三级分类删除',
+          },
         ]
       },
       {
@@ -114,9 +184,17 @@ let permissionList = [
         name: '类别',
         children: [
           {
+            path: '/classifyTypeList',
+            name: '类别列表',
+          },
+          {
             path: '/classifyTypeEdit',
             name: '类别编辑',
-          }
+          },
+          {
+            path: '/classifyTypeDel',
+            name: '类别删除',
+          },
         ]
       },
       {
@@ -124,9 +202,17 @@ let permissionList = [
         name: '品牌',
         children: [
           {
+            path: '/classifyBrandList',
+            name: '品牌列表',
+          },
+          {
             path: '/classifyBrandEdit',
             name: '品牌编辑',
-          }
+          },
+          {
+            path: '/classifyBrandDel',
+            name: '品牌删除',
+          },
         ]
       },
       {
@@ -134,9 +220,17 @@ let permissionList = [
         name: 'IP',
         children: [
           {
+            path: '/classifyIpList',
+            name: 'IP列表',
+          },
+          {
             path: '/classifyIpEdit',
             name: 'IP编辑',
-          }
+          },
+          {
+            path: '/classifyIpDel',
+            name: 'IP删除',
+          },
         ]
       },
       {
@@ -144,9 +238,17 @@ let permissionList = [
         name: '属性',
         children: [
           {
+            path: '/classifyAttributeList',
+            name: '属性列表',
+          },
+          {
             path: '/classifyAttributeEdit',
             name: '属性编辑',
-          }
+          },
+          {
+            path: '/classifyAttributeDel',
+            name: '属性删除',
+          },
         ]
       },
       {
@@ -154,15 +256,23 @@ let permissionList = [
         name: '首页分类',
         children: [
           {
+            path: '/classifyIndexList',
+            name: '首页分类列表',
+          },
+          {
             path: '/classifyIndexEdit',
-            name: '首页编辑',
-          }
+            name: '首页分类编辑',
+          },
+          {
+            path: '/classifyIndexDel',
+            name: '首页分类删除',
+          },
         ]
       },
     ]
   },
   {
-    path: '/coupon',
+    path: '/couponModule',
     name: '优惠券',
     children: [
       {
@@ -170,40 +280,60 @@ let permissionList = [
         name: '礼包',
         children: [
           {
+            path: '/giftPackList',
+            name: '礼包列表',
+          },
+          {
             path: '/giftPackEdit',
             name: '礼包编辑',
           },
           {
-            path: '/coupon',
-            name: '优惠券 ',
+            path: '/giftPackDel',
+            name: '礼包删除',
+          },
+          {
+            path: '/couponList',
+            name: '优惠券列表',
           },
           {
             path: '/couponEdit',
             name: '优惠券编辑',
+          },
+          {
+            path: '/couponDel',
+            name: '优惠券删除',
           },
         ]
       },
     ]
   },
   {
-    path: '/goods',
+    path: '/goodsModule',
     name: '商品',
     children: [
       {
         path: '/goods',
-        name: '普通商品',
+        name: '现货商品',
         children: [
           {
+            path: '/goodsList',
+            name: '现货商品列表',
+          },
+          {
             path: '/goodsNew',
-            name: '商品发布',
+            name: '现货商品发布',
           },
           {
             path: '/goodsEdit',
-            name: '商品编辑',
+            name: '现货商品编辑',
+          },
+          {
+            path: '/goodsDel',
+            name: '现货商品删除',
           },
           {
             path: '/goodsSkuEdit',
-            name: '商品sku编辑',
+            name: '现货商品sku编辑',
           },
         ]
       },
@@ -211,6 +341,10 @@ let permissionList = [
         path: '/goodsPresale',
         name: '预售商品',
         children: [
+          {
+            path: '/goodsPresaleList',
+            name: '预售商品列表',
+          },
           {
             path: '/goodsPresaleNew',
             name: '预售商品发布',
@@ -220,8 +354,16 @@ let permissionList = [
             name: '预售商品编辑',
           },
           {
+            path: '/goodsPresaleDel',
+            name: '预售商品删除',
+          },
+          {
             path: '/goodsPresaleSkuEdit',
             name: '预售商品sku编辑',
+          },
+          {
+            path: '/goodsPresaleActivityEdit',
+            name: '预售设置',
           },
         ]
       },
@@ -230,9 +372,17 @@ let permissionList = [
         name: '预售活动',
         children: [
           {
-            path: '/goodsPresaleActivityEdit',
-            name: '预售商品活动编辑',
-          }
+            path: '/goodsPresaleActivityList',
+            name: '预售活动列表',
+          },
+          {
+            path: '/goodsPresaleActivityStartPay',
+            name: '开始付尾款',
+          },
+          {
+            path: '/goodsPresaleActivityEndPay',
+            name: '结束预售',
+          },
         ]
       },
       {
@@ -240,26 +390,38 @@ let permissionList = [
         name: '抽奖商品',
         children: [
           {
+            path: '/goodsLotteryList',
+            name: '抽奖商品列表',
+          },
+          {
             path: '/goodsLotteryEdit',
             name: '抽奖商品编辑',
           },
           {
-            path: '/goodsLotteryCode',
-            name: '抽奖码',
-          }
+            path: '/goodsLotteryCodeList',
+            name: '抽奖码列表',
+          },
         ]
       },
       {
         path: '/goodsImgBorder',
-        name: '图片边框设置',
+        name: '图片边框',
         children: [
+          {
+            path: '/goodsImgBorderList',
+            name: '图片边框设置列表',
+          },
           {
             path: '/goodsImgBorderEdit',
             name: '商品图片边框编辑',
           },
           {
-            path: '/goodsImgBorderBlind',
-            name: '商品图片边框绑定',
+            path: '/goodsImgBorderBlindNew',
+            name: '图片边框绑定新商品',
+          },
+          {
+            path: '/goodsImgBorderBlindList',
+            name: '图片边框已绑商品列表',
           },
         ]
       },
@@ -268,15 +430,23 @@ let permissionList = [
         name: '推荐商品',
         children: [
           {
+            path: '/goodsRecommendList',
+            name: '推荐商品列表',
+          },
+          {
             path: '/goodsRecommendEdit',
             name: '推荐商品编辑',
-          }
+          },
+          {
+            path: '/goodsRecommendDel',
+            name: '推荐商品删除',
+          },
         ]
       },
     ]
   },
   {
-    path: '/hotWord',
+    path: '/hotWordModule',
     name: '热词',
     children: [
       {
@@ -284,25 +454,45 @@ let permissionList = [
         name: '热词',
         children: [
           {
+            path: '/hotWordList',
+            name: '热词列表',
+          },
+          {
             path: '/hotWordEdit',
             name: '热词编辑',
-          }
+          },
+          {
+            path: '/hotWordDel',
+            name: '热词删除',
+          },
         ]
       },
     ]
   },
   {
-    path: '/order',
+    path: '/orderModule',
     name: '订单',
     children: [
       {
         path: '/order',
-        name: '订单',
+        name: '现货订单',
         children: [
           {
+            path: '/orderList',
+            name: '现货订单列表',
+          },
+          {
             path: '/orderDetail',
-            name: '订单详情',
-          }
+            name: '现货订单详情',
+          },
+          {
+            path: '/orderConfirmReceipt',
+            name: '现货订单确认收货',
+          },
+          {
+            path: '/orderCancleOrder',
+            name: '现货订单取消',
+          },
         ]
       },
       {
@@ -310,19 +500,35 @@ let permissionList = [
         name: '预售订单',
         children: [
           {
+            path: '/orderPresaleList',
+            name: '预售订单列表',
+          },
+          {
             path: '/orderPresaleDetail',
             name: '预售订单详情',
-          }
+          },
+          {
+            path: '/orderPresaleCancleOrder',
+            name: '预售订单取消',
+          },
         ]
       },
       {
         path: '/orderSupplier',
-        name: '供货商订单',
+        name: '供货商现货订单',
         children: [
           {
+            path: '/orderSupplierList',
+            name: '供货商现货订单列表',
+          },
+          {
             path: '/orderSupplierDetail',
-            name: '供货商订单详情',
-          }
+            name: '供货商现货订单详情',
+          },
+          {
+            path: '/orderSupplierPresaleShip',
+            name: '供货商预售订单发货',
+          },
         ]
       },
       {
@@ -330,9 +536,13 @@ let permissionList = [
         name: '供货商预售订单',
         children: [
           {
+            path: '/orderSupplierPresaleList',
+            name: '供货商预售订单列表',
+          },
+          {
             path: '/orderSupplierPresaleDetail',
             name: '供货商预售订单详情',
-          }
+          },
         ]
       },
       {
@@ -340,15 +550,39 @@ let permissionList = [
         name: '修复订单',
         children: [
           {
+            path: '/orderRepairList',
+            name: '修复订单列表',
+          },
+          {
             path: '/orderRepairDetail',
             name: '修复订单详情',
-          }
+          },
+          {
+            path: '/orderRepairFirstEvaluation',
+            name: '修复订单初次评审',
+          },
+          {
+            path: '/orderRepairSecondEvaluation',
+            name: '修复订单二次评估',
+          },
+          {
+            path: '/orderRepairReceived',
+            name: '修复订单平台已收货',
+          },
+          {
+            path: '/orderRepairRepairOver',
+            name: '修复订单修复完成',
+          },
+          {
+            path: '/orderRepairShip',
+            name: '修复订单发货',
+          },
         ]
       },
     ]
   },
   {
-    path: '/social',
+    path: '/socialModule',
     name: '社交动态',
     children: [
       {
@@ -356,12 +590,16 @@ let permissionList = [
         name: '社交动态',
         children: [
           {
+            path: '/socialList',
+            name: '社交动态列表',
+          },
+          {
             path: '/socialEdit',
             name: '社交动态编辑',
           },
           {
-            path: '/socialComment',
-            name: '社交动态评论',
+            path: '/socialCommentList',
+            name: '社交动态评论列表',
           },
           {
             path: '/socialCommentEdit',
@@ -372,31 +610,41 @@ let permissionList = [
     ]
   },
   {
-    path: '/statistics',
+    path: '/statisticsModule',
     name: '数据统计',
     children: [
       {
-        path: '/dayActiveNumber',
-        name: '日活',
-      },
-      {
-        path: '/registerNumber',
-        name: '注册数',
-      },
+        path: '/statistics',
+        name: '数据统计',
+        children: [
+          {
+            path: '/dayActiveNumber',
+            name: '日活',
+          },
+          {
+            path: '/registerNumber',
+            name: '注册数',
+          },
+        ]
+      }
     ]
   },
   {
-    path: '/supplier',
+    path: '/supplierModule',
     name: '供货商',
     children: [
       {
-        path: '/supplierStore',
+        path: '/supplierStore2',
         name: '仓库',
         children: [
           {
+            path: '/supplierStore',
+            name: '仓库',
+          },
+          {
             path: '/supplierGoodsStockAdd',
             name: '添加库存',
-          }
+          },
         ]
       },
       {
@@ -404,9 +652,13 @@ let permissionList = [
         name: '出售商品',
         children: [
           {
+            path: '/supplierGoodsList',
+            name: '出售商品列表',
+          },
+          {
             path: '/supplierGoodsStockEdit',
             name: '编辑库存',
-          }
+          },
         ]
       },
       {
@@ -414,9 +666,17 @@ let permissionList = [
         name: '发货地址',
         children: [
           {
+            path: '/supplierAddressList',
+            name: '发货地址列表',
+          },
+          {
             path: '/supplierAddressEdit',
             name: '发货地址编辑',
-          }
+          },
+          {
+            path: '/supplierAddressDel',
+            name: '发货地址删除',
+          },
         ]
       },
       {
@@ -432,17 +692,7 @@ let permissionList = [
     ]
   },
   {
-    path: '/cashOut',
-    name: '提现',
-    children: [
-      {
-        path: '/cashOut',
-        name: '提现',
-      }
-    ]
-  },
-  {
-    path: '/tribe',
+    path: '/tribeModule',
     name: '部落',
     children: [
       {
@@ -450,19 +700,27 @@ let permissionList = [
         name: '部落',
         children: [
           {
-            path: '/tribeMember',
-            name: '部落成员',
+            path: '/tribeList',
+            name: '部落列表',
           },
           {
             path: '/tribeEdit',
             name: '部落编辑',
+          },
+          {
+            path: '/tribeMemberList',
+            name: '部落成员列表',
+          },
+          {
+            path: '/tribeMemberManage',
+            name: '部落成员管理',
           },
         ]
       },
     ]
   },
   {
-    path: '/user',
+    path: '/userModule',
     name: '用户',
     children: [
       {
@@ -470,9 +728,13 @@ let permissionList = [
         name: '用户',
         children: [
           {
+            path: '/userList',
+            name: '用户列表',
+          },
+          {
             path: '/userEdit',
             name: '用户编辑',
-          }
+          },
         ]
       },
       {
@@ -480,9 +742,13 @@ let permissionList = [
         name: '商家',
         children: [
           {
+            path: '/businessManList',
+            name: '商家列表',
+          },
+          {
             path: '/businessManEdit',
             name: '商家编辑',
-          }
+          },
         ]
       },
     ]

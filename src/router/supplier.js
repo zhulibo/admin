@@ -13,25 +13,22 @@ export default [
         component: () => import (/* webpackChunkName: 'supplierStore' */ '@/views/supplier/supplierStore'),
         meta: {
           icon: 'iconfont icon-cangku',
-          permission: '/supplierStore',
         },
       },
       {
-        path: '/supplierGoods',
-        name: '出售商品',
+        path: '/supplierGoodsList',
+        name: '出售商品列表',
         component: () => import (/* webpackChunkName: 'supplierGoods' */ '@/views/supplier/supplierGoods'),
         meta: {
           icon: 'iconfont icon-cangku',
-          permission: '/supplierGoods',
         },
       },
       {
-        path: '/supplierAddress',
-        name: '发货地址',
+        path: '/supplierAddressList',
+        name: '发货地址列表',
         component: () => import (/* webpackChunkName: 'supplierAddress' */ '@/views/supplier/supplierAddress'),
         meta: {
           icon: 'iconfont icon-dizhi',
-          permission: '/supplierAddress',
         },
       },
       {
@@ -40,7 +37,6 @@ export default [
         component: () => import (/* webpackChunkName: 'supplierCarriage' */ '@/views/supplier/supplierCarriage'),
         meta: {
           icon: 'iconfont icon-mianyunfei',
-          permission: '/supplierCarriage',
         },
       },
     ]
@@ -54,9 +50,6 @@ export default [
         path: '/supplierGoodsStockAdd',
         name: '添加库存',
         component: () => import (/* webpackChunkName: 'supplierGoodsStockAdd' */ '@/views/supplier/supplierGoodsStockAdd'),
-        meta: {
-          permission: '/supplierGoodsStockAdd',
-        },
       }
     ]
   },
@@ -69,9 +62,6 @@ export default [
         path: '/supplierGoodsStockEdit',
         name: '编辑库存',
         component: () => import (/* webpackChunkName: 'supplierGoodsStockEdit' */ '@/views/supplier/supplierGoodsStockEdit'),
-        meta: {
-          permission: '/supplierGoodsStockEdit',
-        },
       }
     ]
   },
@@ -84,9 +74,17 @@ export default [
         path: '/supplierAddressEdit',
         name: '发货地址编辑',
         component: () => import (/* webpackChunkName: 'supplierAddressEdit' */ '@/views/supplier/supplierAddressEdit'),
-        meta: {
-          permission: '/supplierAddressEdit',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/supplierAddressDel',
+        name: '发货地址删除',
       }
     ]
   },
@@ -99,9 +97,6 @@ export default [
         path: '/supplierCarriageEdit',
         name: '运费编辑',
         component: () => import (/* webpackChunkName: 'supplierCarriageEdit' */ '@/views/supplier/supplierCarriageEdit'),
-        meta: {
-          permission: '/supplierCarriageEdit',
-        },
       }
     ]
   },

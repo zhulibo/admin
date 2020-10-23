@@ -91,7 +91,6 @@
             <el-button type="text" size="medium" class="edit" @click="firstEvaluation(scope.row)">初次评审</el-button>
             <el-button type="text" size="medium" class="edit" @click="secondEvaluation(scope.row)">二次评估</el-button>
             <el-button type="text" size="medium" class="edit" @click="received(scope.row)">平台已收货</el-button>
-            <el-button type="text" size="medium" class="edit" @click="received(scope.row)">平台已收货</el-button>
             <el-button type="text" size="medium" class="edit" @click="repairOver(scope.row)">修复完成</el-button>
             <el-button type="text" size="medium" class="edit" @click="ship(scope.row)">发货</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>

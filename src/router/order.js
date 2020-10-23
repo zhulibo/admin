@@ -8,48 +8,43 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/order',
-        name: '订单 ',
+        path: '/orderList',
+        name: '现货订单列表',
         component: () => import (/* webpackChunkName: 'order' */ '@/views/order/order'),
         meta: {
           icon: 'iconfont icon-dingdan',
-          permission: '/order',
         },
       },
       {
-        path: '/orderPresale',
-        name: '预售订单',
+        path: '/orderPresaleList',
+        name: '预售订单列表',
         component: () => import (/* webpackChunkName: 'order' */ '@/views/order/orderPresale'),
         meta: {
           icon: 'iconfont icon-dingdan',
-          permission: '/orderPresale',
         },
       },
       {
-        path: '/orderSupplier',
-        name: '供货商订单',
+        path: '/orderSupplierList',
+        name: '供货商现货订单列表',
         component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplier'),
         meta: {
           icon: 'iconfont icon-dingdan',
-          permission: '/orderSupplier',
         },
       },
       {
-        path: '/orderSupplierPresale',
-        name: '供货商预售订单',
+        path: '/orderSupplierPresaleList',
+        name: '供货商预售订单列表',
         component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplierPresale'),
         meta: {
           icon: 'iconfont icon-dingdan',
-          permission: '/orderSupplierPresale',
         },
       },
       {
-        path: '/orderRepair',
-        name: '修复订单',
+        path: '/orderRepairList',
+        name: '修复订单列表',
         component: () => import (/* webpackChunkName: 'orderRepair' */ '@/views/order/orderRepair'),
         meta: {
           icon: 'iconfont icon-dingdan',
-          permission: '/orderRepair',
         },
       },
     ]
@@ -61,11 +56,30 @@ export default [
     children: [
       {
         path: '/orderDetail',
-        name: '订单详情',
+        name: '现货订单详情',
         component: () => import (/* webpackChunkName: 'orderDetail' */ '@/views/order/orderDetail'),
-        meta: {
-          permission: '/orderDetail',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderConfirmReceipt',
+        name: '现货订单确认收货',
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderCancleOrder',
+        name: '现货订单取消',
       }
     ]
   },
@@ -78,9 +92,17 @@ export default [
         path: '/orderPresaleDetail',
         name: '预售订单详情',
         component: () => import (/* webpackChunkName: 'orderPresaleDetail' */ '@/views/order/orderPresaleDetail'),
-        meta: {
-          permission: '/orderPresaleDetail',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderPresaleCancleOrder',
+        name: '预售订单取消',
       }
     ]
   },
@@ -91,11 +113,8 @@ export default [
     children: [
       {
         path: '/orderSupplierDetail',
-        name: '供货商订单详情',
+        name: '供货商现货订单详情',
         component: () => import (/* webpackChunkName: 'orderSupplierDetail' */ '@/views/order/orderSupplierDetail'),
-        meta: {
-          permission: '/orderSupplierDetail',
-        },
       }
     ]
   },
@@ -108,9 +127,17 @@ export default [
         path: '/orderSupplierPresaleDetail',
         name: '供货商预售订单详情',
         component: () => import (/* webpackChunkName: 'orderSupplierPresaleDetail' */ '@/views/order/orderSupplierPresaleDetail'),
-        meta: {
-          permission: '/orderSupplierPresaleDetail',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderSupplierPresaleShip',
+        name: '供货商预售订单发货',
       }
     ]
   },
@@ -123,10 +150,62 @@ export default [
         path: '/orderRepairDetail',
         name: '修复订单详情',
         component: () => import (/* webpackChunkName: 'orderRepairDetail' */ '@/views/order/orderRepairDetail'),
-        meta: {
-          permission: '/orderRepairDetail',
-        },
       }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderRepairFirstEvaluation',
+        name: '修复订单初次评审',
+      },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderRepairSecondEvaluation',
+        name: '修复订单二次评估',
+      },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderRepairReceived',
+        name: '修复订单平台已收货',
+      },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderRepairRepairOver',
+        name: '修复订单修复完成',
+      },
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderRepairShip',
+        name: '修复订单发货',
+      },
     ]
   },
 ]

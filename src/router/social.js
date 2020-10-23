@@ -4,12 +4,11 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/social',
-        name: '社交动态',
+        path: '/socialList',
+        name: '社交动态列表',
         component: () => import (/* webpackChunkName: 'social' */ '@/views/social/social'),
         meta: {
           icon: 'iconfont icon-pengyouquan',
-          permission: '/social',
         },
       }
     ]
@@ -23,9 +22,6 @@ export default [
         path: '/socialEdit',
         name: '社交动态编辑',
         component: () => import (/* webpackChunkName: 'socialEdit' */ '@/views/social/socialEdit'),
-        meta: {
-          permission: '/socialEdit',
-        },
       }
     ]
   },
@@ -35,12 +31,9 @@ export default [
     hidden: true,
     children: [
       {
-        path: '/socialComment',
-        name: '社交动态评论',
+        path: '/socialCommentList',
+        name: '社交动态评论列表',
         component: () => import (/* webpackChunkName: 'socialComment' */ '@/views/social/socialComment'),
-        meta: {
-          permission: '/socialComment',
-        },
       }
     ]
   },
@@ -53,9 +46,6 @@ export default [
         path: '/socialCommentEdit',
         name: '社交动态评论编辑',
         component: () => import (/* webpackChunkName: 'socialCommentEdit' */ '@/views/social/socialCommentEdit'),
-        meta: {
-          permission: '/socialCommentEdit',
-        },
       }
     ]
   },

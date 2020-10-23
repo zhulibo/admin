@@ -97,8 +97,8 @@ export default {
           })
             .then(res => {
               let userInfo = {
-                token: res.token,
-                permission: permissionList,
+                token: res.data.token,
+                permission: res.data.list,
               }
               this.$store.dispatch('updateUserInfo', userInfo)
               this.$store.dispatch('updateRouter', userInfo.permission)

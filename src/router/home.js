@@ -16,10 +16,4 @@ export default [
     component: () => import (/* webpackChunkName: 'login' */ '@/views/login/login'),
     hidden: true,
   },
-  // {
-  //   path: '/permissionEdit',
-  //   name: 'permissionEdit',
-  //   component: () => import (/* webpackChunkName: 'permissionEdit' */ '@/views/admin/permissionEdit'),
-  //   hidden: true,
-  // },
 ]

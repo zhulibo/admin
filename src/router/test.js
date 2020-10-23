@@ -10,7 +10,6 @@ export default [
         component: () => import (/* webpackChunkName: 'chatCt' */ '@/views/test/chatCt'),
         meta: {
           icon: 'iconfont icon-bianji',
-          permission: '/chatCt',
         },
       }
     ]
@@ -26,7 +25,6 @@ export default [
         component: () => import (/* webpackChunkName: 'test' */ '@/views/test/test'),
         meta: {
           icon: 'iconfont icon-bianji',
-          permission: '/test',
         },
       },
     ]

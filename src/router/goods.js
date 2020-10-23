@@ -8,57 +8,51 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/goods',
-        name: '商品 ',
+        path: '/goodsList',
+        name: '现货商品列表',
         component: () => import (/* webpackChunkName: 'goods' */ '@/views/goods/goods'),
         meta: {
           icon: 'iconfont icon-shangpin',
-          permission: '/goods',
         },
       },
       {
-        path: '/goodsPresale',
-        name: '预售商品',
+        path: '/goodsPresaleList',
+        name: '预售商品列表',
         component: () => import (/* webpackChunkName: 'goodsPresale' */ '@/views/goods/goodsPresale'),
         meta: {
           icon: 'iconfont icon-yushou',
-          permission: '/goodsPresale',
         },
       },
       {
-        path: '/goodsPresaleActivity',
-        name: '预售活动',
+        path: '/goodsPresaleActivityList',
+        name: '预售活动列表',
         component: () => import (/* webpackChunkName: 'goodsPresaleActivity' */ '@/views/goods/goodsPresaleActivity'),
         meta: {
           icon: 'iconfont icon-RectangleCopy',
-          permission: '/goodsPresaleActivity',
         },
       },
       {
-        path: '/goodsLottery',
-        name: '抽奖商品',
+        path: '/goodsLotteryList',
+        name: '抽奖商品列表',
         component: () => import (/* webpackChunkName: 'goodsLottery' */ '@/views/goods/goodsLottery'),
         meta: {
           icon: 'iconfont icon-jiangpin',
-          permission: '/goodsLottery',
         },
       },
       {
-        path: '/goodsImgBorder',
-        name: '图片边框设置',
+        path: '/goodsImgBorderList',
+        name: '图片边框设置列表',
         component: () => import (/* webpackChunkName: 'goodsImgBorder' */ '@/views/goods/goodsImgBorder'),
         meta: {
           icon: 'iconfont icon-xiabiankuang',
-          permission: '/goodsImgBorder',
         },
       },
       {
-        path: '/goodsRecommend',
-        name: '推荐商品',
+        path: '/goodsRecommendList',
+        name: '推荐商品列表',
         component: () => import (/* webpackChunkName: 'goodsRecommend' */ '@/views/goods/goodsRecommend'),
         meta: {
           icon: 'iconfont icon-xiabiankuang',
-          permission: '/goodsRecommend',
         },
       },
     ]
@@ -70,11 +64,8 @@ export default [
     children: [
       {
         path: '/goodsNew',
-        name: '商品发布',
+        name: '现货商品发布',
         component: () => import (/* webpackChunkName: 'goodsNew' */ '@/views/goods/goodsNew'),
-        meta: {
-          permission: '/goodsNew',
-        },
       }
     ]
   },
@@ -85,11 +76,19 @@ export default [
     children: [
       {
         path: '/goodsEdit',
-        name: '商品编辑',
+        name: '现货商品编辑',
         component: () => import (/* webpackChunkName: 'goodsEdit' */ '@/views/goods/goodsEdit'),
-        meta: {
-          permission: '/goodsEdit',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsDel',
+        name: '现货商品删除',
       }
     ]
   },
@@ -100,11 +99,8 @@ export default [
     children: [
       {
         path: '/goodsSkuEdit',
-        name: '商品sku编辑',
+        name: '现货商品sku编辑',
         component: () => import (/* webpackChunkName: 'goodsSkuEdit' */ '@/views/goods/goodsSkuEdit'),
-        meta: {
-          permission: '/goodsSkuEdit',
-        },
       }
     ]
   },
@@ -117,9 +113,6 @@ export default [
         path: '/goodsPresaleNew',
         name: '预售商品发布',
         component: () => import (/* webpackChunkName: 'goodsPresaleNew' */ '@/views/goods/goodsPresaleNew'),
-        meta: {
-          permission: '/goodsPresaleNew',
-        },
       }
     ]
   },
@@ -132,9 +125,17 @@ export default [
         path: '/goodsPresaleEdit',
         name: '预售商品编辑',
         component: () => import (/* webpackChunkName: 'goodsPresaleEdit' */ '@/views/goods/goodsPresaleEdit'),
-        meta: {
-          permission: '/goodsPresaleEdit',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleDel',
+        name: '预售商品删除',
       }
     ]
   },
@@ -147,9 +148,6 @@ export default [
         path: '/goodsPresaleSkuEdit',
         name: '预售商品sku编辑',
         component: () => import (/* webpackChunkName: 'goodsPresaleSkuEdit' */ '@/views/goods/goodsPresaleSkuEdit'),
-        meta: {
-          permission: '/goodsPresaleSkuEdit',
-        },
       }
     ]
   },
@@ -160,11 +158,30 @@ export default [
     children: [
       {
         path: '/goodsPresaleActivityEdit',
-        name: '预售商品活动编辑',
+        name: '预售设置',
         component: () => import (/* webpackChunkName: 'goodsPresaleActivityEdit' */ '@/views/goods/goodsPresaleActivityEdit'),
-        meta: {
-          permission: '/goodsPresaleActivityEdit',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleActivityStartPay',
+        name: '开始付尾款',
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsPresaleActivityEndPay',
+        name: '结束预售',
       }
     ]
   },
@@ -177,9 +194,6 @@ export default [
         path: '/goodsLotteryEdit',
         name: '抽奖商品编辑',
         component: () => import (/* webpackChunkName: 'goodsLotteryEdit' */ '@/views/goods/goodsLotteryEdit'),
-        meta: {
-          permission: '/goodsLotteryEdit',
-        },
       }
     ]
   },
@@ -189,12 +203,9 @@ export default [
     hidden: true,
     children: [
       {
-        path: '/goodsLotteryCode',
-        name: '抽奖码',
+        path: '/goodsLotteryCodeList',
+        name: '抽奖码列表',
         component: () => import (/* webpackChunkName: 'goodsLotteryCode' */ '@/views/goods/goodsLotteryCode'),
-        meta: {
-          permission: '/goodsLotteryCode',
-        },
       }
     ]
   },
@@ -205,11 +216,8 @@ export default [
     children: [
       {
         path: '/goodsImgBorderEdit',
-        name: '商品图片边框编辑',
+        name: '图片边框编辑',
         component: () => import (/* webpackChunkName: 'goodsImgBorderEdit' */ '@/views/goods/goodsImgBorderEdit'),
-        meta: {
-          permission: '/goodsImgBorderEdit',
-        },
       }
     ]
   },
@@ -219,12 +227,20 @@ export default [
     hidden: true,
     children: [
       {
-        path: '/goodsImgBorderBlind',
-        name: '商品图片边框绑定',
+        path: '/goodsImgBorderBlindNew',
+        name: '图片边框绑定新商品',
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsImgBorderBlindList',
+        name: '图片边框已绑商品列表',
         component: () => import (/* webpackChunkName: 'goodsImgBorderBlind' */ '@/views/goods/goodsImgBorderBlind'),
-        meta: {
-          permission: '/goodsImgBorderBlind',
-        },
       }
     ]
   },
@@ -237,9 +253,17 @@ export default [
         path: '/goodsRecommendEdit',
         name: '推荐商品编辑',
         component: () => import (/* webpackChunkName: 'goodsRecommendEdit' */ '@/views/goods/goodsRecommendEdit'),
-        meta: {
-          permission: '/goodsRecommendEdit',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsRecommendDel',
+        name: '推荐商品删除',
       }
     ]
   },

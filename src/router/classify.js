@@ -13,88 +13,78 @@ export default [
         component: () => import (/* webpackChunkName: 'classifyPreview' */ '@/views/classify/classifyPreview'),
         meta: {
           icon: 'iconfont icon-ziyuan',
-          permission: '/classifyPreview',
         },
       },
       {
-        path: '/classifyLevelOne',
-        name: '一级分类',
+        path: '/classifyLevelOneList',
+        name: '一级分类列表',
         component: () => import (/* webpackChunkName: 'classifyLevelOne' */ '@/views/classify/classifyLevelOne'),
         meta: {
           icon: 'iconfont icon-fenlei',
-          permission: '/classifyLevelOne',
         },
       },
       {
-        path: '/classifyModule',
-        name: '模块',
+        path: '/classifyModuleList',
+        name: '模块列表',
         component: () => import (/* webpackChunkName: 'classifyModule' */ '@/views/classify/classifyModule'),
         meta: {
           icon: 'iconfont icon-danmokuai',
-          permission: '/classifyModule',
         },
       },
       {
-        path: '/classifyLevelTwo',
-        name: '二级分类',
+        path: '/classifyLevelTwoList',
+        name: '二级分类列表',
         component: () => import (/* webpackChunkName: 'classifyLevelTwo' */ '@/views/classify/classifyLevelTwo'),
         meta: {
           icon: 'iconfont icon-fenlei',
-          permission: '/classifyLevelTwo',
         },
       },
       {
-        path: '/classifyLevelThree',
-        name: '三级分类',
+        path: '/classifyLevelThreeList',
+        name: '三级分类列表',
         component: () => import (/* webpackChunkName: 'classifyLevelThree' */ '@/views/classify/classifyLevelThree'),
         meta: {
           icon: 'iconfont icon-fenlei',
-          permission: '/classifyLevelThree',
         },
       },
       {
-        path: '/classifyType',
-        name: '类别',
+        path: '/classifyTypeList',
+        name: '类别列表',
         component: () => import (/* webpackChunkName: 'classifyType' */ '@/views/classify/classifyType'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
-          permission: '/classifyType',
         },
       },
       {
-        path: '/classifyBrand',
-        name: '品牌',
+        path: '/classifyBrandList',
+        name: '品牌列表',
         component: () => import (/* webpackChunkName: 'classifyBrand' */ '@/views/classify/classifyBrand'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
-          permission: '/classifyBrand',
         },
       },
       {
-        path: '/classifyIp',
-        name: 'IP',
+        path: '/classifyIpList',
+        name: 'IP列表',
         component: () => import (/* webpackChunkName: 'classifyIp' */ '@/views/classify/classifyIp'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
-          permission: '/classifyIp',
         },
       },
       {
-        path: '/classifyAttribute',
-        name: '属性',
+        path: '/classifyAttributeList',
+        name: '属性列表',
         component: () => import (/* webpackChunkName: 'classifyAttribute' */ '@/views/classify/classifyAttribute'),
         meta: {
           icon: 'iconfont icon-pinpaitemai',
-          permission: '/classifyAttribute',
         },
       },
       {
-        path: '/classifyIndex',
-        name: '首页分类',
+        path: '/classifyIndexList',
+        name: '首页分类列表',
         component: () => import (/* webpackChunkName: 'classifyIndex' */ '@/views/classify/classifyIndex'),
         meta: {
           icon: 'iconfont icon-fenlei2',
-          permission: '/classifyIndex',
         },
       },
     ]
@@ -108,9 +98,17 @@ export default [
         path: '/classifyLevelOneEdit',
         name: '一级分类编辑',
         component: () => import (/* webpackChunkName: 'classifyLevelOneEdit' */ '@/views/classify/classifyLevelOneEdit'),
-        meta: {
-          permission: '/classifyLevelOneEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyLevelOneDel',
+        name: '一级分类删除',
       }
     ]
   },
@@ -123,9 +121,17 @@ export default [
         path: '/classifyModuleEdit',
         name: '模块编辑',
         component: () => import (/* webpackChunkName: 'classifyModuleEdit' */ '@/views/classify/classifyModuleEdit'),
-        meta: {
-          permission: '/classifyModuleEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyModuleDel',
+        name: '模块删除',
       }
     ]
   },
@@ -138,9 +144,17 @@ export default [
         path: '/classifyLevelTwoEdit',
         name: '二级分类编辑',
         component: () => import (/* webpackChunkName: 'classifyLevelTwoEdit' */ '@/views/classify/classifyLevelTwoEdit'),
-        meta: {
-          permission: '/classifyLevelTwoEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyLevelTwoDel',
+        name: '二级分类删除',
       }
     ]
   },
@@ -153,9 +167,17 @@ export default [
         path: '/classifyLevelThreeEdit',
         name: '三级分类编辑',
         component: () => import (/* webpackChunkName: 'classifyLevelThreeEdit' */ '@/views/classify/classifyLevelThreeEdit'),
-        meta: {
-          permission: '/classifyLevelThreeEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyLevelThreeDel',
+        name: '三级分类删除',
       }
     ]
   },
@@ -168,9 +190,17 @@ export default [
         path: '/classifyTypeEdit',
         name: '类别编辑',
         component: () => import (/* webpackChunkName: 'classifyTypeEdit' */ '@/views/classify/classifyTypeEdit'),
-        meta: {
-          permission: '/classifyTypeEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyTypeDel',
+        name: '类别删除',
       }
     ]
   },
@@ -183,9 +213,17 @@ export default [
         path: '/classifyBrandEdit',
         name: '品牌编辑',
         component: () => import (/* webpackChunkName: 'classifyBrandEdit' */ '@/views/classify/classifyBrandEdit'),
-        meta: {
-          permission: '/classifyBrandEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyBrandDel',
+        name: '品牌删除',
       }
     ]
   },
@@ -198,9 +236,17 @@ export default [
         path: '/classifyIpEdit',
         name: 'IP编辑',
         component: () => import (/* webpackChunkName: 'classifyIpEdit' */ '@/views/classify/classifyIpEdit'),
-        meta: {
-          permission: '/classifyIpEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyIpDel',
+        name: 'IP删除',
       }
     ]
   },
@@ -213,9 +259,17 @@ export default [
         path: '/classifyAttributeEdit',
         name: '属性编辑',
         component: () => import (/* webpackChunkName: 'classifyAttributeEdit' */ '@/views/classify/classifyAttributeEdit'),
-        meta: {
-          permission: '/classifyAttributeEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyAttributeDel',
+        name: '属性删除',
       }
     ]
   },
@@ -226,11 +280,19 @@ export default [
     children: [
       {
         path: '/classifyIndexEdit',
-        name: '首页编辑',
+        name: '首页分类编辑',
         component: () => import (/* webpackChunkName: 'classifyIndexEdit' */ '@/views/classify/classifyIndexEdit'),
-        meta: {
-          permission: '/classifyIndexEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/classifyIndexDel',
+        name: '首页分类删除',
       }
     ]
   },

@@ -4,27 +4,12 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/tribe',
-        name: '部落',
+        path: '/tribeList',
+        name: '部落列表',
         component: () => import (/* webpackChunkName: 'tribe' */ '@/views/tribe/tribe'),
         meta: {
           icon: 'iconfont icon-zhangpeng',
           permission: '/tribe',
-        },
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/tribeMember',
-        name: '部落成员',
-        component: () => import (/* webpackChunkName: 'tribeMember' */ '@/views/tribe/tribeMember'),
-        meta: {
-          permission: '/tribeMember'
         },
       }
     ]
@@ -42,6 +27,32 @@ export default [
           permission: '/tribeEdit'
         },
       }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/tribeMemberList',
+        name: '部落成员列表',
+        component: () => import (/* webpackChunkName: 'tribeMember' */ '@/views/tribe/tribeMember'),
+        meta: {
+          permission: '/tribeMember'
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/tribeMemberManage',
+        name: '部落成员管理',
+      },
     ]
   },
 ]

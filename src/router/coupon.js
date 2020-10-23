@@ -8,12 +8,11 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/giftPack',
-        name: '礼包',
+        path: '/giftPackList',
+        name: '礼包列表',
         component: () => import (/* webpackChunkName: 'giftPack' */ '@/views/coupon/giftPack'),
         meta: {
           icon: 'iconfont icon-dingdan',
-          permission: '/giftPack',
         },
       },
     ]
@@ -27,9 +26,6 @@ export default [
         path: '/giftPackEdit',
         name: '礼包编辑',
         component: () => import (/* webpackChunkName: 'giftPackEdit' */ '@/views/coupon/giftPackEdit'),
-        meta: {
-          permission: '/giftPackEdit'
-        },
       }
     ]
   },
@@ -39,12 +35,20 @@ export default [
     hidden: true,
     children: [
       {
-        path: '/coupon',
-        name: '优惠券 ',
+        path: '/giftPackDel',
+        name: '礼包删除',
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/couponList',
+        name: '优惠券列表',
         component: () => import (/* webpackChunkName: 'coupon' */ '@/views/coupon/coupon'),
-        meta: {
-          permission: '/coupon'
-        },
       }
     ]
   },
@@ -57,9 +61,17 @@ export default [
         path: '/couponEdit',
         name: '优惠券编辑',
         component: () => import (/* webpackChunkName: 'couponEdit' */ '@/views/coupon/couponEdit'),
-        meta: {
-          permission: '/couponEdit'
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/couponDel',
+        name: '优惠券删除',
       }
     ]
   },

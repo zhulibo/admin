@@ -8,21 +8,19 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/user',
-        name: '用户 ',
+        path: '/userList',
+        name: '用户列表',
         component: () => import (/* webpackChunkName: 'user' */ '@/views/user/user'),
         meta: {
           icon: 'iconfont icon-yonghu',
-          permission: '/user',
         },
       },
       {
-        path: '/businessMan',
-        name: '商家',
+        path: '/businessManList',
+        name: '商家列表',
         component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/user/businessMan'),
         meta: {
           icon: 'iconfont icon-shangjia',
-          permission: '/businessMan',
         },
       }
     ]
@@ -38,7 +36,6 @@ export default [
         component: () => import (/* webpackChunkName: 'userEdit' */ '@/views/user/userEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
-          permission: '/userEdit',
         },
       }
     ]
@@ -54,7 +51,6 @@ export default [
         component: () => import (/* webpackChunkName: 'businessManEdit' */ '@/views/user/businessManEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
-          permission: '/businessManEdit',
         },
       }
     ]

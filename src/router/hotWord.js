@@ -8,12 +8,11 @@ export default [
     component: () => import ('@/views/index/index'),
     children: [
       {
-        path: '/hotWord',
-        name: '热词 ',
+        path: '/hotWordList',
+        name: '热词列表',
         component: () => import (/* webpackChunkName: 'hotWord' */ '@/views/hotWord/hotWord'),
         meta: {
           icon: 'iconfont icon-yonghu',
-          permission: '/hotWord',
         },
       },
     ]
@@ -27,9 +26,17 @@ export default [
         path: '/hotWordEdit',
         name: '热词编辑',
         component: () => import (/* webpackChunkName: 'hotWordEdit' */ '@/views/hotWord/hotWordEdit'),
-        meta: {
-          permission: '/hotWordEdit',
-        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/hotWordDel',
+        name: '热词删除',
       }
     ]
   },

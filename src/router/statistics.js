@@ -13,7 +13,6 @@ export default [
         component: () => import (/* webpackChunkName: 'dayActiveNumber' */ '@/views/statistics/dayActiveNumber'),
         meta: {
           icon: 'iconfont icon-bianji',
-          permission: '/dayActiveNumber',
         },
       },
       {
@@ -22,7 +21,6 @@ export default [
         component: () => import (/* webpackChunkName: 'registerNumber' */ '@/views/statistics/registerNumber'),
         meta: {
           icon: 'iconfont icon-bianji',
-          permission: '/registerNumber',
         },
       }
     ]
