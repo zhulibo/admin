@@ -1,18 +1,14 @@
 export default [
   {
     path: '/',
-    name: '优惠券',
-    meta: {
-      icon: 'iconfont icon-dingdan',
-    },
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/giftPackList',
-        name: '礼包列表',
-        component: () => import (/* webpackChunkName: 'giftPack' */ '@/views/coupon/giftPack'),
+        name: '活动管理',
+        component: () => import (/* webpackChunkName: 'giftPackList' */ '@/views/coupon/giftPackList'),
         meta: {
-          icon: 'iconfont icon-dingdan',
+          icon: 'iconfont icon-jiangpin',
         },
       },
     ]
@@ -48,7 +44,7 @@ export default [
       {
         path: '/couponList',
         name: '优惠券列表',
-        component: () => import (/* webpackChunkName: 'coupon' */ '@/views/coupon/coupon'),
+        component: () => import (/* webpackChunkName: 'couponList' */ '@/views/coupon/couponList'),
       }
     ]
   },

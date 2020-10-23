@@ -115,7 +115,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyModule'})
+            this.$router.push({path: '/classifyModuleList'})
           }).catch(e => {
             console.log(e)
           })

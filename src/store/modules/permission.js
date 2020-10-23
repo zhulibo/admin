@@ -45,11 +45,11 @@ const permission = {
 
           }
 
-          // addRouter.push(item) // 不启用路由过滤
+          addRouter.push(item) // 不启用路由过滤
 
-          if(filterRouter.children.length > 0) { // 添加符合条件的路由
-            addRouter.push(filterRouter)
-          }
+          // if(filterRouter.children.length > 0) { // 添加符合条件的路由
+          //   addRouter.push(filterRouter)
+          // }
 
         })
 

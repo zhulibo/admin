@@ -109,7 +109,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/coupon', query: {packageId: this.packageId}})
+            this.$router.push({path: '/couponList', query: {packageId: this.packageId}})
           }).catch(e => {
             console.log(e)
           })

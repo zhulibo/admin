@@ -238,7 +238,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyIndex'})
+            this.$router.push({path: '/classifyIndexList'})
           }).catch(e => {
             console.log(e)
           })

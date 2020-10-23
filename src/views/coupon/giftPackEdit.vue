@@ -113,7 +113,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/giftPack'})
+            this.$router.push({path: '/giftPackList'})
           }).catch(e => {
             console.log(e)
           })

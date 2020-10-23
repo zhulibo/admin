@@ -118,7 +118,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/supplierAddress'})
+            this.$router.push({path: '/supplierAddressList'})
           }).catch(e => {
             console.log(e)
           })

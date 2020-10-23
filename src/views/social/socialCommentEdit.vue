@@ -60,7 +60,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/socialComment', query: {articleId: this.articleId}})
+            this.$router.push({path: '/socialCommentList', query: {articleId: this.articleId}})
           }).catch(e => {
             console.log(e)
           })

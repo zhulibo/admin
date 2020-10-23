@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    name: '商品',
+    name: '商品管理',
     meta: {
       icon: 'iconfont icon-shangpin1',
     },
@@ -9,48 +9,48 @@ export default [
     children: [
       {
         path: '/goodsList',
-        name: '现货商品列表',
-        component: () => import (/* webpackChunkName: 'goods' */ '@/views/goods/goods'),
+        name: '现货商品管理',
+        component: () => import (/* webpackChunkName: 'goodsList' */ '@/views/goods/goodsList'),
         meta: {
           icon: 'iconfont icon-shangpin',
         },
       },
       {
         path: '/goodsPresaleList',
-        name: '预售商品列表',
-        component: () => import (/* webpackChunkName: 'goodsPresale' */ '@/views/goods/goodsPresale'),
+        name: '预售商品管理',
+        component: () => import (/* webpackChunkName: 'goodsPresaleList' */ '@/views/goods/goodsPresaleList'),
         meta: {
           icon: 'iconfont icon-yushou',
         },
       },
       {
         path: '/goodsPresaleActivityList',
-        name: '预售活动列表',
-        component: () => import (/* webpackChunkName: 'goodsPresaleActivity' */ '@/views/goods/goodsPresaleActivity'),
+        name: '预售活动管理',
+        component: () => import (/* webpackChunkName: 'goodsPresaleActivityList' */ '@/views/goods/goodsPresaleActivityList'),
         meta: {
           icon: 'iconfont icon-RectangleCopy',
         },
       },
       {
         path: '/goodsLotteryList',
-        name: '抽奖商品列表',
-        component: () => import (/* webpackChunkName: 'goodsLottery' */ '@/views/goods/goodsLottery'),
+        name: '抽奖商品管理',
+        component: () => import (/* webpackChunkName: 'goodsLotteryList' */ '@/views/goods/goodsLotteryList'),
         meta: {
           icon: 'iconfont icon-jiangpin',
         },
       },
       {
-        path: '/goodsImgBorderList',
-        name: '图片边框设置列表',
-        component: () => import (/* webpackChunkName: 'goodsImgBorder' */ '@/views/goods/goodsImgBorder'),
+        path: '/goodsRecommendList',
+        name: '推荐商品管理',
+        component: () => import (/* webpackChunkName: 'goodsRecommendList' */ '@/views/goods/goodsRecommendList'),
         meta: {
           icon: 'iconfont icon-xiabiankuang',
         },
       },
       {
-        path: '/goodsRecommendList',
-        name: '推荐商品列表',
-        component: () => import (/* webpackChunkName: 'goodsRecommend' */ '@/views/goods/goodsRecommend'),
+        path: '/goodsImgBorderList',
+        name: '图片边框管理',
+        component: () => import (/* webpackChunkName: 'goodsImgBorderList' */ '@/views/goods/goodsImgBorderList'),
         meta: {
           icon: 'iconfont icon-xiabiankuang',
         },
@@ -205,7 +205,30 @@ export default [
       {
         path: '/goodsLotteryCodeList',
         name: '抽奖码列表',
-        component: () => import (/* webpackChunkName: 'goodsLotteryCode' */ '@/views/goods/goodsLotteryCode'),
+        component: () => import (/* webpackChunkName: 'goodsLotteryCodeList' */ '@/views/goods/goodsLotteryCodeList'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsRecommendEdit',
+        name: '推荐商品编辑',
+        component: () => import (/* webpackChunkName: 'goodsRecommendEdit' */ '@/views/goods/goodsRecommendEdit'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsRecommendDel',
+        name: '推荐商品删除',
       }
     ]
   },
@@ -240,30 +263,7 @@ export default [
       {
         path: '/goodsImgBorderBlindList',
         name: '图片边框已绑商品列表',
-        component: () => import (/* webpackChunkName: 'goodsImgBorderBlind' */ '@/views/goods/goodsImgBorderBlind'),
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/goodsRecommendEdit',
-        name: '推荐商品编辑',
-        component: () => import (/* webpackChunkName: 'goodsRecommendEdit' */ '@/views/goods/goodsRecommendEdit'),
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/goodsRecommendDel',
-        name: '推荐商品删除',
+        component: () => import (/* webpackChunkName: 'goodsImgBorderBlindList' */ '@/views/goods/goodsImgBorderBlindList'),
       }
     ]
   },

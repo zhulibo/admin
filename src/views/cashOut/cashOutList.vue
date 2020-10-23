@@ -90,7 +90,7 @@
         </span>
       </el-dialog>
       <el-dialog title="操作提现" :visible.sync="changeStatusDialogVisible">
-        <el-form :model="ruleFormStatus" :rules="rulesStatus" ref="ruleForm" label-width="150px" class="edit-form">
+        <el-form :model="ruleFormStatus" :rules="rulesStatus" ref="ruleFormStatus" label-width="150px" class="edit-form">
           <el-form-item label="状态" prop="status">
             <el-radio v-model="ruleFormStatus.status" label="2">同意</el-radio>
             <el-radio v-model="ruleFormStatus.status" label="3">拒绝</el-radio>
@@ -216,8 +216,8 @@ export default {
             method: 'PUT',
             data: {
               id: this.scope.id,
-              status: this.ruleForm.status,
-              reason: this.ruleForm.reason,
+              status: this.ruleFormStatus.status,
+              reason: this.ruleFormStatus.reason,
             }
           }).then(res => {
             this.$message.success(res.msg)

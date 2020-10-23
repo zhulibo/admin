@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    name: '用户',
+    name: '用户管理',
     meta: {
       icon: 'iconfont icon-guanliyuan',
     },
@@ -9,18 +9,34 @@ export default [
     children: [
       {
         path: '/userList',
-        name: '用户列表',
-        component: () => import (/* webpackChunkName: 'user' */ '@/views/user/user'),
+        name: '漫想家用户',
+        component: () => import (/* webpackChunkName: 'userList' */ '@/views/user/userList'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },
       },
       {
-        path: '/businessManList',
-        name: '商家列表',
-        component: () => import (/* webpackChunkName: 'businessMan' */ '@/views/user/businessMan'),
+        path: '/supplierUserList',
+        name: '供货商用户',
+        component: () => import (/* webpackChunkName: 'supplierUserList' */ '@/views/user/supplierUserList'),
         meta: {
           icon: 'iconfont icon-shangjia',
+        },
+      },
+      {
+        path: '/adminList',
+        name: '管理员',
+        component: () => import (/* webpackChunkName: 'adminList' */ '@/views/user/adminList'),
+        meta: {
+          icon: 'iconfont icon-guanliyuan',
+        },
+      },
+      {
+        path: '/roleList',
+        name: '角色',
+        component: () => import (/* webpackChunkName: 'roleList' */ '@/views/user/roleList'),
+        meta: {
+          icon: 'iconfont icon-jiaoseleixing',
         },
       }
     ]
@@ -32,7 +48,7 @@ export default [
     children: [
       {
         path: '/userEdit',
-        name: '用户编辑',
+        name: '漫想家用户编辑',
         component: () => import (/* webpackChunkName: 'userEdit' */ '@/views/user/userEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
@@ -47,11 +63,46 @@ export default [
     children: [
       {
         path: '/businessManEdit',
-        name: '商家编辑',
-        component: () => import (/* webpackChunkName: 'businessManEdit' */ '@/views/user/businessManEdit'),
+        name: '供货商用户编辑',
+        component: () => import (/* webpackChunkName: 'userListEdit' */ '@/views/user/userListEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/adminEdit',
+        name: '管理员编辑',
+        component: () => import (/* webpackChunkName: 'adminEdit' */ '@/views/user/adminEdit'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/roleEdit',
+        name: '角色编辑',
+        component: () => import (/* webpackChunkName: 'roleEdit' */ '@/views/user/roleEdit'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/roleDel',
+        name: '角色删除',
       }
     ]
   },

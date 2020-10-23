@@ -68,7 +68,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goodsImgBorder'})
+            this.$router.push({path: '/goodsImgBorderList'})
           }).catch(e => {
             console.log(e)
           })

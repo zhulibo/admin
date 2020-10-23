@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    name: '供货商',
+    name: '供货商商品管理',
     meta: {
       icon: 'iconfont icon-huowudui',
     },
@@ -17,7 +17,7 @@ export default [
       },
       {
         path: '/supplierGoodsList',
-        name: '出售商品列表',
+        name: '出售商品管理',
         component: () => import (/* webpackChunkName: 'supplierGoods' */ '@/views/supplier/supplierGoods'),
         meta: {
           icon: 'iconfont icon-cangku',
@@ -25,7 +25,7 @@ export default [
       },
       {
         path: '/supplierAddressList',
-        name: '发货地址列表',
+        name: '发货地址管理',
         component: () => import (/* webpackChunkName: 'supplierAddress' */ '@/views/supplier/supplierAddress'),
         meta: {
           icon: 'iconfont icon-dizhi',

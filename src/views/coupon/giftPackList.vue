@@ -110,7 +110,7 @@ export default {
       this.$router.push({path: '/giftPackEdit', query: {id: scope.id}})
     },
     checkItemCoupon(scope) {
-      this.$router.push({path: '/coupon', query: {packageId: scope.id}})
+      this.$router.push({path: '/couponList', query: {packageId: scope.id}})
     },
     deleteItem(scope) {
       this.$confirm('确定删除 ' + scope.name, '提示', {

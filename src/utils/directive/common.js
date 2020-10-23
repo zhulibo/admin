@@ -12,7 +12,6 @@ Vue.directive('permission', {
       const hasPermission = roles.some(role => {
         if(role.children) {
           for (let i = 0; i < role.children.length; i++) {
-            console.log(role.children[i].path)
             if(btnPermission == role.children[i].path) return true
           }
           return false

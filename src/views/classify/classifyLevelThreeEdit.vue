@@ -265,7 +265,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyLevelThree'})
+            this.$router.push({path: '/classifyLevelThreeList'})
           }).catch(e => {
             console.log(e)
           })

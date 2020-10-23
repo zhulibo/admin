@@ -190,7 +190,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/hotWord'})
+            this.$router.push({path: '/hotWordList'})
           }).catch(e => {
             console.log(e)
           })

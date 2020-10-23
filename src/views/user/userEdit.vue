@@ -91,7 +91,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/user'})
+            this.$router.push({path: '/userList'})
           }).catch(e => {
             console.log(e)
           })

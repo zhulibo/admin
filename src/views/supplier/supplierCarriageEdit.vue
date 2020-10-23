@@ -96,7 +96,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/supplierCarriage'})
+            this.$router.push({path: '/supplierCarriageList'})
           }).catch(e => {
             console.log(e)
           })

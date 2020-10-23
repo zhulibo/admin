@@ -80,7 +80,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/role'})
+            this.$router.push({path: '/roleList'})
           }).catch(e => {
             console.log(e)
           })

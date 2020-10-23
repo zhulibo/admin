@@ -119,7 +119,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/admin'})
+            this.$router.push({path: '/adminList'})
           }).catch(e => {
             console.log(e)
           })

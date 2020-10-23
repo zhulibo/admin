@@ -145,7 +145,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/banner'})
+            this.$router.push({path: '/bannerList'})
           }).catch(e => {
             console.log(e)
           })

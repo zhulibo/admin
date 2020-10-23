@@ -106,7 +106,7 @@ export default {
       this.$router.push({path: '/goodsLotteryEdit', query: {id: scope.id}})
     },
     checkItemCode(scope) {
-      this.$router.push({path: '/goodsLotteryCode', query: {id: scope.id}})
+      this.$router.push({path: '/goodsLotteryCodeList', query: {id: scope.id}})
     },
     newItem() {
       this.$router.push({path: '/goodsLotteryEdit'})

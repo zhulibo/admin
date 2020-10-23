@@ -1,16 +1,12 @@
 export default [
   {
     path: '/',
-    name: '提现',
-    meta: {
-      icon: 'iconfont icon-guanliyuan',
-    },
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/cashOutList',
-        name: '提现列表',
-        component: () => import (/* webpackChunkName: 'cashOut' */ '@/views/cashOut/cashOut'),
+        name: '提现管理',
+        component: () => import (/* webpackChunkName: 'cashOutList' */ '@/views/cashOut/cashOutList'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },

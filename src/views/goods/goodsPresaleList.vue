@@ -235,7 +235,7 @@ export default {
       this.$router.push({path: '/goodsPresaleSkuEdit', query: {mainId: scope.id}})
     },
     goodsPresaleActivity() {
-      this.$router.push({path: '/goodsPresaleActivity'})
+      this.$router.push({path: '/goodsPresaleActivityList'})
     },
     newItem() {
       this.$router.push({path: '/goodsPresaleNew'})

@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    name: '订单',
+    name: '订单管理',
     meta: {
       icon: 'iconfont icon-dingdan',
     },
@@ -9,40 +9,24 @@ export default [
     children: [
       {
         path: '/orderList',
-        name: '现货订单列表',
-        component: () => import (/* webpackChunkName: 'order' */ '@/views/order/order'),
+        name: '现货订单管理',
+        component: () => import (/* webpackChunkName: 'orderList' */ '@/views/order/orderList'),
         meta: {
           icon: 'iconfont icon-dingdan',
         },
       },
       {
         path: '/orderPresaleList',
-        name: '预售订单列表',
-        component: () => import (/* webpackChunkName: 'order' */ '@/views/order/orderPresale'),
-        meta: {
-          icon: 'iconfont icon-dingdan',
-        },
-      },
-      {
-        path: '/orderSupplierList',
-        name: '供货商现货订单列表',
-        component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplier'),
-        meta: {
-          icon: 'iconfont icon-dingdan',
-        },
-      },
-      {
-        path: '/orderSupplierPresaleList',
-        name: '供货商预售订单列表',
-        component: () => import (/* webpackChunkName: 'orderSupplier' */ '@/views/order/orderSupplierPresale'),
+        name: '预售订单管理',
+        component: () => import (/* webpackChunkName: 'orderPresaleList' */ '@/views/order/orderPresaleList'),
         meta: {
           icon: 'iconfont icon-dingdan',
         },
       },
       {
         path: '/orderRepairList',
-        name: '修复订单列表',
-        component: () => import (/* webpackChunkName: 'orderRepair' */ '@/views/order/orderRepair'),
+        name: '修复订单管理',
+        component: () => import (/* webpackChunkName: 'orderRepairList' */ '@/views/order/orderRepairList'),
         meta: {
           icon: 'iconfont icon-dingdan',
         },
@@ -103,41 +87,6 @@ export default [
       {
         path: '/orderPresaleCancleOrder',
         name: '预售订单取消',
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/orderSupplierDetail',
-        name: '供货商现货订单详情',
-        component: () => import (/* webpackChunkName: 'orderSupplierDetail' */ '@/views/order/orderSupplierDetail'),
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/orderSupplierPresaleDetail',
-        name: '供货商预售订单详情',
-        component: () => import (/* webpackChunkName: 'orderSupplierPresaleDetail' */ '@/views/order/orderSupplierPresaleDetail'),
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/orderSupplierPresaleShip',
-        name: '供货商预售订单发货',
       }
     ]
   },

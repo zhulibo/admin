@@ -57,7 +57,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goodsRecommend'})
+            this.$router.push({path: '/goodsRecommendList'})
           }).catch(e => {
             console.log(e)
           })

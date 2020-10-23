@@ -303,7 +303,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goods'})
+            this.$router.push({path: '/goodsList'})
           }).catch(e => {
             console.log(e)
           })

@@ -119,7 +119,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/goodsLottery'})
+            this.$router.push({path: '/goodsLotteryList'})
           }).catch(e => {
             console.log(e)
           })

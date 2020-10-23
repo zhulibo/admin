@@ -72,7 +72,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyIp'})
+            this.$router.push({path: '/classifyIpList'})
           }).catch(e => {
             console.log(e)
           })

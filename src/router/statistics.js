@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    name: '数据统计',
+    name: '统计管理',
     meta: {
       icon: 'iconfont icon-fenlei1',
     },

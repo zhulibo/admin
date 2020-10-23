@@ -72,7 +72,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/classifyType'})
+            this.$router.push({path: '/classifyTypeList'})
           }).catch(e => {
             console.log(e)
           })
