@@ -111,7 +111,7 @@ export default {
         url: '/userorg/backadmin/backprivilege/privilege',
         method: 'GET',
       }).then(res => {
-        this.roleList = res.data.child[0].child
+        this.roleList = res.data.child
       }).catch(e => {
         console.log(e)
       })

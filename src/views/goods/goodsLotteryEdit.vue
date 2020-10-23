@@ -11,7 +11,11 @@
         <el-form-item label="sku-id" prop="skuId">
           <el-input v-model="ruleForm.skuId" :disabled="!!id"></el-input>
         </el-form-item>
-        <el-form-item label="奖品数量" prop="number">
+        <el-form-item label="真假" prop="type">
+          <el-radio v-model="ruleForm.type" label="0">假抽</el-radio>
+          <el-radio v-model="ruleForm.type" label="1">真抽</el-radio>
+        </el-form-item>
+        <el-form-item label="奖品数量" prop="number" v-if="id">
           <el-input v-model="ruleForm.number"></el-input>
         </el-form-item>
         <el-form-item label="开奖时间" prop="drawTime">
@@ -50,6 +54,7 @@ export default {
       ruleForm: {
         goodsId: '',
         skuId: '',
+        type: '1',
         number: '',
         drawTime: '',
         status: '',
@@ -61,9 +66,9 @@ export default {
         skuId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        // number: [
-        //   {required: true, message: '请输入', trigger: 'change'}
-        // ],
+        type: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
         drawTime: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
@@ -89,7 +94,8 @@ export default {
           this.detail = res.data
           this.ruleForm.goodsId = this.detail.goodsId
           this.ruleForm.skuId = this.detail.skuId
-          this.ruleForm.number = this.detail.number
+          this.ruleForm.type = this.detail.type
+          if(this.detail.number) this.ruleForm.number = this.detail.number
           this.ruleForm.drawTime = this.detail.drawTime
           this.ruleForm.status = this.detail.status
         }).catch(e => {
@@ -106,6 +112,7 @@ export default {
               id: this.id ? this.id : '',
               goodsId: this.ruleForm.goodsId,
               skuId: this.ruleForm.skuId,
+              type: this.ruleForm.type,
               number: this.ruleForm.number,
               drawTime: this.ruleForm.drawTime,
               status: this.id ? this.ruleForm.status : '',

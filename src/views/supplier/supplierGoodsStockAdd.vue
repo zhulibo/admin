@@ -14,6 +14,10 @@
         <el-form-item label="运费" prop="carriage">
           <el-input v-model="ruleForm.carriage"></el-input>
         </el-form-item>
+        <el-form-item label="邮费方式" prop="isPayment">
+          <el-radio v-model="ruleForm.isPayment" label="0">先付邮费</el-radio>
+          <el-radio v-model="ruleForm.isPayment" label="1">到付</el-radio>
+        </el-form-item>
         <el-form-item label="发货地址" prop="addressId">
           <el-select v-model="ruleForm.addressId" placeholder="请选择" filterable>
             <el-option v-for="item in addressList" :label="item.sendAddress" :value="item.id"
@@ -39,12 +43,16 @@ export default {
       detail: {},
       ruleForm: {
         price: '',
+        isPayment: '',
         store: '',
         carriage: '',
         addressId: null,
       },
       rules: {
         price: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        isPayment: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         store: [
@@ -73,6 +81,7 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.price = this.detail.price
+          this.ruleForm.isPayment = this.detail.isPayment
           this.ruleForm.store = this.detail.store
           if (this.detail.carriage) this.ruleForm.carriage = this.detail.carriage
           this.ruleForm.addressId = this.detail.addressId
@@ -105,6 +114,7 @@ export default {
               mainId: this.mainId,
               skuId: this.skuId,
               price: this.ruleForm.price,
+              isPayment: this.ruleForm.isPayment,
               store: this.ruleForm.store,
               carriage: this.ruleForm.carriage,
               addressId: this.ruleForm.addressId,

@@ -81,7 +81,7 @@
                         :rules="{required: true, message: '请输入sku信息', trigger: 'change'}">
             <el-input v-model="sku.totalPrice"></el-input>
           </el-form-item>
-          <el-form-item :label="'sku' + (index+1) + '金额'" :prop="'skus.' + index + '.price'"
+          <el-form-item :label="'sku' + (index+1) + '预售金额'" :prop="'skus.' + index + '.price'"
                         :rules="{required: true, message: '请输入sku信息', trigger: 'change'}">
             <el-input v-model="sku.price"></el-input>
           </el-form-item>

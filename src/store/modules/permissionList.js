@@ -475,6 +475,16 @@ let permissionList = [
           }
         ]
       },
+      {
+        path: '/businessMan',
+        name: '商家',
+        children: [
+          {
+            path: '/businessManEdit',
+            name: '商家编辑',
+          }
+        ]
+      },
     ]
   },
 ]
