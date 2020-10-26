@@ -32,9 +32,9 @@ export default [
         },
       },
       {
-        path: '/supplierCarriage',
+        path: '/supplierCarriageList',
         name: '运费',
-        component: () => import (/* webpackChunkName: 'supplierCarriage' */ '@/views/supplier/supplierCarriage'),
+        component: () => import (/* webpackChunkName: 'supplierCarriageList' */ '@/views/supplier/supplierCarriageList'),
         meta: {
           icon: 'iconfont icon-mianyunfei',
         },

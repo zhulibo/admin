@@ -20,7 +20,7 @@
         </div>
       </li>
       <li>
-        <div class="l"><span>按键声音(键盘z-p对应钢琴a-g3)</span></div>
+        <div class="l"><span>按键声音(z-p对应a-g3)</span></div>
         <div class="r">
           <el-switch
             v-model="theme.keyboardPiano"

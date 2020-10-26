@@ -172,7 +172,7 @@ export default {
               },
             }).then(res => {
               this.$message.success(res.msg)
-              this.$router.push({path: '/social'})
+              this.$router.push({path: '/socialList'})
             }).catch(e => {
               console.log(e)
             })

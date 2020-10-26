@@ -5,7 +5,8 @@
         <div class="pic">
           <img src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png" alt="">
         </div>
-        <span>userInfo</span>
+        <span v-if="userInfo.type == 1">管理员{{ userInfo.phone }}</span>
+        <span v-if="userInfo.type == 2">供货商{{ userInfo.phone }}</span>
         <i class="el-icon-caret-bottom"></i>
         <p @click="logOut">退出</p>
       </div>

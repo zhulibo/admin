@@ -151,7 +151,6 @@ let permissionList = [
           },
         ]
       },
-
       {
         path: '/classifyIndex',
         name: '首页分类管理',
@@ -540,40 +539,6 @@ let permissionList = [
           },
         ]
       },
-      {
-        path: '/orderRepair',
-        name: '修复订单',
-        children: [
-          {
-            path: '/orderRepairList',
-            name: '修复订单列表',
-          },
-          {
-            path: '/orderRepairDetail',
-            name: '修复订单详情',
-          },
-          {
-            path: '/orderRepairFirstEvaluation',
-            name: '修复订单初次评审',
-          },
-          {
-            path: '/orderRepairSecondEvaluation',
-            name: '修复订单二次评估',
-          },
-          {
-            path: '/orderRepairReceived',
-            name: '修复订单平台已收货',
-          },
-          {
-            path: '/orderRepairRepairOver',
-            name: '修复订单修复完成',
-          },
-          {
-            path: '/orderRepairShip',
-            name: '修复订单发货',
-          },
-        ]
-      },
     ]
   },
   {
@@ -688,6 +653,14 @@ let permissionList = [
             path: '/cashOutList',
             name: '提现列表',
           },
+          {
+            path: '/cashOutChangeStatus',
+            name: '修改提现状态',
+          },
+          {
+            path: '/cashOutChangeBalance',
+            name: '修改提现余额',
+          },
         ]
       }
     ]
@@ -747,9 +720,13 @@ let permissionList = [
         name: '供货商运费',
         children: [
           {
+            path: '/supplierCarriageList',
+            name: '供货商运费列表',
+          },
+          {
             path: '/supplierCarriageEdit',
             name: '供货商运费编辑',
-          }
+          },
         ]
       },
     ]

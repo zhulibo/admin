@@ -97,6 +97,8 @@ export default {
           })
             .then(res => {
               let userInfo = {
+                type: this.ruleForm.type,
+                phone: this.ruleForm.account,
                 token: res.data.token,
                 permission: res.data.list,
               }

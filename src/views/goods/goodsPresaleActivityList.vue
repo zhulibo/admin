@@ -52,9 +52,6 @@
             <el-button v-if="scope.row.orderStatus == 2" type="text" size="medium" class="edit"
                        @click="payFinalPayment(scope.row)">开始付尾款
             </el-button>
-            <el-button v-if="scope.row.orderStatus == 3" type="text" size="medium" class="edit"
-                       @click="payFinalPayment(scope.row)">结束付尾款
-            </el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">结束预售</el-button>
           </template>
         </el-table-column>
@@ -63,6 +60,25 @@
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
                        @current-change="handleCurrentChange" background></el-pagination>
       </div>
+    </div>
+    <div class="dialog">
+      <el-dialog title="开始付尾款" :visible.sync="payFinalPaymentDialogVisible">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
+          <el-form-item label="预售结束时间" prop="payEndTime">
+            <el-date-picker
+              v-model="ruleForm.payEndTime"
+              type="datetime"
+              value-format="timestamp"
+              default-value=""
+              default-time="23:00:00"
+              placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -129,6 +145,16 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
+      payFinalPaymentDialogVisible: false,
+      payFinalPaymentScope: null,
+      ruleForm: {
+        payEndTime: '',
+      },
+      rules: {
+        payEndTime: [
+          {required: true, message: '请输入', trigger: 'blur'}
+        ],
+      },
     }
   },
   created() {
@@ -158,17 +184,30 @@ export default {
       })
     },
     payFinalPayment(scope) {
-      this.$http({
-        url: scope.orderStatus == 2 ? '/goodsmanage/backadmin/presellgoods/orderPreStatus' : '/goodsmanage/backadmin/presellgoods/presellend',
-        method: 'PUT',
-        data: {
-          id: scope.preId,
+      this.ruleForm.payEndTime = ''
+      this.payFinalPaymentDialogVisible = true
+      this.payFinalPaymentScope = scope
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/goodsmanage/backadmin/presellgoods/orderPreStatus',
+            method: 'PUT',
+            data: {
+              id: this.payFinalPaymentScope.id,
+              payEndTime: this.ruleForm.payEndTime,
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.payFinalPaymentDialogVisible = false
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
         }
-      }).then(res => {
-        this.$message.success(res.msg)
-      }).catch(e => {
-        this.getList()
-        console.log(e)
       })
     },
     handleCurrentChange: function (val) { // 页码变更

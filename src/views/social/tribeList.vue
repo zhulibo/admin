@@ -124,7 +124,7 @@ export default {
       this.$router.push({path: '/tribeEdit'})
     },
     goTribeMemberList(scope) {
-      this.$router.push({path: '/tribeMember', query: {id: scope.id}})
+      this.$router.push({path: '/tribeMemberList', query: {id: scope.id}})
     },
   }
 }
