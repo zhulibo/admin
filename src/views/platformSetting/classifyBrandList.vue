@@ -18,14 +18,19 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
+        <el-table-column prop="id" label="id" align="center">
+          <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
+        <el-table-column prop="image" label="品牌图片" align="center" class-name="row-img">
+          <template slot-scope="scope">
+            <img :src="scope.row.image" alt="">
+          </template>
+        </el-table-column>
         <el-table-column prop="sort" label="排序" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
+          <template slot-scope="scope">{{ scope.row.sort | noneToLine}}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
@@ -57,6 +62,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -82,6 +88,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     editItem(scope) {

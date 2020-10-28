@@ -88,6 +88,7 @@ export default {
   data() {
     return {
       id: '',
+      currentPage: '',
       detail: {},
       typeList: [],
       brandList: [],
@@ -140,9 +141,6 @@ export default {
         ],
         size: [
           {required: true, message: '请输入', trigger: 'change'}
-        ],
-        cargoNo: [
-          // {required: true, message: '请输入', trigger: 'change'}
         ],
       },
     }

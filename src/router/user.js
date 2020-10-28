@@ -62,9 +62,9 @@ export default [
     hidden: true,
     children: [
       {
-        path: '/businessManEdit',
+        path: '/supplierUserEdit',
         name: '供货商用户编辑',
-        component: () => import (/* webpackChunkName: 'userListEdit' */ '@/views/user/userListEdit'),
+        component: () => import (/* webpackChunkName: 'supplierUserEdit' */ '@/views/user/supplierUserEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },

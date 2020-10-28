@@ -158,6 +158,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -212,6 +213,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     deleteItem(scope) {

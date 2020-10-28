@@ -116,6 +116,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -141,6 +142,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     deleteItem(scope) {
@@ -175,7 +177,7 @@ export default {
       this.$router.push({path: '/goodsImgBorderEdit'})
     },
     goBlindGoodsList(scope) {
-      this.$router.push({path: '/goodsImgBorderBlind', query: {id: scope.id}})
+      this.$router.push({path: '/goodsImgBorderBlindList', query: {id: scope.id}})
     },
     blindGoods(scope) {
       this.imgBorderId = scope.id

@@ -1,5 +1,29 @@
+// 上传图片路径
 let baseUrl = process.env.NODE_ENV == 'development' ? process.env.VUE_APP_REAL_URL : process.env.VUE_APP_BASE_URL
 
+//给sessionStorage存值
+let setContextData =(key, value) => {
+  if(typeof value == "string"){
+    sessionStorage.setItem(key, value)
+  }else{
+    sessionStorage.setItem(key, JSON.stringify(value))
+  }
+}
+
+// 从sessionStorage取值
+let getContextData = (key) => {
+  const str = sessionStorage.getItem(key)
+  if( typeof str == "string" ){
+    try{
+      return JSON.parse(str)
+    }catch(e) {
+      return str
+    }
+  }
+  return
+}
+
+// 获取url中参数
 let getParams = () => {
   let params = {} // 参数存放的对象
   let key, value;  // 键、值
@@ -18,6 +42,7 @@ let getParams = () => {
   return params
 }
 
+// 获取此时北京时间戳
 let getNowBeijingTimestamp = () => {
   let nowLocalTime = new Date()
   let nowLocalTimestamp = nowLocalTime.getTime()
@@ -29,6 +54,7 @@ let getNowBeijingTimestamp = () => {
   return nowBeijingTimestamp
 }
 
+// 钢琴键盘
 let keyboardPiano = () => {
   if (!window.AudioContext) {
     console.log('当前浏览器不支持Web Audio API')
@@ -90,8 +116,10 @@ let keyboardPiano = () => {
 }
 
 export default {
-  baseUrl, // 上传图片路径
-  getParams, // 获取url中参数
-  getNowBeijingTimestamp, // 获取此时北京时间戳
-  keyboardPiano, // 钢琴键盘
+  baseUrl,
+  setContextData,
+  getContextData,
+  getParams,
+  getNowBeijingTimestamp,
+  keyboardPiano,
 }

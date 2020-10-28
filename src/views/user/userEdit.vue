@@ -11,13 +11,6 @@
         <el-form-item label="用户充值密码" prop="passWord">
           <el-input v-model="ruleForm.passWord"></el-input>
         </el-form-item>
-        <el-form-item label="账户状态" prop="del">
-          <el-switch
-            v-model="ruleForm.del"
-            :active-value="0"
-            :inactive-value="1">
-          </el-switch>
-        </el-form-item>
         <el-form-item label="是否推荐" prop="isRecommendFocus">
           <el-switch
             v-model="ruleForm.isRecommendFocus"
@@ -43,13 +36,11 @@ export default {
       ruleForm: {
         payPwd: '',
         passWord: '',
-        del: '',
         isRecommendFocus: '',
       },
       rules: {
         payPwd: [],
         passWord: [],
-        del: [],
         isRecommendFocus: [],
       },
     }
@@ -70,7 +61,6 @@ export default {
           this.detail = res.data
           this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
           this.ruleForm.passWord = this.detail.passWord
-          this.ruleForm.del = this.detail.del
           this.ruleForm.isRecommendFocus = this.detail.tbAppUserDetail.isRecommendFocus
         }).catch(e => {
         console.log(e)
@@ -86,7 +76,6 @@ export default {
               userId: this.userId,
               payPwd: this.ruleForm.payPwd,
               passWord: this.ruleForm.passWord,
-              del: this.ruleForm.del,
               isRecommendFocus: this.ruleForm.isRecommendFocus,
             },
           }).then(res => {

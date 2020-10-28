@@ -11,12 +11,12 @@
             <i :class="item.meta.icon"></i>
             <span>{{ item.name }}</span>
           </template>
-          <el-menu-item v-for="item2 in item.children" :index="item2.path" :key="item2.path">
+          <el-menu-item v-for="item2 in item.children" :index="item2.path" :key="item2.path" @click="clearCurrentPage">
             <i :class="item2.meta.icon"></i>
             <span>{{ item2.name }}</span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item :index="item.children[0].path" v-if="item.children.length == 1">
+        <el-menu-item :index="item.children[0].path" v-if="item.children.length == 1" @click="clearCurrentPage">
           <i :class="item.children[0].meta.icon"></i>
           <span>{{ item.children[0].name }}</span>
         </el-menu-item>
@@ -31,10 +31,6 @@ export default {
   data() {
     return {}
   },
-  created() {
-  },
-  mounted() {
-  },
   computed: {
     routers() {
       return this.$store.getters.routers
@@ -43,7 +39,15 @@ export default {
       return this.$store.getters.theme
     },
   },
-  methods: {}
+  created() {
+  },
+  mounted() {
+  },
+  methods: {
+    clearCurrentPage() {
+      this.global.setContextData('currentPage', '1')
+    }
+  }
 }
 </script>
 

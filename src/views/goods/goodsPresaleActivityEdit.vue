@@ -12,7 +12,7 @@
           <el-radio v-model="ruleForm.type" label="1">按发售时间</el-radio>
           <el-radio v-model="ruleForm.type" label="2">按发售数量</el-radio>
         </el-form-item>
-        <el-form-item v-if="ruleForm.type == 1" label="预售时间" prop="presaleTime" :rules="rules.presaleTime">
+        <el-form-item label="预售时间" prop="presaleTime">
           <el-date-picker
             v-model="ruleForm.presaleTime"
             type="datetimerange"
@@ -29,6 +29,10 @@
             <el-input v-model="sku.store"></el-input>
           </el-form-item>
         </div>
+        <el-form-item label="生效方式" prop="isNow">
+          <el-radio v-model="ruleForm.isNow" label="1">及时生效</el-radio>
+          <el-radio v-model="ruleForm.isNow" label="2">按开始时间生效</el-radio>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -47,11 +51,15 @@ export default {
       ruleForm: {
         title: '',
         type: '',
+        isNow: '',
         presaleTime: [],
         skus: [],
       },
       rules: {
         type: [
+          {required: true, message: '请选择', trigger: 'change'}
+        ],
+        isNow: [
           {required: true, message: '请选择', trigger: 'change'}
         ],
         presaleTime: [
@@ -106,6 +114,7 @@ export default {
             data: {
               goodsId: this.id,
               type: this.ruleForm.type,
+              isNow: this.ruleForm.isNow,
               startTime: this.ruleForm.presaleTime ? this.ruleForm.presaleTime[0] : '',
               endTime: this.ruleForm.presaleTime ? this.ruleForm.presaleTime[1] : '',
               skuStores: this.ruleForm.type == 2 ? skus : [],

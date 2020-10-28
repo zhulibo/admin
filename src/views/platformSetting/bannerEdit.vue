@@ -5,29 +5,31 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="类型" prop="type">
-          <el-radio-group v-model="ruleForm.type">
-            <el-radio :label="1">商品</el-radio>
-            <el-radio :label="2">品牌</el-radio>
-            <el-radio :label="3">类别</el-radio>
-            <el-radio :label="4">属性</el-radio>
-            <el-radio :label="5">ip</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="目标" prop="itemName">
+        <el-form-item label="轮播图名称" prop="itemName">
           <el-input v-model="ruleForm.itemName"></el-input>
         </el-form-item>
-        <el-form-item label="目标id" prop="itemId">
-          <el-input v-model="ruleForm.itemId"></el-input>
+        <el-form-item label="要跳转的类型" prop="type">
+          <el-radio-group v-model="ruleForm.type">
+            <el-radio :label="1">现货商品</el-radio>
+            <el-radio :label="2">预售商品</el-radio>
+            <el-radio :label="3">品牌</el-radio>
+            <el-radio :label="4">类别</el-radio>
+            <el-radio :label="5">属性</el-radio>
+            <el-radio :label="6">ip</el-radio>
+            <el-radio :label="7">抽奖商品</el-radio>
+          </el-radio-group>
         </el-form-item>
-        <el-form-item label="url" prop="url">
-          <el-input v-model="ruleForm.url"></el-input>
+        <el-form-item label="要跳转的类型id" prop="itemId">
+          <el-input v-model="ruleForm.itemId"></el-input>
         </el-form-item>
         <el-form-item label="图片" prop="iconImg" class="form-item-img-top">
           <img-upload v-model="ruleForm.iconImg" :options="iconImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="背景图" prop="iconImg" class="form-item-img-top">
+        <el-form-item label="背景图" prop="brandBgImg" class="form-item-img-top">
           <img-upload v-model="ruleForm.brandBgImg" :options="brandBgImgOptions"></img-upload>
+        </el-form-item>
+        <el-form-item label="url" prop="url">
+          <el-input v-model="ruleForm.url"></el-input>
         </el-form-item>
         <el-form-item label="内容(200字以内)" prop="content">
           <el-input type="textarea" v-model="ruleForm.content" maxlength="200" rows="4"></el-input>
@@ -63,32 +65,26 @@ export default {
         limit: 1
       },
       ruleForm: {
-        type: '',
         itemName: '',
+        type: '',
         itemId: '',
-        url: '',
         iconImg: [],
         brandBgImg: [],
+        url: '',
         content: '',
         sort: '',
       },
       rules: {
-        type: [
+        itemName: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        itemName: [
+        type: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         itemId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         iconImg: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        content: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        sort: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
@@ -114,14 +110,14 @@ export default {
       })
         .then(res => {
           this.detail = res.data
-          this.ruleForm.type = this.detail.type
           this.ruleForm.itemName = this.detail.itemName
+          this.ruleForm.type = this.detail.type
           this.ruleForm.itemId = this.detail.itemId
-          this.ruleForm.url = this.detail.url
           this.iconImgOptions.fileList.push({url: this.detail.image}) // 图片回显
-          if (this.detail.backImag) this.brandBgImgOptions.fileList.push({url: this.detail.backImag}) // 图片回显
+          if (this.detail.backMage) this.brandBgImgOptions.fileList.push({url: this.detail.backMage}) // 图片回显
+          this.ruleForm.url = this.detail.url
           this.ruleForm.content = this.detail.content
-          if (this.detail.sort) this.ruleForm.sort = this.detail.sort
+          if (this.detail.sort != null) this.ruleForm.sort = this.detail.sort
         }).catch(e => {
         console.log(e)
       })
@@ -134,12 +130,12 @@ export default {
             method: this.id ? 'PUT' : 'POST',
             data: {
               id: this.id ? this.id : '',
-              type: this.ruleForm.type,
               itemName: this.ruleForm.itemName,
+              type: this.ruleForm.type,
               itemId: this.ruleForm.itemId,
-              url: this.ruleForm.url,
               image: this.ruleForm.iconImg[0],
-              backImag: this.ruleForm.brandBgImg[0],
+              backMage: this.ruleForm.brandBgImg[0],
+              url: this.ruleForm.url,
               content: this.ruleForm.content,
               sort: this.ruleForm.sort,
             },

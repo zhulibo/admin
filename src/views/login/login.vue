@@ -9,10 +9,8 @@
           <h2 class="form-title">漫想家管理后台</h2>
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="log-form">
             <el-form-item label="用户类型" prop="type">
-              <el-select v-model="ruleForm.type" placeholder="请选择">
-                <el-option label="管理员登录" value="1"></el-option>
-                <el-option label="供货商登录" value="2"></el-option>
-              </el-select>
+              <el-radio v-model="ruleForm.type" label="1">管理员登录</el-radio>
+              <el-radio v-model="ruleForm.type" label="2">供货商登录</el-radio>
             </el-form-item>
             <el-form-item label="" prop="account">
               <el-input v-model="ruleForm.account" placeholder="请输入手机号"
@@ -54,20 +52,23 @@ export default {
     return {
       type: null,
       ruleForm: {
-        type: '1',
+        type: '',
         account: '',
         password: '',
         randomCode: '',
       },
       rules: {
+        type: [
+          {required: true, message: '请选择', trigger: 'blur'},
+        ],
         account: [
-          {required: true, message: '请输入', trigger: 'change'},
+          {required: true, message: '请输入', trigger: 'blur'},
         ],
         password: [
-          {required: true, message: '请输入', trigger: 'change'},
+          {required: true, message: '请输入', trigger: 'blur'},
         ],
         randomCode: [
-          {validator: validateRandomCode, trigger: 'change'}
+          {validator: validateRandomCode, trigger: 'blur'}
         ],
       },
       randomCode: null

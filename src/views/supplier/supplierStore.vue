@@ -21,14 +21,12 @@
           <template slot-scope="props">
             <table class="table-sku">
               <tr>
-                <th>creatTime</th>
                 <th>sku-id</th>
                 <th>名称</th>
                 <th>图片</th>
                 <th>操作</th>
               </tr>
               <tr v-for="item in props.row.skus">
-                <td>{{ item.creatTime | timestampToDate }}</td>
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
                 <td><img :src="item.skuImage" alt=""></td>
@@ -41,9 +39,6 @@
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
-        </el-table-column>
         <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.title }}</template>
         </el-table-column>
@@ -130,6 +125,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -155,6 +151,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     deleteItem(scope) {
@@ -221,8 +218,8 @@ export default {
       })
         .then(res => {
           this.$message.success(res.msg)
-          this.getGoodsList()
-          this.classifyModuleDialogVisible = false
+          this.getList()
+          this.goodsDialogVisible = false
         }).catch(e => {
         console.log(e)
       })

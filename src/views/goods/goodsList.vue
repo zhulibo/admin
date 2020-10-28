@@ -111,14 +111,6 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <!--            <el-dropdown @command="handleCommand" :show-timeout="50">-->
-            <!--              <span class="el-dropdown-link">分类<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i></span>-->
-            <!--              <el-dropdown-menu slot="dropdown">-->
-            <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'1')">查看分类</el-dropdown-item>-->
-            <!--                <el-dropdown-item :command="beforeHandleCommand(scope.row,'2')">查看ip</el-dropdown-item>-->
-            <!--                &lt;!&ndash;                <el-dropdown-item :command="beforeHandleCommand(scope.row,'3')">一键清空绑定的分类和ip</el-dropdown-item>&ndash;&gt;-->
-            <!--              </el-dropdown-menu>-->
-            <!--            </el-dropdown>-->
             <el-button type="text" size="medium" class="edit" @click="newItemSku(scope.row)">新建sku</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
@@ -140,7 +132,6 @@ export default {
     return {
       formInline: {
         title: '',
-        // title: '测试商品',
         isUp: '',
         minSort: '',
         maxSort: '',
@@ -202,6 +193,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -232,6 +224,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     switchStatus(scope) {

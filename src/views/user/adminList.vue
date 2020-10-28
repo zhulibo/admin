@@ -25,7 +25,7 @@
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.phone | noneToLine }}</template>
+          <template slot-scope="scope">{{ scope.row.phone }}</template>
         </el-table-column>
         <el-table-column prop="name" label="昵称" align="center">
           <template slot-scope="scope">{{ scope.row.name | noneToLine }}</template>
@@ -33,12 +33,17 @@
         <el-table-column prop="tbBackRoleList" label="角色" align="center">
           <template slot-scope="scope">
             <span v-for="item in scope.row.tbBackRoleList" :key="item.id">{{ item.roleName }}</span>
+            <span v-if="!scope.row.tbBackRoleList.length">--</span>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="账号状态" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 0">正常</span>
-            <span v-else-if="scope.row.status == 1">停用</span>
+            <el-switch
+              v-model="scope.row.status"
+              :active-value="0"
+              :inactive-value="1"
+              @change=switchStatus(scope.row)>
+            </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
@@ -71,6 +76,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -95,8 +101,25 @@ export default {
         console.log(e)
       })
     },
+    switchStatus(scope) {
+      this.$http({
+        url: '/userorg/backadmin/user',
+        method: 'PUT',
+        data: {
+          id: scope.id,
+          status: scope.status,
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+        this.getList()
+      }).catch(e => {
+        this.getList()
+        console.log(e)
+      })
+    },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     editItem(scope) {

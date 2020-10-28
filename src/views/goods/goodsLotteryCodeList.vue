@@ -12,25 +12,22 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
-      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="drawId" label="抽奖码" align="center">
-          <template slot-scope="scope">{{ scope.row.drawId }}</template>
+        <el-table-column prop="number" label="抽奖码" align="center">
+          <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
         <el-table-column prop="userId" label="用户id" align="center">
           <template slot-scope="scope">{{ scope.row.userId }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <!--            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>-->
-            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
+          <el-button type="text" size="medium" class="edit" @click="setItem(scope.row)">设置TA中奖</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -83,6 +80,30 @@ export default {
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {
+        console.log(e)
+      })
+    },
+    setItem(scope) {
+      this.$confirm('确定设置用户id ' + scope.userId + ' 中奖', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/drawgoods/drawNumber',
+          method: 'PUT',
+          data: {
+            id: this.id,
+            drawNumber: scope.number,
+          }
+        })
+          .then(res => {
+            this.$message.success('已设置用户id ' + scope.userId + ' 中奖')
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
         console.log(e)
       })
     },

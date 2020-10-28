@@ -34,10 +34,14 @@
             <span v-else-if="scope.row.type == 3">偏远</span>
             <span v-else-if="scope.row.type == 4">到付</span>
             <span v-else-if="scope.row.type == 5">统一运费</span>
+            <span v-else-if="scope.row.type == 6">满多少包邮</span>
           </template>
         </el-table-column>
         <el-table-column prop="carriagePrice" label="邮费" align="center">
-          <template slot-scope="scope">{{ scope.row.carriagePrice }}</template>
+          <template slot-scope="scope">
+            <span v-if="scope.row.type == 6">{{ scope.row.price }}</span>
+            <span v-else>{{ scope.row.carriagePrice }}</span>
+          </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
@@ -94,6 +98,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -119,6 +124,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     editItem(scope) {

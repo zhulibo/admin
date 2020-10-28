@@ -46,13 +46,13 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="订单号" label="number" align="center">
+        <el-table-column prop="number" label="订单号" align="center">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="payMoney" align="center">
+        <el-table-column prop="payMoney" label="订单实付总金额" align="center">
           <template slot-scope="scope">{{ scope.row.payMoney }}</template>
         </el-table-column>
-        <el-table-column prop="商品名称" label="goods" align="center" show-overflow-tooltip>
+        <el-table-column prop="goods" label="商品名称" align="center" show-overflow-tooltip>
           <template slot-scope="scope">
             <template v-for="item in scope.row.goods">{{ item.goodsName }}</template>
           </template>
@@ -156,6 +156,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -232,6 +233,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
   }

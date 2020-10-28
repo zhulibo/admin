@@ -27,11 +27,11 @@
         <el-table-column prop="skuId" label="sku-id" align="center">
           <template slot-scope="scope">{{ scope.row.skuId }}</template>
         </el-table-column>
+        <el-table-column prop="tbGoods" label="商品名称" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.tbGoods.title }}</template>
+        </el-table-column>
         <el-table-column prop="drawTime" label="开奖时间" align="center">
           <template slot-scope="scope">{{ scope.row.drawTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="number" label="奖品数量" align="center">
-          <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
         <el-table-column prop="status" label="抽奖状态" align="center">
           <template slot-scope="scope">
@@ -44,8 +44,8 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
             <el-button type="text" size="medium" class="edit" @click="checkItemCode(scope.row)">查看抽奖码</el-button>
+            <el-button v-if="scope.row.status == 0 || scope.row.status == 1" type="text" size="medium" class="delete" @click="endItem(scope.row)">强制结束</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -75,6 +75,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -100,6 +101,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     editItem(scope) {
@@ -107,6 +109,30 @@ export default {
     },
     checkItemCode(scope) {
       this.$router.push({path: '/goodsLotteryCodeList', query: {id: scope.id}})
+    },
+    endItem(scope) {
+      this.$confirm('确定强制结束 ' + scope.tbGoods.title, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/drawgoods',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            status: 3,
+          }
+        })
+          .then(res => {
+            this.$message.success('已确定强制结束 ' + scope.tbGoods.title)
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
+      })
     },
     newItem() {
       this.$router.push({path: '/goodsLotteryEdit'})

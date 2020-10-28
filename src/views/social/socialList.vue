@@ -193,7 +193,7 @@ export default {
       this.$router.push({path: '/socialEdit', query: {id: scope.id}})
     },
     goSocialCommentList(scope) {
-      this.$router.push({path: '/socialComment', query: {articleId: scope.id}})
+      this.$router.push({path: '/socialCommentList', query: {articleId: scope.id}})
     },
   }
 }

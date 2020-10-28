@@ -21,6 +21,9 @@
         <el-table-column prop="name" label="热词" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
+        <el-table-column prop="sort" label="排序" align="center">
+          <template slot-scope="scope">{{ scope.row.sort | noneToLine}}</template>
+        </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
@@ -51,6 +54,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -76,6 +80,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     deleteItem(scope) {

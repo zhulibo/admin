@@ -1,6 +1,6 @@
 let timestampToDate = value => {
+  if (!value) return ''
   let dt = new Date(Number(value))
-
   let y = dt.getFullYear()
   let m = dt.getMonth() + 1
   let d = dt.getDate()
@@ -23,7 +23,7 @@ let timestampToDate = value => {
 }
 
 let noneToLine = value => {
-  if (!value) return '--'
+  if (value == null) return '--'
   return value
 }
 

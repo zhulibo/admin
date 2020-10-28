@@ -50,8 +50,8 @@
         <el-table-column prop="createTime" label="申请时间" align="center">
           <template slot-scope="scope">{{ scope.row.submitTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="id" label="申请人id" align="center">
-          <template slot-scope="scope">{{ scope.row.id }}</template>
+        <el-table-column prop="userId" label="申请人userId" align="center">
+          <template slot-scope="scope">{{ scope.row.userId }}</template>
         </el-table-column>
         <el-table-column prop="certificate" label="营业执照图片" align="center" class-name="row-img">
           <template slot-scope="scope">
@@ -65,9 +65,6 @@
         </el-table-column>
         <el-table-column prop="createTime" label="审核时间" align="center">
           <template slot-scope="scope">{{ scope.row.checkTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="userId" label="审核人id" align="center">
-          <template slot-scope="scope">{{ scope.row.userId }}</template>
         </el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
@@ -163,6 +160,7 @@ export default {
     }
   },
   created() {
+    this.currentPage = this.global.getContextData('currentPage') || 1
     this.getList()
   },
   mounted() {
@@ -193,10 +191,11 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/businessManEdit', query: {id: scope.id}})
+      this.$router.push({path: '/supplierUserEdit', query: {id: scope.id}})
     },
   }
 }

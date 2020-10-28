@@ -105,7 +105,7 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.name = this.detail.name
-          if (this.detail.sort) this.ruleForm.sort = this.detail.sort
+          if (this.detail.sort != null) this.ruleForm.sort = this.detail.sort
           if (this.detail.types) this.ruleForm.typeList = this.detail.types.split(',').map(Number)
           if (this.detail.brands) this.ruleForm.brandList = this.detail.brands.split(',').map(Number)
           if (this.detail.ips) this.ruleForm.ipList = this.detail.ips.split(',').map(Number)
