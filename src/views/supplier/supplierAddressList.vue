@@ -5,7 +5,7 @@
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入分类名称" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -21,37 +21,27 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="id" label="礼包id" align="center">
-          <template slot-scope="scope">{{ scope.row.id }}</template>
+        <el-table-column prop="sender" label="收货人" align="center">
+          <template slot-scope="scope">{{ scope.row.sender | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="name" label="名称" align="center">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
+        <el-table-column prop="sendPhone" label="手机号" align="center">
+          <template slot-scope="scope">{{ scope.row.sendPhone | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="type" label="类型" align="center">
-          <template slot-scope="scope">
-            <span v-if="scope.row.type == 1">分享礼包</span>
-            <span v-else-if="scope.row.type == 2">邀请码礼包</span>
-          </template>
+        <el-table-column prop="provinceName" label="省" align="center">
+          <template slot-scope="scope">{{ scope.row.provinceName }}</template>
         </el-table-column>
-        <el-table-column prop="img" label="图片" align="center" class-name="row-img">
-          <template slot-scope="scope"><img :src="scope.row.img" alt=""></template>
+        <el-table-column prop="cityName" label="市" align="center">
+          <template slot-scope="scope">{{ scope.row.cityName }}</template>
         </el-table-column>
-        <el-table-column prop="startTime" label="领取时间" align="center">
-          <template slot-scope="scope">{{ scope.row.startTime | timestampToDate }}</template>
+        <el-table-column prop="areaName" label="县" align="center">
+          <template slot-scope="scope">{{ scope.row.areaName }}</template>
         </el-table-column>
-        <el-table-column prop="endTime" label="截止时间" align="center">
-          <template slot-scope="scope">{{ scope.row.endTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="getCount" label="领取个数" align="center">
-          <template slot-scope="scope">{{ scope.row.getCount }}</template>
-        </el-table-column>
-        <el-table-column prop="useCount" label="使用个数" align="center">
-          <template slot-scope="scope">{{ scope.row.useCount }}</template>
+        <el-table-column prop="sendAddress" label="详细地址" align="center">
+          <template slot-scope="scope">{{ scope.row.sendAddress }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <el-button type="text" size="medium" class="edit" @click="checkItemCoupon(scope.row)">查看优惠券</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -70,7 +60,10 @@ export default {
   data() {
     return {
       formInline: {
+        isAuthority: '',
         phone: '',
+        homesickId: '',
+        nickName: '',
       },
       tableList: [],
       pageSize: 10,
@@ -79,7 +72,7 @@ export default {
     }
   },
   created() {
-    this.currentPage = this.global.getContextData('currentPage') || 1
+    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
   },
   mounted() {
@@ -87,16 +80,16 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/order/backadmin/discount/page',
+        url: '/userorg/backadmin/shopaddress/select',
         method: 'GET',
         params: {
-          name: this.name,
+          phone: this.formInline.phone,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
       })
         .then(res => {
-          this.tableList = res.data.list
+          this.tableList = res.data
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {
@@ -105,41 +98,32 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
-      this.global.setContextData('currentPage', this.currentPage)
+      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
     editItem(scope) {
-      this.$router.push({path: '/giftPackEdit', query: {id: scope.id}})
-    },
-    checkItemCoupon(scope) {
-      this.$router.push({path: '/couponList', query: {packageId: scope.id}})
+      this.$router.push({path: '/supplierAddressEdit', query: {id: scope.id}})
     },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.name, '提示', {
+      this.$confirm('确定删除 ' + scope.id, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/order/backadmin/discount/page',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            status: 1,
-          }
+          url: '/userorg/backadmin/shopaddress/delete/' + scope.id,
+          method: 'DELETE',
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.name)
+            this.$message.success('已删除 ' + scope.id)
             this.getList()
-          }).catch(e => {
-          console.log(e)
-        })
+          })
       }).catch(e => {
         console.log(e)
       })
     },
     newItem() {
-      this.$router.push({path: '/giftPackEdit'})
+      this.$router.push({path: '/supplierAddressEdit'})
     },
   }
 }

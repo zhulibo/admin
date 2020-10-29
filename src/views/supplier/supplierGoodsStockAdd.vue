@@ -121,7 +121,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/supplierGoodsList'})
+            this.$router.push({path: '/supplierStore'})
           }).catch(e => {
             console.log(e)
           })

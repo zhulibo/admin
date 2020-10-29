@@ -1,16 +1,28 @@
 export default [
   {
+    name: '活动管理',
     path: '/',
+    meta: {
+      icon: 'iconfont icon-jiangpin',
+    },
     component: () => import ('@/views/index/index'),
     children: [
       {
         path: '/giftPackList',
-        name: '活动管理',
-        component: () => import (/* webpackChunkName: 'giftPackList' */ '@/views/coupon/giftPackList'),
+        name: '礼包管理',
+        component: () => import (/* webpackChunkName: 'giftPackList' */ '@/views/activity/giftPackList'),
         meta: {
           icon: 'iconfont icon-jiangpin',
         },
       },
+      {
+        path: '/appCouponImgList',
+        name: '优惠券图片管理',
+        component: () => import (/* webpackChunkName: 'appCouponImgList' */ '@/views/activity/appCouponImgList'),
+        meta: {
+          icon: 'iconfont icon-jiangpin',
+        },
+      }
     ]
   },
   {
@@ -21,7 +33,7 @@ export default [
       {
         path: '/giftPackEdit',
         name: '礼包编辑',
-        component: () => import (/* webpackChunkName: 'giftPackEdit' */ '@/views/coupon/giftPackEdit'),
+        component: () => import (/* webpackChunkName: 'giftPackEdit' */ '@/views/activity/giftPackEdit'),
       }
     ]
   },
@@ -44,7 +56,7 @@ export default [
       {
         path: '/couponList',
         name: '优惠券列表',
-        component: () => import (/* webpackChunkName: 'couponList' */ '@/views/coupon/couponList'),
+        component: () => import (/* webpackChunkName: 'couponList' */ '@/views/activity/couponList'),
       }
     ]
   },
@@ -56,7 +68,7 @@ export default [
       {
         path: '/couponEdit',
         name: '优惠券编辑',
-        component: () => import (/* webpackChunkName: 'couponEdit' */ '@/views/coupon/couponEdit'),
+        component: () => import (/* webpackChunkName: 'couponEdit' */ '@/views/activity/couponEdit'),
       }
     ]
   },
@@ -68,6 +80,18 @@ export default [
       {
         path: '/couponDel',
         name: '优惠券删除',
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/appCouponImgEdit',
+        name: '优惠券图片编辑',
+        component: () => import (/* webpackChunkName: 'appCouponImgEdit' */ '@/views/activity/appCouponImgEdit'),
       }
     ]
   },

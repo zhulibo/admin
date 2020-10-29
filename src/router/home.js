@@ -1,9 +1,9 @@
 export default [
-  // {
-  //   path: '/',
-  //   redirect: {path: '/admin'},
-  //   hidden: true,
-  // },
+  {
+    path: '/',
+    redirect: {path: '/welcome'},
+    hidden: true,
+  },
   {
     path: '/',
     name: 'index',
@@ -15,5 +15,17 @@ export default [
     name: 'login',
     component: () => import (/* webpackChunkName: 'login' */ '@/views/login/login'),
     hidden: true,
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/welcome',
+        name: '欢迎页',
+        component: () => import (/* webpackChunkName: 'welcome' */ '@/views/index/welcome'),
+      },
+    ]
   },
 ]

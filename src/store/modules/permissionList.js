@@ -542,12 +542,12 @@ let permissionList = [
     ]
   },
   {
-    path: '/couponModule',
+    path: '/activityModule',
     name: '活动管理',
     children: [
       {
         path: '/giftPack',
-        name: '礼包',
+        name: '礼包管理',
         children: [
           {
             path: '/giftPackList',
@@ -572,6 +572,20 @@ let permissionList = [
           {
             path: '/couponDel',
             name: '优惠券删除',
+          },
+        ]
+      },
+      {
+        path: '/appCouponImg',
+        name: '优惠券图片管理',
+        children: [
+          {
+            path: '/appCouponImgList',
+            name: '优惠券图片列表',
+          },
+          {
+            path: '/appCouponImgEdit',
+            name: '优惠券图片编辑',
           },
         ]
       },

@@ -5,9 +5,6 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="价格" prop="price">
-          <el-input v-model="ruleForm.price"></el-input>
-        </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="ruleForm.status">
             <el-radio :label="2">撤销</el-radio>
@@ -30,20 +27,16 @@ export default {
       id: '',
       detail: {},
       ruleForm: {
-        price: '',
         status: '',
       },
       rules: {
-        price: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
         status: [],
       },
     }
   },
   created() {
     this.id = this.$route.query.id
-    this.ruleForm.price = this.$route.query.price
+    // this.ruleForm.status = this.$route.query.status
     this.getAddressList()
   },
   mounted() {
@@ -72,7 +65,6 @@ export default {
             method: 'PUT',
             data: {
               id: this.id,
-              price: this.ruleForm.price,
               status: this.ruleForm.status,
             },
           }).then(res => {

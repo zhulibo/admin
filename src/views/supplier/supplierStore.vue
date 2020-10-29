@@ -24,14 +24,19 @@
                 <th>sku-id</th>
                 <th>名称</th>
                 <th>图片</th>
+                <th>sku上架状态</th>
                 <th>操作</th>
               </tr>
               <tr v-for="item in props.row.skus">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td><img :src="item.skuImage" alt=""></td>
-                <td class="row-manage">
-                  <el-button type="text" size="medium" class="edit" @click="addItem(item.id, item.mainId)">添加库存
+                <td width="200px">{{ item.id }}</td>
+                <td width="500px">{{ item.name }}</td>
+                <td width="200px"><img :src="item.skuImage" alt=""></td>
+                <td width="200px">
+                  <span v-if="item.isUp == 0">正常</span>
+                  <span v-else>下架</span>
+                </td>
+                <td width="200px" class="row-manage">
+                  <el-button v-if="props.row.isUp == 0 && item.isUp == 0" type="text" size="medium" class="edit" @click="addItem(item.id, item.mainId)">添加库存
                   </el-button>
                 </td>
               </tr>
@@ -50,11 +55,12 @@
             <img :src="scope.row.listedImage" alt="">
           </template>
         </el-table-column>
-        <!--        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
+        <el-table-column prop="isUp" label="主商品上架状态" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.isUp == 0">正常</span>
+            <span v-else-if="scope.row.isUp == 1">下架</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pagination-ct clearfix">
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
@@ -125,7 +131,7 @@ export default {
     }
   },
   created() {
-    this.currentPage = this.global.getContextData('currentPage') || 1
+    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
   },
   mounted() {
@@ -151,7 +157,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
-      this.global.setContextData('currentPage', this.currentPage)
+      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
     deleteItem(scope) {

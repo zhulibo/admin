@@ -18,7 +18,7 @@ export default [
       {
         path: '/supplierGoodsList',
         name: '出售商品管理',
-        component: () => import (/* webpackChunkName: 'supplierGoods' */ '@/views/supplier/supplierGoods'),
+        component: () => import (/* webpackChunkName: 'supplierGoodsList' */ '@/views/supplier/supplierGoodsList'),
         meta: {
           icon: 'iconfont icon-cangku',
         },
@@ -26,7 +26,7 @@ export default [
       {
         path: '/supplierAddressList',
         name: '发货地址管理',
-        component: () => import (/* webpackChunkName: 'supplierAddress' */ '@/views/supplier/supplierAddress'),
+        component: () => import (/* webpackChunkName: 'supplierAddressList' */ '@/views/supplier/supplierAddressList'),
         meta: {
           icon: 'iconfont icon-dizhi',
         },

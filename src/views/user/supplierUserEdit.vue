@@ -92,8 +92,8 @@ export default {
       })
         .then(res => {
           this.detail = res.data
-          this.certificateImgOptions.fileList.push({url: this.detail.certificate}) // 图片回显
-          this.qualificationImgOptions.fileList.push({url: this.detail.qualification}) // 图片回显
+          if(this.detail.certificate) this.certificateImgOptions.fileList.push({url: this.detail.certificate}) // 图片回显
+          if(this.detail.qualification) this.qualificationImgOptions.fileList.push({url: this.detail.qualification}) // 图片回显
           this.ruleForm.serviceRatio = this.detail.serviceRatio
           this.ruleForm.status = String(this.detail.status) // el-select必须字符串
           this.ruleForm.failReason = this.detail.failReason

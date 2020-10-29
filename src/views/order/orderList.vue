@@ -156,7 +156,7 @@ export default {
     }
   },
   created() {
-    this.currentPage = this.global.getContextData('currentPage') || 1
+    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
   },
   mounted() {
@@ -233,7 +233,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
-      this.global.setContextData('currentPage', this.currentPage)
+      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
   }

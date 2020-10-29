@@ -19,42 +19,46 @@
           <template slot-scope="props">
             <table class="table-sku">
               <tr>
-                <th>creatTime</th>
                 <th>sku-id</th>
                 <th>名称</th>
-                <th>图片</th>
+                <th>sku图片</th>
                 <th>操作</th>
               </tr>
               <tr v-for="item in props.row.skus">
-                <td>{{ item.creatTime | timestampToDate }}</td>
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
                 <td><img :src="item.skuImage" alt=""></td>
                 <td class="row-manage">
-                  <el-dropdown @command="handleCommand" :show-timeout="50">
+                  <el-dropdown v-if="item.storeList.length > 0" @command="handleCommand" :show-timeout="50">
                     <el-button size="small" class="el-dropdown-link">修改库存</el-button>
                     <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item :command="store" v-for="store in item.storeList" :key="store.id">
-                        id:{{ store.id }} 库存:{{ store.store }} 剩余:{{ store.number }} 价格:{{ store.price }}
+                        总库存:{{ store.store }} 剩余库存:{{ store.number }} 出售价格:￥{{ store.price }}
+                        <span class="store-status" v-if="store.status == 0">正在出售</span>
+                        <span class="store-status" v-else-if="store.status == 1">出售完</span>
+                        <span class="store-status" v-else-if="store.status == 2">供货商撤销</span>
+                        <span class="store-status" v-else-if="store.status == 3">sku被下架</span>
+                        <span class="store-status" v-else-if="store.status == 4">sku被删除</span>
+                        <span class="store-status" v-else-if="store.status == 5">主商品被删除</span>
+                        <span class="store-status" v-else-if="store.status == 6">主商品被下架</span>
+                        <span class="store-status" v-else-if="store.status == 7">供货商删除</span>
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
+<!--                  <span v-else>此sku暂无库存</span>-->
                 </td>
               </tr>
             </table>
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
-        </el-table-column>
         <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.title }}</template>
         </el-table-column>
         <el-table-column prop="id" label="商品id" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column prop="listedImage" label="列表图片" align="center" class-name="row-img">
+        <el-table-column prop="listedImage" label="商品图片" align="center" class-name="row-img">
           <template slot-scope="scope">
             <img :src="scope.row.listedImage" alt="">
           </template>
@@ -83,7 +87,7 @@ export default {
     }
   },
   created() {
-    this.currentPage = this.global.getContextData('currentPage') || 1
+    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
   },
   mounted() {
@@ -109,12 +113,12 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
-      this.global.setContextData('currentPage', this.currentPage)
+      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
     handleCommand(command) {
       console.log(command)
-      this.$router.push({path: '/supplierGoodsStockEdit', query: {id: command.id, price: command.price}})
+      this.$router.push({path: '/supplierGoodsStockEdit', query: {id: command.id, status: command.status}})
     },
   },
   watch: {}
@@ -138,5 +142,11 @@ export default {
   img {
     height: 3em
   }
+}
+.store-status{
+  display: inline-block
+  min-width 7em
+  text-align: center
+  font-weight: bold
 }
 </style>

@@ -86,7 +86,7 @@
             <span v-else-if="scope.row.status == 18">二次确认放弃修复</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="500px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="firstEvaluation(scope.row)">初次评审</el-button>
             <el-button type="text" size="medium" class="edit" @click="secondEvaluation(scope.row)">二次评估</el-button>
@@ -283,7 +283,7 @@ export default {
     imgUpload
   },
   created() {
-    this.currentPage = this.global.getContextData('currentPage') || 1
+    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
   },
   mounted() {
@@ -457,7 +457,7 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
-      this.global.setContextData('currentPage', this.currentPage)
+      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
   }

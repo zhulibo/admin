@@ -78,6 +78,7 @@ export default {
     randomCode
   },
   created() {
+    this.ruleForm.type = JSON.parse(localStorage.getItem('userType')) || '' // 读取上次次登录账户类型
   },
   mounted() {
     this.ruleForm.randomCode = this.randomCode
@@ -103,10 +104,12 @@ export default {
                 token: res.data.token,
                 permission: res.data.list,
               }
-              this.$store.dispatch('updateUserInfo', userInfo)
-              this.$store.dispatch('updateRouter', userInfo.permission)
-              localStorage.setItem('userInfo', JSON.stringify(userInfo))
-              this.$router.push({path: '/'})
+              this.$store.dispatch('updateUserInfo', userInfo) // 存储用户信息到vuex
+              this.$store.dispatch('updateRouter', userInfo.permission) // 存储用户权限到vuex
+              localStorage.setItem('userInfo', JSON.stringify(userInfo)) // 存储用户信息到localStorage
+              localStorage.setItem('userType', JSON.stringify(this.ruleForm.type)) // 存储本次登录账户类型到localStorage
+
+              this.$router.push({path: '/welcome'})
             }).catch(e => {
             console.log(e)
           })
