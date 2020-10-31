@@ -34,7 +34,7 @@
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.title }}</template>
+          <template slot-scope="scope"><span v-copy="scope.row.title" title="点击可复制" class="copy-span">{{ scope.row.title }}</span></template>
         </el-table-column>
         <el-table-column prop="preId" label="预售活动id" align="center">
           <template slot-scope="scope">{{ scope.row.preId }}</template>

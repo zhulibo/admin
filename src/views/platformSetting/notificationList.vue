@@ -4,8 +4,8 @@
       <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.name" placeholder="请输入分类名称" @keyup.enter.native="getList"></el-input>
+          <el-form-item label="推送内容" prop="content">
+            <el-input v-model="formInline.content"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -21,14 +21,16 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="name" label="名称" align="center">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
+        <el-table-column prop="title" label="标题" align="center">
+          <template slot-scope="scope">{{ scope.row.title }}</template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
+        <el-table-column prop="image" label="图片" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
+            <img :src="scope.row.image" alt="">
           </template>
+        </el-table-column>
+        <el-table-column prop="content" label="内容" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.content }}</template>
         </el-table-column>
       </el-table>
       <div class="pagination-ct clearfix">
@@ -44,9 +46,8 @@ export default {
   name: 'item',
   data() {
     return {
-      packageId: '',
       formInline: {
-        phone: '',
+        content: '',
       },
       tableList: [],
       pageSize: 10,
@@ -55,7 +56,7 @@ export default {
     }
   },
   created() {
-    this.packageId = this.$route.query.packageId
+    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
   },
   mounted() {
@@ -63,10 +64,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/order/backadmin/discount/discount',
+        url: '/userorg/backadmin/message',
         method: 'GET',
         params: {
-          packageId: this.packageId,
+          content: this.formInline.content,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -81,37 +82,11 @@ export default {
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
+      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
-    editItem(scope) {
-      this.$router.push({path: '/couponEdit', query: {id: scope.id, packageId: this.packageId}})
-    },
-    deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.name, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        this.$http({
-          url: '/order/backadmin/discount/discount',
-          method: 'PUT',
-          data: {
-            id: scope.id,
-            status: 1,
-          }
-        })
-          .then(res => {
-            this.$message.success('已删除 ' + scope.name)
-            this.getList()
-          }).catch(e => {
-          console.log(e)
-        })
-      }).catch(e => {
-        console.log(e)
-      })
-    },
     newItem() {
-      this.$router.push({path: '/couponEdit', query: {packageId: this.packageId}})
+      this.$router.push({path: '/notificationEdit'})
     },
   }
 }

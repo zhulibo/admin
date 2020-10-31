@@ -21,9 +21,6 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
-        </el-table-column>
         <el-table-column prop="shopId" label="shopId" align="center">
           <template slot-scope="scope">{{ scope.row.shopId }}</template>
         </el-table-column>
@@ -37,7 +34,7 @@
             <span v-else-if="scope.row.type == 6">满多少包邮</span>
           </template>
         </el-table-column>
-        <el-table-column prop="carriagePrice" label="邮费" align="center">
+        <el-table-column prop="carriagePrice" label="邮费(元)" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 6">{{ scope.row.price }}</span>
             <span v-else>{{ scope.row.carriagePrice }}</span>

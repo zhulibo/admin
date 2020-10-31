@@ -23,7 +23,7 @@ let timestampToDate = value => {
 }
 
 let noneToLine = value => {
-  if (value == null) return '--'
+  if (value === null || value === '') return '--'
   return value
 }
 

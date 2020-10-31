@@ -50,14 +50,11 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="title" label="动态标题" align="center">
+        <el-table-column prop="title" label="动态标题" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.title | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="content" label="内容" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.content | noneToLine }}</template>
-        </el-table-column>
-        <el-table-column prop="isUser" label="发布人id" align="center">
-          <template slot-scope="scope">{{ scope.row.isUser | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="commentNum" label="评论数" align="center">
           <template slot-scope="scope">{{ scope.row.commentNum | noneToLine }}</template>

@@ -283,6 +283,48 @@ let permissionList = [
           },
         ]
       },
+      {
+        path: '/orderSetting',
+        name: '订单设置管理',
+        children: [
+          {
+            path: '/orderSettingList',
+            name: '订单设置列表',
+          },
+          {
+            path: '/orderSettingEdit',
+            name: '订单设置编辑',
+          },
+        ]
+      },
+      {
+        path: '/notification',
+        name: '消息推送管理',
+        children: [
+          {
+            path: '/notificationList',
+            name: '消息推送列表',
+          },
+          {
+            path: '/notificationEdit',
+            name: '消息推送编辑',
+          },
+        ]
+      },
+      {
+        path: '/startup',
+        name: '启动页管理',
+        children: [
+          {
+            path: '/startupList',
+            name: '启动页列表',
+          },
+          {
+            path: '/startupEdit',
+            name: '启动页编辑',
+          },
+        ]
+      },
     ]
   },
   {

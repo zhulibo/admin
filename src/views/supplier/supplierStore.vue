@@ -45,7 +45,7 @@
         </el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.title }}</template>
+          <template slot-scope="scope"><span v-copy="scope.row.title" title="点击可复制" class="copy-span">{{ scope.row.title }}</span></template>
         </el-table-column>
         <el-table-column prop="id" label="商品id" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
@@ -79,10 +79,10 @@
         </el-form>
         <div class="choose-list">
           <el-table :data="goodsList" @selection-change="handleSelectionChange">
-            <el-table-column prop="title" label="名称" align="center" show-overflow-tooltip>
-              <template slot-scope="scope">{{ scope.row.title | noneToLine }}</template>
+            <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
+              <template slot-scope="scope">{{ scope.row.title }}</template>
             </el-table-column>
-            <el-table-column prop="listedImage" label="边框图片" align="center" class-name="row-img">
+            <el-table-column prop="listedImage" label="图片" align="center" class-name="row-img">
               <template slot-scope="scope">
                 <img :src="scope.row.listedImage" alt="">
               </template>

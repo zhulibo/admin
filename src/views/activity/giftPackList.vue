@@ -18,11 +18,8 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
+        <el-table-column prop="createTime" label="创建时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="id" label="礼包id" align="center">
-          <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>

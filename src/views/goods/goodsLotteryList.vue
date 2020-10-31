@@ -28,7 +28,7 @@
           <template slot-scope="scope">{{ scope.row.skuId }}</template>
         </el-table-column>
         <el-table-column prop="tbGoods" label="商品名称" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.tbGoods.title }}</template>
+          <template slot-scope="scope" v-if="scope.row.tbGoods"><span v-copy="scope.row.tbGoods.title" title="点击可复制" class="copy-span">{{ scope.row.tbGoods.title }}</span></template>
         </el-table-column>
         <el-table-column prop="drawTime" label="开奖时间" align="center">
           <template slot-scope="scope">{{ scope.row.drawTime | timestampToDate }}</template>

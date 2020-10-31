@@ -54,7 +54,31 @@ export default [
         meta: {
           icon: 'iconfont icon-banner',
         },
-      }
+      },
+      {
+        path: '/orderSettingList',
+        name: '订单设置管理',
+        component: () => import (/* webpackChunkName: 'orderSettingList' */ '@/views/platformSetting/orderSettingList'),
+        meta: {
+          icon: 'iconfont icon-banner',
+        },
+      },
+      {
+        path: '/notificationList',
+        name: '消息推送管理',
+        component: () => import (/* webpackChunkName: 'notificationList' */ '@/views/platformSetting/notificationList'),
+        meta: {
+          icon: 'iconfont icon-banner',
+        },
+      },
+      {
+        path: '/startupList',
+        name: '启动页管理',
+        component: () => import (/* webpackChunkName: 'startupList' */ '@/views/platformSetting/startupList'),
+        meta: {
+          icon: 'iconfont icon-banner',
+        },
+      },
     ]
   },
   {
@@ -192,6 +216,42 @@ export default [
       {
         path: '/bannerDel',
         name: '轮播图删除',
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/orderSettingEdit',
+        name: '订单设置编辑',
+        component: () => import (/* webpackChunkName: 'orderSettingEdit' */ '@/views/platformSetting/orderSettingEdit'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/notificationEdit',
+        name: '消息推送编辑',
+        component: () => import (/* webpackChunkName: 'notificationEdit' */ '@/views/platformSetting/notificationEdit'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/startupEdit',
+        name: '启动页编辑',
+        component: () => import (/* webpackChunkName: 'startupEdit' */ '@/views/platformSetting/startupEdit'),
       }
     ]
   },

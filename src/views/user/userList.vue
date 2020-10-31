@@ -48,7 +48,7 @@
         <el-table-column prop="userPhone" label="手机号" align="center">
           <template slot-scope="scope">{{ scope.row.userPhone | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="iconUrl" label="img" align="center" class-name="row-img">
+        <el-table-column prop="header" label="头像" align="center" class-name="row-img">
           <template slot-scope="scope">
             <img :src="scope.row.header" alt="">
           </template>
@@ -63,6 +63,16 @@
               :active-value="0"
               :inactive-value="1"
               @change=switchStatus(scope.row)>
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column prop="isRecommendFocus" label="是否推荐关注" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.isRecommendFocus"
+              :active-value="1"
+              :inactive-value="0"
+              @change=switchRecommendStatus(scope.row)>
             </el-switch>
           </template>
         </el-table-column>
@@ -139,6 +149,22 @@ export default {
         data: {
           userId: scope.userId,
           del: scope.del,
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+        this.getList()
+      }).catch(e => {
+        this.getList()
+        console.log(e)
+      })
+    },
+    switchRecommendStatus(scope) {
+      this.$http({
+        url: '/userorg/backadmin/appuser',
+        method: 'PUT',
+        data: {
+          userId: scope.userId,
+          isRecommendFocus: scope.isRecommendFocus,
         }
       }).then(res => {
         this.$message.success(res.msg)

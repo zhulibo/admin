@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    dev: true,
+    // dev: true,
     component: () => import ('@/views/index/index'),
     children: [
       {
@@ -16,7 +16,7 @@ export default [
   },
   {
     path: '/',
-    dev: true,
+    // dev: true,
     component: () => import ('@/views/index/index'),
     children: [
       {

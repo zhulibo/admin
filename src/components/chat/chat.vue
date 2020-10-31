@@ -2,7 +2,9 @@
   <div class="chat" v-drag>
     <div class="chat-title clearfix">
       <div class="chat-host-name"><i class="el-icon-service"></i> 客服:{{userId}}</div>
-      <div class="chat-close" @click="closeChat" v-stopDrag><i class="el-icon-close"></i></div>
+      <div class="chat-close" @click="closeChat" v-stopDrag>
+<!--        <i class="el-icon-close"></i>-->
+      </div>
     </div>
     <div class="chat-body clearfix" v-stopDrag>
       <div class="side-nav">
@@ -63,7 +65,7 @@ export default {
   name: 'chat',
   data() {
     return {
-      userId: '182036639611',
+      userId: '',
       customerId: '', // 当前聊天顾客
       // customerId: 'kf1062', // 当前聊天顾客
       // customerId: 'kf1679', // 当前聊天顾客
@@ -73,13 +75,28 @@ export default {
       sendMsgTipVisible: false, // 发送空信息提示
     }
   },
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+  },
   created() {
     // 获取缓存中的聊天记录
     let msgListStorage = JSON.parse(localStorage.getItem('msgList'))
     if(msgListStorage) {
       this.msgList = msgListStorage
     }
+    // 赋值客服id
+    if(this.userInfo.phone == 18203663961){
+      this.userId = 182036639611
+      // this.customerId = 182036639612
+    }else if (this.userInfo.phone == 15290243173){
+      this.userId = 182036639612
+      // this.customerId = 182036639611
+    }
+
     this.logIn()
+
     WebIM.conn.listen({
       onTextMessage: (e) => { // 监听文字消息
         console.log('收到文本', e)
@@ -299,8 +316,8 @@ export default {
 <style lang="stylus" scoped>
 .chat {
   position: fixed
-  right: 100px
-  bottom: 100px
+  right: 50px
+  bottom: -530px
   z-index 1000
   width: 800px
   background-color: #fff

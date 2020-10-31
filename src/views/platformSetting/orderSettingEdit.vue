@@ -5,11 +5,14 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="支付密码" prop="payPwd">
-          <el-input v-model="ruleForm.payPwd"></el-input>
+        <el-form-item label="类型" prop="type">
+          <el-radio-group v-model="ruleForm.type">
+            <el-radio :label="1">确认收货时间</el-radio>
+            <el-radio :label="2">订单取消时间</el-radio>
+          </el-radio-group>
         </el-form-item>
-        <el-form-item label="用户充值密码" prop="passWord">
-          <el-input v-model="ruleForm.passWord"></el-input>
+        <el-form-item label="分钟数" prop="minute">
+          <el-input v-model="ruleForm.minute"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
@@ -20,38 +23,46 @@
 </template>
 
 <script>
+
 export default {
   name: 'itemEdit',
   data() {
     return {
-      userId: '',
+      id: '',
       detail: {},
       ruleForm: {
-        payPwd: '',
-        passWord: '',
+        type: '',
+        minute: '',
       },
       rules: {
-        payPwd: [],
-        passWord: [],
+        type: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        minute: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
       },
     }
   },
   created() {
-    this.userId = this.$route.query.userId
-    if (this.userId) this.getDetail()
+    this.id = this.$route.query.id
+    if (this.id) this.getDetail()
   },
   mounted() {
   },
   methods: {
     getDetail() {
       this.$http({
-        url: '/userorg/backadmin/appuser/detail/' + this.userId,
+        url: '/order/backadmin/setting/detail',
         method: 'GET',
+        params: {
+          id: this.id
+        }
       })
         .then(res => {
           this.detail = res.data
-          this.ruleForm.payPwd = this.detail.tbAppUserDetail.payPwd
-          this.ruleForm.passWord = this.detail.passWord
+          this.ruleForm.type = this.detail.type
+          this.ruleForm.minute = this.detail.minute
         }).catch(e => {
         console.log(e)
       })
@@ -60,16 +71,16 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
-            url: '/userorg/backadmin/appuser',
-            method: 'PUT',
+            url: '/order/backadmin/setting',
+            method: this.id ? 'PUT' : 'POST',
             data: {
-              userId: this.userId,
-              payPwd: this.ruleForm.payPwd,
-              passWord: this.ruleForm.passWord,
+              id: this.id ? this.id : '',
+              type: this.ruleForm.type,
+              minute: this.ruleForm.minute,
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/userList'})
+            this.$router.push({path: '/orderSettingList'})
           }).catch(e => {
             console.log(e)
           })

@@ -1,194 +1,463 @@
 <template>
   <div>
-    <div class="table-head clearfix">
+    <div class="edit-head clearfix">
       <h2 class="head-title">{{ this.$route.name }}</h2>
-      <div class="sch">
-        <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="订单状态">
-            <el-select v-model="formInline.status" placeholder="请选择" @change="getList">
-              <el-option label="全部" value=""></el-option>
-              <el-option label="待付款" value="1"></el-option>
-              <el-option label="待发货" value="2"></el-option>
-              <el-option label="待收货" value="3"></el-option>
-              <el-option label="确认收货已完成" value="5"></el-option>
-              <el-option label="超时取消" value="6"></el-option>
-              <el-option label="用户取消" value="7"></el-option>
-              <el-option label="管理员取消" value="8"></el-option>
-              <el-option label="删除" value="0"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="">
-            <el-input v-model="formInline.number" placeholder="请输入订单号" @keyup.enter.native="getList"></el-input>
-          </el-form-item>
-          <el-form-item label="">
-            <el-date-picker
-              v-model="formInline.time"
-              type="daterange"
-              unlink-panels
-              range-separator="至"
-              start-placeholder="开始时间"
-              end-placeholder="结束时间"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              @change="getList"
-              :picker-options="pickerOptions">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" plain @click="getList">查询</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
     </div>
-    <div class="table">
-      <el-table :data="tableList">
-        <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="订单号" label="number" align="center">
-          <template slot-scope="scope">{{ scope.row.number }}</template>
-        </el-table-column>
-        <el-table-column prop="payMoney" label="payMoney" align="center">
-          <template slot-scope="scope">{{ scope.row.payMoney }}</template>
-        </el-table-column>
-        <el-table-column prop="商品名称" label="goods" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <template v-for="item in scope.row.goods">{{ item.goodsName }}</template>
-          </template>
-        </el-table-column>
-        <!--                <el-table-column prop="iconUrl" label="img" align="center" class-name="row-img">-->
-        <!--                  <template slot-scope="scope">-->
-        <!--                    <img :src="scope.row.iconUrl" alt="">-->
-        <!--                  </template>-->
-        <!--                </el-table-column>-->
-        <el-table-column prop="status" label="订单状态" align="center">
-          <template slot-scope="scope">
-            <span v-if="scope.row.status == 0">删除</span>
-            <span v-else-if="scope.row.status == 1">待付款</span>
-            <span v-else-if="scope.row.status == 2">待发货</span>
-            <span v-else-if="scope.row.status == 3">待收货</span>
-            <span v-else-if="scope.row.status == 5">确认收货已完成</span>
-            <span v-else-if="scope.row.status == 6">超时取消</span>
-            <span v-else-if="scope.row.status == 7">用户取消</span>
-            <span v-else-if="scope.row.status == 8">管理员取消</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
-          <template slot-scope="scope">
-            <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="pagination-ct clearfix">
-        <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
-                       @current-change="handleCurrentChange" background></el-pagination>
+    <div class="edit-ct">
+      <div class="base-info">
+        <div class="title"><h3>基本信息</h3></div>
+        <ul>
+          <li>
+            <div class="l">
+              <span>订单时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.creatTime | timestampToDate }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单号</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.number }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单状态</span>
+            </div>
+            <div class="r">
+              <span v-if="detail.status == 0">已删除</span>
+              <span v-else-if="detail.status == 1">待付款</span>
+              <span v-else-if="detail.status == 2">待发货</span>
+              <span v-else-if="detail.status == 3">待收货</span>
+              <span v-else-if="detail.status == 4">用户已确认收货</span>
+              <span v-else-if="detail.status == 5">支付后用户取消</span>
+              <span v-else-if="detail.status == 6">支付后后台取消</span>
+              <span v-else-if="detail.status == 7">未支付超时取消</span>
+              <span v-else-if="detail.status == 8">未支付用户取消</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>预售订单状态</span>
+            </div>
+            <div class="r">
+              <span v-if="detail.preStatus == 1">已预订</span>
+              <span v-else-if="detail.preStatus == 2">已付尾款</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>是否结算</span>
+            </div>
+            <div class="r">
+              <span v-if="detail.isBalance == 0">未结算</span>
+              <span v-else-if="detail.isBalance == 1">未结算</span>
+              <span v-else-if="detail.isBalance == 2">已结算</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单应付总金额</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.allMoney }}元</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单实付总金额</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.payMoney }}元</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>应付尾款</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.endPayMoney }}元</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>预付金额</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.prePayMoney }}元</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单优惠价格</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.discounts }}元</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>供货商id</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.shopId }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>用户id</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.userId }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>服务费比例</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.serviceRatio }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="goods-info">
+        <div class="title"><h3>商品信息</h3></div>
+        <ul v-for="item in detail.goods">
+          <li>
+            <div class="l">
+              <span>主商品id</span>
+            </div>
+            <div class="r">
+              <span>{{ item.goodsId }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>sku-id</span>
+            </div>
+            <div class="r">
+              <span>{{ item.skuId }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>商品名称</span>
+            </div>
+            <div class="r">
+              <span>{{ item.goodsName }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>商品图片</span>
+            </div>
+            <div class="r">
+              <img :src="item.goodsPhoto" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>商品规格</span>
+            </div>
+            <div class="r">
+              <span>{{ item.goodsModels }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>商品价格</span>
+            </div>
+            <div class="r">
+              <span>{{ item.goodsMoney }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>购买数量</span>
+            </div>
+            <div class="r">
+              <span>{{ item.goodsNumber }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="order-info">
+        <div class="title"><h3>订单信息</h3></div>
+        <ul>
+          <li>
+            <div class="l">
+              <span>收货人电话</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.phone }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>收货人姓名</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.name }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>收货人地址</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.address }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单编号</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.logNumber | noneToLine }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>买家备注</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.remark | noneToLine}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>订单运费</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.carriage }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.payTime">
+            <div class="l">
+              <span>支付时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.payTime }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.payType">
+            <div class="l">
+              <span>支付方式</span>
+            </div>
+            <div class="r">
+              <span v-if="detail.tbOrderDetail.payType == 1">支付宝</span>
+              <span v-else-if="detail.tbOrderDetail.payType == 2">微信</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.sendTime">
+            <div class="l">
+              <span>发货时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.sendTime | timestampToDate}}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.passTime">
+            <div class="l">
+              <span>订单取消时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.passTime | timestampToDate }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.autoTakeTime">
+            <div class="l">
+              <span>自动确认收货时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.autoTakeTime | timestampToDate }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.takeTime">
+            <div class="l">
+              <span>用户确认收货时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.takeTime | timestampToDate }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.beAddress">
+            <div class="l">
+              <span>发货地址</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.beAddress }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.originalNumber">
+            <div class="l">
+              <span>原订单编号</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.originalNumber }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.separateTime">
+            <div class="l">
+              <span>拆单时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.separateTime | timestampToDate }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.prePayTime">
+            <div class="l">
+              <span>预付支付时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.prePayTime | timestampToDate }}</span>
+            </div>
+          </li>
+          <li v-if="detail.tbOrderDetail.endPayTime">
+            <div class="l">
+              <span>尾款支付时间</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.tbOrderDetail.endPayTime | timestampToDate }}</span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'item',
+  name: 'itemEdit',
   data() {
     return {
-      formInline: {
-        status: '',
-        number: '',
-        time: [],
-      },
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: '最近一天',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
-              picker.$emit('pick', [start, end]);
-            }
-          },
-          {
-            text: '最近二天',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
-            }
-          },
-          {
-            text: '最近三天',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 3);
-              picker.$emit('pick', [start, end]);
-            }
-          },
-          {
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          },
-          {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }
-        ]
-      },
-      tableList: [],
-      pageSize: 10,
-      currentPage: 1,
-      totalPages: null,
+      id: '',
+      detail: {},
     }
   },
   created() {
-    this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
-    this.getList()
+    this.id = this.$route.query.id
+    this.getDetail()
   },
   mounted() {
   },
   methods: {
-    getList: function () {
+    getDetail() {
       this.$http({
-        url: '/order/backadmin/shoporder/detail',
+        url: '/order/backadmin/shoporder',
         method: 'GET',
         params: {
-          status: this.formInline.status,
-          pageSize: this.pageSize,
-          pageNumber: this.currentPage,
+          id: this.id,
         }
       })
         .then(res => {
-          this.tableList = res.data.list
-          this.totalPages = res.data.pages
-          this.currentPage = res.data.pageNum
+          this.detail = res.data
         }).catch(e => {
         console.log(e)
       })
     },
-    checkItem(scope) {
-      this.$router.push({path: '/orderDetail', query: {id: scope.id}})
-    },
-    handleCurrentChange: function (val) { // 页码变更
-      this.currentPage = val
-      this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
-      this.getList()
-    },
-  }
+  },
+  watch: {}
 }
 </script>
 
 <style lang="stylus" scoped>
+.base-info{
+  .title{
+    margin-top: 20px
+    h3{
+      display: inline-block
+      font-size 16px
+      font-weight: bold
+      color: #666
+      border-bottom: 2px solid #999
+    }
+  }
+  ul{
+    margin-left: 30px
+  }
+  li{
+    display: flex
+    margin-top: 10px
+    margin-bottom: 10px
+    .l {
+      width: 200px
+    }
+    .r {
+      flex: 1
+    }
+  }
+}
+.goods-info{
+  .title{
+    margin-top: 20px
+    h3{
+      display: inline-block
+      font-size 16px
+      font-weight: bold
+      color: #666
+      border-bottom: 2px solid #999
+    }
+  }
+  ul{
+    margin-left: 30px
+    border-bottom: 1px dashed #aaa
+    &:last-child{
+      border: none
+    }
+  }
+  li{
+    display: flex
+    margin-top: 10px
+    margin-bottom: 10px
+    .l {
+      width: 200px
+    }
+    .r {
+      flex: 1
+      img {
+        height: 5em
+      }
+    }
+  }
+}
+.order-info{
+  .title{
+    margin-top: 20px
+    h3{
+      display: inline-block
+      font-size 16px
+      font-weight: bold
+      color: #666
+      border-bottom: 2px solid #999
+    }
+  }
+  ul{
+    margin-left: 30px
+  }
+  li{
+    display: flex
+    margin-top: 10px
+    margin-bottom: 10px
+    .l {
+      width: 200px
+    }
+    .r {
+      flex: 1
+    }
+  }
+}
+.split-order {
+  padding: 50px
+  h3 {
+    font-weight: bold
+    font-size 16px
+  }
+}
 </style>

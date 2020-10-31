@@ -11,12 +11,12 @@
             <el-select v-model="formInline.status" placeholder="请选择" @change="getList">
               <el-option label="全部" value=""></el-option>
               <el-option label="提交申请" value="1"></el-option>
-              <el-option label="同意" value="2"></el-option>
-              <el-option label="拒绝" value="3"></el-option>
+              <el-option label="已同意申请" value="2"></el-option>
+              <el-option label="已拒绝申请" value="3"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="类型">
-            <el-select v-model="formInline.status" placeholder="请选择" @change="getList">
+            <el-select v-model="formInline.type" placeholder="请选择" @change="getList">
               <el-option label="全部" value=""></el-option>
               <el-option label="入账" value="1"></el-option>
               <el-option label="提现" value="2"></el-option>
@@ -36,16 +36,16 @@
         <el-table-column prop="createTime" label="申请时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="code" label="提现单号" align="center">
-          <template slot-scope="scope">{{ scope.row.code }}</template>
+        <el-table-column prop="number" label="提现单号" align="center">
+          <template slot-scope="scope">{{ scope.row.number | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="userId" label="用户id" align="center">
-          <template slot-scope="scope">{{ scope.row.userId }}</template>
+        <el-table-column prop="nickName" label="用户名" align="center">
+          <template slot-scope="scope">{{ scope.row.nickName }}</template>
         </el-table-column>
-        <el-table-column prop="money" label="提现金额" align="center">
+        <el-table-column prop="money" label="提现金额(元)" align="center">
           <template slot-scope="scope">{{ scope.row.money }}</template>
         </el-table-column>
-        <el-table-column prop="actualAmount" label="实际转账金额" align="center">
+        <el-table-column prop="actualAmount" label="实际转账金额(元)" align="center">
           <template slot-scope="scope">{{ scope.row.actualAmount }}</template>
         </el-table-column>
         <el-table-column prop="type" label="提现方式" align="center">
@@ -55,16 +55,16 @@
             <span v-else-if="scope.row.type == 3">银行卡</span>
           </template>
         </el-table-column>
-        <el-table-column prop="type" label="提现方式" align="center">
+        <el-table-column prop="type" label="状态" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1">申请</span>
-            <span v-else-if="scope.row.status == 2">成功</span>
-            <span v-else-if="scope.row.status == 3">失败</span>
+            <span v-if="scope.row.status == 1">已申请</span>
+            <span v-else-if="scope.row.status == 2">提现成功</span>
+            <span v-else-if="scope.row.status == 3">已拒绝</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="changeStatus(scope.row)">操作状态</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 1" @click="changeStatus(scope.row)">审核</el-button>
             <el-button type="text" size="medium" class="edit" @click="changeBalance(scope.row)">修改余额</el-button>
           </template>
         </el-table-column>
@@ -159,9 +159,9 @@ export default {
         url: '/userorg/backadmin/shop/balance',
         method: 'GET',
         params: {
-          name: this.name,
-          status: this.status,
-          type: this.type,
+          name: this.formInline.name,
+          status: this.formInline.status,
+          type: this.formInline.type,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }

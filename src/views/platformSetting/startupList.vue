@@ -2,39 +2,26 @@
   <div>
     <div class="table-head clearfix">
       <h2 class="head-title">{{ this.$route.name }}</h2>
-      <div class="sch">
-        <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.phone" placeholder="请输入手机号" @keyup.enter.native="getList"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" plain @click="getList">查询</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
       <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
       </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="sender" label="收货人" align="center">
-          <template slot-scope="scope">{{ scope.row.sender | noneToLine }}</template>
+        <el-table-column prop="image" label="图片/视频" align="center" class-name="row-img">
+          <template slot-scope="scope">
+            <img v-if="scope.row.type == 1" :src="scope.row.image" alt="">
+            <video v-else-if="scope.row.type == 2" :src="scope.row.image" style="height: 3em;"></video>
+          </template>
         </el-table-column>
-        <el-table-column prop="sendPhone" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.sendPhone | noneToLine }}</template>
+        <el-table-column prop="type" label="启动页类型" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.type == 1">图片</span>
+            <span v-else-if="scope.row.type == 2">视频</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="provinceName" label="省" align="center">
-          <template slot-scope="scope">{{ scope.row.provinceName }}</template>
-        </el-table-column>
-        <el-table-column prop="cityName" label="市" align="center">
-          <template slot-scope="scope">{{ scope.row.cityName }}</template>
-        </el-table-column>
-        <el-table-column prop="areaName" label="县" align="center">
-          <template slot-scope="scope">{{ scope.row.areaName }}</template>
-        </el-table-column>
-        <el-table-column prop="sendAddress" label="详细地址" align="center">
-          <template slot-scope="scope">{{ scope.row.sendAddress }}</template>
+        <el-table-column prop="sort" label="排序" align="center">
+          <template slot-scope="scope">{{ scope.row.sort | noneToLine}}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
@@ -57,10 +44,7 @@ export default {
   data() {
     return {
       formInline: {
-        isAuthority: '',
-        phone: '',
-        homesickId: '',
-        nickName: '',
+        name: '',
       },
       tableList: [],
       pageSize: 10,
@@ -77,16 +61,15 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/userorg/backadmin/shopaddress/select',
+        url: '/userorg/backadmin/startimage',
         method: 'GET',
         params: {
-          phone: this.formInline.phone,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
       })
         .then(res => {
-          this.tableList = res.data
+          this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {
@@ -98,29 +81,33 @@ export default {
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
-    editItem(scope) {
-      this.$router.push({path: '/supplierAddressEdit', query: {id: scope.id}})
-    },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.id, '提示', {
+      this.$confirm('确定删除 ', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/userorg/backadmin/shopaddress/delete/' + scope.id,
-          method: 'DELETE',
+          url: '/userorg/backadmin/startimage',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            del: 1,
+          }
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.id)
+            this.$message.success('已删除 ')
             this.getList()
           })
       }).catch(e => {
         console.log(e)
       })
     },
+    editItem(scope) {
+      this.$router.push({path: '/startupEdit', query: {id: scope.id}})
+    },
     newItem() {
-      this.$router.push({path: '/supplierAddressEdit'})
+      this.$router.push({path: '/startupEdit'})
     },
   }
 }

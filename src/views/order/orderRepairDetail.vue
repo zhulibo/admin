@@ -7,7 +7,7 @@
       <ul class="detail">
         <li>
           <div class="l">
-            <span>添加时间</span>
+            <span>创建时间</span>
           </div>
           <div class="r">
             <span>{{ detail.creatTime | timestampToDate }}</span>
@@ -15,7 +15,7 @@
         </li>
         <li>
           <div class="l">
-            <span>维修订单号</span>
+            <span>维修订单id</span>
           </div>
           <div class="r">
             <span>{{ detail.id }}</span>
@@ -68,7 +68,7 @@
             <span>外观图片</span>
           </div>
           <div class="r">
-            <img :src="detail.outImages" alt="">
+            <img v-for="item in detail.outImages" :src="item" alt="">
           </div>
         </li>
         <li>
@@ -76,7 +76,7 @@
             <span>底座图片</span>
           </div>
           <div class="r">
-            <img :src="detail.baseImages" alt="">
+            <img v-for="item in detail.baseImages" :src="item" alt="">
           </div>
         </li>
         <li>
@@ -84,7 +84,7 @@
             <span>损坏位置图片</span>
           </div>
           <div class="r">
-            <img :src="detail.breakImages" alt="">
+            <img v-for="item in detail.breakImages" :src="item" alt="">
           </div>
         </li>
         <li>
@@ -97,10 +97,34 @@
         </li>
         <li>
           <div class="l">
-            <span>商品价格</span>
+            <span>支付金额</span>
           </div>
           <div class="r">
-            <span>{{ detail.goodPrice }}</span>
+            <span>{{ detail.price }}</span>
+          </div>
+        </li>
+        <li>
+          <div class="l">
+            <span>收货人地址</span>
+          </div>
+          <div class="r">
+            <span>{{ detail.userAddress }}</span>
+          </div>
+        </li>
+        <li>
+          <div class="l">
+            <span>收货人电话</span>
+          </div>
+          <div class="r">
+            <span>{{ detail.userPhone }}</span>
+          </div>
+        </li>
+        <li>
+          <div class="l">
+            <span>收货人</span>
+          </div>
+          <div class="r">
+            <span>{{ detail.userName }}</span>
           </div>
         </li>
         <li>
@@ -129,19 +153,19 @@
         </li>
         <li>
           <div class="l">
-            <span>支付金额</span>
-          </div>
-          <div class="r">
-            <span>{{ detail.price }}</span>
-          </div>
-        </li>
-        <li v-if="detail.payType">
-          <div class="l">
             <span>支付方式</span>
           </div>
           <div class="r">
             <span v-if="detail.payType == 1">支付宝</span>
             <span v-else-if="detail.payType == 2">微信</span>
+          </div>
+        </li>
+        <li>
+          <div class="l">
+            <span>支付金额</span>
+          </div>
+          <div class="r">
+            <span>{{ detail.price }}</span>
           </div>
         </li>
       </ul>
@@ -175,6 +199,9 @@ export default {
         }
       })
         .then(res => {
+          res.data.outImages = res.data.outImages.split(";")
+          res.data.baseImages = res.data.baseImages.split(";")
+          res.data.breakImages = res.data.breakImages.split(";")
           this.detail = res.data
         }).catch(e => {
         console.log(e)
@@ -201,7 +228,8 @@ export default {
       border-bottom: 1px dashed #ddd
     }
     img {
-      height: 5em
+      margin-right: 10px
+      height: 15em
     }
   }
 }

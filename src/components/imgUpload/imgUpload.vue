@@ -13,9 +13,10 @@
       :on-error="handleImgError"
       :on-remove="handleImgRemove"
       :on-exceed="handleImgexceed">
-      <div v-if="options.type == 2" slot="file" slot-scope="{file}">
-        <video v-if="file.response" :src="file.response.data" controls alt=""></video>
-      </div>
+<!--      <div v-if="options.type == 2" slot="file" slot-scope="{file}">-->
+<!--        <video v-if="file.response" :src="file.response.data" controls alt=""></video>-->
+<!--        <video v-else :src="file.url" controls alt="" controls alt=""></video>-->
+<!--      </div>-->
       <i class="el-icon-plus"></i>
     </el-upload>
   </div>
@@ -51,17 +52,17 @@ export default {
         return false
       }
 
-      if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
-        if (file.size / 1024 / 1024 >= 10) {
-          this.$message.warning('图片最大10M')
-          return false
-        }
-        // const fileTypeIndex = file.name.lastIndexOf('.')
-        // const fileType = file.name.substring(fileTypeIndex)
-        // const fileName = renameFileName() + fileType
-        // const copyFile = new File([file], fileName)
-        // return Promise.resolve(copyFile)
-      }
+      // if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
+      //   if (file.size / 1024 / 1024 >= 10) {
+      //     this.$message.warning('图片最大10M')
+      //     return false
+      //   }
+      //   // const fileTypeIndex = file.name.lastIndexOf('.')
+      //   // const fileType = file.name.substring(fileTypeIndex)
+      //   // const fileName = renameFileName() + fileType
+      //   // const copyFile = new File([file], fileName)
+      //   // return Promise.resolve(copyFile)
+      // }
     },
     handleImgSuccess(res, file, fileList) {
       console.log('res', res)

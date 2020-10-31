@@ -10,7 +10,7 @@
               <el-option label="待付款" value="1"></el-option>
               <el-option label="待发货" value="2"></el-option>
               <el-option label="待收货" value="3"></el-option>
-              <el-option label="确认收货已完成" value="4"></el-option>
+              <el-option label="用户已确认收货" value="4"></el-option>
               <el-option label="支付后用户取消" value="5"></el-option>
               <el-option label="支付后后台取消" value="6"></el-option>
               <el-option label="未支付超时取消" value="7"></el-option>
@@ -57,29 +57,42 @@
         <el-table-column prop="number" label="订单号" align="center">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="订单实付总金额" align="center">
+        <el-table-column prop="payMoney" label="订单实付总金额(元)" align="center">
           <template slot-scope="scope">{{ scope.row.payMoney }}</template>
         </el-table-column>
-        <el-table-column prop="goods" label="商品名称" align="center" show-overflow-tooltip>
+        <el-table-column prop="payMoney" label="优惠金额(元)" align="center">
+          <template slot-scope="scope">{{ scope.row.discounts }}</template>
+        </el-table-column>
+        <el-table-column prop="tbOrderDetail" label="运费(元)" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.carriage }}</template>
+        </el-table-column>
+        <el-table-column prop="phone" label="收货人电话" align="center">
+          <template slot-scope="scope">{{ scope.row.phone }}</template>
+        </el-table-column>
+        <!--        <el-table-column prop="phone" label="供应商手机号" align="center">-->
+        <!--          <template slot-scope="scope">{{ scope.row.phone }}</template>-->
+        <!--        </el-table-column>-->
+        <el-table-column prop="serviceRatio" label="服务费比例" align="center">
+          <template slot-scope="scope">{{ scope.row.serviceRatio }}</template>
+        </el-table-column>
+        <el-table-column prop="isBalance" label="是否结算" align="center">
           <template slot-scope="scope">
-            <template v-for="item in scope.row.goods">{{ item.goodsName }}</template>
+            <span v-if="scope.row.isBalance == 0">未结算</span>
+            <span v-else-if="scope.row.isBalance == 1">未结算</span>
+            <span v-else-if="scope.row.isBalance == 2">已结算</span>
           </template>
         </el-table-column>
-        <!--                <el-table-column prop="iconUrl" label="img" align="center" class-name="row-img">-->
-        <!--                  <template slot-scope="scope">-->
-        <!--                    <img :src="scope.row.iconUrl" alt="">-->
-        <!--                  </template>-->
-        <!--                </el-table-column>-->
         <el-table-column prop="status" label="订单状态" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 0">已删除</span>
             <span v-else-if="scope.row.status == 1">待付款</span>
             <span v-else-if="scope.row.status == 2">待发货</span>
             <span v-else-if="scope.row.status == 3">待收货</span>
-            <span v-else-if="scope.row.status == 5">确认收货已完成</span>
-            <span v-else-if="scope.row.status == 6">超时取消</span>
-            <span v-else-if="scope.row.status == 7">用户取消</span>
-            <span v-else-if="scope.row.status == 8">管理员取消</span>
+            <span v-else-if="scope.row.status == 4">用户已确认收货</span>
+            <span v-else-if="scope.row.status == 5">支付后用户取消</span>
+            <span v-else-if="scope.row.status == 6">支付后后台取消</span>
+            <span v-else-if="scope.row.status == 7">未支付超时取消</span>
+            <span v-else-if="scope.row.status == 8">未支付用户取消</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
@@ -172,7 +185,7 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/order/backadmin/paasorder',
+        url: '/order/backadmin/paasorder/pre',
         method: 'GET',
         params: {
           status: this.formInline.status,

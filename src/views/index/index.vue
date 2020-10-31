@@ -6,30 +6,39 @@
     <div class="main-content">
       <router-view></router-view>
     </div>
+<!--    <div class="chatCt" v-if="userInfo.phone == 18203663961 || userInfo.phone == 15290243173">-->
+<!--      <chat></chat>-->
+<!--    </div>-->
   </div>
 </template>
 
 <script>
 import sideNav from '@/components/sideNav/sideNav'
 import headBar from '@/components/headBar/headBar'
+const chat = () => import(/* webpackChunkName: "chat" */ '@/components/chat/chat')
 
 export default {
   name: 'index',
   data() {
-    return {}
+    return {
+    }
   },
   components: {
     sideNav,
-    headBar
+    headBar,
+    chat,
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+    theme() {
+      return this.$store.getters.theme
+    },
   },
   created() {
   },
   mounted() {
-  },
-  computed: {
-    theme() {
-      return this.$store.getters.theme
-    },
   },
   methods: {}
 }

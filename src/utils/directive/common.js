@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import store from '../../store'
+import {Message} from 'element-ui'
 
 Vue.directive('permission', {
   inserted(el, binding, vnode) {
@@ -71,6 +72,26 @@ Vue.directive('stopDrag', {
 
     el.onmousedown = function (e) {
       e.stopPropagation()
+    }
+
+  },
+})
+
+Vue.directive('copy', {
+  inserted(el, binding, vnode) {
+
+    el.onmousedown = (e) => {
+      const { value } = binding
+      let input = document.createElement('input')
+      input.value = value
+      document.body.appendChild(input)
+      input.select() // 选择input
+      document.execCommand("Copy") // 执行浏览器复制命令
+      Message({
+        message: '复制成功',
+        type: 'success'
+      })
+      input.remove()
     }
 
   },
