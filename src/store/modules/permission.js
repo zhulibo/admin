@@ -53,7 +53,7 @@ const permission = {
 
         })
 
-        console.log(addRouter)
+        // console.log(addRouter)
         commit('setRouter', addRouter)
         resolve()
       })

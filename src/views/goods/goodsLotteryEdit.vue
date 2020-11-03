@@ -5,11 +5,13 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="商品id" prop="goodsId">
-          <el-input v-model="ruleForm.goodsId" :disabled="!!id"></el-input>
+        <el-form-item label="选择商品" prop="title" v-if="!id">
+          <el-input v-model="ruleForm.title" @focus="openSelectDialog"></el-input>
         </el-form-item>
-        <el-form-item label="sku-id" prop="skuId">
-          <el-input v-model="ruleForm.skuId" :disabled="!!id"></el-input>
+        <el-form-item label="选择sku" prop="skuId" v-if="!id">
+          <el-select v-model="ruleForm.skuId" placeholder="请选择" :disabled="skuList.length == 0">
+            <el-option v-for="item in skuList" :label="item.name" :value="item.id" :key="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="真假" prop="type">
           <el-radio v-model="ruleForm.type" label="0">假抽</el-radio>
@@ -36,11 +38,13 @@
         </el-form-item>
       </el-form>
     </div>
+    <select-goods @confirmSelectItem="confirmSelectItem" :dialogVisible.sync="selectItemOption.dialogVisible" :itemType="selectItemOption.itemType" :singleSelect="selectItemOption.singleSelect"></select-goods>
   </div>
 </template>
 
 <script>
 const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
+import selectGoods from "@/components/selectItem/selectGoods";
 
 export default {
   name: 'itemEdit',
@@ -54,6 +58,7 @@ export default {
         limit: 1
       },
       ruleForm: {
+        title: '',
         goodsId: '',
         skuId: '',
         type: '1',
@@ -62,7 +67,7 @@ export default {
         drawTime: '',
       },
       rules: {
-        goodsId: [
+        title: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         skuId: [
@@ -81,10 +86,17 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
+      selectItemOption: { // 选择商品组件配置参数
+        dialogVisible: false,
+        itemType: [true, false, false], // 是否可以选择现货商品，预售商品，抽奖商品
+        singleSelect: true, // 只可以单选
+      },
+      skuList: [],
     }
   },
   components: {
     imgUpload,
+    selectGoods,
   },
   created() {
     this.id = this.$route.query.id
@@ -139,6 +151,33 @@ export default {
           return false
         }
       });
+    },
+    openSelectDialog() {
+      this.selectItemOption.dialogVisible = true
+    },
+    confirmSelectItem(type, multipleSelection) {
+      console.log(type, multipleSelection)
+      this.ruleForm.title = multipleSelection[0].title
+      this.ruleForm.goodsId = multipleSelection[0].id
+
+      let ids = []
+      for (let i = 0; i < multipleSelection.length; i++) {
+        ids.push(multipleSelection[i].id)
+      }
+      this.$http({
+        url: '/goodsmanage/backadmin/goods/detail',
+        method: 'GET',
+        params: {
+          id: ids[0],
+        }
+      })
+        .then(res => {
+          this.selectItemOption.dialogVisible = false
+          console.log(res.data.skus)
+          this.skuList = res.data.skus
+        }).catch(e => {
+        console.log(e)
+      })
     },
   },
 }

@@ -50,25 +50,36 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
+        <el-table-column prop="isUser" label="发布人id" align="center">
+          <template slot-scope="scope">{{ scope.row.isUser }}</template>
+        </el-table-column>
         <el-table-column prop="title" label="动态标题" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.title | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="content" label="内容" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.content | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="commentNum" label="评论数" align="center">
-          <template slot-scope="scope">{{ scope.row.commentNum | noneToLine }}</template>
+        <el-table-column prop="goodId" label="关联的商品id" align="center">
+          <template slot-scope="scope">{{ scope.row.goodId | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="supportNum" label="点赞数" align="center">
-          <template slot-scope="scope">{{ scope.row.supportNum | noneToLine }}</template>
-        </el-table-column>
-        <el-table-column prop="shareNum" label="分享量" align="center">
-          <template slot-scope="scope">{{ scope.row.shareNum | noneToLine }}</template>
+        <el-table-column prop="isTop" label="是否置顶" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.isTop"
+              :active-value="1"
+              :inactive-value="0"
+              @change=switchRecommendStatus(scope.row)>
+            </el-switch>
+          </template>
         </el-table-column>
         <el-table-column prop="del" label="是否屏蔽" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.del == 0">正常</span>
-            <span v-else-if="scope.row.del == 1">已屏蔽</span>
+            <el-switch
+              v-model="scope.row.del"
+              :active-value="1"
+              :inactive-value="0"
+              @change=switchStatus(scope.row)>
+            </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
@@ -185,6 +196,38 @@ export default {
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val
       this.getList()
+    },
+    switchStatus(scope) {
+      this.$http({
+        url: '/userorg/backadmin/article',
+        method: 'PUT',
+        data: {
+          id: scope.id,
+          del: scope.del,
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+        this.getList()
+      }).catch(e => {
+        this.getList()
+        console.log(e)
+      })
+    },
+    switchRecommendStatus(scope) {
+      this.$http({
+        url: '/userorg/backadmin/article',
+        method: 'PUT',
+        data: {
+          id: scope.id,
+          isTop: scope.isTop,
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+        this.getList()
+      }).catch(e => {
+        this.getList()
+        console.log(e)
+      })
     },
     editItem(scope) {
       this.$router.push({path: '/socialEdit', query: {id: scope.id}})

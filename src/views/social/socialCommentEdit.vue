@@ -8,13 +8,6 @@
         <el-form-item label="评论内容" prop="content">
           <el-input type="textarea" v-model="ruleForm.content" maxlength="200" rows="4"></el-input>
         </el-form-item>
-        <el-form-item label="是否屏蔽" prop="del">
-          <el-switch
-            v-model="ruleForm.del"
-            :active-value="1"
-            :inactive-value="0">
-          </el-switch>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -28,21 +21,17 @@ export default {
   name: 'itemEdit',
   data() {
     return {
-      articleId: '',
       id: '',
       detail: {},
       ruleForm: {
         content: '',
-        del: '',
       },
       rules: {},
     }
   },
   created() {
-    this.articleId = this.$route.query.articleId
     this.id = this.$route.query.id
     this.ruleForm.content = this.$route.query.content
-    this.ruleForm.del = this.$route.query.del
   },
   mounted() {
   },
@@ -56,7 +45,6 @@ export default {
             data: {
               id: this.id,
               content: this.ruleForm.content,
-              del: this.ruleForm.del,
             },
           }).then(res => {
             this.$message.success(res.msg)

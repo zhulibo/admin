@@ -5,7 +5,7 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item :label="detail.type == 1 ? '图片' : '视频'" class="form-item-original">
+        <el-form-item :label="detail.type == 1 ? '用户发布的图片' : '用户发布的视频'" class="form-item-original">
           <ul>
             <li v-for="item in detail.images">
               <div class="ct">
@@ -45,16 +45,16 @@
         <el-form-item label="评论+点赞+转发总数" prop="totalNum">
           <el-input v-model="ruleForm.totalNum"></el-input>
         </el-form-item>
-        <el-form-item label="是否屏蔽" prop="del">
+        <el-form-item label="是否置顶" prop="isTop">
           <el-switch
-            v-model="ruleForm.del"
+            v-model="ruleForm.isTop"
             :active-value="1"
             :inactive-value="0">
           </el-switch>
         </el-form-item>
-        <el-form-item label="是否置顶" prop="isTop">
+        <el-form-item label="是否屏蔽" prop="del">
           <el-switch
-            v-model="ruleForm.isTop"
+            v-model="ruleForm.del"
             :active-value="1"
             :inactive-value="0">
           </el-switch>
@@ -235,7 +235,6 @@ export default {
     margin-right: 20px
     text-align: center
     img {
-      width 200px
       height 200px
     }
     span {

@@ -54,32 +54,64 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="number" label="订单号" align="center">
+        <el-table-column prop="number" label="订单号" align="center" width="220px">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="订单实付总金额(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.payMoney }}</template>
+        <el-table-column prop="number" label="商品信息" align="center">
+          <template slot-scope="scope">
+            <el-popover
+              placement="right"
+              trigger="hover">
+              <table class="goods-list">
+                <tr>
+                  <th>商品名</th>
+                  <th>图片</th>
+                  <th>数量</th>
+                  <th>价格(元)</th>
+                </tr>
+                <tr v-for="item in scope.row.goods">
+                  <td>{{ item.goodsName }}</td>
+                  <td><img :src="item.goodsPhoto" alt=""></td>
+                  <td>{{ item.goodsNumber }}</td>
+                  <td>{{ item.goodsMoney }}</td>
+                </tr>
+              </table>
+              <el-button slot="reference" type="text">查看商品</el-button>
+            </el-popover>
+          </template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="优惠金额(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.discounts }}</template>
+        <el-table-column prop="prePayMoney" label="预付金额(元)" align="center">
+          <template slot-scope="scope">{{ scope.row.prePayMoney | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="tbOrderDetail" label="运费(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.tbOrderDetail.carriage }}</template>
+        <el-table-column prop="payMoney" label="实付总金额(元)" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.payMoney">{{ scope.row.payMoney | noneToLine }}</span>
+            <span v-else>--</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="phone" label="收货人电话" align="center">
-          <template slot-scope="scope">{{ scope.row.phone }}</template>
+        <el-table-column prop="userDetail" label="用户名" align="center">
+          <template slot-scope="scope">{{ scope.row.userDetail.nickName }}</template>
         </el-table-column>
-        <!--        <el-table-column prop="phone" label="供应商手机号" align="center">-->
-        <!--          <template slot-scope="scope">{{ scope.row.phone }}</template>-->
-        <!--        </el-table-column>-->
-        <el-table-column prop="serviceRatio" label="服务费比例" align="center">
-          <template slot-scope="scope">{{ scope.row.serviceRatio }}</template>
+        <el-table-column prop="tbOrderDetail" label="收货人" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.name }}</template>
+        </el-table-column>
+        <el-table-column prop="tbOrderDetail" label="收货人电话" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.phone }}</template>
         </el-table-column>
         <el-table-column prop="isBalance" label="是否结算" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.isBalance == 0">未结算</span>
             <span v-else-if="scope.row.isBalance == 1">未结算</span>
             <span v-else-if="scope.row.isBalance == 2">已结算</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="preStatus" label="预售订单状态" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.preStatus == 1">未付定金</span>
+            <span v-else-if="scope.row.preStatus == 2">已预订</span>
+            <span v-else-if="scope.row.preStatus == 3">开始交尾款</span>
+            <span v-else-if="scope.row.preStatus == 4">已付尾款</span>
+            <span v-else-if="scope.row.preStatus == 5">付尾款已结束</span>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="订单状态" align="center">
@@ -98,6 +130,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
+            <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
         </el-table-column>
@@ -189,6 +222,9 @@ export default {
         method: 'GET',
         params: {
           status: this.formInline.status,
+          number: this.formInline.number,
+          startTime: this.formInline.time ? this.formInline.time[0] : '',
+          endTime: this.formInline.time ? this.formInline.time[1] : '',
           preStatus: this.formInline.preStatus,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
@@ -224,6 +260,9 @@ export default {
         console.log(e)
       })
     },
+    sendMsg(scope) {
+      this.$router.push({path: '/notificationEdit', query: {userId: scope.userDetail.userId, nickName: scope.userDetail.nickName}})
+    },
     checkItem(scope) {
       this.$router.push({path: '/orderDetail', query: {id: scope.id}})
     },
@@ -237,4 +276,23 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.goods-list {
+  width: 100%
+  border-collapse: collapse;
+  tr{
+    border-bottom: 1px solid #ddd
+  }
+  th {
+    padding: 10px 0
+    text-align: center
+  }
+  td {
+    padding: 5px
+    min-width 100px
+    text-align: center
+  }
+  img {
+    height: 3em
+  }
+}
 </style>

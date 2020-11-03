@@ -43,12 +43,15 @@
             <span v-else-if="scope.row.type == 2">明星部落</span>
           </template>
         </el-table-column>
-        <!--        <el-table-column prop="status" label="部落状态" align="center">-->
-        <!--          <template slot-scope="scope">-->
-        <!--            <span v-if="scope.row.status == 0">正常</span>-->
-        <!--            <span v-if="scope.row.status == 1">删除</span>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
+        <el-table-column prop="status" label="部落状态" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status == 0">正常</span>
+            <span v-if="scope.row.status == 1">已删除</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="isRecommend" label="推荐顺序" align="center">
+          <template slot-scope="scope">{{ scope.row.isRecommend | noneToLine }}</template>
+        </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="detail" @click="goTribeMemberList(scope.row)">管理成员</el-button>

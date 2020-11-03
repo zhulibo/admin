@@ -1,9 +1,10 @@
 export default [
   {
+    dev: true,
     path: '/',
     name: '平台设置',
     meta: {
-      icon: 'iconfont icon-guanliyuan',
+      icon: 'iconfont icon-shezhi',
     },
     component: () => import ('@/views/index/index'),
     children: [
@@ -60,7 +61,7 @@ export default [
         name: '订单设置管理',
         component: () => import (/* webpackChunkName: 'orderSettingList' */ '@/views/platformSetting/orderSettingList'),
         meta: {
-          icon: 'iconfont icon-banner',
+          icon: 'iconfont icon-dingdan',
         },
       },
       {
@@ -68,7 +69,7 @@ export default [
         name: '消息推送管理',
         component: () => import (/* webpackChunkName: 'notificationList' */ '@/views/platformSetting/notificationList'),
         meta: {
-          icon: 'iconfont icon-banner',
+          icon: 'iconfont icon-shouye',
         },
       },
       {
@@ -76,7 +77,15 @@ export default [
         name: '启动页管理',
         component: () => import (/* webpackChunkName: 'startupList' */ '@/views/platformSetting/startupList'),
         meta: {
-          icon: 'iconfont icon-banner',
+          icon: 'iconfont icon-dingdan',
+        },
+      },
+      {
+        path: '/feedbackList',
+        name: '意见反馈',
+        component: () => import (/* webpackChunkName: 'feedbackList' */ '@/views/platformSetting/feedbackList'),
+        meta: {
+          icon: 'iconfont icon-dingdan',
         },
       },
     ]

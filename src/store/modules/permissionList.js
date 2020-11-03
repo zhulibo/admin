@@ -325,6 +325,16 @@ let permissionList = [
           },
         ]
       },
+      {
+        path: '/feedback',
+        name: '用户反馈',
+        children: [
+          {
+            path: '/feedbackList',
+            name: '用户反馈列表',
+          },
+        ]
+      },
     ]
   },
   {
@@ -430,10 +440,6 @@ let permissionList = [
           {
             path: '/goodsRecommendList',
             name: '推荐商品列表',
-          },
-          {
-            path: '/goodsRecommendEdit',
-            name: '推荐商品编辑',
           },
           {
             path: '/goodsRecommendDel',

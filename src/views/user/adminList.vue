@@ -36,7 +36,7 @@
             <span v-if="!scope.row.tbBackRoleList.length">--</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="账号状态" align="center">
+        <el-table-column prop="status" label="是否启用" align="center">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.status"
@@ -49,6 +49,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)" v-permission="['/adminEdit']">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -125,6 +126,30 @@ export default {
     editItem(scope) {
       this.$router.push({
         path: '/adminEdit', query: {id: scope.id,}
+      })
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/userorg/backadmin/user',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            del: 1,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.name)
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
       })
     },
     newItem() {

@@ -31,8 +31,8 @@
             :inactive-value="0">
           </el-switch>
         </el-form-item>
-        <el-form-item v-if="ruleForm.isSupplier" label="app用户的userId" prop="userId">
-          <el-input v-model="ruleForm.userId"></el-input>
+        <el-form-item v-if="ruleForm.isSupplier" label="选择漫想家用户" prop="nickName">
+          <el-input v-model="ruleForm.nickName" @focus="chooseUser"></el-input>
         </el-form-item>
         <el-form-item v-if="ruleForm.isSupplier" label="营业执照图片" prop="certificate" class="form-item-img-logo">
           <img-upload v-model="ruleForm.certificate" :options="certificateImgOptions"></img-upload>
@@ -42,7 +42,6 @@
         </el-form-item>
         <el-form-item v-if="ruleForm.isSupplier" label="服务费比例" prop="serviceRatio">
           <el-input v-model="ruleForm.serviceRatio" :rules="rules.serviceRatio">
-            <template slot="append">%</template>
           </el-input>
         </el-form-item>
         <el-form-item v-if="ruleForm.isSupplier" label="备注" prop="remark">
@@ -52,6 +51,51 @@
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
       </el-form>
+    </div>
+    <div class="dialog">
+      <el-dialog title="请选择用户" :visible.sync="userDialogVisible">
+        <el-form :inline="true" :model="formInline2" class="table-form-inline">
+          <el-form-item label="">
+            <el-input v-model="formInline2.nickName" placeholder="请输入用户名" @keyup.enter.native="getUserList"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input v-model="formInline2.homesickId" placeholder="漫想家id" @keyup.enter.native="getUserList"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-input v-model="formInline2.phone" placeholder="请输入手机号" @keyup.enter.native="getUserList"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" plain @click="getUserList">查询</el-button>
+          </el-form-item>
+        </el-form>
+        <div class="choose-list">
+          <el-table :data="userList" @selection-change="handleSelectionChange" ref="table">
+            <el-table-column prop="homesickId" label="漫想家id" align="center">
+              <template slot-scope="scope">{{ scope.row.homesickId | noneToLine }}</template>
+            </el-table-column>
+            <el-table-column prop="userPhone" label="手机号" align="center">
+              <template slot-scope="scope">{{ scope.row.userPhone | noneToLine }}</template>
+            </el-table-column>
+            <el-table-column prop="header" label="头像" align="center" class-name="row-img">
+              <template slot-scope="scope">
+                <img :src="scope.row.header" alt="">
+              </template>
+            </el-table-column>
+            <el-table-column prop="nickName" label="昵称" align="center">
+              <template slot-scope="scope">{{ scope.row.nickName | noneToLine }}</template>
+            </el-table-column>
+            <el-table-column type="selection" width="55"></el-table-column>
+          </el-table>
+          <div class="pagination-ct clearfix">
+            <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage2"
+                           :page-count="totalPages2"
+                           @current-change="handleCurrentChange2" background></el-pagination>
+          </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="confirm()">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -83,6 +127,7 @@ export default {
         tbBackRoleList: [],
         isSupplier: 0,
         userId: '',
+        nickName: '',
         certificate: [],
         qualification: [],
         serviceRatio: '',
@@ -101,7 +146,7 @@ export default {
         tbBackRoleList: [
           {required: true, message: '请选择', trigger: 'change'},
         ],
-        userId: [
+        nickName: [
           {required: true, message: '请选择', trigger: 'change'},
         ],
         serviceRatio: [
@@ -109,6 +154,17 @@ export default {
           {type: 'number', message: '此项须为数字', trigger: 'change', transform: Number},
         ],
       },
+      formInline2: {
+        nickName: '',
+        homesickId: '',
+        phone: '',
+      },
+      userDialogVisible: false,
+      userList: [],
+      pageSize2: 6,
+      currentPage2: 1,
+      totalPages2: null,
+      multipleSelection: [],
     }
   },
   components: {
@@ -190,9 +246,53 @@ export default {
         }
       });
     },
+    chooseUser() {
+      this.userDialogVisible = true
+      this.getUserList()
+    },
+    getUserList() {
+      this.$http({
+        url: '/userorg/backadmin/appuser',
+        method: 'GET',
+        params: {
+          phone: this.formInline2.phone,
+          homesickId: this.formInline2.homesickId,
+          nickName: this.formInline2.nickName,
+          pageSize: this.pageSize2,
+          pageNumber: this.currentPage2,
+        }
+      })
+        .then(res => {
+          this.userList = res.data.list
+          this.totalPages2 = res.data.pages
+          this.currentPage2 = res.data.pageNum
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    handleCurrentChange2: function (val) { // 页码变更
+      this.currentPage2 = val
+      this.getUserList()
+    },
+    handleSelectionChange(val) {
+      if (val.length > 1) {
+        this.$refs.table.clearSelection()
+        this.$refs.table.toggleRowSelection(val.pop())
+      }
+      this.multipleSelection = val;
+    },
+    confirm() {
+      this.ruleForm.userId = this.multipleSelection[0].userId
+      this.ruleForm.nickName = this.multipleSelection[0].nickName
+      this.userDialogVisible = false
+    },
   },
 }
 </script>
 
 <style lang="stylus" scoped>
+// 隐藏全选
+>>> .el-table__header .el-checkbox{
+  display: none
+}
 </style>

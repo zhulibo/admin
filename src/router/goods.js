@@ -44,7 +44,7 @@ export default [
         name: '推荐商品管理',
         component: () => import (/* webpackChunkName: 'goodsRecommendList' */ '@/views/goods/goodsRecommendList'),
         meta: {
-          icon: 'iconfont icon-xiabiankuang',
+          icon: 'iconfont icon-tuijian',
         },
       },
       {
@@ -206,18 +206,6 @@ export default [
         path: '/goodsLotteryCodeList',
         name: '抽奖码列表',
         component: () => import (/* webpackChunkName: 'goodsLotteryCodeList' */ '@/views/goods/goodsLotteryCodeList'),
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: () => import ('@/views/index/index'),
-    hidden: true,
-    children: [
-      {
-        path: '/goodsRecommendEdit',
-        name: '推荐商品编辑',
-        component: () => import (/* webpackChunkName: 'goodsRecommendEdit' */ '@/views/goods/goodsRecommendEdit'),
       }
     ]
   },

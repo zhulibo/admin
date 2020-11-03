@@ -50,21 +50,20 @@
         <el-table-column prop="createTime" label="申请时间" align="center">
           <template slot-scope="scope">{{ scope.row.submitTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="userId" label="申请人userId" align="center">
-          <template slot-scope="scope">{{ scope.row.userId }}</template>
-        </el-table-column>
         <el-table-column prop="certificate" label="营业执照图片" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <img :src="scope.row.certificate" alt="">
+            <img v-if="scope.row.certificate" :src="scope.row.certificate" alt="">
+            <span v-else>--</span>
           </template>
         </el-table-column>
         <el-table-column prop="qualification" label="品牌资质" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <img :src="scope.row.qualification" alt="">
+            <img v-if="scope.row.qualification" :src="scope.row.qualification" alt="">
+            <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="审核时间" align="center">
-          <template slot-scope="scope">{{ scope.row.checkTime | timestampToDate }}</template>
+        <el-table-column prop="serviceRatio" label="服务费比例" align="center">
+          <template slot-scope="scope">{{ scope.row.serviceRatio | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template slot-scope="scope">
@@ -73,11 +72,11 @@
             <span v-else-if="scope.row.status == 3">审核未通过</span>
           </template>
         </el-table-column>
-        <el-table-column prop="serviceRatio" label="服务费比例" align="center">
-          <template slot-scope="scope">{{ scope.row.serviceRatio | noneToLine }}</template>
-        </el-table-column>
         <el-table-column prop="failReason" label="拒绝原因" align="center">
           <template slot-scope="scope">{{ scope.row.failReason | noneToLine }}</template>
+        </el-table-column>
+        <el-table-column prop="remark" label="备注" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.remark | noneToLine }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">

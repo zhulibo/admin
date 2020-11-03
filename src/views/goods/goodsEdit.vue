@@ -184,6 +184,7 @@ export default {
           this.ruleForm.size = this.detail.tbGoodsDetail.size
           this.ruleForm.cargoNo = this.detail.tbGoodsDetail.cargoNo
           this.ruleForm.sellNumber = this.detail.sellNumber
+          this.ruleForm.sort = this.detail.sort
           if (this.detail.goodTypes) this.ruleForm.typeList = [this.detail.goodTypes]
           if (this.detail.goodBrand) this.ruleForm.brandList = [this.detail.goodBrand]
           if (this.detail.goodIp) this.ruleForm.ipList = [this.detail.goodIp]

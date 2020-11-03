@@ -185,7 +185,7 @@
           </li>
         </ul>
       </div>
-      <div class="order-info">
+      <div class="order-info" v-if="detail.tbOrderDetail">
         <div class="title"><h3>订单信息</h3></div>
         <ul>
           <li>
@@ -214,7 +214,7 @@
           </li>
           <li>
             <div class="l">
-              <span>订单编号</span>
+              <span>物流编号</span>
             </div>
             <div class="r">
               <span>{{ detail.tbOrderDetail.logNumber | noneToLine }}</span>
@@ -241,7 +241,7 @@
               <span>支付时间</span>
             </div>
             <div class="r">
-              <span>{{ detail.tbOrderDetail.payTime }}</span>
+              <span>{{ detail.tbOrderDetail.payTime | timestampToDate}}</span>
             </div>
           </li>
           <li v-if="detail.tbOrderDetail.payType">
@@ -327,6 +327,35 @@
           </li>
         </ul>
       </div>
+      <div class="express-info" v-if="expressDetail.logistics">
+        <div class="title"><h3>物流信息</h3></div>
+        <ul>
+          <li>
+            <div class="l">
+              <span>物流单号</span>
+            </div>
+            <div class="r">
+              <span>{{expressDetail.code}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>物流公司</span>
+            </div>
+            <div class="r">
+              <span>{{expressDetail.codeName}}</span>
+            </div>
+          </li>
+          <li v-for="item in expressDetail.logistics">
+            <div class="l">
+              <span>{{item.time}}</span>
+            </div>
+            <div class="r">
+              <span>{{item.context}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -339,6 +368,7 @@ export default {
     return {
       id: '',
       detail: {},
+      expressDetail: {},
     }
   },
   created() {
@@ -358,6 +388,18 @@ export default {
       })
         .then(res => {
           this.detail = res.data
+          if(this.detail.status == 3 || this.detail.status == 4) this.getExpressDetail()
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getExpressDetail() {
+      this.$http({
+        url: '/order/backadmin/shoporder/log/' + this.detail.number,
+        method: 'GET',
+      })
+        .then(res => {
+          this.expressDetail = res.data
         }).catch(e => {
         console.log(e)
       })
@@ -453,11 +495,30 @@ export default {
     }
   }
 }
-.split-order {
-  padding: 50px
-  h3 {
-    font-weight: bold
-    font-size 16px
+.express-info{
+  .title{
+    margin-top: 20px
+    h3{
+      display: inline-block
+      font-size 16px
+      font-weight: bold
+      color: #666
+      border-bottom: 2px solid #999
+    }
+  }
+  ul{
+    margin-left: 30px
+  }
+  li{
+    display: flex
+    margin-top: 10px
+    margin-bottom: 10px
+    .l {
+      width: 200px
+    }
+    .r {
+      flex: 1
+    }
   }
 }
 </style>

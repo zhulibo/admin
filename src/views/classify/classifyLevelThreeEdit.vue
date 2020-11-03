@@ -147,6 +147,12 @@ export default {
         name: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
+        classifyImg: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        sort: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
       },
     }
   },

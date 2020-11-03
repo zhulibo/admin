@@ -18,9 +18,6 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="id" label="id" align="center">
-          <template slot-scope="scope">{{ scope.row.id }}</template>
-        </el-table-column>
         <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
@@ -28,6 +25,9 @@
           <template slot-scope="scope">
             <img :src="scope.row.image" alt="">
           </template>
+        </el-table-column>
+        <el-table-column prop="describes" label="备注" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.describes | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" align="center">
           <template slot-scope="scope">{{ scope.row.sort | noneToLine}}</template>

@@ -2,9 +2,9 @@
   <div class="head-bar" :style="{ backgroundColor: theme.colorHead}">
     <div class="navbar clearfix">
       <div class="user clearfix">
-        <div class="pic">
-          <img src="http://cartoonthinker-bucket.oss-cn-shanghai.aliyuncs.com/11644.png" alt="">
-        </div>
+<!--        <div class="pic">-->
+<!--          <img src="../../assets/img/logo.png" alt="">-->
+<!--        </div>-->
         <span v-if="userInfo.type == 1">管理员{{ userInfo.phone }}</span>
         <span v-if="userInfo.type == 2">供货商{{ userInfo.phone }}</span>
         <i class="el-icon-caret-bottom"></i>

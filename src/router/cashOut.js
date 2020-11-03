@@ -8,7 +8,7 @@ export default [
         name: '提现管理',
         component: () => import (/* webpackChunkName: 'cashOutList' */ '@/views/cashOut/cashOutList'),
         meta: {
-          icon: 'iconfont icon-yonghu',
+          icon: 'iconfont icon-tixian1',
         },
       },
     ]

@@ -8,6 +8,9 @@
         <el-form-item label="热词" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="ruleForm.sort"></el-input>
+        </el-form-item>
         <el-form-item label="类别" prop="typeList">
           <el-select v-model="ruleForm.typeList" multiple filterable placeholder="请选择">
             <el-option
@@ -48,9 +51,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input v-model="ruleForm.sort"></el-input>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -81,6 +81,9 @@ export default {
       },
       rules: {
         name: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        sort: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
@@ -183,6 +186,7 @@ export default {
             data: {
               id: this.id,
               name: this.ruleForm.name,
+              sort: this.ruleForm.sort,
               types: this.ruleForm.typeList.toString(),
               brands: this.ruleForm.brandList.toString(),
               ips: this.ruleForm.ipList.toString(),

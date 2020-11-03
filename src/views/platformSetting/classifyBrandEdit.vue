@@ -68,7 +68,9 @@ export default {
         intro: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        sort: [],
+        sort: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
       },
     }
   },

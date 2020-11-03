@@ -22,8 +22,8 @@
         <el-table-column prop="number" label="抽奖码" align="center">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="userId" label="用户id" align="center">
-          <template slot-scope="scope">{{ scope.row.userId }}</template>
+        <el-table-column prop="tbAppUser" label="漫想家id" align="center">
+          <template slot-scope="scope">{{ scope.row.tbAppUser.tbAppUserDetail.homesickId }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">

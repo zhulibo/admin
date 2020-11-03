@@ -28,8 +28,11 @@
         <el-table-column prop="goodsId" label="商品id" align="center">
           <template slot-scope="scope">{{ scope.row.goodsId | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="title" label="名称" align="center">
+        <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.title | noneToLine }}</template>
+        </el-table-column>
+        <el-table-column prop="goodsurl" label="商品图片" align="center" class-name="row-img">
+          <template slot-scope="scope"><img :src="scope.row.goodsurl" alt=""></template>
         </el-table-column>
         <el-table-column prop="type" label="商品类型" align="center">
           <template slot-scope="scope">

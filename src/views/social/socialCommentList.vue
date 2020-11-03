@@ -42,15 +42,10 @@
         <el-table-column prop="content" label="评论内容" align="center">
           <template slot-scope="scope">{{ scope.row.content | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="del" label="是否屏蔽" align="center">
-          <template slot-scope="scope">
-            <span v-if="scope.row.del == 0">正常</span>
-            <span v-else-if="scope.row.del == 1">已屏蔽</span>
-          </template>
-        </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -164,6 +159,30 @@ export default {
       this.currentPage = val
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/userorg/backadmin/articlecomment',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            del: 1,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ')
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
+      })
     },
     editItem(scope) {
       this.$router.push({

@@ -119,7 +119,6 @@ export default {
         homesickId: '',
         phone: '',
       },
-      imgBorderId: '',
       userDialogVisible: false,
       userList: [],
       pageSize2: 6,
@@ -132,6 +131,8 @@ export default {
     imgUpload
   },
   created() {
+    this.ruleForm.userId = this.$route.query.userId
+    this.ruleForm.nickName = this.$route.query.nickName
   },
   mounted() {
   },
@@ -206,4 +207,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+// 隐藏全选
+>>> .el-table__header .el-checkbox{
+  display: none
+}
 </style>

@@ -47,26 +47,43 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="number" label="订单号" align="center">
+        <el-table-column prop="number" label="订单号" align="center" width="220px">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="订单实付总金额(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.payMoney }}</template>
+        <el-table-column prop="number" label="商品信息" align="center">
+          <template slot-scope="scope">
+            <el-popover
+              placement="right"
+              trigger="hover">
+              <table class="goods-list">
+                <tr>
+                  <th>商品名</th>
+                  <th>图片</th>
+                  <th>数量</th>
+                  <th>价格(元)</th>
+                </tr>
+                <tr v-for="item in scope.row.goods">
+                  <td>{{ item.goodsName }}</td>
+                  <td><img :src="item.goodsPhoto" alt=""></td>
+                  <td>{{ item.goodsNumber }}</td>
+                  <td>{{ item.goodsMoney }}</td>
+                </tr>
+              </table>
+              <el-button slot="reference" type="text">查看商品</el-button>
+            </el-popover>
+          </template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="优惠金额(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.discounts }}</template>
+        <el-table-column prop="userDetail" label="用户名" align="center">
+          <template slot-scope="scope">{{ scope.row.userDetail.nickName }}</template>
         </el-table-column>
-        <el-table-column prop="tbOrderDetail" label="运费(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.tbOrderDetail.carriage }}</template>
+        <el-table-column prop="tbOrderDetail" label="收货人" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.name }}</template>
         </el-table-column>
-        <el-table-column prop="phone" label="收货人电话" align="center">
-          <template slot-scope="scope">{{ scope.row.phone }}</template>
+        <el-table-column prop="tbOrderDetail" label="收货人电话" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.phone }}</template>
         </el-table-column>
-<!--        <el-table-column prop="phone" label="供应商手机号" align="center">-->
-<!--          <template slot-scope="scope">{{ scope.row.phone }}</template>-->
-<!--        </el-table-column>-->
-        <el-table-column prop="serviceRatio" label="服务费比例" align="center">
-          <template slot-scope="scope">{{ scope.row.serviceRatio }}</template>
+        <el-table-column prop="payMoney" label="实付总金额(元)" align="center">
+          <template slot-scope="scope">{{ scope.row.payMoney | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="isBalance" label="是否结算" align="center">
           <template slot-scope="scope">
@@ -90,8 +107,11 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="confirmReceipt(scope.row)">确认收货</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 2" @click="ship(scope.row)">发货</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="ship(scope.row)">修改运单号</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="confirmReceipt(scope.row)">确认收货</el-button>
             <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
+            <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
         </el-table-column>
@@ -100,6 +120,28 @@
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
                        @current-change="handleCurrentChange" background></el-pagination>
       </div>
+    </div>
+    <div class="dialog">
+      <el-dialog title="发货" :visible.sync="shipDialogVisible">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="edit-form">
+          <el-form-item label="快递公司" prop="companyCode">
+            <el-select v-model="ruleForm.companyCode" filterable remote :remote-method="getExpressList" placeholder="请输入快递公司名称并选择">
+              <el-option
+                v-for="item in expressList"
+                :key="item.id"
+                :label="item.expressName"
+                :value="item.expressCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="快递单号" prop="logNumber">
+            <el-input v-model="ruleForm.logNumber"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -167,6 +209,21 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
+      expressList: [],
+      shipDialogVisible: false,
+      scope: {},
+      ruleForm: {
+        companyCode: '',
+        logNumber: '',
+      },
+      rules: {
+        companyCode: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        logNumber: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+      },
     }
   },
   created() {
@@ -182,6 +239,9 @@ export default {
         method: 'GET',
         params: {
           status: this.formInline.status,
+          number: this.formInline.number,
+          startTime: this.formInline.time ? this.formInline.time[0] : '',
+          endTime: this.formInline.time ? this.formInline.time[1] : '',
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -193,6 +253,70 @@ export default {
         }).catch(e => {
         console.log(e)
       })
+    },
+    getExpressList(expressName) {
+      this.$http({
+        url: '/order/backadmin/express',
+        method: 'GET',
+        params: {
+          expressName: expressName,
+          pageSize: 100,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.expressList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    ship(scope) {
+      this.shipDialogVisible = true
+      this.scope = scope
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if(this.scope.status == 2){ // 发货
+            this.$http({
+              url: '/order/backadmin/paasorder',
+              method: 'PUT',
+              data: {
+                id: this.scope.id,
+                status: 3,
+                tbOrderDetail: {
+                  companyCode: this.ruleForm.companyCode,
+                  logNumber: this.ruleForm.logNumber,
+                }
+              }
+            }).then(res => {
+              this.$message.success(res.msg)
+              this.shipDialogVisible = false
+            }).catch(e => {
+              console.log(e)
+            })
+          }else if (this.scope.status == 3){ // 修改运单号
+            this.$http({
+              url: '/order/backadmin/paasorder/number',
+              method: 'PUT',
+              data: {
+                number: this.scope.number,
+                companyCode: this.ruleForm.companyCode,
+                logNumber: this.ruleForm.logNumber,
+              }
+            }).then(res => {
+              this.$message.success(res.msg)
+              this.shipDialogVisible = false
+            }).catch(e => {
+              console.log(e)
+            })
+          }
+
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
     },
     confirmReceipt(scope) {
       this.$confirm('确认收货 ' + scope.number, '提示', {
@@ -242,6 +366,9 @@ export default {
         console.log(e)
       })
     },
+    sendMsg(scope) {
+      this.$router.push({path: '/notificationEdit', query: {userId: scope.userDetail.userId, nickName: scope.userDetail.nickName}})
+    },
     checkItem(scope) {
       this.$router.push({path: '/orderDetail', query: {id: scope.id}})
     },
@@ -255,4 +382,23 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.goods-list {
+  width: 100%
+  border-collapse: collapse;
+  tr{
+    border-bottom: 1px solid #ddd
+  }
+  th {
+    padding: 10px 0
+    text-align: center
+  }
+  td {
+    padding: 5px
+    min-width 100px
+    text-align: center
+  }
+  img {
+    height: 3em
+  }
+}
 </style>

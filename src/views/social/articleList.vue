@@ -27,10 +27,20 @@
         <el-table-column prop="topImage" label="首图" align="center" class-name="row-img">
           <template slot-scope="scope"><img :src="scope.row.topImage" alt=""></template>
         </el-table-column>
+        <el-table-column prop="isRecommend" label="是否推荐" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.isRecommend"
+              :active-value="1"
+              :inactive-value="0"
+              @change=switchRecommendStatus(scope.row)>
+            </el-switch>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
-            <!--            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>-->
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -86,25 +96,40 @@ export default {
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
+    switchRecommendStatus(scope) {
+      this.$http({
+        url: '/userorg/backadmin/news',
+        method: 'PUT',
+        data: {
+          id: scope.id,
+          isRecommend: scope.isRecommend,
+        }
+      }).then(res => {
+        this.$message.success(res.msg)
+        this.getList()
+      }).catch(e => {
+        this.getList()
+        console.log(e)
+      })
+    },
     editItem(scope) {
       this.$router.push({path: '/articleEdit', query: {id: scope.id}})
     },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.name, '提示', {
+      this.$confirm('确定删除 ' + scope.title, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/goodsmanage/backadmin/goodbrand',
-          method: 'PUT',
+          url: '/userorg/backadmin/news',
+          method: 'DELETE',
           data: {
             id: scope.id,
-            del: 1,
           }
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.name)
+            this.$message.success('已删除 ' + scope.title)
             this.getList()
           }).catch(e => {
           console.log(e)

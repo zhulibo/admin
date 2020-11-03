@@ -13,15 +13,12 @@
         </el-form-item>
         <el-form-item label="服务费比例" prop="serviceRatio">
           <el-input v-model="ruleForm.serviceRatio">
-            <template slot="append">%</template>
           </el-input>
         </el-form-item>
         <el-form-item label="审核操作" prop="status">
-          <el-select v-model="ruleForm.status" placeholder="请选择">
-            <el-option label="待审核" value="1"></el-option>
-            <el-option label="审核通过" value="2"></el-option>
-            <el-option label="审核不通过" value="3"></el-option>
-          </el-select>
+          <el-radio v-model="ruleForm.status" label="1">待审核</el-radio>
+          <el-radio v-model="ruleForm.status" label="2">审核通过</el-radio>
+          <el-radio v-model="ruleForm.status" label="3">审核不通过</el-radio>
         </el-form-item>
         <el-form-item label="失败原因" prop="failReason">
           <el-input type="textarea" v-model="ruleForm.failReason" maxlength="200" rows="4"></el-input>
@@ -119,7 +116,7 @@ export default {
             },
           }).then(res => {
             this.$message.success(res.msg)
-            this.$router.push({path: '/userList'})
+            this.$router.push({path: '/supplierUserList'})
           }).catch(e => {
             console.log(e)
           })

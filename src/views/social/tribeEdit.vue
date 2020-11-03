@@ -32,13 +32,6 @@
         <el-form-item label="推荐顺序" prop="isRecommend">
           <el-input v-model="ruleForm.isRecommend"></el-input>
         </el-form-item>
-        <el-form-item label="部落状态" prop="del">
-          <el-switch
-            v-model="ruleForm.del"
-            :active-value="0"
-            :inactive-value="1">
-          </el-switch>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -120,8 +113,8 @@ export default {
           this.ruleForm.name = this.detail.name
           this.logoImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
           this.topImgOptions.fileList.push({url: this.detail.topImage}) // 图片回显
-          this.ruleForm.notice = this.detail.notice
-          this.ruleForm.noticeTitle = this.detail.noticeTitle
+          this.ruleForm.notice = this.detail.notice[0]
+          this.ruleForm.noticeTitle = this.detail.noticeTitle[0]
           this.ruleForm.adminUser = this.detail.adminUser
           this.ruleForm.type = String(this.detail.type) // el-select必须字符串
           this.ruleForm.isRecommend = this.detail.isRecommend

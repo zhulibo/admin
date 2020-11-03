@@ -3,7 +3,7 @@ export default [
     path: '/',
     name: '统计管理',
     meta: {
-      icon: 'iconfont icon-fenlei1',
+      icon: 'iconfont icon-tongji',
     },
     component: () => import ('@/views/index/index'),
     children: [

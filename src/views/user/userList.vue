@@ -39,9 +39,6 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="userId" label="userId" align="center">
-          <template slot-scope="scope">{{ scope.row.userId | noneToLine }}</template>
-        </el-table-column>
         <el-table-column prop="homesickId" label="漫想家id" align="center">
           <template slot-scope="scope">{{ scope.row.homesickId | noneToLine }}</template>
         </el-table-column>
@@ -50,21 +47,12 @@
         </el-table-column>
         <el-table-column prop="header" label="头像" align="center" class-name="row-img">
           <template slot-scope="scope">
-            <img :src="scope.row.header" alt="">
+            <img v-if="scope.row.header" :src="scope.row.header" alt="">
+            <span v-else>--</span>
           </template>
         </el-table-column>
         <el-table-column prop="nickName" label="昵称" align="center">
           <template slot-scope="scope">{{ scope.row.nickName | noneToLine }}</template>
-        </el-table-column>
-        <el-table-column prop="del" label="账号状态" align="center">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.del"
-              :active-value="0"
-              :inactive-value="1"
-              @change=switchStatus(scope.row)>
-            </el-switch>
-          </template>
         </el-table-column>
         <el-table-column prop="isRecommendFocus" label="是否推荐关注" align="center">
           <template slot-scope="scope">
@@ -73,6 +61,16 @@
               :active-value="1"
               :inactive-value="0"
               @change=switchRecommendStatus(scope.row)>
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column prop="del" label="账号状态" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.del"
+              :active-value="0"
+              :inactive-value="1"
+              @change=switchStatus(scope.row)>
             </el-switch>
           </template>
         </el-table-column>
@@ -122,7 +120,7 @@ export default {
         params: {
           isAuthority: this.formInline.isAuthority,
           isRecommendFocus: this.formInline.isRecommendFocus,
-          phone: this.formInline.phone,
+          userPhone: this.formInline.phone,
           homesickId: this.formInline.homesickId,
           nickName: this.formInline.nickName,
           pageSize: this.pageSize,

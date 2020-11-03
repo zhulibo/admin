@@ -25,9 +25,6 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <!--        <el-table-column prop="createTime" label="时间" align="center">-->
-        <!--          <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>-->
-        <!--        </el-table-column>-->
         <el-table-column prop="itemName" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.itemName }}</template>
         </el-table-column>
@@ -35,6 +32,9 @@
           <template slot-scope="scope">
             <img :src="scope.row.image" alt="">
           </template>
+        </el-table-column>
+        <el-table-column prop="sort" label="排序" align="center">
+          <template slot-scope="scope">{{ scope.row.sort }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">

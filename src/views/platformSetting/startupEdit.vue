@@ -11,8 +11,11 @@
             <el-radio :label="2">视频</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item prop="iconImg" :label="ruleForm.type == 1 ? '选择图片' : '选择视频'" :class="ruleForm.type == 1 ? 'form-item-images' : 'form-item-video'">
-          <img-upload v-model="ruleForm.iconImg" :options="iconImgOptions"></img-upload>
+        <el-form-item v-if="ruleForm.type == 1" prop="image" label="选择图片" class="form-item-images">
+          <img-upload v-model="ruleForm.image" :options="imgOptions"></img-upload>
+        </el-form-item>
+        <el-form-item v-else-if="ruleForm.type == 2" prop="image" label="选择视频" class="form-item-video">
+          <img-upload v-model="ruleForm.image" :options="videoOptions"></img-upload>
         </el-form-item>
         <el-form-item label="排序分数" prop="sort">
           <el-input v-model="ruleForm.sort"></el-input>
@@ -34,22 +37,28 @@ export default {
     return {
       id: '',
       detail: {},
-      iconImgOptions: {
+      imgOptions: {
         fileList: [],
-        accept: '',
+        accept: '.jpg,.jpeg,.png,.gif',
         limit: 1,
-        type: '',
+        type: 1,
+      },
+      videoOptions: {
+        fileList: [],
+        accept: '.mp4',
+        limit: 1,
+        type: 2,
       },
       ruleForm: {
         type: 1,
-        iconImg: [],
+        image: [],
         sort: '',
       },
       rules: {
         type: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        iconImg: [
+        image: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         sort: [
@@ -76,7 +85,11 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.type = this.detail.type
-          if(this.ruleForm.type == 1)this.iconImgOptions.fileList.push({url: this.detail.image}) // 图片回显
+          if(this.ruleForm.type == 1){
+            this.imgOptions.fileList.push({url: this.detail.image})
+          }else if(this.ruleForm.type == 2){
+            this.videoOptions.fileList.push({url: this.detail.image})
+          }
           this.ruleForm.sort = this.detail.sort
         }).catch(e => {
         console.log(e)
@@ -90,7 +103,7 @@ export default {
             method: this.id ? 'PUT' : 'POST',
             data: {
               type: this.ruleForm.type,
-              image: this.ruleForm.iconImg[0],
+              image: this.ruleForm.image[0],
               sort: this.ruleForm.sort,
             },
           }).then(res => {
@@ -107,13 +120,6 @@ export default {
     },
   },
   watch: {
-    'ruleForm.type': {
-      handler: function () {
-        this.iconImgOptions.type = this.ruleForm.type == 1 ? 1 : 2,
-        this.iconImgOptions.accept = this.ruleForm.type == 1 ? '.jpg,.jpeg,.png,.gif' : '.mp4'
-      },
-      immediate: true,
-    }
   }
 }
 </script>

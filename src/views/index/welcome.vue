@@ -1,5 +1,5 @@
 <template>
-  <h2>欢迎来到漫想家管理平台！点击左侧导航开始吧 : )</h2>
+  <h2>欢迎来到漫想家管理平台!</h2>
 </template>
 
 <script>
@@ -11,7 +11,6 @@ export default {
     }
   },
   created() {
-
   },
   mounted() {
   },

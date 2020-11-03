@@ -24,6 +24,9 @@
         <el-table-column prop="image" label="图片" align="center" class-name="row-img">
           <template slot-scope="scope"><img :src="scope.row.image" alt=""></template>
         </el-table-column>
+        <el-table-column prop="sort" label="排序" align="center">
+          <template slot-scope="scope">{{ scope.row.sort }}</template>
+        </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>

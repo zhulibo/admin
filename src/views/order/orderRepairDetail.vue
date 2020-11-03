@@ -87,7 +87,7 @@
             <img v-for="item in detail.breakImages" :src="item" alt="">
           </div>
         </li>
-        <li>
+        <li v-if="detail.description">
           <div class="l">
             <span>描述</span>
           </div>
@@ -95,7 +95,7 @@
             <span>{{ detail.description }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.price">
           <div class="l">
             <span>支付金额</span>
           </div>
@@ -103,7 +103,7 @@
             <span>{{ detail.price }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.userAddress">
           <div class="l">
             <span>收货人地址</span>
           </div>
@@ -111,7 +111,7 @@
             <span>{{ detail.userAddress }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.userPhone">
           <div class="l">
             <span>收货人电话</span>
           </div>
@@ -119,7 +119,7 @@
             <span>{{ detail.userPhone }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.userName">
           <div class="l">
             <span>收货人</span>
           </div>
@@ -127,7 +127,7 @@
             <span>{{ detail.userName }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.receiveAddress">
           <div class="l">
             <span>维修服务-收货地址</span>
           </div>
@@ -135,7 +135,7 @@
             <span>{{ detail.receiveAddress }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.receiveName">
           <div class="l">
             <span>维修服务-姓名</span>
           </div>
@@ -143,7 +143,7 @@
             <span>{{ detail.receiveName }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.receivePhone">
           <div class="l">
             <span>维修服务-手机号</span>
           </div>
@@ -151,7 +151,7 @@
             <span>{{ detail.receivePhone }}</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.payType">
           <div class="l">
             <span>支付方式</span>
           </div>
@@ -160,7 +160,7 @@
             <span v-else-if="detail.payType == 2">微信</span>
           </div>
         </li>
-        <li>
+        <li v-if="detail.price">
           <div class="l">
             <span>支付金额</span>
           </div>

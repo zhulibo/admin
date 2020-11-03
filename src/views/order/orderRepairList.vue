@@ -57,11 +57,11 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="number" label="订单编号" align="center">
+        <el-table-column prop="number" label="订单号" align="center" width="250px">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="userName" label="用户名" align="center">
-          <template slot-scope="scope">{{ scope.row.userName | noneToLine}}</template>
+        <el-table-column prop="tbAppUserDetail" label="用户名" align="center">
+          <template slot-scope="scope">{{ scope.row.tbAppUserDetail.nickName | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="status" label="订单状态" align="center">
           <template slot-scope="scope">
@@ -93,6 +93,7 @@
             <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 6" @click="secondEvaluation(scope.row)">二次评估</el-button>
             <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 9" @click="repairOver(scope.row)">修复完成</el-button>
             <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 17" @click="ship(scope.row)">修复完成发货</el-button>
+            <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
         </el-table-column>
@@ -451,6 +452,9 @@ export default {
           return false
         }
       });
+    },
+    sendMsg(scope) {
+      this.$router.push({path: '/notificationEdit', query: {userId: scope.tbAppUserDetail.userId, nickName: scope.tbAppUserDetail.nickName}})
     },
     checkItem(scope) {
       this.$router.push({path: '/orderRepairDetail', query: {id: scope.id}})

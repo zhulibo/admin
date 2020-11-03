@@ -20,20 +20,33 @@
             <table class="table-sku">
               <tr>
                 <th>sku-id</th>
-                <th>名称</th>
+                <th>sku名称</th>
                 <th>sku图片</th>
+                <th>sku上架状态</th>
                 <th>操作</th>
               </tr>
               <tr v-for="item in props.row.skus">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td><img :src="item.skuImage" alt=""></td>
-                <td class="row-manage">
-                  <el-dropdown v-if="item.storeList.length > 0" @command="handleCommand" :show-timeout="50">
-                    <el-button size="small" class="el-dropdown-link">修改库存</el-button>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item :command="store" v-for="store in item.storeList" :key="store.id">
-                        总库存:{{ store.store }} 剩余库存:{{ store.number }} 出售价格:￥{{ store.price }}
+                <td width="200px">{{ item.id }}</td>
+                <td width="500px">{{ item.name }}</td>
+                <td width="200px"><img :src="item.skuImage" alt=""></td>
+                <td width="200px">
+                  <span v-if="item.isUp == 0">正常</span>
+                  <span v-else>下架</span>
+                </td>
+                <td width="500px" class="row-manage">
+                  <table class="table-store" v-if="item.storeList.length > 0">
+                    <tr>
+                      <th>总库存</th>
+                      <th>剩余库存</th>
+                      <th>出售价格</th>
+                      <th>状态</th>
+                      <th>操作</th>
+                    </tr>
+                    <tr v-for="store in item.storeList" :key="store.id">
+                      <td>{{ store.store }}</td>
+                      <td>{{ store.number }}</td>
+                      <td>{{ store.price }}</td>
+                      <td>
                         <span class="store-status" v-if="store.status == 0">正在出售</span>
                         <span class="store-status" v-else-if="store.status == 1">出售完</span>
                         <span class="store-status" v-else-if="store.status == 2">供货商撤销</span>
@@ -42,10 +55,14 @@
                         <span class="store-status" v-else-if="store.status == 5">主商品被删除</span>
                         <span class="store-status" v-else-if="store.status == 6">主商品被下架</span>
                         <span class="store-status" v-else-if="store.status == 7">供货商删除</span>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-<!--                  <span v-else>此sku暂无库存</span>-->
+                      </td>
+                      <td>
+                        <el-button type="text" size="medium" class="edit" @click="cancleItem(store)">撤销</el-button>
+                        <el-button type="text" size="medium" class="delete" @click="deleteItem(store)">删除</el-button>
+                      </td>
+                    </tr>
+                  </table>
+                  <span v-else>此sku还没添加库存</span>
                 </td>
               </tr>
             </table>
@@ -57,6 +74,12 @@
         </el-table-column>
         <el-table-column prop="id" label="商品id" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
+        </el-table-column>
+        <el-table-column prop="isUp" label="主商品上架状态" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.isUp == 0">正常</span>
+            <span v-else-if="scope.row.isUp == 1">已下架</span>
+          </template>
         </el-table-column>
         <el-table-column prop="listedImage" label="商品图片" align="center" class-name="row-img">
           <template slot-scope="scope">
@@ -116,9 +139,53 @@ export default {
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
-    handleCommand(command) {
-      console.log(command)
-      this.$router.push({path: '/supplierGoodsStockEdit', query: {id: command.id, status: command.status}})
+    cancleItem(store) {
+      this.$confirm('确定撤销 ', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/shopgoods',
+          method: 'PUT',
+          data: {
+            id: store.id,
+            status: 2,
+          },
+        })
+          .then(res => {
+            this.$message.success('已撤销该库存 ')
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    deleteItem(store) {
+      this.$confirm('确定删除 ', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/goodsmanage/backadmin/shopgoods',
+          method: 'PUT',
+          data: {
+            id: store.id,
+            status: 7,
+          },
+        })
+          .then(res => {
+            this.$message.success('已删除该库存 ')
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
+      })
     },
   },
   watch: {}
@@ -138,6 +205,28 @@ export default {
     padding: 5px 0
     text-align: center
     border: 1px solid #ddd;
+    &.row-manage{
+      padding: 0
+    }
+  }
+  img {
+    height: 3em
+  }
+}
+.table-store {
+  width: 100%
+  border-collapse: collapse;
+  th {
+    padding: 10px 0
+    text-align: center
+    border: none
+    color: #999
+  }
+  td {
+    padding: 5px 0
+    text-align: center
+    border: none
+    border-top: 1px dashed #ddd;
   }
   img {
     height: 3em

@@ -189,7 +189,7 @@
           </li>
           <li>
             <div class="l">
-              <span>订单编号</span>
+              <span>物流编号</span>
             </div>
             <div class="r">
               <span>{{ detail.tbOrderDetail.logNumber | noneToLine }}</span>
@@ -216,7 +216,7 @@
               <span>支付时间</span>
             </div>
             <div class="r">
-              <span>{{ detail.tbOrderDetail.payTime }}</span>
+              <span>{{ detail.tbOrderDetail.payTime | timestampToDate}}</span>
             </div>
           </li>
           <li v-if="detail.tbOrderDetail.payType">
@@ -286,7 +286,36 @@
           </li>
         </ul>
       </div>
-      <div class="split-order" v-if="detail.goods && detail.goods.length > 1">
+      <div class="express-info" v-if="expressDetail.logistics">
+        <div class="title"><h3>物流信息</h3></div>
+        <ul>
+          <li>
+            <div class="l">
+              <span>物流单号</span>
+            </div>
+            <div class="r">
+              <span>{{expressDetail.code}}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>物流公司</span>
+            </div>
+            <div class="r">
+              <span>{{expressDetail.codeName}}</span>
+            </div>
+          </li>
+          <li v-for="item in expressDetail.logistics">
+            <div class="l">
+              <span>{{item.time}}</span>
+            </div>
+            <div class="r">
+              <span>{{item.context}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="split-order" v-if="detail.status == 2 && detail.goods.length > 1">
         <h3>拆单</h3>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px" class="edit-form">
           <el-form-item label="选择要拆出的商品" prop="ids">
@@ -316,6 +345,7 @@ export default {
     return {
       id: '',
       detail: {},
+      expressDetail: {},
       ruleForm: {
         ids: '',
       },
@@ -343,6 +373,18 @@ export default {
       })
         .then(res => {
           this.detail = res.data
+          if(this.detail.status == 3 || this.detail.status == 4) this.getExpressDetail()
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getExpressDetail() {
+      this.$http({
+        url: '/order/backadmin/shoporder/log/' + this.detail.number,
+        method: 'GET',
+      })
+        .then(res => {
+          this.expressDetail = res.data
         }).catch(e => {
         console.log(e)
       })
@@ -435,6 +477,32 @@ export default {
   }
 }
 .order-info{
+  .title{
+    margin-top: 20px
+    h3{
+      display: inline-block
+      font-size 16px
+      font-weight: bold
+      color: #666
+      border-bottom: 2px solid #999
+    }
+  }
+  ul{
+    margin-left: 30px
+  }
+  li{
+    display: flex
+    margin-top: 10px
+    margin-bottom: 10px
+    .l {
+      width: 200px
+    }
+    .r {
+      flex: 1
+    }
+  }
+}
+.express-info{
   .title{
     margin-top: 20px
     h3{

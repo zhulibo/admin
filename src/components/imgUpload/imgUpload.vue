@@ -13,10 +13,14 @@
       :on-error="handleImgError"
       :on-remove="handleImgRemove"
       :on-exceed="handleImgexceed">
-<!--      <div v-if="options.type == 2" slot="file" slot-scope="{file}">-->
-<!--        <video v-if="file.response" :src="file.response.data" controls alt=""></video>-->
-<!--        <video v-else :src="file.url" controls alt="" controls alt=""></video>-->
-<!--      </div>-->
+<!--      兼容视频返显开始-->
+      <div v-if="options.type == 2" slot="file" slot-scope="{file}" class="video">
+        <video v-if="file.response" :src="file.response.data" controls alt=""></video>
+        <video v-else :src="file.url" controls alt="" controls alt=""></video>
+        <i class="el-icon-delete" @click="removeItem(file)"></i>
+      </div>
+<!--      兼容视频返显结束-->
+
       <i class="el-icon-plus"></i>
     </el-upload>
   </div>
@@ -45,6 +49,16 @@ export default {
     },
   },
   methods: {
+    // 删除视频
+    removeItem(file) {
+      console.log(file)
+      for (let i = 0; i < this.fileList.length; i++) {
+        if(this.fileList[i].uid == file.uid){
+          this.fileList.splice(i,1)
+          break
+        }
+      }
+    },
     handleImgBeforeUpload(file) {
 
       if (/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
@@ -104,7 +118,7 @@ export default {
         for (let i = 0; i < fileList.length; i++) {
           // 上传过程中fileList.status会发生变化
           // console.log(JSON.parse(JSON.stringify(fileList[i])))
-          if (fileList[i].status && fileList[i].status != 'success') { // 多图上传此判断有性能漏洞，待优化
+          if (fileList[i].status && fileList[i].status != 'success') {
             return
           }
           if (fileList[i].response) {
@@ -124,4 +138,21 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.video{
+  position: relative
+  i{
+    display: none
+    position: absolute
+    z-index: 100
+    top: 50%
+    left: 50%
+    transform translate(-50%, -50%)
+    color: #fff
+    font-size 20px
+    cursor: pointer
+  }
+  &:hover i{
+    display: block
+  }
+}
 </style>

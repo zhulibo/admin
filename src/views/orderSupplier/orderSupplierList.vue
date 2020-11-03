@@ -47,20 +47,40 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="number" label="订单号" align="center">
+        <el-table-column prop="number" label="订单号" align="center" width="220px">
           <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="订单实付总金额(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.payMoney }}</template>
+        <el-table-column prop="number" label="商品信息" align="center">
+          <template slot-scope="scope">
+            <el-popover
+              placement="right"
+              trigger="hover">
+              <table class="goods-list">
+                <tr>
+                  <th>商品名</th>
+                  <th>图片</th>
+                  <th>数量</th>
+                  <th>价格(元)</th>
+                </tr>
+                <tr v-for="item in scope.row.goods">
+                  <td>{{ item.goodsName }}</td>
+                  <td><img :src="item.goodsPhoto" alt=""></td>
+                  <td>{{ item.goodsNumber }}</td>
+                  <td>{{ item.goodsMoney }}</td>
+                </tr>
+              </table>
+              <el-button slot="reference" type="text">查看商品</el-button>
+            </el-popover>
+          </template>
         </el-table-column>
-        <el-table-column prop="payMoney" label="优惠金额(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.discounts }}</template>
+        <el-table-column prop="tbOrderDetail" label="收货人" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.name }}</template>
         </el-table-column>
-        <el-table-column prop="tbOrderDetail" label="运费(元)" align="center">
-          <template slot-scope="scope">{{ scope.row.tbOrderDetail.carriage }}</template>
+        <el-table-column prop="tbOrderDetail" label="收货人电话" align="center">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.phone }}</template>
         </el-table-column>
-        <el-table-column prop="phone" label="收货人电话" align="center">
-          <template slot-scope="scope">{{ scope.row.phone }}</template>
+        <el-table-column prop="payMoney" label="实付总金额(元)" align="center">
+          <template slot-scope="scope">{{ scope.row.payMoney | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="isBalance" label="是否结算" align="center">
           <template slot-scope="scope">
@@ -208,6 +228,9 @@ export default {
         method: 'GET',
         params: {
           status: this.formInline.status,
+          number: this.formInline.number,
+          startTime: this.formInline.time ? this.formInline.time[0] : '',
+          endTime: this.formInline.time ? this.formInline.time[1] : '',
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -323,4 +346,23 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.goods-list {
+  width: 100%
+  border-collapse: collapse;
+  tr{
+    border-bottom: 1px solid #ddd
+  }
+  th {
+    padding: 10px 0
+    text-align: center
+  }
+  td {
+    padding: 5px
+    min-width 100px
+    text-align: center
+  }
+  img {
+    height: 3em
+  }
+}
 </style>
