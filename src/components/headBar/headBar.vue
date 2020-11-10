@@ -60,7 +60,7 @@ export default {
   top: 0
   left: 200px
   right: 0
-  height: 60px;
+  height: 50px;
   background-color: #fff;
   box-shadow 0 0 5px rgba(0, 0, 0, .1)
 }
@@ -69,8 +69,9 @@ export default {
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  height: 100%;
-  padding: 10px;
+  height: 50px;
+  padding-top: 15px
+  padding-right: 20px
 }
 .user .pic {
   float: left;
@@ -86,14 +87,12 @@ export default {
   height: 100%;
 }
 .user span {
-  margin-left: 15px;
-  margin-right: 10px;
-  margin-top: 7px;
+  margin-left: 10px;
   float: left;
   font-size: 16px;
 }
 .user i {
-  margin-top: 10px;
+  margin-top: 2px
   font-size: 20px;
   color: #666;
 }

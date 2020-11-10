@@ -90,10 +90,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="tbOrderDetail" label="收货人" align="center">
-          <template slot-scope="scope">{{ scope.row.tbOrderDetail.name }}</template>
+          <template slot-scope="scope" v-if="scope.row.tbOrderDetail">{{ scope.row.tbOrderDetail.name }}</template>
         </el-table-column>
         <el-table-column prop="tbOrderDetail" label="收货人电话" align="center">
-          <template slot-scope="scope">{{ scope.row.tbOrderDetail.phone }}</template>
+          <template slot-scope="scope" v-if="scope.row.tbOrderDetail">{{ scope.row.tbOrderDetail.phone }}</template>
         </el-table-column>
         <el-table-column prop="isBalance" label="是否结算" align="center">
           <template slot-scope="scope">

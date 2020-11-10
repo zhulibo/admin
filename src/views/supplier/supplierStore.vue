@@ -61,6 +61,11 @@
             <span v-else-if="scope.row.isUp == 1">已下架</span>
           </template>
         </el-table-column>
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
+          <template slot-scope="scope">
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pagination-ct clearfix">
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
@@ -87,7 +92,7 @@ export default {
       totalPages: null,
       selectItemOption: { // 选择商品组件配置参数
         dialogVisible: false,
-        itemType: [true, true, true], // 是否可以选择现货商品，预售商品，抽奖商品
+        itemType: [true, false, false], // 是否可以选择现货商品，预售商品，抽奖商品
       }
     }
   },
@@ -125,7 +130,7 @@ export default {
       this.getList()
     },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.id, '提示', {
+      this.$confirm('确定删除 ' + scope.title, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
@@ -134,11 +139,11 @@ export default {
           url: '/goodsmanage/backadmin/shopware',
           method: 'DELETE',
           data: {
-            id: scope.id
+            ids: [scope.id]
           }
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.id)
+            this.$message.success('已删除 ' + scope.title)
             this.getList()
           })
       }).catch(e => {

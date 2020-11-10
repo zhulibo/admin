@@ -39,8 +39,8 @@
         <el-table-column prop="number" label="提现单号" align="center">
           <template slot-scope="scope">{{ scope.row.number | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="nickName" label="用户名" align="center">
-          <template slot-scope="scope">{{ scope.row.nickName }}</template>
+        <el-table-column prop="name" label="用户名" align="center">
+          <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
         <el-table-column prop="money" label="提现金额(元)" align="center">
           <template slot-scope="scope">{{ scope.row.money }}</template>
@@ -65,7 +65,6 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 1" @click="changeStatus(scope.row)">审核</el-button>
-            <el-button type="text" size="medium" class="edit" @click="changeBalance(scope.row)">修改余额</el-button>
           </template>
         </el-table-column>
       </el-table>

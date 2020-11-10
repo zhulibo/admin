@@ -4,9 +4,11 @@
     <side-nav></side-nav>
     <head-bar></head-bar>
     <div class="main-content">
+<!--      <div class="back" @click="back">返回</div>-->
+<!--      <breadcrumb></breadcrumb>-->
       <router-view></router-view>
     </div>
-<!--    <div class="chatCt" v-if="userInfo.phone == 18203663961 || userInfo.phone == 15290243173">-->
+<!--    <div class="chatCt" v-if="userInfo.phone == 18203663961">-->
 <!--      <chat></chat>-->
 <!--    </div>-->
   </div>
@@ -15,6 +17,7 @@
 <script>
 import sideNav from '@/components/sideNav/sideNav'
 import headBar from '@/components/headBar/headBar'
+import breadcrumb from '@/components/breadcrumb/breadcrumb'
 const chat = () => import(/* webpackChunkName: "chat" */ '@/components/chat/chat')
 
 export default {
@@ -26,6 +29,7 @@ export default {
   components: {
     sideNav,
     headBar,
+    breadcrumb,
     chat,
   },
   computed: {
@@ -40,7 +44,11 @@ export default {
   },
   mounted() {
   },
-  methods: {}
+  methods: {
+    // back() {
+    //   this.$router.go(-1)
+    // },
+  }
 }
 </script>
 
@@ -52,7 +60,7 @@ export default {
 .main-content {
   overflow-y auto
   position: absolute
-  top: 60px
+  top: 50px
   left: 200px
   right: 0
   bottom: 0
@@ -68,7 +76,14 @@ export default {
     background-color: transparent
   }
   // 火狐
-  scrollbar-color: rgba(0, 0, 0, .2) transparent;
-  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, .2) transparent
+  scrollbar-width: thin
+}
+.back{
+  display: inline-block
+  padding: 0 10px
+  border: 1px solid #ddd
+  cursor: pointer
+  background-color: #fff
 }
 </style>

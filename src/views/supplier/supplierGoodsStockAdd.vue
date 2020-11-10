@@ -11,8 +11,8 @@
         <el-form-item label="库存" prop="store">
           <el-input v-model="ruleForm.store"></el-input>
         </el-form-item>
-        <el-form-item label="运费" prop="carriage">
-          <el-input v-model="ruleForm.carriage"></el-input>
+        <el-form-item label="单独设置运费" prop="carriage">
+          <el-input v-model="ruleForm.carriage" placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="邮费方式" prop="isPayment">
           <el-radio v-model="ruleForm.isPayment" label="0">先付邮费</el-radio>

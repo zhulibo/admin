@@ -326,12 +326,42 @@ let permissionList = [
         ]
       },
       {
+        path: '/help',
+        name: '帮助中心',
+        children: [
+          {
+            path: '/helpClassifyOneList',
+            name: '帮助中心一级列表',
+          },
+          {
+            path: '/helpClassifyOneEdit',
+            name: '帮助中心一级编辑',
+          },
+          {
+            path: '/helpClassifyTwoList',
+            name: '帮助中心二级列表',
+          },
+          {
+            path: '/helpClassifyTwoEdit',
+            name: '帮助中心二级编辑',
+          },
+          {
+            path: '/helpQuestionList',
+            name: '帮助中心问题列表',
+          },
+          {
+            path: '/helpQuestionEdit',
+            name: '帮助中心问题编辑',
+          },
+        ]
+      },
+      {
         path: '/feedback',
-        name: '用户反馈',
+        name: '意见反馈',
         children: [
           {
             path: '/feedbackList',
-            name: '用户反馈列表',
+            name: '意见反馈列表',
           },
         ]
       },
@@ -798,19 +828,41 @@ let permissionList = [
     name: '统计管理',
     children: [
       {
-        path: '/statistics',
-        name: '统计管理',
+        path: '/statisticsUser',
+        name: '用户统计',
         children: [
           {
-            path: '/dayActiveNumber',
-            name: '日活',
-          },
-          {
-            path: '/registerNumber',
-            name: '注册数',
+            path: '/statisticsUserIndex',
+            name: '用户统计首页',
           },
         ]
-      }
+      },
+      {
+        path: '/statisticsUser',
+        name: '订单统计',
+        children: [
+          {
+            path: '/statisticsUserIndex',
+            name: '订单统计首页',
+          },
+          {
+            path: '/statisticsOrderSupplier',
+            name: '订单统计供货商',
+          },
+          {
+            path: '/statisticsOrderNumber',
+            name: '订单统计详情',
+          },
+          {
+            path: '/statisticsOrderDeal',
+            name: '订单统计交易',
+          },
+          {
+            path: '/statisticsOrderLogistics',
+            name: '订单统计物流',
+          },
+        ]
+      },
     ]
   },
 ]

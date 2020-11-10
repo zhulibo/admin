@@ -2,21 +2,21 @@
   <div>
     <div class="table-head clearfix">
       <h2 class="head-title">{{ this.$route.name }}</h2>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="newItem" icon="el-icon-plus">新建
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate}}</template>
-        </el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.phone }}</template>
-        </el-table-column>
-        <el-table-column prop="content" label="反馈内容" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.content }}</template>
-        </el-table-column>
-        <el-table-column prop="name" label="反馈者名称" align="center">
+        <el-table-column prop="name" label="名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
+          <template slot-scope="scope">
+            <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="edit" @click="checkItem(scope.row)">查看二级</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="pagination-ct clearfix">
@@ -47,9 +47,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/userorg/backadmin/feedback',
+        url: '/userorg/backadmin/help/ls/classify',
         method: 'GET',
         params: {
+          level: 1,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -66,6 +67,33 @@ export default {
       this.currentPage = val
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
+    },
+    editItem(scope) {
+      this.$router.push({path: '/helpClassifyOneEdit', query: {id: scope.id}})
+    },
+    checkItem(scope) {
+      this.$router.push({path: '/helpClassifyTwoList', query: {classifyOneId: scope.id}})
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/userorg/backadmin/help/ls/classify/' + scope.id,
+          method: 'DELETE',
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.name)
+            this.getList()
+          })
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    newItem() {
+      this.$router.push({path: '/helpClassifyOneEdit'})
     },
   }
 }

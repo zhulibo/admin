@@ -5,15 +5,12 @@
     </div>
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-        <el-form-item label="绑定一级分类" prop="parentId">
-          <el-select v-model="ruleForm.parentId" placeholder="请选择" filterable>
-            <el-option v-for="item in classifyList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="绑定模块" prop="moduleId">
-          <el-select v-model="ruleForm.moduleId" placeholder="请选择" filterable>
-            <el-option v-for="item in moduleList" :label="item.name" :value="item.id" :key="item.id"></el-option>
-          </el-select>
+        <el-form-item label="绑定模块" prop="classifyArr">
+          <el-cascader
+            v-model="ruleForm.classifyArr"
+            :options="classifyAllList"
+            :props="{ value: 'id', label: 'name', children: 'classifies' }">
+          </el-cascader>
         </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
@@ -81,8 +78,7 @@ export default {
     return {
       id: '',
       detail: {},
-      classifyList: [],
-      moduleList: [],
+      classifyAllList: [],
       typeList: [],
       brandList: [],
       ipList: [],
@@ -93,8 +89,7 @@ export default {
         limit: 1
       },
       ruleForm: {
-        parentId: '',
-        moduleId: '',
+        classifyArr: [],
         name: '',
         classifyImg: [],
         sort: '',
@@ -104,10 +99,7 @@ export default {
         attributeList: [],
       },
       rules: {
-        parentId: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-        moduleId: [
+        classifyArr: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         name: [
@@ -127,6 +119,7 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
+    this.getClassifyAllList()
     this.getClassifyList()
     this.getModuleList()
     this.getTypeList()
@@ -146,8 +139,7 @@ export default {
         .then(res => {
           this.detail = res.data
           this.ruleForm.type = this.detail.type
-          this.ruleForm.parentId = this.detail.parentId
-          this.ruleForm.moduleId = this.detail.modelId
+          this.ruleForm.classifyArr = [this.detail.parentId, this.detail.modelId]
           this.ruleForm.name = this.detail.name
           if (this.detail.image) this.classifyImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           if (this.detail.sort != null) this.ruleForm.sort = this.detail.sort
@@ -155,6 +147,31 @@ export default {
           if (this.detail.brands) this.ruleForm.brandList = this.detail.brands.split(',').map(Number)
           if (this.detail.ips) this.ruleForm.ipList = this.detail.ips.split(',').map(Number)
           if (this.detail.attributes) this.ruleForm.attributeList = this.detail.attributes.split(',').map(Number)
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getClassifyAllList() {
+      this.$http({
+        url: '/goodsmanage/backadmin/classify/pre',
+        method: 'GET',
+        params: {
+          level: 1,
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          res.data.map((value,index,arry)=>{
+            res.data[index].classifies = res.data[index].models
+            for (let i = 0; i < res.data[index].classifies.length; i++) {
+              res.data[index].classifies[i].classifies = null
+            }
+          })
+          this.classifyAllList = res.data
+
+          this.$set(this.classifyAllList[0], 'active', true)
+          this.moduleList = this.classifyAllList[0].models
         }).catch(e => {
         console.log(e)
       })
@@ -260,8 +277,8 @@ export default {
               type: 1,
               id: this.id ? this.id : '',
               level: 2,
-              parentId: this.ruleForm.parentId,
-              modelId: this.ruleForm.moduleId,
+              parentId: this.ruleForm.classifyArr[0],
+              modelId: this.ruleForm.classifyArr[1],
               name: this.ruleForm.name,
               image: this.ruleForm.classifyImg[0],
               sort: this.ruleForm.sort,

@@ -109,6 +109,7 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 2" @click="ship(scope.row)">发货</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="ship(scope.row)">修改运单号</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="errorOrder(scope.row)">异常订单</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="confirmReceipt(scope.row)">确认收货</el-button>
             <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
@@ -140,6 +141,17 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="异常订单" :visible.sync="errorOrderDialogVisible">
+        <el-form :model="ruleFormErrorOrder" :rules="rulesErrorOrder" ref="ruleFormErrorOrder" label-width="150px" class="edit-form">
+          <el-form-item label="加减" prop="isBalance">
+            <el-radio v-model="ruleFormErrorOrder.isBalance" label="1">待结算</el-radio>
+            <el-radio v-model="ruleFormErrorOrder.isBalance" label="3">订单异常</el-radio>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitFormErrorOrder('ruleFormErrorOrder')">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -221,6 +233,15 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         logNumber: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+      },
+      errorOrderDialogVisible: false,
+      ruleFormErrorOrder: {
+        isBalance: '',
+      },
+      rulesErrorOrder: {
+        isBalance: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
@@ -312,6 +333,32 @@ export default {
             })
           }
 
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
+    },
+    errorOrder(scope) {
+      this.scope = scope
+      this.errorOrderDialogVisible = true
+    },
+    submitFormErrorOrder(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/order/backadmin/paasorder/number/err',
+            method: 'PUT',
+            data: {
+              id: this.scope.id,
+              isBalance: this.ruleFormErrorOrder.isBalance,
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.errorOrderDialogVisible = false
+          }).catch(e => {
+            console.log(e)
+          })
         } else {
           console.log('error submit!!')
           return false

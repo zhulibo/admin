@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="classify">
+    <div class="edit-ct">
       <div class="classify-ct">
         <div class="side-bar">
           <dl class="classify-one">
@@ -77,9 +77,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.classify {
-  padding: 20px
-  background-color: #fff
+.edit-ct {
   .classify-ct {
     display: flex
     max-width 1000px

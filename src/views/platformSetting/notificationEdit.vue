@@ -19,8 +19,8 @@
         <el-form-item label="推送图片" prop="iconImg" class="form-item-img-top">
           <img-upload v-model="ruleForm.iconImg" :options="iconImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="内容(200字以内)" prop="content">
-          <el-input type="textarea" v-model="ruleForm.content" maxlength="200" rows="4"></el-input>
+        <el-form-item label="内容(500字以内)" prop="content">
+          <el-input type="textarea" v-model="ruleForm.content" maxlength="500" rows="8"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>

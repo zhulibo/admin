@@ -69,11 +69,11 @@
           </template>
         </el-table-column>
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
-          <template slot-scope="scope"><span v-copy="scope.row.title" title="点击可复制" class="copy-span">{{ scope.row.title }}</span></template>
-        </el-table-column>
         <el-table-column prop="id" label="商品id" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
+        </el-table-column>
+        <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
+          <template slot-scope="scope"><span v-copy="scope.row.title" title="点击可复制" class="copy-span">{{ scope.row.title }}</span></template>
         </el-table-column>
         <el-table-column prop="isUp" label="主商品上架状态" align="center">
           <template slot-scope="scope">

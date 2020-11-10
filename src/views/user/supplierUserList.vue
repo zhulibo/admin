@@ -44,8 +44,9 @@
         </el-form>
       </div>
     </div>
+    <el-button type="primary" plain size="mini" @click="exportOrderData()">导出</el-button>
     <div class="table">
-      <el-table :data="tableList">
+      <el-table :data="tableList" id="out-table">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="申请时间" align="center">
           <template slot-scope="scope">{{ scope.row.submitTime | timestampToDate }}</template>
@@ -81,6 +82,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="edit" @click="changeBalance(scope.row)">修改余额</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -89,10 +91,29 @@
                        @current-change="handleCurrentChange" background></el-pagination>
       </div>
     </div>
+    <div class="dialog">
+      <el-dialog title="修改余额" :visible.sync="changeBalanceDialogVisible">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
+          <el-form-item label="加减" prop="type">
+            <el-radio v-model="ruleForm.type" label="1">增加</el-radio>
+            <el-radio v-model="ruleForm.type" label="2">减少</el-radio>
+          </el-form-item>
+          <el-form-item label="金额" prop="money">
+            <el-input v-model="ruleForm.money"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
+
 export default {
   name: 'item',
   data() {
@@ -156,6 +177,20 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
+      scope: null,
+      changeBalanceDialogVisible: false,
+      ruleForm: {
+        type: '',
+        money: '',
+      },
+      rules: {
+        type: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        money: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+      },
     }
   },
   created() {
@@ -165,6 +200,15 @@ export default {
   mounted() {
   },
   methods: {
+    exportOrderData() {
+      let xlsxParam = { raw: true };
+      let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'),xlsxParam);
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      try {
+        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '供应在售商品.xlsx')
+      } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+      return wbout
+    },
     getList: function () {
       this.$http({
         url: 'userorg/backadmin/shop',
@@ -195,6 +239,33 @@ export default {
     },
     editItem(scope) {
       this.$router.push({path: '/supplierUserEdit', query: {id: scope.id}})
+    },
+    changeBalance(scope) {
+      this.scope = scope
+      this.changeBalanceDialogVisible = true
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/userorg/backadmin/shop/storeBalance',
+            method: 'PUT',
+            data: {
+              shopId: this.scope.id,
+              type: this.ruleForm.type,
+              money: this.ruleForm.money,
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.changeBalanceDialogVisible = false
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
     },
   }
 }

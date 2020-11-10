@@ -1,6 +1,5 @@
 export default [
   {
-    dev: true,
     path: '/',
     name: '平台设置',
     meta: {
@@ -76,6 +75,14 @@ export default [
         path: '/startupList',
         name: '启动页管理',
         component: () => import (/* webpackChunkName: 'startupList' */ '@/views/platformSetting/startupList'),
+        meta: {
+          icon: 'iconfont icon-dingdan',
+        },
+      },
+      {
+        path: '/helpClassifyOneList',
+        name: '帮助中心',
+        component: () => import (/* webpackChunkName: 'helpClassifyOneList' */ '@/views/platformSetting/helpClassifyOneList'),
         meta: {
           icon: 'iconfont icon-dingdan',
         },
@@ -261,6 +268,81 @@ export default [
         path: '/startupEdit',
         name: '启动页编辑',
         component: () => import (/* webpackChunkName: 'startupEdit' */ '@/views/platformSetting/startupEdit'),
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/helpClassifyOneEdit',
+        name: '帮助中心一级编辑',
+        component: () => import (/* webpackChunkName: 'helpClassifyOneEdit' */ '@/views/platformSetting/helpClassifyOneEdit'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/helpClassifyTwoList',
+        name: '帮助中心二级列表',
+        component: () => import (/* webpackChunkName: 'helpClassifyTwoList' */ '@/views/platformSetting/helpClassifyTwoList'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/helpClassifyTwoEdit',
+        name: '帮助中心二级编辑',
+        component: () => import (/* webpackChunkName: 'helpClassifyTwoEdit' */ '@/views/platformSetting/helpClassifyTwoEdit'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/helpQuestionList',
+        name: '帮助中心问题列表',
+        component: () => import (/* webpackChunkName: 'helpQuestionList' */ '@/views/platformSetting/helpQuestionList'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/helpQuestionEdit',
+        name: '帮助中心问题编辑',
+        component: () => import (/* webpackChunkName: 'helpQuestionEdit' */ '@/views/platformSetting/helpQuestionEdit'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
       }
     ]
   },
