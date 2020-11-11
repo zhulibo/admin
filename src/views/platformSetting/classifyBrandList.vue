@@ -26,6 +26,9 @@
             <img :src="scope.row.image" alt="">
           </template>
         </el-table-column>
+        <el-table-column prop="number" label="品牌下商品数量" align="center">
+          <template slot-scope="scope">{{ scope.row.number }}</template>
+        </el-table-column>
         <el-table-column prop="describes" label="备注" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.describes | noneToLine }}</template>
         </el-table-column>

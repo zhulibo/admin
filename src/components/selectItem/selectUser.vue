@@ -1,32 +1,31 @@
 <template>
   <div class="dialog">
-    <el-dialog title="请选择要绑定的商品" :visible.sync="itemDialogVisible" @close="$emit('update:dialogVisible', false)">
+    <el-dialog title="请选择用户" :visible.sync="itemDialogVisible" @close="$emit('update:dialogVisible', false)">
       <el-form :inline="true" :model="formInline" class="table-form-inline">
         <el-form-item label="">
-          <el-select v-model="formInline.type" placeholder="请选择">
-            <el-option v-if="itemType[0]" label="普通商品" value="1"></el-option>
-            <el-option v-if="itemType[1]" label="预售商品" value="2"></el-option>
-            <el-option v-if="itemType[2]" label="抽奖商品" value="3"></el-option>
-          </el-select>
+          <el-input v-model="formInline.nickName" placeholder="请输入用户昵称" @keyup.enter.native="getList"></el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="formInline.name" placeholder="请输入商品名称" @keyup.enter.native="getList"></el-input>
+          <el-input v-model="formInline.homesickId" placeholder="请输入用户漫想家id" @keyup.enter.native="getList"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-input v-model="formInline.phone" placeholder="请输入用户手机号" @keyup.enter.native="getList"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" plain @click="getList">查询</el-button>
         </el-form-item>
       </el-form>
       <div class="choose-list" :class="{'single-select': singleSelect}">
-        <el-table :data="goodsList" @selection-change="handleSelectionChange" ref="table">
-          <el-table-column prop="id" label="商品id" align="center">
-            <template slot-scope="scope">{{ scope.row.id | noneToLine }}</template>
+        <el-table :data="itemList" @selection-change="handleSelectionChange" ref="table">
+          <el-table-column prop="homesickId" label="漫想家id" align="center">
+            <template slot-scope="scope">{{ scope.row.homesickId | noneToLine }}</template>
           </el-table-column>
-          <el-table-column prop="title" label="商品名称" align="center" show-overflow-tooltip>
-            <template slot-scope="scope">{{ scope.row.title | noneToLine }}</template>
+          <el-table-column prop="nickName" label="昵称" align="center" show-overflow-tooltip>
+            <template slot-scope="scope">{{ scope.row.nickName | noneToLine }}</template>
           </el-table-column>
-          <el-table-column prop="listedImage" label="商品图片" align="center" class-name="row-img">
+          <el-table-column prop="header" label="头像" align="center" class-name="row-img">
             <template slot-scope="scope">
-              <img :src="scope.row.listedImage" alt="">
+              <img :src="scope.row.header" alt="">
             </template>
           </el-table-column>
           <el-table-column type="selection" width="55"></el-table-column>
@@ -49,7 +48,6 @@ export default {
   name: 'selectItem',
   props: {
     dialogVisible: {},
-    itemType: {},
     singleSelect: {
       default: false
     },
@@ -58,10 +56,11 @@ export default {
     return {
       itemDialogVisible: this.dialogVisible,
       formInline: {
-        type: '1',
-        name: '',
+        nickName: '',
+        homesickId: '',
+        phone: '',
       },
-      goodsList: [],
+      itemList: [],
       pageSize: 6,
       currentPage: 1,
       totalPages: null,
@@ -77,36 +76,19 @@ export default {
   },
   methods: {
     getList() {
-      let url = ''
-      if (this.formInline.type == 1) {
-        url = '/goodsmanage/backadmin/goods'
-      } else if (this.formInline.type == 2) {
-        url = '/goodsmanage/backadmin/presellgoods'
-      } else if (this.formInline.type == 3) {
-        url = '/goodsmanage/backadmin/drawgoods'
-      }
       this.$http({
-        url: url,
+        url: '/userorg/backadmin/appuser',
         method: 'GET',
         params: {
-          title: this.formInline.name,
+          phone: this.formInline.phone,
+          homesickId: this.formInline.homesickId,
+          nickName: this.formInline.nickName,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
       })
         .then(res => {
-          if(this.formInline.type == '3'){
-            for (let i = 0; i < res.data.list.length; i++) {
-              try {
-                res.data.list[i].title = res.data.list[i].tbGoods.title
-                res.data.list[i].listedImage = res.data.list[i].tbGoods.listedImage
-                res.data.list[i].goodsId = res.data.list[i].tbGoods.id
-              }catch (e){
-                console.log(e)
-              }
-            }
-          }
-          this.goodsList = res.data.list
+          this.itemList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
         }).catch(e => {
@@ -126,19 +108,13 @@ export default {
       this.multipleSelection = val
     },
     confirmSelectItem() {
-      this.$emit('confirmSelectItem', this.formInline.type, this.multipleSelection)
+      this.$emit('confirmSelectItem', this.multipleSelection)
     },
   },
   watch: {
     dialogVisible () {
       this.itemDialogVisible = this.dialogVisible
     },
-    'formInline.type': {
-      handler: function () {
-        this.currentPage = 1
-        this.getList()
-      }
-    }
   }
 }
 </script>

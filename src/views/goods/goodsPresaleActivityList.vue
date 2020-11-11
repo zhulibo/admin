@@ -196,12 +196,13 @@ export default {
             url: '/goodsmanage/backadmin/presellgoods/orderPreStatus',
             method: 'PUT',
             data: {
-              id: this.payFinalPaymentScope.id,
+              id: this.payFinalPaymentScope.preId,
               payEndTime: this.ruleForm.payEndTime,
             }
           }).then(res => {
             this.$message.success(res.msg)
             this.payFinalPaymentDialogVisible = false
+            this.getList()
           }).catch(e => {
             console.log(e)
           })

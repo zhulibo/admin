@@ -380,7 +380,7 @@ export default {
   methods: {
     getDetail() {
       this.$http({
-        url: '/order/backadmin/shoporder',
+        url: '/order/backadmin/paasorder/detail',
         method: 'GET',
         params: {
           id: this.id,

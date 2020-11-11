@@ -29,6 +29,14 @@ let permissionList = [
             path: '/supplierUserEdit',
             name: '供货商用户编辑',
           },
+          {
+            path: '/supplierUserGoodsList',
+            name: '供货商出售商品列表',
+          },
+          {
+            path: '/supplierUserBrandList',
+            name: '供货商出售品牌列表',
+          },
         ]
       },
       {

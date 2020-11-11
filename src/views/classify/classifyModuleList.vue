@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       formInline: {
-        phone: '',
+        name: '',
       },
       tableList: [],
       pageSize: 10,
@@ -68,7 +68,7 @@ export default {
         url: '/goodsmanage/backadmin/model',
         method: 'GET',
         params: {
-          name: this.name,
+          name: this.formInline.name,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }

@@ -4,7 +4,7 @@ import store from '../store'
 import {Message} from 'element-ui'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
-axios.defaults.timeout = 60000
+axios.defaults.timeout = 60000 // 60s 数据统计图表服务器运算速度有点慢
 
 // http request 拦截器
 axios.interceptors.request.use(

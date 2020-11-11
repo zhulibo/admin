@@ -1,6 +1,5 @@
 export default [
   {
-    dev: true,
     path: '/',
     name: '统计数据',
     meta: {
@@ -27,7 +26,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,
@@ -40,7 +38,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,
@@ -53,7 +50,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,
@@ -66,7 +62,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,
@@ -79,7 +74,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,

@@ -77,6 +77,36 @@ export default [
     hidden: true,
     children: [
       {
+        path: '/supplierUserGoodsList',
+        name: '供货商出售商品列表',
+        component: () => import (/* webpackChunkName: 'supplierUserGoodsList' */ '@/views/user/supplierUserGoodsList'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/supplierUserBrandList',
+        name: '供货商出售品牌列表',
+        component: () => import (/* webpackChunkName: 'supplierUserBrandList' */ '@/views/user/supplierUserBrandList'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
         path: '/adminEdit',
         name: '管理员编辑',
         component: () => import (/* webpackChunkName: 'adminEdit' */ '@/views/user/adminEdit'),

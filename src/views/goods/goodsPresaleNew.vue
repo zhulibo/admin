@@ -17,8 +17,8 @@
         <el-form-item label="详情图" prop="contentImg" class="form-item-img-logo">
           <img-upload v-model="ruleForm.contentImg" :options="contentImgOptions"></img-upload>
         </el-form-item>
-        <el-form-item label="供货商id" prop="shopId">
-          <el-input v-model="ruleForm.shopId"></el-input>
+        <el-form-item label="供货商" prop="shopName">
+          <el-input v-model="ruleForm.shopName" @focus="openSelectDialog"></el-input>
         </el-form-item>
         <el-form-item label="材质" prop="material">
           <el-input v-model="ruleForm.material"></el-input>
@@ -99,10 +99,12 @@
         </el-form-item>
       </el-form>
     </div>
+    <select-supplier-user @confirmSelectItem="confirmSelectItem" :dialogVisible.sync="selectItemOption.dialogVisible" :singleSelect="selectItemOption.singleSelect"></select-supplier-user>
   </div>
 </template>
 
 <script>
+import selectSupplierUser from "@/components/selectItem/selectSupplierUser";
 const imgUpload = () => import(/* webpackChunkName: "imgUpload" */ '@/components/imgUpload/imgUpload')
 
 export default {
@@ -133,6 +135,7 @@ export default {
         listedImg: [],
         bannerImg: [],
         contentImg: [],
+        shopName: '',
         shopId: '',
         material: '',
         size: '',
@@ -168,7 +171,7 @@ export default {
         contentImg: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        shopId: [
+        shopName: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         material: [
@@ -181,10 +184,15 @@ export default {
           // {required: true, message: '请输入', trigger: 'change'}
         ],
       },
+      selectItemOption: { // 选择组件配置参数
+        dialogVisible: false,
+        singleSelect: true, // 只可以单选
+      },
     }
   },
   components: {
     imgUpload,
+    selectSupplierUser,
   },
   created() {
     this.getTypeList()
@@ -272,6 +280,22 @@ export default {
         }).catch(e => {
         console.log(e)
       })
+    },
+    openSelectDialog() {
+      this.selectItemOption.dialogVisible = true
+    },
+    confirmSelectItem(multipleSelection) {
+      let ids = []
+      for (let i = 0; i < multipleSelection.length; i++) {
+        ids.push({
+          shopId: multipleSelection[i].id,
+          remark: multipleSelection[i].remark,
+          phone: multipleSelection[i].tbAppUser.phone,
+        })
+      }
+      this.ruleForm.shopName = ids[0].phone + ' - ' + ids[0].remark
+      this.ruleForm.shopId = ids[0].shopId
+      this.selectItemOption.dialogVisible = false
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

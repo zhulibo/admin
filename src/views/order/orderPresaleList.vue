@@ -264,7 +264,7 @@ export default {
       this.$router.push({path: '/notificationEdit', query: {userId: scope.userDetail.userId, nickName: scope.userDetail.nickName}})
     },
     checkItem(scope) {
-      this.$router.push({path: '/orderDetail', query: {id: scope.id}})
+      this.$router.push({path: '/orderPresaleDetail', query: {id: scope.id}})
     },
     handleCurrentChange: function (val) { // 页码变更
       this.currentPage = val

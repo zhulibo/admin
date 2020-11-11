@@ -4,9 +4,9 @@
       <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
-          <el-form-item label="">
-            <el-input v-model="formInline.userId" placeholder="审核人id" @keyup.enter.native="getList"></el-input>
-          </el-form-item>
+<!--          <el-form-item label="">-->
+<!--            <el-input v-model="formInline.userId" placeholder="审核人id" @keyup.enter.native="getList"></el-input>-->
+<!--          </el-form-item>-->
           <el-form-item label="">
             <el-input v-model="formInline.remark" placeholder="备注" @keyup.enter.native="getList"></el-input>
           </el-form-item>
@@ -44,12 +44,14 @@
         </el-form>
       </div>
     </div>
-    <el-button type="primary" plain size="mini" @click="exportOrderData()">导出</el-button>
     <div class="table">
-      <el-table :data="tableList" id="out-table">
+      <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="createTime" label="申请时间" align="center">
           <template slot-scope="scope">{{ scope.row.submitTime | timestampToDate }}</template>
+        </el-table-column>
+        <el-table-column prop="tbAppUser" label="手机号" align="center">
+          <template slot-scope="scope">{{ scope.row.tbAppUser.phone | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="certificate" label="营业执照图片" align="center" class-name="row-img">
           <template slot-scope="scope">
@@ -83,6 +85,8 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="edit" @click="changeBalance(scope.row)">修改余额</el-button>
+            <el-button type="text" size="medium" class="edit" @click="seeGoods(scope.row)">查看商品</el-button>
+            <el-button type="text" size="medium" class="edit" @click="seeBrand(scope.row)">查看品牌</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -111,15 +115,13 @@
 </template>
 
 <script>
-import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
 
 export default {
   name: 'item',
   data() {
     return {
       formInline: {
-        userId: '',
+        // userId: '',
         remark: '',
         time: [],
         time2: [],
@@ -200,21 +202,12 @@ export default {
   mounted() {
   },
   methods: {
-    exportOrderData() {
-      let xlsxParam = { raw: true };
-      let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'),xlsxParam);
-      let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
-      try {
-        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '供应在售商品.xlsx')
-      } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
-      return wbout
-    },
     getList: function () {
       this.$http({
         url: 'userorg/backadmin/shop',
         method: 'GET',
         params: {
-          userId: this.formInline.userId,
+          // userId: this.formInline.userId,
           remark: this.formInline.remark,
           subStart: this.formInline.time ? this.formInline.time[0] : '',
           subEnd: this.formInline.time ? this.formInline.time[1] : '',
@@ -239,6 +232,12 @@ export default {
     },
     editItem(scope) {
       this.$router.push({path: '/supplierUserEdit', query: {id: scope.id}})
+    },
+    seeGoods(scope) {
+      this.$router.push({path: '/supplierUserGoodsList', query: {shopId: scope.id, shopPhone: scope.tbAppUser.phone, remark: scope.remark}})
+    },
+    seeBrand(scope) {
+      this.$router.push({path: '/supplierUserBrandList', query: {shopId: scope.id}})
     },
     changeBalance(scope) {
       this.scope = scope
