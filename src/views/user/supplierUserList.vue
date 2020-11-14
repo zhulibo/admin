@@ -51,7 +51,7 @@
           <template slot-scope="scope">{{ scope.row.submitTime | timestampToDate }}</template>
         </el-table-column>
         <el-table-column prop="tbAppUser" label="手机号" align="center">
-          <template slot-scope="scope">{{ scope.row.tbAppUser.phone | noneToLine }}</template>
+          <template slot-scope="scope" v-if="scope.row.tbAppUser">{{ scope.row.tbAppUser.phone | noneToLine }}</template>
         </el-table-column>
         <el-table-column prop="certificate" label="营业执照图片" align="center" class-name="row-img">
           <template slot-scope="scope">

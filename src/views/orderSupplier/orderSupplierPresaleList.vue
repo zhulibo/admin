@@ -70,7 +70,7 @@
                   <th>价格(元)</th>
                 </tr>
                 <tr v-for="item in scope.row.goods">
-                  <td>{{ item.goodsName }}</td>
+                  <td v-copy="item.goodsName" title="点击可复制" class="copy-span">{{ item.goodsName }}</td>
                   <td><img :src="item.goodsPhoto" alt=""></td>
                   <td>{{ item.goodsNumber }}</td>
                   <td>{{ item.goodsMoney }}</td>
@@ -296,7 +296,7 @@ export default {
             data: {
               id: this.scope.id,
               status: 3,
-              tbOrderDetail: {
+              detail: {
                 companyCode: this.ruleForm.companyCode,
                 logNumber: this.ruleForm.logNumber,
               }
@@ -304,6 +304,7 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.shipDialogVisible = false
+            this.getList()
           }).catch(e => {
             console.log(e)
           })

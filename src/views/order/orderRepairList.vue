@@ -107,8 +107,15 @@
       <el-dialog title="初次评审" :visible.sync="firstEvaluationDialogVisible">
         <el-form :model="firstEvaluationRuleForm" :rules="firstEvaluationRules" ref="firstEvaluationRuleForm"
                  label-width="150px" class="edit-form">
-          <el-form-item label="修复人id" prop="repairerId">
-            <el-input v-model="firstEvaluationRuleForm.repairerId"></el-input>
+          <el-form-item label="修复师" prop="repairerId">
+            <el-select v-model="firstEvaluationRuleForm.repairerId" filterable placeholder="请选择">
+              <el-option
+                v-for="item in repairerList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="初步评估价格/低" prop="firstMinPrice">
             <el-input v-model="firstEvaluationRuleForm.firstMinPrice"></el-input>
@@ -164,10 +171,17 @@
       </el-dialog>
       <el-dialog title="修复完成发货" :visible.sync="shipDialogVisible">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
-          <el-form-item label="快递公司编码" prop="companyCode">
-            <el-input v-model="ruleForm.companyCode"></el-input>
+          <el-form-item label="快递公司" prop="companyCode">
+            <el-select v-model="ruleForm.companyCode" filterable remote :remote-method="getExpressList" placeholder="请输入快递公司名称并选择">
+              <el-option
+                v-for="item in expressList"
+                :key="item.id"
+                :label="item.expressName"
+                :value="item.expressCode">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="订单号" prop="logNumber">
+          <el-form-item label="快递单号" prop="logNumber">
             <el-input v-model="ruleForm.logNumber"></el-input>
           </el-form-item>
         </el-form>
@@ -248,6 +262,7 @@ export default {
       secondEvaluationDialogVisible: false,
       shipDialogVisible: false,
       scope: {},
+      repairerList: [],
       firstEvaluationRuleForm: {
         repairerId: '',
         firstMinPrice: '',
@@ -273,6 +288,7 @@ export default {
         weight: '',
       },
       secondEvaluationRules: {},
+      expressList: [],
       ruleForm: {
         companyCode: '',
         logNumber: '',
@@ -356,14 +372,25 @@ export default {
     firstEvaluation(scope) {
       this.firstEvaluationDialogVisible = true
       this.scope = scope
+      this.getRepairerList()
     },
     secondEvaluation(scope) {
       this.secondEvaluationDialogVisible = true
       this.scope = scope
     },
-    ship(scope) {
-      this.shipDialogVisible = true
-      this.scope = scope
+    getRepairerList: function () {
+      this.$http({
+        url: '/order/backadmin/repair/repairer',
+        method: 'GET',
+        params: {
+          id: this.scope.id,
+        }
+      })
+        .then(res => {
+          this.repairerList = res.data
+        }).catch(e => {
+        console.log(e)
+      })
     },
     firstEvaluationSubmitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -387,7 +414,8 @@ export default {
             }
           }).then(res => {
             this.$message.success(res.msg)
-            this.shipDialogVisible = false
+            this.firstEvaluationDialogVisible = false
+            this.getList()
           }).catch(e => {
             console.log(e)
           })
@@ -417,7 +445,8 @@ export default {
             }
           }).then(res => {
             this.$message.success(res.msg)
-            this.shipDialogVisible = false
+            this.secondEvaluationDialogVisible = false
+            this.getList()
           }).catch(e => {
             console.log(e)
           })
@@ -426,6 +455,26 @@ export default {
           return false
         }
       });
+    },
+    ship(scope) {
+      this.shipDialogVisible = true
+      this.scope = scope
+    },
+    getExpressList(expressName) {
+      this.$http({
+        url: '/order/backadmin/express',
+        method: 'GET',
+        params: {
+          expressName: expressName,
+          pageSize: 100,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.expressList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -436,7 +485,7 @@ export default {
             data: {
               id: this.scope.id,
               status: this.scope.status == 16 ? 10 : 14,
-              tbOrderDetail: {
+              tbRepairOrderMoving: {
                 companyCode: this.ruleForm.companyCode,
                 logNumber: this.ruleForm.logNumber,
               }

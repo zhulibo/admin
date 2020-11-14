@@ -70,7 +70,7 @@
                   <th>价格(元)</th>
                 </tr>
                 <tr v-for="item in scope.row.goods">
-                  <td>{{ item.goodsName }}</td>
+                  <td v-copy="item.goodsName" title="点击可复制" class="copy-span">{{ item.goodsName }}</td>
                   <td><img :src="item.goodsPhoto" alt=""></td>
                   <td>{{ item.goodsNumber }}</td>
                   <td>{{ item.goodsMoney }}</td>

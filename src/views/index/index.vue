@@ -8,9 +8,10 @@
 <!--      <breadcrumb></breadcrumb>-->
       <router-view></router-view>
     </div>
-<!--    <div class="chatCt" v-if="userInfo.phone == 18203663961">-->
-<!--      <chat></chat>-->
-<!--    </div>-->
+<!--    13193440666 为客服账号-->
+    <div class="chatCt" v-if="userInfo.phone == 13193440666">
+      <chat></chat>
+    </div>
   </div>
 </template>
 

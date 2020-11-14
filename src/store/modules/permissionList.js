@@ -373,6 +373,20 @@ let permissionList = [
           },
         ]
       },
+      {
+        path: '/report',
+        name: '举报管理',
+        children: [
+          {
+            path: '/reportList',
+            name: '举报列表',
+          },
+          {
+            path: '/reportDetail',
+            name: '举报详情',
+          },
+        ]
+      },
     ]
   },
   {
@@ -843,14 +857,18 @@ let permissionList = [
             path: '/statisticsUserIndex',
             name: '用户统计首页',
           },
+          {
+            path: '/statisticsUserDetail',
+            name: '用户统计详情',
+          },
         ]
       },
       {
-        path: '/statisticsUser',
+        path: '/statisticsOrder',
         name: '订单统计',
         children: [
           {
-            path: '/statisticsUserIndex',
+            path: '/statisticsOrderIndex',
             name: '订单统计首页',
           },
           {

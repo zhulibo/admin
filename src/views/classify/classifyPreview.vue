@@ -104,12 +104,15 @@ export default {
   background-color: #f5f5f5
   .classify-module {
     padding: 10px 0
+    overflow: hidden
     .classify-module-name {
       margin-bottom: 10px
       border-bottom: 1px dashed #ddd
     }
     .classify-two {
+      float: left
       display: inline-block
+      margin-bottom: 10px
       margin-right: 10px
       padding: 0 5px
       border-radius: 5px

@@ -144,7 +144,7 @@ export default {
         tooltip:{
           trigger: 'item',
           formatter: function (params,ticket,callback) {
-            console.log(params)
+            // console.log(params)
             let str = ''
             str += params.data.name + '：' + params.data.value + '<br/>'
             if(params.data.children && params.data.children.length > 0){
@@ -152,7 +152,7 @@ export default {
                 str += params.data.children[i].cityName + '：' + params.data.children[i].numbers + '<br/>'
               }
             }
-            console.log(str)
+            // console.log(str)
             return str
           },
         },

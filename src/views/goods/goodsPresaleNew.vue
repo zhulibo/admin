@@ -20,6 +20,16 @@
         <el-form-item label="供货商" prop="shopName">
           <el-input v-model="ruleForm.shopName" @focus="openSelectDialog"></el-input>
         </el-form-item>
+        <el-form-item label="发货地址" prop="addressId">
+          <el-select v-model="ruleForm.addressId" placeholder="请选择" filterable :disabled="!ruleForm.shopId">
+            <el-option v-for="item in addressList" :label="item.sendAddress" :value="item.id"
+                       :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="邮费方式" prop="isPayment">
+          <el-radio v-model="ruleForm.isPayment" label="0">先付邮费</el-radio>
+          <el-radio v-model="ruleForm.isPayment" label="1">到付</el-radio>
+        </el-form-item>
         <el-form-item label="材质" prop="material">
           <el-input v-model="ruleForm.material"></el-input>
         </el-form-item>
@@ -112,6 +122,7 @@ export default {
   data() {
     return {
       detail: {},
+      addressList: [],
       typeList: [],
       brandList: [],
       ipList: [],
@@ -137,6 +148,8 @@ export default {
         contentImg: [],
         shopName: '',
         shopId: '',
+        isPayment: '',
+        addressId: '',
         material: '',
         size: '',
         cargoNo: '',
@@ -172,6 +185,12 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         shopName: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        isPayment: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        addressId: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         material: [
@@ -290,10 +309,11 @@ export default {
         ids.push({
           shopId: multipleSelection[i].id,
           remark: multipleSelection[i].remark,
-          phone: multipleSelection[i].tbAppUser.phone,
+          // phone: multipleSelection[i].tbAppUser.phone,
         })
       }
-      this.ruleForm.shopName = ids[0].phone + ' - ' + ids[0].remark
+      this.ruleForm.shopName = ids[0].remark + '1'
+      // this.ruleForm.shopName = ids[0].phone + ' - ' + ids[0].remark
       this.ruleForm.shopId = ids[0].shopId
       this.selectItemOption.dialogVisible = false
     },
@@ -340,6 +360,8 @@ export default {
               },
               skus: skus,
               shopId: this.ruleForm.shopId,
+              isPayment: this.ruleForm.isPayment,
+              addressId: this.ruleForm.addressId,
               goodTypes: this.ruleForm.typeList[0],
               goodBrand: this.ruleForm.brandList[0],
               goodIp: this.ruleForm.ipList[0],
@@ -358,6 +380,27 @@ export default {
       });
     },
   },
+  watch: {
+    'ruleForm.shopId': {
+      handler: function (){
+        this.ruleForm.addressId = ''
+        this.$http({
+          url: '/userorg/backadmin/shopaddress/select',
+          method: 'GET',
+          params: {
+            shopId: this.ruleForm.shopId,
+            pageSize: 1000,
+            pageNumber: 1,
+          }
+        })
+          .then(res => {
+            this.addressList = res.data
+          }).catch(e => {
+            console.log(e)
+          })
+      }
+    }
+  }
 }
 </script>
 

@@ -12,7 +12,7 @@
       <div class="choose-list" :class="{'single-select': singleSelect}">
         <el-table :data="itemList" @selection-change="handleSelectionChange" ref="table">
           <el-table-column prop="tbAppUser" label="供货商手机号" align="center">
-            <template slot-scope="scope">{{ scope.row.tbAppUser.phone | noneToLine }}</template>
+            <template slot-scope="scope" v-if="scope.row.tbAppUser">{{ scope.row.tbAppUser.phone | noneToLine }}</template>
           </el-table-column>
           <el-table-column prop="remark" label="备注" align="center" show-overflow-tooltip>
             <template slot-scope="scope">{{ scope.row.remark | noneToLine }}</template>

@@ -85,10 +85,7 @@ export default {
       this.msgList = msgListStorage
     }
     // 赋值客服id
-    if(this.userInfo.phone == 18203663961){
-      this.userId = 182036639612
-    }
-
+    this.userId = 182036639612 // 平台暂时只有一个客服
     this.logIn()
 
     WebIM.conn.listen({

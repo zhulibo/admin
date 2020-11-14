@@ -31,6 +31,9 @@
         <el-form-item label="url" prop="url">
           <el-input v-model="ruleForm.url"></el-input>
         </el-form-item>
+        <el-form-item label="标题" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
         <el-form-item label="内容(200字以内)" prop="content">
           <el-input type="textarea" v-model="ruleForm.content" maxlength="200" rows="4"></el-input>
         </el-form-item>
@@ -71,6 +74,7 @@ export default {
         iconImg: [],
         brandBgImg: [],
         url: '',
+        name: '',
         content: '',
         sort: '',
       },
@@ -85,6 +89,12 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         iconImg: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        name: [
+          {required: true, message: '请输入', trigger: 'change'}
+        ],
+        content: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
         sort: [
@@ -119,6 +129,7 @@ export default {
           this.iconImgOptions.fileList.push({url: this.detail.image}) // 图片回显
           if (this.detail.backMage) this.brandBgImgOptions.fileList.push({url: this.detail.backMage}) // 图片回显
           this.ruleForm.url = this.detail.url
+          this.ruleForm.name = this.detail.name
           this.ruleForm.content = this.detail.content
           if (this.detail.sort != null) this.ruleForm.sort = this.detail.sort
         }).catch(e => {
@@ -139,6 +150,7 @@ export default {
               image: this.ruleForm.iconImg[0],
               backMage: this.ruleForm.brandBgImg[0],
               url: this.ruleForm.url,
+              name: this.ruleForm.name,
               content: this.ruleForm.content,
               sort: this.ruleForm.sort,
             },

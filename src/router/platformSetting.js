@@ -95,6 +95,14 @@ export default [
           icon: 'iconfont icon-dingdan',
         },
       },
+      {
+        path: '/reportList',
+        name: '举报管理',
+        component: () => import (/* webpackChunkName: 'reportList' */ '@/views/platformSetting/reportList'),
+        meta: {
+          icon: 'iconfont icon-dingdan',
+        },
+      },
     ]
   },
   {
@@ -340,6 +348,21 @@ export default [
         path: '/helpQuestionEdit',
         name: '帮助中心问题编辑',
         component: () => import (/* webpackChunkName: 'helpQuestionEdit' */ '@/views/platformSetting/helpQuestionEdit'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/reportDetail',
+        name: '举报详情',
+        component: () => import (/* webpackChunkName: 'reportDetail' */ '@/views/platformSetting/reportDetail'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },

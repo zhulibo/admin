@@ -24,10 +24,8 @@
           <el-input v-model="ruleForm.adminUser"></el-input>
         </el-form-item>
         <el-form-item label="部落类型" prop="type">
-          <el-select v-model="ruleForm.type" placeholder="请选择">
-            <el-option label="普通部落" value="1"></el-option>
-            <el-option label="明星部落" value="2"></el-option>
-          </el-select>
+          <el-radio v-model="ruleForm.type" label="1">普通部落</el-radio>
+          <el-radio v-model="ruleForm.type" label="2">明星部落</el-radio>
         </el-form-item>
         <el-form-item label="推荐顺序" prop="isRecommend">
           <el-input v-model="ruleForm.isRecommend"></el-input>
@@ -113,8 +111,8 @@ export default {
           this.ruleForm.name = this.detail.name
           this.logoImgOptions.fileList.push({url: this.detail.logoImage}) // 图片回显
           this.topImgOptions.fileList.push({url: this.detail.topImage}) // 图片回显
-          this.ruleForm.notice = this.detail.notice[0]
-          this.ruleForm.noticeTitle = this.detail.noticeTitle[0]
+          // this.ruleForm.notice = this.detail.notice[0]
+          // this.ruleForm.noticeTitle = this.detail.noticeTitle[0]
           this.ruleForm.adminUser = this.detail.adminUser
           this.ruleForm.type = String(this.detail.type) // el-select必须字符串
           this.ruleForm.isRecommend = this.detail.isRecommend
