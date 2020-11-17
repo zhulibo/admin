@@ -484,7 +484,7 @@ export default {
             method: 'PUT',
             data: {
               id: this.scope.id,
-              status: this.scope.status == 16 ? 10 : 14,
+              status: this.scope.status == 17 ? 10 : 14,
               tbRepairOrderMoving: {
                 companyCode: this.ruleForm.companyCode,
                 logNumber: this.ruleForm.logNumber,

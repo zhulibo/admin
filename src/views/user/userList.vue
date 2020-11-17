@@ -42,6 +42,9 @@
         <el-table-column prop="homesickId" label="漫想家id" align="center">
           <template slot-scope="scope">{{ scope.row.homesickId | noneToLine }}</template>
         </el-table-column>
+        <el-table-column prop="userId" label="用户id" align="center">
+          <template slot-scope="scope">{{ scope.row.userId | noneToLine }}</template>
+        </el-table-column>
         <el-table-column prop="userPhone" label="手机号" align="center">
           <template slot-scope="scope">{{ scope.row.userPhone | noneToLine }}</template>
         </el-table-column>
@@ -77,6 +80,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="edit" @click="seeItem(scope.row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -174,6 +178,9 @@ export default {
     },
     editItem(scope) {
       this.$router.push({path: '/userEdit', query: {userId: scope.userId}})
+    },
+    seeItem(scope) {
+      this.$router.push({path: '/userDetail', query: {userId: scope.userId}})
     },
   }
 }

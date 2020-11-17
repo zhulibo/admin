@@ -22,7 +22,10 @@
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
         <el-table-column prop="image" label="图片" align="center" class-name="row-img">
-          <template slot-scope="scope"><img :src="scope.row.image" alt=""></template>
+          <template slot-scope="scope">
+            <img v-if="scope.row.image" :src="scope.row.image" alt="">
+            <span v-else>--</span>
+          </template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" align="center">
           <template slot-scope="scope">{{ scope.row.sort }}</template>

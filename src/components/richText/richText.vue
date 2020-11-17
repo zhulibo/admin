@@ -34,7 +34,7 @@ import {addQuillTitle} from '@/utils/quill/addQuillTitle'
 
 // 设置字体
 let fontSizeStyle = Quill.import('attributors/style/size')
-fontSizeStyle.whitelist = ['12px', false, '16px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '36px']
+fontSizeStyle.whitelist = ['12px', '13px', false, '15px', '16px', '17px', '18px', '20px', '22px', '24px', '26px', '28px', '30px', '32px', '36px']
 Quill.register(fontSizeStyle, true)
 
 export default {
@@ -70,7 +70,7 @@ export default {
               [{color: []}, {background: []}],
               ["image"],
               ["clean"]
-            ], // container为工具栏，此次引入了全部工具栏，也可自行配置
+            ], // container为工具栏配置
             handlers: {
               'image': function (value) { // 劫持原来的图片点击按钮事件
                 let _this = this // quill插件实例

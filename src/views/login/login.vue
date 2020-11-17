@@ -9,7 +9,7 @@
           <h2 class="form-title">漫想家管理后台</h2>
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="log-form">
             <el-form-item label="用户类型" prop="type">
-              <el-radio v-model="ruleForm.type" label="1">管理员登录</el-radio>
+              <el-radio v-model="ruleForm.type" label="1">平台账号登录</el-radio>
               <el-radio v-model="ruleForm.type" label="2">供货商登录</el-radio>
             </el-form-item>
             <el-form-item label="" prop="account">

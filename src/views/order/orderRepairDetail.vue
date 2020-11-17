@@ -7,7 +7,7 @@
       <ul class="detail">
         <li>
           <div class="l">
-            <span>创建时间</span>
+            <span>下单时间</span>
           </div>
           <div class="r">
             <span>{{ detail.creatTime | timestampToDate }}</span>

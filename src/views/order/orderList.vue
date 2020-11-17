@@ -15,7 +15,7 @@
               <el-option label="支付后后台取消" value="6"></el-option>
               <el-option label="未支付超时取消" value="7"></el-option>
               <el-option label="未支付用户取消" value="8"></el-option>
-              <el-option label="删除" value="0"></el-option>
+<!--              <el-option label="删除" value="0"></el-option>-->
             </el-select>
           </el-form-item>
           <el-form-item label="">
@@ -47,8 +47,11 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="number" label="订单号" align="center" width="220px">
+        <el-table-column prop="number" label="订单号" align="center" width="200px">
           <template slot-scope="scope">{{ scope.row.number }}</template>
+        </el-table-column>
+        <el-table-column prop="shopName" label="供货商昵称" align="center">
+          <template slot-scope="scope">{{ scope.row.shopName | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="number" label="商品信息" align="center">
           <template slot-scope="scope">
@@ -82,6 +85,9 @@
         <el-table-column prop="tbOrderDetail" label="收货人电话" align="center">
           <template slot-scope="scope">{{ scope.row.tbOrderDetail.phone }}</template>
         </el-table-column>
+        <el-table-column prop="tbOrderDetail" label="物流单号" align="center" width="200px">
+          <template slot-scope="scope">{{ scope.row.tbOrderDetail.logNumber | noneToLine}}</template>
+        </el-table-column>
         <el-table-column prop="payMoney" label="实付总金额(元)" align="center">
           <template slot-scope="scope">{{ scope.row.payMoney | noneToLine }}</template>
         </el-table-column>
@@ -107,11 +113,11 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 2" @click="ship(scope.row)">发货</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="ship(scope.row)">修改运单号</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="errorOrder(scope.row)">异常订单</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 3" @click="confirmReceipt(scope.row)">确认收货</el-button>
-            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 2" @click="ship(scope.row)">发货</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="ship(scope.row)">修改运单号</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="errorOrder(scope.row)">异常订单</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="confirmReceipt(scope.row)">确认收货</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
@@ -137,6 +143,19 @@
           </el-form-item>
           <el-form-item label="快递单号" prop="logNumber">
             <el-input v-model="ruleForm.logNumber"></el-input>
+          </el-form-item>
+          <el-form-item label="发货地址" prop="sendAddressArea" v-if="scope.status == 3">
+            <el-cascader v-model="ruleForm.sendAddressArea" :options="areaList"
+                         :props="{ value: 'name', label: 'name', children: 'children' }"></el-cascader>
+          </el-form-item>
+          <el-form-item label="详细地址" prop="sendAddress" v-if="scope.status == 3">
+            <el-input v-model="ruleForm.sendAddress"></el-input>
+          </el-form-item>
+          <el-form-item label="收货人" prop="name" v-if="scope.status == 3">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="收货人电话" prop="phone" v-if="scope.status == 3">
+            <el-input v-model="ruleForm.phone"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -221,12 +240,17 @@ export default {
       pageSize: 10,
       currentPage: 1,
       totalPages: null,
+      areaList: [],
       expressList: [],
       shipDialogVisible: false,
       scope: {},
       ruleForm: {
         companyCode: '',
         logNumber: '',
+        sendAddressArea: [],
+        sendAddress: '',
+        name: '',
+        phone: '',
       },
       rules: {
         companyCode: [
@@ -250,6 +274,7 @@ export default {
   created() {
     this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
+    this.getAreaList()
   },
   mounted() {
   },
@@ -271,6 +296,21 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getAreaList() {
+      this.$http({
+        url: '/userorg/backadmin/shopaddress/selectaddress',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.areaList = res.data.list
         }).catch(e => {
         console.log(e)
       })
@@ -308,7 +348,7 @@ export default {
                 tbOrderDetail: {
                   companyCode: this.ruleForm.companyCode,
                   logNumber: this.ruleForm.logNumber,
-                }
+                },
               }
             }).then(res => {
               this.$message.success(res.msg)
@@ -324,6 +364,9 @@ export default {
                 number: this.scope.number,
                 companyCode: this.ruleForm.companyCode,
                 logNumber: this.ruleForm.logNumber,
+                name: this.ruleForm.name,
+                phone: this.ruleForm.phone,
+                address: this.ruleForm.sendAddressArea[0] + this.ruleForm.sendAddressArea[1] + this.ruleForm.sendAddressArea[2] + this.ruleForm.sendAddress
               }
             }).then(res => {
               this.$message.success(res.msg)

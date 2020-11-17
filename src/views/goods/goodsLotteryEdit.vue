@@ -17,9 +17,9 @@
           <el-radio v-model="ruleForm.type" label="0">假抽</el-radio>
           <el-radio v-model="ruleForm.type" label="1">真抽</el-radio>
         </el-form-item>
-        <el-form-item label="抽奖图片" prop="listedImg" class="form-item-img-logo">
-          <img-upload v-model="ruleForm.listedImg" :options="listedImgOptions"></img-upload>
-        </el-form-item>
+<!--        <el-form-item label="抽奖图片" prop="listedImg" class="form-item-img-logo">-->
+<!--          <img-upload v-model="ruleForm.listedImg" :options="listedImgOptions"></img-upload>-->
+<!--        </el-form-item>-->
         <el-form-item label="官网价格" prop="drawPrice">
           <el-input v-model="ruleForm.drawPrice"></el-input>
         </el-form-item>
@@ -62,7 +62,7 @@ export default {
         goodsId: '',
         skuId: '',
         type: '1',
-        listedImg: '',
+        // listedImg: '',
         drawPrice: '',
         drawTime: '',
       },
@@ -76,9 +76,9 @@ export default {
         type: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
-        listedImg: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
+        // listedImg: [
+        //   {required: true, message: '请输入', trigger: 'change'}
+        // ],
         drawPrice: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
@@ -118,7 +118,7 @@ export default {
           this.ruleForm.goodsId = this.detail.goodsId
           this.ruleForm.skuId = this.detail.skuId
           this.ruleForm.type = String(this.detail.type)
-          this.listedImgOptions.fileList.push({url: this.detail.url}) // 图片回显
+          // this.listedImgOptions.fileList.push({url: this.detail.url}) // 图片回显
           this.ruleForm.drawPrice = this.detail.drawPrice
           this.ruleForm.drawTime = this.detail.drawTime
         }).catch(e => {
@@ -136,7 +136,7 @@ export default {
               goodsId: this.ruleForm.goodsId,
               skuId: this.ruleForm.skuId,
               type: this.ruleForm.type,
-              url: this.ruleForm.listedImg[0],
+              // url: this.ruleForm.listedImg[0],
               drawPrice: this.ruleForm.drawPrice,
               drawTime: this.ruleForm.drawTime,
             },

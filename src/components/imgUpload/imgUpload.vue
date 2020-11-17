@@ -9,6 +9,7 @@
       :limit="options.limit"
       :file-list="options.fileList"
       :before-upload="handleImgBeforeUpload"
+      :on-preview="handlePictureCardPreview"
       :on-success="handleImgSuccess"
       :on-error="handleImgError"
       :on-remove="handleImgRemove"
@@ -23,6 +24,9 @@
 
       <i class="el-icon-plus"></i>
     </el-upload>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -36,7 +40,9 @@ export default {
   },
   data() {
     return {
-      fileList: [] // 反显图片列表
+      fileList: [], // 反显图片列表
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   created() {
@@ -77,6 +83,10 @@ export default {
       //   // const copyFile = new File([file], fileName)
       //   // return Promise.resolve(copyFile)
       // }
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     handleImgSuccess(res, file, fileList) {
       console.log('res', res)

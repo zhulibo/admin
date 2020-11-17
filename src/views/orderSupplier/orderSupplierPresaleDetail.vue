@@ -9,7 +9,7 @@
         <ul>
           <li>
             <div class="l">
-              <span>订单时间</span>
+              <span>下单时间</span>
             </div>
             <div class="r">
               <span>{{ detail.creatTime | timestampToDate }}</span>

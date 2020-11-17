@@ -15,7 +15,7 @@
               <el-option label="支付后后台取消" value="6"></el-option>
               <el-option label="未支付超时取消" value="7"></el-option>
               <el-option label="未支付用户取消" value="8"></el-option>
-              <el-option label="删除" value="0"></el-option>
+<!--              <el-option label="删除" value="0"></el-option>-->
             </el-select>
           </el-form-item>
           <el-form-item label="预售状态">
@@ -54,8 +54,11 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.creatTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="number" label="订单号" align="center" width="220px">
+        <el-table-column prop="number" label="订单号" align="center" width="200px">
           <template slot-scope="scope">{{ scope.row.number }}</template>
+        </el-table-column>
+        <el-table-column prop="shopName" label="供货商昵称" align="center">
+          <template slot-scope="scope">{{ scope.row.shopName | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="number" label="商品信息" align="center">
           <template slot-scope="scope">
@@ -92,11 +95,14 @@
         <el-table-column prop="userDetail" label="用户名" align="center">
           <template slot-scope="scope">{{ scope.row.userDetail.nickName }}</template>
         </el-table-column>
-        <el-table-column prop="tbOrderDetail" label="收货人" align="center">
-          <template slot-scope="scope" v-if="scope.row.tbOrderDetail">{{ scope.row.tbOrderDetail.name }}</template>
+        <el-table-column prop="detail" label="收货人" align="center">
+          <template slot-scope="scope" v-if="scope.row.detail">{{ scope.row.detail.name | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="tbOrderDetail" label="收货人电话" align="center">
-          <template slot-scope="scope" v-if="scope.row.tbOrderDetail">{{ scope.row.tbOrderDetail.phone }}</template>
+        <el-table-column prop="detail" label="收货人电话" align="center">
+          <template slot-scope="scope" v-if="scope.row.detail">{{ scope.row.detail.phone | noneToLine }}</template>
+        </el-table-column>
+        <el-table-column prop="detail" label="物流单号" align="center" width="200px">
+          <template slot-scope="scope">{{ scope.row.detail.logNumber | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="isBalance" label="是否结算" align="center">
           <template slot-scope="scope">
@@ -129,7 +135,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" size="medium" class="edit" @click="cancleOrder(scope.row)">取消订单</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>

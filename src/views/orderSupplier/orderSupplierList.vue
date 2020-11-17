@@ -15,7 +15,7 @@
               <el-option label="支付后后台取消" value="6"></el-option>
               <el-option label="未支付超时取消" value="7"></el-option>
               <el-option label="未支付用户取消" value="8"></el-option>
-              <el-option label="删除" value="0"></el-option>
+<!--              <el-option label="删除" value="0"></el-option>-->
             </el-select>
           </el-form-item>
           <el-form-item label="">

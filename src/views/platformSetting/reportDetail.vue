@@ -127,7 +127,8 @@
         </ul>
       </div>
       <div class="report-btn" v-if="detail.status == 0">
-        <el-button type="primary" @click="del" style="min-width: 150px">屏蔽</el-button>
+        <el-button v-if="detail.type == 1 || detail.type == 3" type="primary" @click="del(2)" style="min-width: 150px">屏蔽</el-button>
+        <el-button v-if="detail.type == 1 || detail.type == 2" type="primary" @click="del" style="min-width: 150px">删除</el-button>
       </div>
     </div>
   </div>
@@ -161,14 +162,16 @@ export default {
         console.log(e)
       })
     },
-    async del() {
-      await this.delItem()
+    async del(e) {
+      await this.delItem(e)
       this.changeStatus()
     },
-    delItem() {
+    delItem(e) {
       let url
+      let del = 1
       if(this.detail.type == 1){
         url = '/userorg/backadmin/article'
+        if(e == 2) del = 2
       }else if(this.detail.type == 2){
         url = '/userorg/backadmin/articlecomment'
       }else if(this.detail.type == 3){
@@ -176,7 +179,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        this.$confirm('确定屏蔽 ', '提示', {
+        this.$confirm('确定 ', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'info'
@@ -187,11 +190,11 @@ export default {
             data: {
               id: this.detail.type != 3 ? this.detail.itemId : '',
               userId: this.detail.type == 3 ? this.detail.itemdetail.userId: '',
-              del: 1,
+              del: del,
             }
           })
             .then(res => {
-              console.log('已删除')
+              console.log('ok')
               resolve()
             }).catch(e => {
             console.log(e)
@@ -207,8 +210,7 @@ export default {
         method: 'PUT',
       })
         .then(res => {
-          this.$message.success('已屏蔽')
-          this.$router.push({path: '/reportList'})
+          this.$message.success('操作成功')
         }).catch(e => {
         console.log(e)
       })

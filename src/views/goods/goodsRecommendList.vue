@@ -125,7 +125,8 @@ export default {
           url: '/goodsmanage/backadmin/goods/recommenddel',
           method: 'DELETE',
           data: {
-            goodId: scope.goodId
+            goodId: scope.goodId,
+            type: scope.type,
           }
         })
           .then(res => {

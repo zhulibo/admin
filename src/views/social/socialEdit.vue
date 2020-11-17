@@ -45,13 +45,13 @@
         <el-form-item label="评论+点赞+转发总数" prop="totalNum">
           <el-input v-model="ruleForm.totalNum"></el-input>
         </el-form-item>
-        <el-form-item label="是否置顶" prop="isTop">
-          <el-switch
-            v-model="ruleForm.isTop"
-            :active-value="1"
-            :inactive-value="0">
-          </el-switch>
-        </el-form-item>
+<!--        <el-form-item label="是否置顶" prop="isTop">-->
+<!--          <el-switch-->
+<!--            v-model="ruleForm.isTop"-->
+<!--            :active-value="1"-->
+<!--            :inactive-value="0">-->
+<!--          </el-switch>-->
+<!--        </el-form-item>-->
         <el-form-item label="是否屏蔽" prop="del">
           <el-switch
             v-model="ruleForm.del"

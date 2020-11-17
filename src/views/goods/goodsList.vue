@@ -112,6 +112,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="newItemSku(scope.row)">新建sku</el-button>
+            <el-button type="text" size="medium" class="edit" @click="seeSeller(scope.row)">在售供货商</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
@@ -309,6 +310,9 @@ export default {
     },
     newItemSku(scope) {
       this.$router.push({path: '/goodsSkuEdit', query: {mainId: scope.id}})
+    },
+    seeSeller(scope) {
+      this.$router.push({path: '/goodsSellerSupplier', query: {id: scope.id}})
     },
     editItemSku(scope) {
       this.$router.push({path: '/goodsSkuEdit', query: {id: scope.id, mainId: scope.mainId}})

@@ -78,7 +78,7 @@
         <el-table-column prop="failReason" label="拒绝原因" align="center">
           <template slot-scope="scope">{{ scope.row.failReason | noneToLine }}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" align="center" show-overflow-tooltip>
+        <el-table-column prop="remark" label="备注" align="center" show-overflow-tooltip width="200px">
           <template slot-scope="scope">{{ scope.row.remark | noneToLine }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
@@ -98,9 +98,12 @@
     <div class="dialog">
       <el-dialog title="修改余额" :visible.sync="changeBalanceDialogVisible">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
+          <el-form-item label="现有余额">
+            <p v-if="changeBalanceDialogVisible">{{scope.balance}}元</p>
+          </el-form-item>
           <el-form-item label="加减" prop="type">
-            <el-radio v-model="ruleForm.type" label="1">增加</el-radio>
-            <el-radio v-model="ruleForm.type" label="2">减少</el-radio>
+            <el-radio v-model="ruleForm.type" label="3">增加</el-radio>
+            <el-radio v-model="ruleForm.type" label="4">减少</el-radio>
           </el-form-item>
           <el-form-item label="金额" prop="money">
             <el-input v-model="ruleForm.money"></el-input>
@@ -257,6 +260,7 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.changeBalanceDialogVisible = false
+            this.getList()
           }).catch(e => {
             console.log(e)
           })

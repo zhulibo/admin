@@ -4,6 +4,15 @@
       <h2 class="head-title">{{ this.$route.name }}</h2>
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
+          <el-form-item label="抽奖状态">
+            <el-select v-model="formInline.status" placeholder="请选择" @change="getList">
+              <el-option label="全部" value=""></el-option>
+              <el-option label="未开始" value="0"></el-option>
+              <el-option label="已开始" value="1"></el-option>
+              <el-option label="已结束" value="2"></el-option>
+              <el-option label="强制结束" value="3"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="">
             <el-input v-model="formInline.title" placeholder="商品名称" @keyup.enter.native="getList"></el-input>
           </el-form-item>
@@ -63,10 +72,8 @@ export default {
   data() {
     return {
       formInline: {
-        isAuthority: '',
-        phone: '',
-        homesickId: '',
-        nickName: '',
+        status: '',
+        title: '',
       },
       tableList: [],
       pageSize: 10,
@@ -86,6 +93,7 @@ export default {
         url: '/goodsmanage/backadmin/drawgoods',
         method: 'GET',
         params: {
+          status: this.formInline.status,
           title: this.formInline.title,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,

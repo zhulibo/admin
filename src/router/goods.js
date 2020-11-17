@@ -82,6 +82,19 @@ export default [
     ]
   },
   {
+    dev: true,
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/goodsSellerSupplier',
+        name: '现货商品在售供货商',
+        component: () => import (/* webpackChunkName: 'goodsSellerSupplier' */ '@/views/goods/goodsSellerSupplier'),
+      }
+    ]
+  },
+  {
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,

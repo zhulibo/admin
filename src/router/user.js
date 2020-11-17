@@ -57,6 +57,22 @@ export default [
     ]
   },
   {
+    dev: true,
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/userDetail',
+        name: '漫想家用户详情',
+        component: () => import (/* webpackChunkName: 'userDetail' */ '@/views/user/userDetail'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,

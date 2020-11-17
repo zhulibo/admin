@@ -11,13 +11,13 @@
               <el-option label="视频" value="2"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="是否屏蔽">
-            <el-select v-model="formInline.del" placeholder="请选择" @change="getList">
-              <el-option label="全部" value=""></el-option>
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="0"></el-option>
-            </el-select>
-          </el-form-item>
+<!--          <el-form-item label="是否屏蔽">-->
+<!--            <el-select v-model="formInline.del" placeholder="请选择" @change="getList">-->
+<!--              <el-option label="全部" value=""></el-option>-->
+<!--              <el-option label="是" value="2"></el-option>-->
+<!--              <el-option label="否" value="0"></el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
           <el-form-item label="">
             <el-input v-model="formInline.goodId" placeholder="请输入商品id" @keyup.enter.native="getList"></el-input>
           </el-form-item>
@@ -50,7 +50,7 @@
         <el-table-column prop="createTime" label="时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
         </el-table-column>
-        <el-table-column prop="isUser" label="发布人id" align="center">
+        <el-table-column prop="isUser" label="发布人用户id" align="center">
           <template slot-scope="scope">{{ scope.row.isUser }}</template>
         </el-table-column>
         <el-table-column prop="title" label="动态标题" align="center" show-overflow-tooltip>
@@ -76,7 +76,7 @@
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.del"
-              :active-value="1"
+              :active-value="2"
               :inactive-value="0"
               @change=switchStatus(scope.row)>
             </el-switch>
@@ -86,6 +86,7 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="detail" @click="goSocialCommentList(scope.row)">查看评论</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -104,7 +105,7 @@ export default {
     return {
       formInline: {
         type: '',
-        del: '',
+        // del: '',
         goodId: '',
         isUser: '',
         time: [],
@@ -176,7 +177,7 @@ export default {
         method: 'GET',
         params: {
           type: this.formInline.type,
-          del: this.formInline.del,
+          // del: this.formInline.del,
           goodId: this.formInline.goodId,
           isUser: this.formInline.isUser,
           startTime: this.formInline.time ? this.formInline.time[0] : '',
@@ -210,6 +211,30 @@ export default {
         this.getList()
       }).catch(e => {
         this.getList()
+        console.log(e)
+      })
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.title, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/userorg/backadmin/article',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            del: 1,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.title)
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
         console.log(e)
       })
     },

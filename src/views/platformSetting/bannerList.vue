@@ -25,8 +25,8 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="itemName" label="名称" align="center">
-          <template slot-scope="scope">{{ scope.row.itemName }}</template>
+        <el-table-column prop="name" label="名称" align="center">
+          <template slot-scope="scope">{{ scope.row.name | noneToLine}}</template>
         </el-table-column>
         <el-table-column prop="image" label="图片" align="center" class-name="row-img">
           <template slot-scope="scope">

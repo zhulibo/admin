@@ -18,6 +18,11 @@
         <el-table-column prop="name" label="反馈者名称" align="center">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
+        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
+          <template slot-scope="scope">
+            <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">回复</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pagination-ct clearfix">
         <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
@@ -66,6 +71,9 @@ export default {
       this.currentPage = val
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
+    },
+    sendMsg(scope) {
+      this.$router.push({path: '/notificationEdit', query: {userId: scope.userId, nickName: scope.name}})
     },
   }
 }

@@ -65,6 +65,7 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" v-if="scope.row.status == 1" @click="changeStatus(scope.row)">审核</el-button>
+            <span v-else style="color: #999;">已处理</span>
           </template>
         </el-table-column>
       </el-table>
