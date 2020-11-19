@@ -47,6 +47,7 @@
               <span v-if="detail.isBalance == 0">未结算</span>
               <span v-else-if="detail.isBalance == 1">未结算</span>
               <span v-else-if="detail.isBalance == 2">已结算</span>
+              <span v-else-if="detail.isBalance == 3">延迟打款中</span>
             </div>
           </li>
           <li>
@@ -87,6 +88,14 @@
             </div>
             <div class="r">
               <span>{{ detail.userId }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="l">
+              <span>盈收金额</span>
+            </div>
+            <div class="r">
+              <span>{{ detail.profitMoney | noneToLine }}元</span>
             </div>
           </li>
           <li>
@@ -236,7 +245,7 @@
               <span>{{ detail.tbOrderDetail.sendTime | timestampToDate}}</span>
             </div>
           </li>
-          <li v-if="detail.tbOrderDetail.passTime">
+          <li v-if="detail.tbOrderDetail.passTime && ( detail.status == 5 || detail.status == 6 || detail.status == 7 || detail.status == 8)">
             <div class="l">
               <span>订单取消时间</span>
             </div>

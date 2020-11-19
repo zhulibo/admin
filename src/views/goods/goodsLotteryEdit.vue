@@ -30,7 +30,8 @@
             value-format="timestamp"
             default-value=""
             default-time="23:00:00"
-            placeholder="选择日期时间">
+            placeholder="选择日期时间"
+            :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
@@ -52,6 +53,11 @@ export default {
     return {
       id: '',
       detail: {},
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 -1 // 当天23:59时间戳
+        },
+      },
       listedImgOptions: {
         fileList: [],
         accept: '.jpg,.jpeg,.png,.gif',

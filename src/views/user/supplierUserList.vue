@@ -81,10 +81,11 @@
         <el-table-column prop="remark" label="备注" align="center" show-overflow-tooltip width="200px">
           <template slot-scope="scope">{{ scope.row.remark | noneToLine }}</template>
         </el-table-column>
-        <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
+        <el-table-column label="操作" align="center" class-name="row-manage" width="380px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="medium" class="edit" @click="changeBalance(scope.row)">修改余额</el-button>
+            <el-button type="text" size="medium" class="edit" @click="seeOrder(scope.row)">查看订单</el-button>
             <el-button type="text" size="medium" class="edit" @click="seeGoods(scope.row)">查看商品</el-button>
             <el-button type="text" size="medium" class="edit" @click="seeBrand(scope.row)">查看品牌</el-button>
           </template>
@@ -235,6 +236,9 @@ export default {
     },
     editItem(scope) {
       this.$router.push({path: '/supplierUserEdit', query: {id: scope.id}})
+    },
+    seeOrder(scope) {
+      this.$router.push({path: '/supplierUserOrderList', query: {shopId: scope.id, shopPhone: scope.tbAppUser.phone, remark: scope.remark}})
     },
     seeGoods(scope) {
       this.$router.push({path: '/supplierUserGoodsList', query: {shopId: scope.id, shopPhone: scope.tbAppUser.phone, remark: scope.remark}})

@@ -103,6 +103,14 @@ export default [
           icon: 'iconfont icon-dingdan',
         },
       },
+      {
+        path: '/sensitiveWordList',
+        name: '敏感词管理',
+        component: () => import (/* webpackChunkName: 'sensitiveWordList' */ '@/views/platformSetting/sensitiveWordList'),
+        meta: {
+          icon: 'iconfont icon-dingdan',
+        },
+      },
     ]
   },
   {
@@ -363,6 +371,21 @@ export default [
         path: '/reportDetail',
         name: '举报详情',
         component: () => import (/* webpackChunkName: 'reportDetail' */ '@/views/platformSetting/reportDetail'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/sensitiveWordEdit',
+        name: '敏感词编辑',
+        component: () => import (/* webpackChunkName: 'sensitiveWordEdit' */ '@/views/platformSetting/sensitiveWordEdit'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },

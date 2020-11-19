@@ -53,6 +53,9 @@
         <el-table-column prop="shopName" label="供货商昵称" align="center">
           <template slot-scope="scope">{{ scope.row.shopName | noneToLine}}</template>
         </el-table-column>
+        <el-table-column prop="phone" label="供货商手机号" align="center">
+          <template slot-scope="scope">{{ scope.row.phone | noneToLine}}</template>
+        </el-table-column>
         <el-table-column prop="number" label="商品信息" align="center">
           <template slot-scope="scope">
             <el-popover
@@ -96,6 +99,7 @@
             <span v-if="scope.row.isBalance == 0">未结算</span>
             <span v-else-if="scope.row.isBalance == 1">未结算</span>
             <span v-else-if="scope.row.isBalance == 2">已结算</span>
+            <span v-else-if="scope.row.isBalance == 3">延迟打款中</span>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="订单状态" align="center">
@@ -115,9 +119,10 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 2" @click="ship(scope.row)">发货</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="ship(scope.row)">修改运单号</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="errorOrder(scope.row)">异常订单</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance == 1" @click="errorOrder(scope.row)">延迟打款</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance == 3" @click="errorOrder(scope.row)">确认打款</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="confirmReceipt(scope.row)">确认收货</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0" @click="cancleOrder(scope.row)">取消订单</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status < 4" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
@@ -160,17 +165,6 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog title="异常订单" :visible.sync="errorOrderDialogVisible">
-        <el-form :model="ruleFormErrorOrder" :rules="rulesErrorOrder" ref="ruleFormErrorOrder" label-width="150px" class="edit-form">
-          <el-form-item label="加减" prop="isBalance">
-            <el-radio v-model="ruleFormErrorOrder.isBalance" label="1">待结算</el-radio>
-            <el-radio v-model="ruleFormErrorOrder.isBalance" label="3">订单异常</el-radio>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitFormErrorOrder('ruleFormErrorOrder')">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -257,15 +251,6 @@ export default {
           {required: true, message: '请输入', trigger: 'change'}
         ],
         logNumber: [
-          {required: true, message: '请输入', trigger: 'change'}
-        ],
-      },
-      errorOrderDialogVisible: false,
-      ruleFormErrorOrder: {
-        isBalance: '',
-      },
-      rulesErrorOrder: {
-        isBalance: [
           {required: true, message: '请输入', trigger: 'change'}
         ],
       },
@@ -383,30 +368,34 @@ export default {
       });
     },
     errorOrder(scope) {
-      this.scope = scope
-      this.errorOrderDialogVisible = true
-    },
-    submitFormErrorOrder(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$http({
-            url: '/order/backadmin/paasorder/number/err',
-            method: 'PUT',
-            data: {
-              id: this.scope.id,
-              isBalance: this.ruleFormErrorOrder.isBalance,
-            }
-          }).then(res => {
+      let txt
+      if(scope.isBalance == 3){
+        txt = '延迟打款'
+      }else{
+        txt = '确认打款'
+      }
+      this.$confirm('确认' + txt, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/order/backadmin/paasorder/number/err',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            isBalance: scope.isBalance !=3 ? 3 : 1,
+          }
+        })
+          .then(res => {
             this.$message.success(res.msg)
-            this.errorOrderDialogVisible = false
+            this.getList()
           }).catch(e => {
-            console.log(e)
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      });
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
+      })
     },
     confirmReceipt(scope) {
       this.$confirm('确认收货 ' + scope.number, '提示', {

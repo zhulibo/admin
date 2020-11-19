@@ -29,11 +29,11 @@ export default new Router({
 export const asyncRouter = [
   ...user,
   ...classify,
-  ...platformSetting,
   ...goods,
   ...supplier,
   ...order,
   ...orderSupplier,
+  ...platformSetting,
   ...coupon,
   ...social,
   ...cashOut,

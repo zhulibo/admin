@@ -87,6 +87,7 @@
             <span v-if="scope.row.isBalance == 0">未结算</span>
             <span v-else-if="scope.row.isBalance == 1">未结算</span>
             <span v-else-if="scope.row.isBalance == 2">已结算</span>
+            <span v-else-if="scope.row.isBalance == 3">延迟打款中</span>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="订单状态" align="center">

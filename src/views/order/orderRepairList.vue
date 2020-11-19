@@ -50,6 +50,8 @@
           </el-form-item>
         </el-form>
       </div>
+      <el-button class="new-btn" type="primary" plain round size="medium" @click="editRepairOrderNumberFlag = true">修改修复订单数
+      </el-button>
     </div>
     <div class="table">
       <el-table :data="tableList">
@@ -93,6 +95,8 @@
             <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 6" @click="secondEvaluation(scope.row)">二次评估</el-button>
             <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 9" @click="repairOver(scope.row)">修复完成</el-button>
             <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 17" @click="ship(scope.row)">修复完成发货</el-button>
+            <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 18" @click="ship(scope.row)">拒绝后平台发货</el-button>
+            <el-button type="text" size="medium" class="edit" v-else-if="scope.row.status == 10 || scope.row.status == 17 || scope.row.status == 18" @click="changeAddress(scope.row)">修改收货地址</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>
@@ -104,6 +108,17 @@
       </div>
     </div>
     <div class="dialog">
+      <el-dialog title="修改APP显示修复订单数" :visible.sync="editRepairOrderNumberFlag">
+        <el-form :model="ruleFormRepair" :rules="rulesRepair" ref="ruleFormRepair"
+                 label-width="150px" class="edit-form">
+          <el-form-item label="数量" prop="number">
+            <el-input v-model="ruleFormRepair.number"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="editRepairOrderNumber('ruleFormRepair')">确 定</el-button>
+        </span>
+      </el-dialog>
       <el-dialog title="初次评审" :visible.sync="firstEvaluationDialogVisible">
         <el-form :model="firstEvaluationRuleForm" :rules="firstEvaluationRules" ref="firstEvaluationRuleForm"
                  label-width="150px" class="edit-form">
@@ -188,6 +203,26 @@
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
         </span>
+      </el-dialog>
+      <el-dialog title="修改收货地址" :visible.sync="addressDialogVisible">
+        <el-form :model="ruleFormAddress" :rules="rulesAddress" ref="ruleFormAddress" label-width="100px" class="edit-form">
+          <el-form-item label="选择城市" prop="sendAddressArea">
+            <el-cascader v-model="ruleFormAddress.sendAddressArea" :options="areaList"
+                         :props="{ value: 'name', label: 'name', children: 'children' }"></el-cascader>
+          </el-form-item>
+          <el-form-item label="详细地址" prop="sendAddress">
+            <el-input v-model="ruleFormAddress.sendAddress"></el-input>
+          </el-form-item>
+          <el-form-item label="收货人" prop="userName">
+            <el-input v-model="ruleFormAddress.userName"></el-input>
+          </el-form-item>
+          <el-form-item label="收货人电话" prop="userPhone">
+            <el-input v-model="ruleFormAddress.userPhone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFormAddress('ruleFormAddress')">确 定</el-button>
+      </span>
       </el-dialog>
     </div>
   </div>
@@ -294,6 +329,22 @@ export default {
         logNumber: '',
       },
       rules: {},
+      areaList: [],
+      addressDialogVisible: false,
+      ruleFormAddress: {
+        sendAddressArea: [],
+        sendAddress: '',
+        userName: '',
+        userPhone: '',
+      },
+      rulesAddress: {
+      },
+      editRepairOrderNumberFlag: false,
+      ruleFormRepair: {
+        number: '',
+      },
+      rulesRepair: {
+      },
     }
   },
   components: {
@@ -302,6 +353,8 @@ export default {
   created() {
     this.currentPage = this.global.getContextData('currentPage') || 1  // 获取缓存的页码
     this.getList()
+    this.getAreaList()
+    this.getRepairNumber()
   },
   mounted() {
   },
@@ -321,6 +374,32 @@ export default {
           this.tableList = res.data.list
           this.totalPages = res.data.pages
           this.currentPage = res.data.pageNum
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getAreaList() {
+      this.$http({
+        url: '/userorg/backadmin/shopaddress/selectaddress',
+        method: 'GET',
+        params: {
+          pageSize: 1000,
+          pageNumber: 1,
+        }
+      })
+        .then(res => {
+          this.areaList = res.data.list
+        }).catch(e => {
+        console.log(e)
+      })
+    },
+    getRepairNumber() {
+      this.$http({
+        url: '/order/backadmin/repair/setting',
+        method: 'GET',
+      })
+        .then(res => {
+          this.ruleFormRepair.number = res.data[0].number
         }).catch(e => {
         console.log(e)
       })
@@ -391,6 +470,27 @@ export default {
         }).catch(e => {
         console.log(e)
       })
+    },
+    editRepairOrderNumber(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/order/backadmin/repair/setting',
+            method: 'POST',
+            data: {
+              number: this.ruleFormRepair.number,
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.editRepairOrderNumberFlag = false
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
     },
     firstEvaluationSubmitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -477,6 +577,7 @@ export default {
       })
     },
     submitForm(formName) {
+      console.log(this.scope.status)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http({
@@ -493,6 +594,35 @@ export default {
           }).then(res => {
             this.$message.success(res.msg)
             this.shipDialogVisible = false
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
+    },
+    changeAddress(scope) {
+      this.addressDialogVisible = true
+      this.scope = scope
+    },
+    submitFormAddress(formName) {
+      console.log(this.scope.status)
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/order/backadmin/repair/address',
+            method: 'PUT',
+            data: {
+              id: this.scope.id,
+              userAddress: this.ruleFormAddress.sendAddressArea[0] + this.ruleFormAddress.sendAddressArea[1] + this.ruleFormAddress.sendAddressArea[2] + this.ruleFormAddress.sendAddress,
+              userPhone: this.ruleFormAddress.userPhone,
+              userName: this.ruleFormAddress.userName,
+            }
+          }).then(res => {
+            this.$message.success(res.msg)
+            this.addressDialogVisible = false
           }).catch(e => {
             console.log(e)
           })

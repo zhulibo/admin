@@ -5,7 +5,7 @@
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="推送内容" prop="content">
-            <el-input v-model="formInline.content"></el-input>
+            <el-input v-model="formInline.content" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>

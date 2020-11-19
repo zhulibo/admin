@@ -15,6 +15,10 @@ let permissionList = [
             path: '/userEdit',
             name: '漫想家用户编辑',
           },
+          {
+            path: '/userDetail',
+            name: '漫想家用户详情',
+          },
         ]
       },
       {
@@ -28,6 +32,10 @@ let permissionList = [
           {
             path: '/supplierUserEdit',
             name: '供货商用户编辑',
+          },
+          {
+            path: '/supplierUserOrderList',
+            name: '供货商订单列表',
           },
           {
             path: '/supplierUserGoodsList',
@@ -387,6 +395,20 @@ let permissionList = [
           },
         ]
       },
+      {
+        path: '/sensitiveWord',
+        name: '敏感词管理',
+        children: [
+          {
+            path: '/sensitiveWordList',
+            name: '敏感词列表',
+          },
+          {
+            path: '/sensitiveWordEdit',
+            name: '敏感词编辑',
+          },
+        ]
+      },
     ]
   },
   {
@@ -416,6 +438,10 @@ let permissionList = [
           {
             path: '/goodsSkuEdit',
             name: '现货商品sku编辑',
+          },
+          {
+            path: '/goodsSellerSupplier',
+            name: '现货商品在售供货商',
           },
         ]
       },

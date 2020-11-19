@@ -57,7 +57,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,
@@ -81,6 +80,21 @@ export default [
         path: '/supplierUserEdit',
         name: '供货商用户编辑',
         component: () => import (/* webpackChunkName: 'supplierUserEdit' */ '@/views/user/supplierUserEdit'),
+        meta: {
+          icon: 'iconfont icon-yonghu',
+        },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import ('@/views/index/index'),
+    hidden: true,
+    children: [
+      {
+        path: '/supplierUserOrderList',
+        name: '供货商订单列表',
+        component: () => import (/* webpackChunkName: 'supplierUserOrderList' */ '@/views/user/supplierUserOrderList'),
         meta: {
           icon: 'iconfont icon-yonghu',
         },

@@ -21,6 +21,13 @@
             :inactive-value="0">
           </el-switch>
         </el-form-item>
+        <el-form-item label="文章类型" prop="type">
+          <el-radio v-model="ruleForm.type" label="1">原创</el-radio>
+          <el-radio v-model="ruleForm.type" label="2">转载</el-radio>
+        </el-form-item>
+        <el-form-item label="转载自" prop="reship" v-if="ruleForm.type == 2">
+          <el-input v-model="ruleForm.reship"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" style="min-width: 150px">确定</el-button>
         </el-form-item>
@@ -49,6 +56,8 @@ export default {
         topImg: [],
         content: '',
         isRecommend: '',
+        type: '',
+        reship: '',
       },
       rules: {
         title: [
@@ -91,6 +100,12 @@ export default {
           this.topImgOptions.fileList.push({url: this.detail.topImage}) // 图片回显
           this.ruleForm.content = this.detail.content
           this.ruleForm.isRecommend = this.detail.isRecommend
+          if(this.detail.reship) {
+            this.ruleForm.type = '2'
+            this.ruleForm.reship = this.detail.reship
+          }else{
+            this.ruleForm.type = '1'
+          }
         }).catch(e => {
         console.log(e)
       })
@@ -107,6 +122,7 @@ export default {
               topImage: this.ruleForm.topImg[0],
               content: this.ruleForm.content,
               isRecommend: this.ruleForm.isRecommend,
+              reship: this.ruleForm.type == 1 ? '' : this.ruleForm.reship,
             },
           }).then(res => {
             this.$message.success(res.msg)

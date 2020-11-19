@@ -6,7 +6,7 @@
     <div class="edit-ct">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="edit-form">
         <el-form-item label="价格" prop="price">
-          <el-input v-model="ruleForm.price"></el-input>
+          <el-input v-model="ruleForm.price" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )"></el-input>
         </el-form-item>
         <el-form-item label="库存" prop="store">
           <el-input v-model="ruleForm.store"></el-input>

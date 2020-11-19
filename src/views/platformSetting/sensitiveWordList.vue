@@ -5,7 +5,7 @@
       <div class="sch">
         <el-form :inline="true" :model="formInline" class="table-form-inline">
           <el-form-item label="">
-            <el-input v-model="formInline.title" placeholder="标题" @keyup.enter.native="getList"></el-input>
+            <el-input v-model="formInline.name" placeholder="请输入屏蔽词" @keyup.enter.native="getList"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="getList">查询</el-button>
@@ -18,24 +18,8 @@
     <div class="table">
       <el-table :data="tableList">
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="时间" align="center">
-          <template slot-scope="scope">{{ scope.row.createTime | timestampToDate }}</template>
-        </el-table-column>
-        <el-table-column prop="title" label="标题" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.title }}</template>
-        </el-table-column>
-        <el-table-column prop="topImage" label="首图" align="center" class-name="row-img">
-          <template slot-scope="scope"><img :src="scope.row.topImage" alt=""></template>
-        </el-table-column>
-        <el-table-column prop="isRecommend" label="是否推荐" align="center">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.isRecommend"
-              :active-value="1"
-              :inactive-value="0"
-              @change=switchRecommendStatus(scope.row)>
-            </el-switch>
-          </template>
+        <el-table-column prop="name" label="屏蔽词" align="center">
+          <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
@@ -58,7 +42,7 @@ export default {
   data() {
     return {
       formInline: {
-        title: '',
+        name: '',
       },
       tableList: [],
       pageSize: 10,
@@ -75,10 +59,10 @@ export default {
   methods: {
     getList: function () {
       this.$http({
-        url: '/userorg/backadmin/news',
+        url: '/userorg/backadmin/block',
         method: 'GET',
         params: {
-          title: this.formInline.title,
+          name: this.formInline.name,
           pageSize: this.pageSize,
           pageNumber: this.currentPage,
         }
@@ -96,50 +80,29 @@ export default {
       this.global.setContextData('currentPage', this.currentPage)  // 缓存页码
       this.getList()
     },
-    switchRecommendStatus(scope) {
-      this.$http({
-        url: '/userorg/backadmin/news',
-        method: 'PUT',
-        data: {
-          id: scope.id,
-          isRecommend: scope.isRecommend,
-        }
-      }).then(res => {
-        this.$message.success(res.msg)
-        this.getList()
-      }).catch(e => {
-        this.getList()
-        console.log(e)
-      })
-    },
-    editItem(scope) {
-      this.$router.push({path: '/articleEdit', query: {id: scope.id}})
-    },
     deleteItem(scope) {
-      this.$confirm('确定删除 ' + scope.title, '提示', {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'info'
       }).then(() => {
         this.$http({
-          url: '/userorg/backadmin/news',
+          url: '/userorg/backadmin/block/' + scope.id,
           method: 'DELETE',
-          data: {
-            id: scope.id,
-          }
         })
           .then(res => {
-            this.$message.success('已删除 ' + scope.title)
+            this.$message.success('已删除 ' + scope.name)
             this.getList()
-          }).catch(e => {
-          console.log(e)
-        })
+          })
       }).catch(e => {
         console.log(e)
       })
     },
+    editItem(scope) {
+      this.$router.push({path: '/sensitiveWordEdit', query: {id: scope.id}})
+    },
     newItem() {
-      this.$router.push({path: '/articleEdit'})
+      this.$router.push({path: '/sensitiveWordEdit'})
     },
   }
 }

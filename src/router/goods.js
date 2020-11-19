@@ -82,7 +82,6 @@ export default [
     ]
   },
   {
-    dev: true,
     path: '/',
     component: () => import ('@/views/index/index'),
     hidden: true,

@@ -85,7 +85,7 @@ export default {
   methods: {
     exportOrderData() {
       if(this.tableList.length<1){
-        this.$message.info('TA没有在售商品')
+        this.$message.info('TA没有在售商品，无法导出')
         return
       }
       let xlsxParam = { raw: true };
