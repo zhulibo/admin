@@ -119,8 +119,8 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 2" @click="ship(scope.row)">发货</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="ship(scope.row)">修改运单号</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance == 1" @click="errorOrder(scope.row)">延迟打款</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance == 3" @click="errorOrder(scope.row)">确认打款</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance != 2 && scope.row.isBalance != 3" @click="errorOrder(scope.row)">延迟打款</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance != 0 && scope.row.isBalance != 1" @click="errorOrder(scope.row)">确认打款</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3" @click="confirmReceipt(scope.row)">确认收货</el-button>
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status < 4" @click="cancleOrder(scope.row)">取消订单</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>

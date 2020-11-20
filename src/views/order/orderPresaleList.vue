@@ -140,8 +140,8 @@
         <el-table-column label="操作" align="center" class-name="row-manage" width="300px">
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status < 4" @click="cancleOrder(scope.row)">取消订单</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance == 1" @click="errorOrder(scope.row)">延迟打款</el-button>
-            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance == 3" @click="errorOrder(scope.row)">确认打款</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance != 2 && scope.row.isBalance != 3" @click="errorOrder(scope.row)">延迟打款</el-button>
+            <el-button type="text" size="medium" class="edit" v-if="scope.row.del == 0 && scope.row.status == 3 && scope.row.isBalance != 0 && scope.row.isBalance != 1" @click="errorOrder(scope.row)">确认打款</el-button>
             <el-button type="text" size="medium" class="detail" @click="sendMsg(scope.row)">发消息</el-button>
             <el-button type="text" size="medium" class="detail" @click="checkItem(scope.row)">查看</el-button>
           </template>

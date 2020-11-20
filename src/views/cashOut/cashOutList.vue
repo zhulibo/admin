@@ -20,8 +20,8 @@
               <el-option label="全部" value=""></el-option>
               <el-option label="入账" value="1"></el-option>
               <el-option label="提现" value="2"></el-option>
-              <el-option label="管理员添加" value="3"></el-option>
-              <el-option label="管理员减少" value="4"></el-option>
+<!--              <el-option label="管理员添加" value="3"></el-option>-->
+<!--              <el-option label="管理员减少" value="4"></el-option>-->
             </el-select>
           </el-form-item>
           <el-form-item>

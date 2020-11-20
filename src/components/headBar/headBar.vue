@@ -8,9 +8,23 @@
         <span v-if="userInfo.type == 1">管理员{{ userInfo.phone }}</span>
         <span v-if="userInfo.type == 2">供货商{{ userInfo.phone }}</span>
         <i class="el-icon-caret-bottom"></i>
-        <p @click="logOut">退出</p>
+        <div class="more">
+          <p @click="changePassword" v-if="userInfo.type == 2">修改密码</p>
+          <p @click="logOut">退出</p>
+        </div>
       </div>
     </div>
+    <el-dialog title="修改密码" :visible.sync="editRepairOrderNumberFlag" :modal="false">
+      <el-form :model="ruleFormRepair" :rules="rulesRepair" ref="ruleFormRepair"
+               label-width="150px" class="edit-form">
+        <el-form-item label="新密码" prop="passWord">
+          <el-input v-model="ruleFormRepair.passWord"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="editRepairOrderNumber('ruleFormRepair')">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -18,7 +32,14 @@
 export default {
   name: 'headBar',
   data() {
-    return {}
+    return {
+      editRepairOrderNumberFlag: false,
+      ruleFormRepair: {
+        passWord: '',
+      },
+      rulesRepair: {
+      },
+    }
   },
   created() {
   },
@@ -33,6 +54,31 @@ export default {
     },
   },
   methods: {
+    changePassword: function () {
+      this.editRepairOrderNumberFlag = true
+    },
+    editRepairOrderNumber(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: '/userorg/backadmin/user/password',
+            method: 'POST',
+            data: {
+              passWord: this.ruleFormRepair.passWord,
+            }
+          }).then(res => {
+            // this.$message.success(res.msg)
+            localStorage.removeItem('userInfo')
+            location.reload() // 防止不清空全局变量引起bug，待优化
+          }).catch(e => {
+            console.log(e)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      });
+    },
     logOut: function () {
       this.$http({
         url: '/userorg/login/back/out',
@@ -96,7 +142,7 @@ export default {
   font-size: 20px;
   color: #666;
 }
-.user p {
+.user .more {
   overflow: hidden;
   height: 0;
   position: absolute;
@@ -113,8 +159,11 @@ export default {
   opacity: .5;
   cursor: pointer;
 }
-.user:hover p {
-  height: 3em;
+.user:hover .more {
+  height: auto;
   opacity: 1;
+  p{
+    border-bottom: 1px solid #eee
+  }
 }
 </style>
