@@ -42,7 +42,7 @@
           <p><span>总额</span><span>{{allOrderList.d}}元</span></p>
         </div>
         <div>
-          <p><span>代发货</span><span>{{allOrderList.e}}</span></p>
+          <p><span>待发货</span><span>{{allOrderList.e}}</span></p>
           <p><span>总额</span><span>{{allOrderList.f}}元</span></p>
         </div>
         <div>

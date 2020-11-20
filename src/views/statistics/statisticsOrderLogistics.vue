@@ -34,7 +34,7 @@
       <div class="chart-table">
         <el-table :data="tableList" border>
           <el-table-column prop="time" label="日期" align="center"></el-table-column>
-          <el-table-column prop="all" label="总营收" align="center"></el-table-column>
+          <el-table-column prop="all" label="总盈利" align="center"></el-table-column>
         </el-table>
         <div class="pagination-ct clearfix">
           <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"

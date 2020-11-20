@@ -56,12 +56,12 @@
         <li @click="goStatisticsOrderItem(3)">
           <div>
             <p><span>总交易额</span><b>{{topList.y5}}元</b></p>
-            <p><span>总营收金额</span><b>{{topList.y6}}元</b></p>
+            <p><span>总盈利金额</span><b>{{topList.y6}}元</b></p>
           </div>
         </li>
         <li @click="goStatisticsOrderItem(4)">
           <div>
-            <p><span>总物流数</span><b>{{topList.y7}}</b></p>
+            <p><span>总物流</span><b>{{topList.y7}}</b></p>
           </div>
         </li>
         <li>

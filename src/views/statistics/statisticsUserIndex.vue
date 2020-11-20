@@ -69,7 +69,7 @@
           <h3><i class="iconfont icon-shezhi"></i>成功付费用户</h3>
           <p><b>{{ratio3.y1}}</b></p>
           <h3><i class="iconfont icon-shezhi"></i>复购成功用户</h3>
-          <p><b>{{ratio3.y2}}</b><em>{{ratio3.y3}}%</em></p>
+          <p><b>{{ratio3.y2}}</b><em>{{ (ratio3.y3 * 100).toFixed(2)}}%</em></p>
         </li>
       </ul>
       <div class="vue-echarts-wrap">

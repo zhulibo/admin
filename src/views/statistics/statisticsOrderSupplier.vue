@@ -52,7 +52,7 @@
           <li><span>供应商用户名</span><span v-if="supplierDetail.tbUser">{{supplierDetail.tbUser.name}}</span></li>
           <li><span>申请人userId</span><span>{{supplierDetail.userId}}</span></li>
           <li><span>总销售额</span><span v-if="supplierDetail.map">￥{{supplierDetail.map.allPrice}}元</span></li>
-          <li><span>平台营收取佣金比例</span><span>{{supplierDetail.serviceRatio}}</span></li>
+          <li><span>平台盈利取佣金比例</span><span>{{supplierDetail.serviceRatio}}</span></li>
           <li><span>平台总盈收</span><span v-if="supplierDetail.map">￥{{supplierDetail.map.inPrice}}元</span></li>
           <li><span>成功订单数</span><span v-if="supplierDetail.map">{{supplierDetail.map.allNumber}}</span></li>
           <li><span>取消订单数</span><span v-if="supplierDetail.map">{{supplierDetail.map.quNumber}}</span></li>

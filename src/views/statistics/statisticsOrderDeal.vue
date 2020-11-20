@@ -8,11 +8,11 @@
         <div class="chart-bar clearfix">
           <div class="dataType">
             <span :class="dataType == 1 ? 'on' : ''" @click="changeDataType(1)">总营收</span>
-            <span :class="dataType == 2 ? 'on' : ''" @click="changeDataType(2)">微信收入</span>
+            <span :class="dataType == 2 ? 'on' : ''" @click="changeDataType(2)">微信</span>
             <span :class="dataType == 3 ? 'on' : ''" @click="changeDataType(3)">支付宝</span>
             <span :class="dataType == 4 ? 'on' : ''" @click="changeDataType(4)">平台服务费</span>
             <span :class="dataType == 5 ? 'on' : ''" @click="changeDataType(5)">转账手续费</span>
-            <span :class="dataType == 6 ? 'on' : ''" @click="changeDataType(6)">总盈收</span>
+            <span :class="dataType == 6 ? 'on' : ''" @click="changeDataType(6)">总盈利</span>
           </div>
           <div class="timeType">
             <div :class="dayRange >= 1 ? '' : 'disabled'"><span :class="timeType == 2 ? 'on' : ''" @click="changeTimeType(2)">日</span></div>
@@ -42,7 +42,7 @@
       <div class="chart-table">
         <el-table :data="tableList" border>
           <el-table-column prop="time" label="日期" align="center"></el-table-column>
-          <el-table-column prop="all" label="总营收" align="center"></el-table-column>
+          <el-table-column prop="all" label="总盈利" align="center"></el-table-column>
         </el-table>
         <div class="pagination-ct clearfix">
           <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-count="totalPages"
