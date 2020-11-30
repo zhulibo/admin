@@ -56,6 +56,7 @@
           <template slot-scope="scope">
             <el-button type="text" size="medium" class="detail" @click="goTribeMemberList(scope.row)">管理成员</el-button>
             <el-button type="text" size="medium" class="edit" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="medium" class="delete" v-if="scope.row.status != 1" @click="deleteItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -115,6 +116,30 @@ export default {
     },
     editItem(scope) {
       this.$router.push({path: '/tribeEdit', query: {id: scope.id}})
+    },
+    deleteItem(scope) {
+      this.$confirm('确定删除 ' + scope.name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$http({
+          url: '/userorg/backadmin/tribe',
+          method: 'PUT',
+          data: {
+            id: scope.id,
+            status: 1,
+          }
+        })
+          .then(res => {
+            this.$message.success('已删除 ' + scope.name)
+            this.getList()
+          }).catch(e => {
+          console.log(e)
+        })
+      }).catch(e => {
+        console.log(e)
+      })
     },
     newItem() {
       this.$router.push({path: '/tribeEdit'})

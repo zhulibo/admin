@@ -9,34 +9,34 @@
           <div class="ct" v-if="ratio1.y1">
             <h2>7天总成功订单量</h2>
             <h3>{{ratio1.y1}}</h3>
-            <p>环比 {{ratio1.y2}}%<i v-if="ratio1.y2 != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y2 > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ (ratio1.y2*100).toFixed(2)}}%<i v-if="ratio1.y2 != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y2 > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio1.y1">
             <h2>7天总盈利</h2>
             <h3>{{ratio1.y3}}</h3>
-            <p>环比 {{ratio1.y4}}%<i v-if="ratio1.y4 != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y4 > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio1.y4*100}}%<i v-if="ratio1.y4 != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y4 > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio1.y1">
             <h2>7天成功总交易额</h2>
             <h3>{{ratio1.y5}}</h3>
-            <p>环比 {{ratio1.y6}}%<i v-if="ratio1.y6 != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y6 > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio1.y6*100}}%<i v-if="ratio1.y6 != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y6 > 0 ? 'up' : 'down'"></i></p>
           </div>
         </li>
         <li>
           <div class="ct" v-if="ratio2.y1">
             <h2>30天总成功订单量</h2>
             <h3>{{ratio2.y1}}</h3>
-            <p>环比 {{ratio2.y2}}%<i v-if="ratio2.y2 != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y2 > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio2.y2*100}}%<i v-if="ratio2.y2 != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y2 > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio2.y1">
             <h2>30天总盈利</h2>
             <h3>{{ratio2.y3}}</h3>
-            <p>环比 {{ratio2.y4}}%<i v-if="ratio2.y4 != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y4 > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio2.y4*100}}%<i v-if="ratio2.y4 != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y4 > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio2.y1">
             <h2>30天成功总交易额</h2>
             <h3>{{ratio2.y5}}</h3>
-            <p>环比 {{ratio2.y6}}%<i v-if="ratio2.y6 != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y6 > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio2.y6*100}}%<i v-if="ratio2.y6 != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y6 > 0 ? 'up' : 'down'"></i></p>
           </div>
         </li>
       </ul>

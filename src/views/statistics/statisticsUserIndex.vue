@@ -9,34 +9,34 @@
           <div class="ct" v-if="ratio1.y1">
             <h2>7天总活跃用户</h2>
             <h3>{{ratio1.y1.number}}</h3>
-            <p>环比 {{ratio1.y1.ratioBean}}%<i v-if="ratio1.y1.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y1.ratioBean > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio1.y1.ratioBean*100}}%<i v-if="ratio1.y1.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y1.ratioBean > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio1.y1">
             <h2>7天总新增用户</h2>
             <h3>{{ratio1.y2.number}}</h3>
-            <p>环比 {{ratio1.y2.ratioBean}}%<i v-if="ratio1.y2.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y2.ratioBean > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio1.y2.ratioBean*100}}%<i v-if="ratio1.y2.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y2.ratioBean > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio1.y1">
             <h2>7天总启动次数</h2>
             <h3>{{ratio1.y3.number}}</h3>
-            <p>环比 {{ratio1.y3.ratioBean}}%<i v-if="ratio1.y3.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y3.ratioBean > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio1.y3.ratioBean*100}}%<i v-if="ratio1.y3.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio1.y3.ratioBean > 0 ? 'up' : 'down'"></i></p>
           </div>
         </li>
         <li>
           <div class="ct" v-if="ratio2.y1">
             <h2>30天总活跃用户</h2>
             <h3>{{ratio2.y1.number}}</h3>
-            <p>环比 {{ratio2.y1.ratioBean}}%<i v-if="ratio2.y1.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y1.ratioBean > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio2.y1.ratioBean*100}}%<i v-if="ratio2.y1.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y1.ratioBean > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio2.y1">
             <h2>30天总新增用户</h2>
             <h3>{{ratio2.y2.number}}</h3>
-            <p>环比 {{ratio2.y2.ratioBean}}%<i v-if="ratio2.y3.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y2.ratioBean > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio2.y2.ratioBean*100}}%<i v-if="ratio2.y3.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y2.ratioBean > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio2.y1">
             <h2>30天总启动次数</h2>
             <h3>{{ratio2.y3.number}}</h3>
-            <p>环比 {{ratio2.y3.ratioBean}}%<i v-if="ratio2.y3.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y3.ratioBean > 0 ? 'up' : 'down'"></i></p>
+            <p>环比 {{ratio2.y3.ratioBean*100}}%<i v-if="ratio2.y3.ratioBean != 0" class="iconfont icon-jiantou-copy" :class="ratio2.y3.ratioBean > 0 ? 'up' : 'down'"></i></p>
           </div>
           <div class="ct" v-if="ratio2.y1">
             <h2>总累计用户</h2>
