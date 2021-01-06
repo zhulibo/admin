@@ -9,7 +9,7 @@
     "t": "vue-cli-service build --mode test"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "easemob-websdk": "^3.3.0",
     "echarts": "^4.8.0",
